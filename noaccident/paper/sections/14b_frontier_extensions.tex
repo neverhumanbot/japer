@@ -1,0 +1,34 @@
+%% SECTION 14B: FRONTIER EXTENSIONS
+%% ============================================================
+\section{Frontier Extensions That Make the Thesis Harder to Ignore}
+\label{sec:level-up}
+
+The current paper should be read as a substrate thesis plus a research agenda. The strongest next ideas are not cosmetic; they turn the claim from a compression manifesto into a defensible experimental program.
+
+\begin{table*}[t]
+\caption{Highest-Leverage Additions for a Stronger Canonical-Code Program}
+\label{tab:levelup}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.20\textwidth}X X}
+\toprule
+\textbf{Addition} & \textbf{Why it matters} & \textbf{Concrete artifact} \\
+\midrule
+Behavior-cell coverage census & Converts moonshot language into a measured market map: what fraction of product software is resource lifecycle, auth, policy, workflow, billing, notification, observability, integration, or migration routine? & A labeled corpus with per-file and per-change coverage by cell family, plus residual novelty estimates. \\
+Canonicalization loss function & Prevents the foundry from optimizing prettiness instead of preserved behavior and lower change cost. & Multi-objective score: behavior preservation, proof strength, source entropy, action entropy, security posture, provenance quality, and amortized cost. \\
+Paired repository arena & Makes the decisive claim testable without waiting for full-corpus porting. & Raw/canonical repository pairs, identical issues, hidden tests, proof lanes, reviewer rubrics, and full token/tool/dollar traces. \\
+Negative memory bank & Turns incidents, reverted patches, flaky tests, security bugs, and failed migrations into reusable anti-examples. & Versioned forbidden-plan cells and regression generators attached to behavior cells and proof lanes. \\
+Renderer pluralism & Keeps the profile ambitious without becoming brittle or cultish. & One behavior IR rendered to the primary product profile and to secondary governed profiles where domain constraints require it. \\
+Foundry amortization ledger & Makes the economics credible. & Per-port cost, review cost, proof cost, reuse count, served-token savings, accepted-change savings, and break-even $k^*$. \\
+Adversarial equivalence audit & Protects against canonical ports that pass easy tests while losing edge behavior. & Differential replay, fuzzing, mutation testing, symbolic checks where feasible, security review, and human product-owner adjudication. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+The most important addition is the behavior-cell coverage census. If 70--90\% of routine product-software changes fall into reusable cells and semantic patch cells, the aggressive thesis becomes plausible. If coverage stalls at 20--30\%, canonical code may still be valuable, but the paper becomes an engineering-efficiency paper rather than a training-substrate revolution. The second most important addition is the paired repository arena, because it directly tests the economic question: can the same or smaller model produce accepted proof-carrying changes with fewer total tokens, tool calls, failed loops, and reviewer interventions?
+
+Four frontier extensions should remain explicitly future work, not current evidence. \textbf{Behavior genomes} would mine raw repositories, traces, incidents, and repairs into a global atlas of behavior families with variants, invariants, tests, proofs, provenance, and generated projections. \textbf{Runtime-derived invariants} would turn production traces, rollbacks, failed migrations, and reverted patches into negative memory and proof obligations. \textbf{Verification markets} would let independent proof-lane providers, fuzzers, conformance suites, cell auditors, provenance validators, and runtime monitors compete on evidence quality. \textbf{Agent-native operating systems} would expose typed changes, behavior cells, proof lanes, policy decisions, provenance receipts, runtime traces, and negative memory as native system calls rather than leaving agents inside an unstructured terminal and repository checkout.
+
+A mature canonical foundry should therefore publish two ledgers. The \emph{corpus ledger} reports what was ingested, rejected, ported, preserved, proven, license-cleared, or quarantined. The \emph{change ledger} reports every accepted and failed task: context tokens, reasoning tokens, tool calls, invalid actions, proof failures, repair loops, wall-clock, review comments, and dollars. The paper's central numbers should rise or fall with those ledgers.
+
+%% ============================================================

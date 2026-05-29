@@ -1,0 +1,87 @@
+%% SECTION 7: ASSUMPTION D - BEHAVIOR CELLS
+%% ============================================================
+\section{Assumption D: Canonical Behavior Cells}
+
+\textbf{Assumption D: The highest-reuse software behaviors can be collapsed into certified, reusable behavior cells, and these cells can eventually absorb 70\%--90\% of routine product code if a behavior-cell census validates coverage.}
+
+This is the breakthrough beyond canonical stack alignment. If the model is still writing 80 functions for create/read/update/delete resource behavior, authentication, forms, validation, errors, pagination, tests, clients, fixtures, and migrations, we are only standardizing the mess. If the model emits a \emph{cell declaration and parameters}, we are removing entire classes of source tokens, legal edits, proof obligations, and review questions from the task.
+
+A canonical behavior cell is not a library. It is a reusable behavior unit with a stable interface, schema, policy model, generated projections across the full stack (service, typed client, product UI, durable-data migration, tests, fixtures, observability, and docs), known failure modes, security negatives, repair memories, compatibility ghosts, and proof obligations. Change itself also becomes cell-shaped: common edits such as add field, migrate nullable to required, add permission edge, rotate secret, add idempotency key, upgrade dependency safely, split table, and add audit trail become semantic patch cells rather than bespoke diff inventions.
+
+For routine domains, behavior cells are the main path from canonical code to \mfdl{}. The agent should not decide from scratch how authorization, audit trails, pagination, idempotency, upload signing, or migration rollback work in every repository. It should select a certified cell, supply parameters, apply a semantic patch cell when behavior changes, and return a proof-carrying change object with receipts.
+
+The 70\%--90\% number is a target, not a measured result in this paper. It must be earned by a behavior-cell census that measures coverage by accepted changes, source tokens, AST nodes, runtime traces, issue tickets, security-sensitive paths, review burden, and production incident classes. A cell is useful only if it reduces verified-change cost without hiding required variation.
+
+\begin{table*}[t]
+\caption{Behavior Cells: From Human-Code Mess to Canonical Primitives}
+\label{tab:cells}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.37\textwidth}p{0.22\textwidth}X}
+\toprule
+Human-code mess & Canonical cell & Why it compresses \\
+\midrule
+Rails users controller, Express users route, FastAPI users service, Spring user repository & \texttt{resource<User>} & One verified cell replaces thousands of reimplementations. \\
+Custom login/session/token/password-reset/multi-factor code & \texttt{auth.session} / \texttt{auth.oidc} & Repeated in every app with dangerous variation. \\
+Hand-written role- or attribute-based permission checks scattered across layers & \texttt{policy.check} & Security-critical code becomes a proven primitive. \\
+Custom list endpoints with ad hoc pagination/sorting/filtering & \texttt{list.page} & Massive API/UI/DB repetition becomes one cell. \\
+Ad hoc form validation duplicated across frontend/API/database/tests & \texttt{schema.form.validation} & Four validation layers generated from one schema. \\
+Recurring billing glue, Stripe webhook wrappers, proration logic & \texttt{billing.subscription} & Common SaaS surface with dangerous edge cases. \\
+Background retries, idempotency, dead-letter queues & \texttt{job.retry.idempotent} & Same reliability logic reimplemented everywhere. \\
+Object-storage upload variants, signed URLs, virus scanning & \texttt{blob.upload.signed\_url} & Security and storage complexity repeated constantly. \\
+Custom webhook verification, replay, deduplication & \texttt{webhook.verify.dispatch} & Integration-heavy apps repeat this badly. \\
+Audit trails, event history, compliance logging & \texttt{audit.append\_only} & Required for compliance-heavy systems. \\
+Expand/contract migrations, backfills, rollback plans & \texttt{migration.expand} & High failure cost and high repetition. \\
+Custom notification channels, delivery tracking, templates & \texttt{notification.send} & Repeated boilerplate across channels. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+The compression ladder shows how gains compound across the standardization levels:
+
+\begin{table*}[t]
+\caption{The Compression Ladder: From Raw Repository to Canonical Behavior Graph}
+\label{tab:ladder_compression}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.04\textwidth}p{0.18\textwidth}p{0.28\textwidth}X}
+\toprule
+Rung & Level & What changes & Measurement \\
+\midrule
+0 & Raw human repo & Original code & Baseline \\
+1 & Canonical layout & Fixed paths, ownership, generated zones & File-search entropy, edit target count \\
+2 & Canonical naming & Actor/resource/command/event/policy vocabulary & Identifier entropy \\
+3 & Single primary profile & Backend/core, typed surface, product shell, durable data, contracts, build/deploy/proof & Language/framework entropy \\
+4 & Contract-first generation & Schema generates clients, fixtures, validators, docs & Duplicate data-transfer-object/client drift \\
+5 & Proof lanes & Fixed build/test/migrate/security commands & Failed-loop count \\
+6 & Behavior cells & Authentication, resource lifecycle, billing, search, uploads, jobs as primitives & Source-token and AST-pattern reduction \\
+7 & Behavior graph & Model emits behavior graph operations plus proof obligations; source code is compiled & Task-token and reasoning-token reduction \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+The endgame is rung 7: models manipulate canonical software behavior graphs, and source code becomes a generated artifact. The training target moves from source text toward graph operations, semantic patches, proof obligations, and receipts. This is analogous to how LLVM created a reusable IR for program analysis and transformation~\cite{lattnerLLVM}, and how MLIR explicitly aims to reduce software fragmentation~\cite{lattnerMLIR}. Software product-line engineering has a related history: explicitly modeling commonality and variability across product variants to build reusable core assets~\cite{clementsProductLines}. Equality-saturation systems such as egg show how rewrite spaces can be represented and searched compactly when the intermediate representation is explicit~\cite{eggEgraphs}.
+
+Cells have a lifecycle, not just a registry entry:
+\begin{table}[t]
+\caption{Behavior Cell Lifecycle}
+\label{tab:cell-lifecycle}
+\centering
+\footnotesize
+\begin{tabularx}{\columnwidth}{p{0.28\columnwidth}X}
+\toprule
+Stage & Required evidence \\
+\midrule
+Propose & Behavior family, interface, parameters, variants, provenance, and expected coverage. \\
+Certify & Preservation tier, conformance suite, security negatives, fuzz/property lanes, rollout risk. \\
+Deploy & Version pinning, generated projections, proof receipts, canary plan, rollback path. \\
+Monitor & Runtime traces, incidents, performance budgets, compatibility ghosts, exploit reports. \\
+Deprecate & Migration path, old-version risk, user impact, and negative-memory update. \\
+Incident response & Revocation, patched cell release, downstream blast-radius scan, and postmortem fixtures. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Falsification:} Assumption D fails if the top 500--2,000 cells cover less than 50\% of routine product-app behavior, or if cell composition introduces more complexity than it removes.
+
+%% ============================================================

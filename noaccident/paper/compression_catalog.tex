@@ -1,0 +1,878 @@
+% ============================================================
+%  SUPPLEMENTAL COMPRESSION CATALOG
+% ============================================================
+
+\section{Supplemental Compression Catalog: Code-Space Gain Priors}
+\label{sec:compression-catalog}
+
+This supplemental catalog lists the major coding-work gains available once agent-first canonical code
+is treated as a substrate rather than a style guide.  Each domain states
+what is rebuilt, what becomes generated, what agent action paths
+disappear, and conservative, central, and aggressive gain estimates.  The
+gains \textbf{do not multiply cleanly}---many overlap, and several
+domains share the same underlying token mass.  The composite effect must
+be measured on paired raw/canonical corpora; the estimates presented
+here are \emph{prior ranges and target hypotheses, not measured results}.
+Where a per-domain source range such as $3\times$--$8\times$ is stated,
+it denotes the ratio of raw-corpus tokens to canonical-corpus tokens
+required to represent equivalent behavior.  Composite ranges use the
+explicit denominator named in the row: representation space, action
+space, training tokens, reasoning/tool/retry tokens, or cost per verified
+correct change.
+
+% ------------------------------------------------------------
+%  INFRASTRUCTURE COMPRESSION
+% ------------------------------------------------------------
+
+\subsection{Infrastructure Compression}
+
+Infrastructure compression eliminates the representational cost of
+decisions that carry no behavioral consequence: which language encodes a
+REST handler, which framework provides routing, which folder tree
+organizes source files.  These decisions dominate open-source corpora yet
+contribute nothing to the space of behaviors a model must learn to
+produce.  Domains~1--6 target this stratum.
+
+% --- 1. Language Role Collapse ---
+\subsubsection{Language Role Collapse}
+\label{ssec:lang-collapse}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild service, UI, migration, and scripting roles into fixed profile lanes; generate adapters at profile boundaries; remove language-choice, runtime-choice, and cross-language repair paths.
+
+The same backend behavior---HTTP routing, database access, queue
+consumption, serialization---appears in Python/FastAPI, Java/Spring,
+Node/Express, Ruby/Rails, PHP/Laravel, Go/Gin, and C\#/ASP.NET, among
+others.  A canonical standard collapses these into one service/core lane
+and one typed product-surface lane.  The model no longer spends capacity
+learning seven syntactically distinct encodings of identical semantics.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $4\times$--$6\times$}.\quad
+Central: $6\times$--$12\times$.\quad
+\aggrange{\textbf{Aggressive:} $12\times$--$20\times$}.
+
+% --- 2. Framework Collapse ---
+\subsubsection{Framework Collapse}
+\label{ssec:framework-collapse}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild routing, middleware, state, and persistence into one service/UI grammar; generate framework glue; remove local framework DSL choices and handler-shape variants.
+
+Within a single language, framework conventions---middleware chains,
+routing DSLs, ORM query builders, template engines, configuration
+idioms---introduce a second layer of representational divergence.
+Express, Django, Rails, Spring, and Laravel each impose a distinct
+grammar over the same behavioral primitives.  Canonical conversion
+replaces all framework-specific grammars with one canonical service
+grammar, eliminating the combinatorial surface the model must memorize.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $3\times$--$5\times$}.\quad
+Central: $5\times$--$10\times$.\quad
+\aggrange{\textbf{Aggressive:} $10\times$--$15\times$}.
+
+% --- 3. Generated Truth Collapse ---
+\subsubsection{Generated Truth Collapse}
+\label{ssec:generated-truth}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild schemas as the source of truth; generate data transfer objects, clients, validators, fixtures, mocks, and docs; remove hand-edited projections and drift repairs.
+
+Hand-written data transfer objects, API client stubs, request/response validators,
+serialization fixtures, and test factories are all downstream projections
+of a single schema contract.  In raw corpora these projections diverge,
+drift, and duplicate.  Canonical form replaces them with contract-first
+generation: one source of truth (an API schema or cell contract) produces
+all projections deterministically.  The model learns to emit the contract,
+not its many manual echoes.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $2\times$--$3\times$}.\quad
+Central: $3\times$--$6\times$.\quad
+\aggrange{\textbf{Aggressive:} $6\times$--$10\times$}.
+
+% --- 4. Layout/Naming Collapse ---
+\subsubsection{Layout and Naming Collapse}
+\label{ssec:layout-naming}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild repositories into canonical paths and controlled vocabulary; generate owner maps and generated-zone manifests; remove file-hunt, synonym, and helper-placement choices.
+
+Arbitrary folder structures (\texttt{src/controllers/} vs.\
+\texttt{app/handlers/} vs.\ \texttt{lib/api/}), file-naming conventions
+(\texttt{userService.ts} vs.\ \texttt{user\_service.py} vs.\
+\texttt{UserService.java}), and organizational myths consume
+representational capacity without encoding behavior.  A canonical
+repository grammar fixes vocabulary and topology, converting layout
+noise into a stable, predictable structure the model can exploit as
+prior knowledge rather than re-learn per repository.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $2\times$--$3\times$}.\quad
+Central: $3\times$--$5\times$.\quad
+\aggrange{\textbf{Aggressive:} $5\times$--$8\times$}.
+
+% --- 5. Dependency Collapse ---
+\subsubsection{Dependency Collapse}
+\label{ssec:dependency-collapse}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild integrations behind governed adapters; generate configuration, retry, error, and observability wrappers; remove bespoke vendor glue and unsafe upgrade routes.
+
+Every production codebase wraps third-party services---Stripe, S3,
+GitHub, Slack, OpenAI, Redis, email providers, observability
+backends---in locally invented adapter layers with inconsistent error
+handling, retry policies, and configuration surfaces.  Canonical adapters
+provide governed wrappers with standard interfaces.  The model learns one
+adapter contract per external service rather than hundreds of bespoke
+wrappers, and local glue code vanishes entirely.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $2\times$--$3\times$}.\quad
+Central: $3\times$--$5\times$.\quad
+\aggrange{\textbf{Aggressive:} $5\times$--$8\times$}.
+
+% --- 6. Build/Test Collapse ---
+\subsubsection{Build and Test Collapse}
+\label{ssec:build-test}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild local and CI validation as proof lanes; generate GitHub/GitLab workflow settings, artifacts, and required checks; remove build folklore and permission guesswork.
+
+Custom shell scripts, undocumented CI gate configurations, Makefile
+folklore, local environment assumptions, and ad-hoc test harnesses
+constitute a significant fraction of repository tokens.  Canonical form
+replaces them with standard proof lanes: a fixed set of commands that
+produce expected artifacts (type-checked binary, migration proof, test
+evidence, security scan).  The model learns the proof protocol, not the
+archaeology of each project's build system.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $2\times$--$3\times$}.\quad
+Central: $2\times$--$4\times$.\quad
+\aggrange{\textbf{Aggressive:} $4\times$--$6\times$}.
+
+
+\bigskip
+\begin{table*}[t]
+\centering
+\caption{Infrastructure Compression Domains (1--6): Gain Estimates}
+\label{tab:infra-compression}
+{\footnotesize
+\begin{tabularx}{\textwidth}{@{} l X >{\color{nhConservative}}c c >{\color{nhAggressive}}c @{}}
+\toprule
+\textbf{\#} & \textbf{Domain} & \conhead & \textbf{Central} & \agghead \\
+\midrule
+1 & Language Role Collapse        & $4\times$--$6\times$   & $6\times$--$12\times$  & $12\times$--$20\times$ \\
+2 & Framework Collapse            & $3\times$--$5\times$   & $5\times$--$10\times$  & $10\times$--$15\times$ \\
+3 & Generated Truth Collapse      & $2\times$--$3\times$   & $3\times$--$6\times$   & $6\times$--$10\times$  \\
+4 & Layout/Naming Collapse        & $2\times$--$3\times$   & $3\times$--$5\times$   & $5\times$--$8\times$   \\
+5 & Dependency Collapse           & $2\times$--$3\times$   & $3\times$--$5\times$   & $5\times$--$8\times$   \\
+6 & Build/Test Collapse           & $2\times$--$3\times$   & $2\times$--$4\times$   & $4\times$--$6\times$   \\
+\bottomrule
+\end{tabularx}
+}
+\end{table*}
+
+
+% ------------------------------------------------------------
+%  BEHAVIOR CELL COMPRESSION
+% ------------------------------------------------------------
+
+\subsection{Behavior Cell Compression}
+
+Behavior cells are the canonical unit of application logic: a named,
+typed, proof-carrying declaration of a behavioral intent that the
+canonical runtime can instantiate, compose, and verify.  Where
+infrastructure compression removes \emph{representational} divergence,
+cell compression removes \emph{behavioral} divergence---the phenomenon
+whereby identical application semantics (pagination, authentication,
+billing) are re-implemented from scratch in every codebase with
+local variation that encodes no new information.  Domains~7--20 target
+this stratum.  To keep the catalog compact, several high-win cells are
+folded into adjacent domains: tenant/org/user belongs to identity and
+policy, feature flags and experiments belong to configuration policy,
+cache/invalidation belongs to governed dependency and observability
+contracts, and UI resource state belongs to list/search cells. Patch
+intermediate representation, reasoning digests, supply-chain closure,
+and notebook-to-pipeline compression are treated separately in the
+meta-compression layer because their denominators are action,
+reasoning, governance, and workflow entropy rather than source tokens
+alone.
+
+% --- 7. Resource Lifecycle Cells ---
+\subsubsection{Resource Lifecycle Cells}
+\label{ssec:crud-cells}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild resource lifecycle work as typed cell declarations; generate routes, SQL, UI state, tests, and fixtures; remove handwritten create/read/update/delete surfaces and repeated controller edits.
+
+Create, read, update, delete, list, archive, restore, and status
+transition constitute the single most repeated pattern in product
+software.  In raw corpora, each resource lifecycle surface is hand-written with
+per-project validation, authorization, serialization, and error handling.
+Canonical resource lifecycle cells reduce this to a typed resource declaration: the
+model emits cell parameters (fields, transitions, access policies)
+rather than writing route handlers, SQL queries, and test fixtures.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $3\times$--$8\times$}.\quad
+Central: $8\times$--$20\times$.\quad
+\aggrange{\textbf{Aggressive:} $20\times$--$50\times$}.
+
+% --- 8. Authentication / Identity / Policy Cells ---
+\subsubsection{Authentication / Identity / Policy Cells}
+\label{ssec:auth-cells}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild identity, tenant, organization, session, and policy behavior as governed cells; generate guards, recovery flows, fixtures, and negative tests; remove bespoke auth plumbing.
+
+Login flows, session management, token issuance and validation, external
+identity-provider integration, role-based access control,
+attribute-based access control, permission checks, password reset,
+multi-factor authentication, and account recovery are repeated in nearly
+every production application---with dangerous variation.  Security-critical
+code is the worst candidate for bespoke re-implementation and the best
+candidate for cell compression.  A canonical identity cell encapsulates
+the full policy surface; the model configures it rather than writing
+cryptographic plumbing.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $3\times$--$10\times$}.\quad
+Central: $10\times$--$30\times$.\quad
+\aggrange{\textbf{Aggressive:} $30\times$--$100\times$}.
+
+% --- 9. Form / Input Validation Cells ---
+\subsubsection{Form and Input Validation Cells}
+\label{ssec:validation-cells}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild validation as schema-owned constraints; generate frontend, API, database, and test projections; remove four-layer drift and hand-maintained form logic.
+
+Validation logic is duplicated across at least four layers in typical
+applications: frontend form validators, API request schemas, database
+constraints, and test assertions.  Each layer uses a different validation
+DSL, and drift between layers is a persistent source of bugs.  Canonical
+validation cells generate all four projections from a single schema,
+eliminating cross-layer inconsistency and the representational cost of
+maintaining parallel validation grammars.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $2\times$--$5\times$}.\quad
+Central: $5\times$--$15\times$.\quad
+\aggrange{\textbf{Aggressive:} $15\times$--$30\times$}.
+
+% --- 10. Pagination / Search / Filter Cells ---
+\subsubsection{Pagination / Search / Filter Cells}
+\label{ssec:pagination-cells}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild list/search behavior as a resource-state cell; generate durable-data queries, API cursors, product-surface state, empty/error/loading views, and tests; remove custom list implementations.
+
+Paginated lists with sorting, filtering, full-text search, cursor-based
+or offset pagination, and search index synchronization represent massive
+UI/API/database repetition.  The same behavioral contract---``return a
+filtered, sorted, paginated view of a resource collection''---is
+implemented independently at every layer with per-project conventions.
+A canonical pagination cell parameterizes the contract once; all layers
+are generated.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $3\times$--$8\times$}.\quad
+Central: $8\times$--$20\times$.\quad
+\aggrange{\textbf{Aggressive:} $20\times$--$50\times$}.
+
+% --- 11. SQL Migration / Data Invariant Cells ---
+\subsubsection{SQL Migration and Data Invariant Cells}
+\label{ssec:migration-cells}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild data change as declared invariants, lock budgets, and expand/contract plans; generate SQL and replay checks; remove opaque migration scripts and unsafe rollbacks.
+
+Expand/contract migrations, data backfills, rollback plans, data-shape
+invariants, and lock-budget management carry high failure cost and high
+repetition.  In raw corpora, migration files are opaque SQL scripts with
+no machine-readable invariant or proof of safety.  Canonical migration
+cells declare the schema transition, invariant constraints, and
+acceptable lock budgets; the runtime generates the SQL and verifies
+safety properties before execution.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $2\times$--$5\times$}.\quad
+Central: $5\times$--$10\times$.\quad
+\aggrange{\textbf{Aggressive:} $10\times$--$20\times$}.
+
+% --- 12. Background Job / Queue / Scheduler Cells ---
+\subsubsection{Background Job / Queue / Scheduler Cells}
+\label{ssec:job-cells}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild async work as idempotent job contracts; generate retries, dead-letter routing, schedules, metrics, and tests; remove queue-specific reliability rewrites.
+
+Retry policies, idempotency guarantees, exponential backoff, dead-letter
+queue routing, scheduled task management, and concurrency limits
+constitute the reliability layer of asynchronous processing.  The same
+reliability logic is re-implemented in every codebase that uses
+background jobs, with subtle bugs in retry semantics and idempotency
+checks.  Canonical job cells declare the reliability contract; the
+runtime enforces it.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $2\times$--$5\times$}.\quad
+Central: $5\times$--$15\times$.\quad
+\aggrange{\textbf{Aggressive:} $15\times$--$30\times$}.
+
+% --- 13. File Upload / Media Cells ---
+\subsubsection{File Upload and Media Cells}
+\label{ssec:media-cells}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild uploads as storage and policy declarations; generate signed URLs, scanners, transforms, fixtures, and audit events; remove ad hoc storage/security code.
+
+Signed URL generation, virus scanning, image processing pipelines,
+storage backend abstraction, content-type validation, and access control
+for uploaded media combine security, storage, and processing complexity
+that is repeated in nearly every user-facing application.  Canonical
+media cells declare upload constraints, processing steps, and access
+policies; infrastructure details are resolved by the runtime.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $3\times$--$8\times$}.\quad
+Central: $8\times$--$20\times$.\quad
+\aggrange{\textbf{Aggressive:} $20\times$--$40\times$}.
+
+% --- 14. Billing / Subscription / Payment Cells ---
+\subsubsection{Billing / Subscription / Payment Cells}
+\label{ssec:billing-cells}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild payments as subscription and ledger state machines; generate webhook handlers, idempotency, reconciliation, fixtures, and alerts; remove brittle payment glue.
+
+Subscription lifecycle management, invoice preview and proration,
+payment method lifecycle, webhook handling for Stripe and other payment
+providers, dunning flows, and tax calculation represent a common SaaS
+surface with dangerous edge cases in currency handling, idempotency, and
+state reconciliation.  Canonical billing cells parameterize the
+subscription model and payment provider; the full webhook surface,
+idempotency layer, and state machine are generated.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $3\times$--$10\times$}.\quad
+Central: $10\times$--$30\times$.\quad
+\aggrange{\textbf{Aggressive:} $30\times$--$100\times$}.
+
+% --- 15. Notification / Email / Template Cells ---
+\subsubsection{Notification / Email / Template Cells}
+\label{ssec:notification-cells}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild outbound messaging as channel and template policy; generate provider adapters, preferences, retries, and observability; remove local email/SMS/push wrappers.
+
+Multi-channel notification dispatch (email, SMS, push, in-app), delivery
+tracking, template rendering with variable substitution, user preference
+management, and retry logic for transient delivery failures.  Canonical
+notification cells declare channels, templates, and delivery policies;
+the runtime handles provider integration and observability.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $2\times$--$5\times$}.\quad
+Central: $5\times$--$15\times$.\quad
+\aggrange{\textbf{Aggressive:} $15\times$--$30\times$}.
+
+% --- 16. Webhook / Integration Cells ---
+\subsubsection{Webhook and Integration Cells}
+\label{ssec:webhook-cells}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild integrations as signed event contracts; generate verification, replay, deduplication, dispatch, and fixtures; remove provider-specific webhook boilerplate.
+
+Inbound webhook verification, signature validation, idempotent event
+processing, replay handling, deduplication, and provider-specific payload
+parsing.  Integration-heavy applications repeat this pattern per external
+provider, each with a different signing scheme and payload format.
+Canonical integration cells declare the provider contract and
+verification method; the idempotency and processing pipeline are
+standard.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $2\times$--$5\times$}.\quad
+Central: $5\times$--$15\times$.\quad
+\aggrange{\textbf{Aggressive:} $15\times$--$30\times$}.
+
+% --- 17. Audit Log / Event History Cells ---
+\subsubsection{Audit Log and Event History Cells}
+\label{ssec:audit-cells}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild audit as append-only event policy; generate event writers, retention, queries, and tamper checks; remove scattered compliance logging.
+
+Append-only event streams, compliance audit trails,
+actor/action/resource/timestamp recording, and tamper-evident log
+integrity are required in compliance-heavy systems (healthcare, finance,
+government).  In raw corpora, audit logging is either absent, ad-hoc, or
+inconsistently applied.  Canonical audit cells declare the event schema
+and retention policy; the runtime guarantees append-only semantics and
+query access.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $2\times$--$5\times$}.\quad
+Central: $5\times$--$10\times$.\quad
+\aggrange{\textbf{Aggressive:} $10\times$--$20\times$}.
+
+% --- 18. Observability / Logging / Tracing Cells ---
+\subsubsection{Observability / Logging / Tracing Cells}
+\label{ssec:observability-cells}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild telemetry as a cross-cutting contract; generate logs, spans, metrics, health checks, and correlation IDs; remove inconsistent instrumentation edits.
+
+Structured logging, distributed tracing with context propagation,
+metrics collection and export, request-ID propagation across service
+boundaries, and health-check endpoints.  These cross-cutting concerns
+are woven inconsistently through raw codebases, often with conflicting
+log formats and missing trace context.  Canonical observability cells
+declare the instrumentation contract; the runtime injects it uniformly.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $2\times$--$3\times$}.\quad
+Central: $3\times$--$8\times$.\quad
+\aggrange{\textbf{Aggressive:} $8\times$--$15\times$}.
+
+% --- 19. Config / Secrets / Environment Cells ---
+\subsubsection{Configuration / Secrets / Environment Cells}
+\label{ssec:config-cells}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild configuration, secrets, feature flags, and experiments as typed policy; generate env validation, rotation checks, flag gates, and rollout tests; remove .env folklore.
+
+Secret rotation, environment-specific configuration, feature flag
+management, configuration validation at startup, and secret-leakage
+prevention.  In raw corpora, \texttt{.env} files, hardcoded secrets,
+and undocumented environment variables constitute a persistent security
+and reliability risk.  Canonical configuration cells declare the
+configuration schema with types, defaults, and secret classifications;
+the runtime validates at boot and enforces rotation policies.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $2\times$--$4\times$}.\quad
+Central: $4\times$--$8\times$.\quad
+\aggrange{\textbf{Aggressive:} $8\times$--$15\times$}.
+
+% --- 20. Error Handling / Result Envelope Cells ---
+\subsubsection{Error Handling and Result Envelope Cells}
+\label{ssec:error-cells}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild failure handling as typed result envelopes; generate error codes, retry classifications, UI messages, and tests; remove stringly exceptions and null-path ambiguity.
+
+Typed error envelopes, machine-readable error codes, retry
+classification (transient vs.\ permanent), user-facing vs.\ internal
+error separation, and structured error metadata.  Raw codebases exhibit
+a chaotic mixture of exceptions, HTTP status codes, null returns, and
+string error messages.  Canonical error cells impose a typed result
+algebra; the model learns to classify and route errors rather than
+invent ad-hoc handling per call site.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $2\times$--$4\times$}.\quad
+Central: $4\times$--$8\times$.\quad
+\aggrange{\textbf{Aggressive:} $8\times$--$12\times$}.
+
+
+\bigskip
+\begin{table*}[t]
+\centering
+\caption{Behavior Cell Compression Domains (7--20): Gain Estimates}
+\label{tab:cell-compression}
+{\footnotesize
+\begin{tabularx}{\textwidth}{@{} l X >{\color{nhConservative}}c c >{\color{nhAggressive}}c @{}}
+\toprule
+\textbf{\#} & \textbf{Domain} & \conhead & \textbf{Central} & \agghead \\
+\midrule
+7  & Resource Lifecycle                     & $3\times$--$8\times$    & $8\times$--$20\times$    & $20\times$--$50\times$    \\
+8  & Authentication / Identity / Policy     & $3\times$--$10\times$   & $10\times$--$30\times$   & $30\times$--$100\times$   \\
+9  & Form / Input Validation                & $2\times$--$5\times$    & $5\times$--$15\times$    & $15\times$--$30\times$    \\
+10 & Pagination / Search / Filter           & $3\times$--$8\times$    & $8\times$--$20\times$    & $20\times$--$50\times$    \\
+11 & SQL Migration / Data Invariants        & $2\times$--$5\times$    & $5\times$--$10\times$    & $10\times$--$20\times$    \\
+12 & Background Job / Queue / Scheduler     & $2\times$--$5\times$    & $5\times$--$15\times$    & $15\times$--$30\times$    \\
+13 & File Upload / Media                    & $3\times$--$8\times$    & $8\times$--$20\times$    & $20\times$--$40\times$    \\
+14 & Billing / Subscription / Payment       & $3\times$--$10\times$   & $10\times$--$30\times$   & $30\times$--$100\times$   \\
+15 & Notification / Email / Template        & $2\times$--$5\times$    & $5\times$--$15\times$    & $15\times$--$30\times$    \\
+16 & Webhook / Integration                  & $2\times$--$5\times$    & $5\times$--$15\times$    & $15\times$--$30\times$    \\
+17 & Audit Log / Event History              & $2\times$--$5\times$    & $5\times$--$10\times$    & $10\times$--$20\times$    \\
+18 & Observability / Logging / Tracing      & $2\times$--$3\times$    & $3\times$--$8\times$     & $8\times$--$15\times$     \\
+19 & Config / Secrets / Environment         & $2\times$--$4\times$    & $4\times$--$8\times$     & $8\times$--$15\times$     \\
+20 & Error Handling / Result Envelope       & $2\times$--$4\times$    & $4\times$--$8\times$     & $8\times$--$12\times$     \\
+\bottomrule
+\end{tabularx}
+}
+\end{table*}
+
+
+% ------------------------------------------------------------
+%  META-COMPRESSION
+% ------------------------------------------------------------
+
+\subsection{Meta-Compression}
+
+Meta-compression operates not on source tokens but on the
+\emph{action space and reasoning space} of the agent itself.  Where infrastructure and cell
+compression shrink the representation a model must learn to read and
+write, meta-compression shrinks the space of \emph{trajectories} a model
+must explore during generation.  The gains here are measured not in
+token-count ratios but in the reduction of invalid action paths, wasted
+inference steps, unproductive exploration, review burden, supply-chain
+ambiguity, and workflow reinvention.  Domains~21--30 target
+this stratum.
+
+% --- 21. Repair-Path Collapse ---
+\subsubsection{Repair-Path Collapse}
+\label{ssec:repair-path}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild patching as constrained edit policy; generate legal edit maps, proof routes, and no-edit zones; remove arbitrary file, command, migration, and dependency choices.
+
+In a canonical environment, the agent no longer selects among arbitrary
+files to edit, frameworks to invoke, proof commands to run, generated
+artifacts to modify, or migration strategies to attempt.  The canonical
+grammar constrains every dimension of the action space simultaneously:
+which files are mutable, which cells accept parameters, which proof
+lanes must pass, which artifacts are generated.  Invalid edit
+paths---the overwhelming majority of the raw action space---vanish
+entirely.  This is the single largest compression domain by
+estimated magnitude, because the space of \emph{wrong} actions in
+unconstrained codebases is combinatorially vast.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $10\times$--$100\times$}.\quad
+Central: $100\times$--$10{,}000\times$.\quad
+\aggrange{\textbf{Aggressive:} $10{,}000\times$--$100{,}000\times$}.
+
+% --- 22. Negative-Path Curriculum ---
+\subsubsection{Negative-Path Curriculum}
+\label{ssec:negative-path}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild mistakes as labeled curriculum; generate invalid edits, missing proofs, unsafe migrations, and generated-zone violations; remove ambiguous definitions of wrongness.
+
+Canonical form enables a training curriculum that includes not only
+correct canonical code but also \textbf{labeled negative examples}:
+editing generated files, applying patches to the wrong architectural
+layer, writing unsafe migrations without lock-budget declarations,
+duplicating generated data-transfer-object definitions, and skipping
+proof lanes.  These negatives are cheap to produce in a canonical
+environment (any violation of the grammar is a negative) and expensive
+to produce in raw corpora (where ``wrong'' is ambiguous).  The model
+learns the \emph{boundary} of correct behavior, not just its interior.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $2\times$--$5\times$}.\quad
+Central: $5\times$--$15\times$.\quad
+\aggrange{\textbf{Aggressive:} $15\times$--$50\times$}.
+
+% --- 23. Proof-Carrying Change Objects ---
+\subsubsection{Proof-Carrying Change Objects}
+\label{ssec:proof-carrying}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild diffs as structured change objects and patch IR; generate intent, affected cells, proofs, receipts, and rollback evidence; remove bare diff-only completion paths.
+
+In canonical form, a patch is not a raw diff.  It is a structured change
+object comprising: the declared intent, the affected cells, the generated
+delta, the migration proof, the security proof, and the test evidence.
+The model learns to produce the \emph{proof route}---the full
+trajectory from intent to verified change---rather than a bare textual
+patch whose correctness must be inferred post-hoc.  This transforms
+code generation from a single-shot prediction problem into a structured
+reasoning chain with verifiable intermediate steps.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $2\times$--$5\times$}.\quad
+Central: $5\times$--$10\times$.\quad
+\aggrange{\textbf{Aggressive:} $10\times$--$20\times$}.
+
+% --- 24. Reasoning Digest / Plan Cache ---
+\subsubsection{Reasoning Digest and Plan-Cache Compression}
+\label{ssec:reasoning-digests}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild repeated agent cognition as versioned reasoning digests; generate task routes, known failure modes, proof obligations, and repair playbooks; remove repeated repo archaeology.
+
+Current agents spend inference tokens rediscovering architecture,
+ownership, generated zones, tests, migration rituals, and safe repair
+strategies.  Canonical repositories should store a compact reasoning
+map: task class to affected cells, issue type to legal edit set, failure
+signature to repair strategy, policy delta to required test matrix, and
+dependency update to compatibility checks.  This turns repeated thought
+into substrate memory.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $3\times$--$8\times$}.\quad
+Central: $8\times$--$50\times$.\quad
+\aggrange{\textbf{Aggressive:} $50\times$--$200\times$}.
+
+% --- 25. Semantic Patch Cells ---
+\subsubsection{Semantic Patch Cells}
+\label{ssec:semantic-patch-cells}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild recurring changes as typed transformations; generate blast radius, preconditions, proofs, tests, and rollbacks; remove raw-diff invention for common edits.
+
+Many changes recur across repositories: add field, migrate nullable to
+required, add permission edge, rotate secret, add idempotency key,
+upgrade dependency safely, split table, add audit trail, deprecate API
+field, or convert sync work to an idempotent job.  Semantic patch cells
+make those changes first-class.  The agent binds parameters and
+discharges obligations instead of inventing edits file by file.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $10\times$--$50\times$}.\quad
+Central: $50\times$--$1{,}000\times$.\quad
+\aggrange{\textbf{Aggressive:} $1{,}000\times$--$10{,}000\times$}.
+
+% --- 26. Constrained Edit Grammar ---
+\subsubsection{Constrained Edit Grammar}
+\label{ssec:constrained-edit-grammar}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild editing as legal typed operations over behavior IR, cells, schemas, and policies; reject illegal files, operations, and proof omissions before generation.
+
+Repair-path collapse removes many wrong trajectories after the agent
+chooses a path.  A constrained edit grammar removes them before choice.
+Generated files are immutable; migrations must declare lock budgets and
+rollback; policy changes must emit negative tests; dependency changes
+must route through governed upgrade lanes.  The agent sees a small legal
+action set instead of a whole filesystem.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $100\times$--$1{,}000\times$}.\quad
+Central: $1{,}000\times$--$100{,}000\times$.\quad
+\aggrange{\textbf{Aggressive:} $100{,}000\times$+}.
+
+% --- 27. Proof-Lane Receipt Reuse ---
+\subsubsection{Proof-Lane Receipt Reuse}
+\label{ssec:proof-receipts}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild verification as reusable receipts; generate migration replay, rollback evidence, policy checks, and security receipts; remove repeated proof interpretation and review reconstruction.
+
+Proof lanes define commands.  Receipt reuse defines the evidence object
+that survives the command: what was checked, which obligations changed,
+which logs matter, what failed before repair, and what rollback means.
+Reviewers and agents inspect the receipt instead of reconstructing proof
+meaning from raw logs.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $3\times$--$8\times$}.\quad
+Central: $8\times$--$30\times$.\quad
+\aggrange{\textbf{Aggressive:} $30\times$--$100\times$}.
+
+% --- 28. Supply-Chain / Dependency Closure ---
+\subsubsection{Supply-Chain and Dependency Closure}
+\label{ssec:supply-chain-closure}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild package selection as governed capability resolution; generate adapters, provenance, license, bill-of-materials, vulnerability, upgrade, and rollback evidence; remove arbitrary package choice.
+
+Dependencies are hidden code expansion.  A single import can carry
+transitive code, build scripts, licenses, vulnerabilities, and runtime
+behavior.  Canonical form should resolve verified capabilities rather
+than package names: password hashing, email send, payment webhook,
+rate limit, or object storage.  Each capability has approved providers,
+adapters, provenance, proof lanes, and upgrade routes.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $2\times$--$5\times$}.\quad
+Central: $5\times$--$20\times$.\quad
+\aggrange{\textbf{Aggressive:} $20\times$--$100\times$}.
+
+% --- 29. Notebook-to-Pipeline Compression ---
+\subsubsection{Notebook-to-Pipeline Compression}
+\label{ssec:notebook-pipeline}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild exploratory notebooks as typed data pipelines; generate environment locks, provenance, tests, parameter cells, and scheduled jobs; remove copy-pasted exploratory state.
+
+Notebook-heavy software often stores executable history rather than
+reproducible behavior.  Canonical conversion separates exploration from
+pipeline truth: cells become typed data steps, parameters become schema,
+plots and reports become generated projections, and environments become
+locked artifacts.  The agent learns the pipeline graph rather than the
+accidental order of notebook execution.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $3\times$--$10\times$}.\quad
+Central: $10\times$--$50\times$.\quad
+\aggrange{\textbf{Aggressive:} $50\times$--$200\times$}.
+
+% --- 30. Runtime and Negative Memory ---
+\subsubsection{Runtime and Negative Memory Compression}
+\label{ssec:runtime-negative-memory}
+
+\smallskip\noindent
+\textbf{Approach.}\quad Rebuild incidents, reverts, failed patches, hidden compatibility, and production traces as living invariants and forbidden plans; remove repeated rediscovery of bad worlds.
+
+The raw corpus mostly preserves accepted code, but software expertise
+also lives in what failed: unsafe migrations, auth bypasses, flaky
+tests, reverted patches, support incidents, and production-only edge
+cases.  Canonical memory turns those failures into anti-examples,
+negative tests, proof obligations, and reasoning warnings.  Every
+failure becomes a compression artifact.
+
+\smallskip\noindent
+\textbf{Estimates.}\quad
+\conrange{\textbf{Conservative:} $2\times$--$5\times$}.\quad
+Central: $5\times$--$25\times$.\quad
+\aggrange{\textbf{Aggressive:} $25\times$--$100\times$}.
+
+
+\bigskip
+\begin{table*}[t]
+\centering
+\caption{Meta-Compression Domains (21--30): Gain Estimates}
+\label{tab:meta-compression}
+{\footnotesize
+\begin{tabularx}{\textwidth}{@{} l X >{\color{nhConservative}}c c >{\color{nhAggressive}}c @{}}
+\toprule
+\textbf{\#} & \textbf{Domain} & \conhead & \textbf{Central} & \agghead \\
+\midrule
+21 & Repair-Path Collapse           & $10\times$--$100\times$       & $100\times$--$10{,}000\times$       & $10{,}000\times$--$100{,}000\times$ \\
+22 & Negative-Path Curriculum       & $2\times$--$5\times$          & $5\times$--$15\times$               & $15\times$--$50\times$              \\
+23 & Proof-Carrying Change Objects  & $2\times$--$5\times$          & $5\times$--$10\times$               & $10\times$--$20\times$              \\
+24 & Reasoning Digests / Plan Cache & $3\times$--$8\times$          & $8\times$--$50\times$               & $50\times$--$200\times$             \\
+25 & Semantic Patch Cells           & $10\times$--$50\times$        & $50\times$--$1{,}000\times$         & $1{,}000\times$--$10{,}000\times$   \\
+26 & Constrained Edit Grammar       & $100\times$--$1{,}000\times$  & $1{,}000\times$--$100{,}000\times$  & $100{,}000\times$+                  \\
+27 & Proof-Lane Receipt Reuse       & $3\times$--$8\times$          & $8\times$--$30\times$               & $30\times$--$100\times$             \\
+28 & Supply-Chain / Dependency Closure & $2\times$--$5\times$       & $5\times$--$20\times$               & $20\times$--$100\times$             \\
+29 & Notebook-to-Pipeline           & $3\times$--$10\times$         & $10\times$--$50\times$              & $50\times$--$200\times$             \\
+30 & Runtime / Negative Memory      & $2\times$--$5\times$          & $5\times$--$25\times$               & $25\times$--$100\times$             \\
+\bottomrule
+\end{tabularx}
+}
+\end{table*}
+
+
+% ------------------------------------------------------------
+%  COMPOSITE GAINS
+% ------------------------------------------------------------
+
+\subsubsection{Composite Gain Estimates}
+\label{ssec:composite-gains}
+
+The per-domain estimates above cannot be multiplied na\"ively: language
+collapse and framework collapse share token mass; resource lifecycle cells and
+validation cells overlap on the same source files; repair-path collapse
+subsumes portions of every other domain.  Table~\ref{tab:composite}
+presents composite estimates across five measurement axes, derived from
+conservative overlap-discounting of the individual domains.  These
+composites represent the full-stack prior: the expected gain when
+\emph{all} canonical transformations are applied simultaneously to a
+representative product codebase.
+
+\begin{table*}[t]
+\centering
+\caption{Composite Gain Estimates Across All 30 Compression Domains (Denominator-Specific; Not Multiplicative)}
+\label{tab:composite}
+{\footnotesize
+\begin{tabularx}{\textwidth}{@{} X >{\color{nhConservative}}c c >{\color{nhAggressive}}c @{}}
+\toprule
+\textbf{Measurement Axis} & \conhead & \textbf{Central} & \agghead \\
+\midrule
+Literal source-token reduction
+    & $2\times$--$8\times$
+    & $3\times$--$10\times$
+    & $10\times$--$30\times$ \\
+Effective representation-space reduction
+    & $20\times$--$40\times$
+    & $40\times$--$150\times$
+    & $100\times$--$300\times$ \\
+Agent action-space reduction
+    & $100\times$--$1{,}000\times$
+    & $1{,}000\times$--$100{,}000\times$
+    & $100{,}000\times$+ \\
+Training-token efficiency
+    & $10\times$--$30\times$
+    & $30\times$--$150\times$
+    & $150\times$--$1{,}000\times$ \\
+Reasoning/tool/retry-token reduction
+    & $3\times$--$10\times$
+    & $10\times$--$100\times$
+    & $100\times$--$10{,}000\times$ \\
+Cost per verified correct change
+    & $3\times$--$10\times$
+    & $10\times$--$50\times$
+    & $50\times$--$1{,}000\times$ \\
+\bottomrule
+\end{tabularx}
+}
+\end{table*}
+
+The distinction between \emph{literal source-token reduction} and
+\emph{effective representation-space reduction} is critical.  Source
+tokens measure the physical size of the corpus; representation space
+measures the number of \emph{distinct behavioral encodings} the model
+must learn to produce.  A $5\times$ source-token reduction that also
+collapses seven languages into one yields a far larger effective
+reduction, because the model no longer maintains seven parallel
+decoders for the same semantic space.  Agent action-space reduction is
+larger still, because it compounds source compression with the
+elimination of invalid edit trajectories (Domain~21).  Reasoning-token
+reduction is a separate denominator: it measures how often the agent
+must rediscover architecture, tests, proof routes, repair strategy,
+dependency law, and review expectations that can instead be compiled
+into reasoning digests, proof receipts, and semantic patch cells.
+
+% ------------------------------------------------------------
+%  THEORETICAL LIMIT: MINIMUM FUNCTIONAL DESCRIPTION LENGTH
+% ------------------------------------------------------------
+
+\subsubsection{Theoretical Limit: Minimum Functional Description Length}
+\label{ssec:mfdl}
+
+The compression frontier converges toward a theoretical limit we term
+the \textbf{Minimum Functional Description Length}: the shortest
+canonical specification, plus proofs, plus renderer needed to produce a
+fully working system.  Minimum Functional Description Length is not a code-golf metric; it is the
+information-theoretic minimum over the space of behavioral
+specifications that can be mechanically verified and rendered into
+executable artifacts.  For routine product software---the SaaS
+platforms, internal tools, and resource-heavy services that constitute the
+majority of commercial codebases---we estimate that 70--90\% of behavior
+may eventually be expressible as cell composition, generated surfaces,
+and policy configuration.  The remaining 10--30\% is true
+domain-specific logic: novel algorithms, unique business rules, and
+irreducible problem-specific reasoning that no canonical grammar can
+absorb without becoming domain-specific itself.
+
+The theoretical limit is not shorter code.  \textbf{The theoretical
+limit is no bespoke code unless the behavior is novel.}

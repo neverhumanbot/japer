@@ -1,0 +1,58 @@
+%% SECTION 5: ASSUMPTION B - FULL-CORPUS PORTING
+%% ============================================================
+\section{Assumption B: Governed Foundry and Port Dispositions}
+
+\textbf{Assumption B: Every available artifact in the training set can be assigned a governed port disposition, and the cost of porting amortizes across repeated training runs, serving savings, and downstream reuse.}
+
+Full coverage means every artifact enters the foundry. The claim is not that every repository becomes one product-app implementation. The claim is that every artifact is either transformed into a canonical training object or explicitly excluded with a reason that remains useful for governance, evaluation, or negative training. The maturity ladder is staged: first \emph{disposition coverage}, then \emph{behavior-fixture extraction}, then \emph{full canonical porting} only where value, license status, and preservation evidence justify the cost.
+
+\begin{table*}[t]
+\caption{Governed Port Dispositions}
+\label{tab:dispositions}
+\centering
+\scriptsize
+\begin{tabularx}{\textwidth}{p{0.17\textwidth}X X}
+\toprule
+Disposition & Meaning & Training use \\
+\midrule
+\texttt{transform-permitted} & License, provenance, security, and behavior evidence permit a canonical artifact or full port. & Canonical source, behavior object, transformation trace, accepted patch examples. \\
+\texttt{secondary-profile} & Artifact belongs to systems, mobile, embedded, scientific, or other non-product-app profile. & Profile-specific training and cross-profile interface examples. \\
+\texttt{governed-primitive} & Foundational component is retained behind stable wrappers, tests, versions, and ownership. & Dependency, wrapper, compatibility, upgrade, and conformance examples. \\
+\texttt{spec-only} & Source cannot be transformed, but public behavior/specification can be represented independently. & Abstract contracts, interface facts, and conformance targets. \\
+\texttt{fixture-only} & Tests, traces, issues, API examples, or migration fixtures are usable without source projection. & Behavior fixtures and weak-oracle warnings. \\
+\texttt{negative-only} & Artifact teaches a failure mode, vulnerability, bad migration, or rejected pattern. & Negative examples, refusal cases, and repair memories. \\
+\texttt{metadata-only} & Only aggregate metadata, disposition statistics, or provenance facts can be retained. & Governance metrics and exclusion statistics. \\
+\texttt{quarantine} & Artifact appears unsafe, malicious, poisoned, undispositioned, or provenance-risky. & No positive training; security analysis and exclusion receipt only. \\
+\texttt{license-excluded} & License, attribution, opt-out, or derivative-work risk blocks inclusion. & No positive training artifact; removal propagation and audit receipt. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+Every canonical training object is an auditable data product, not a loose rewrite. Its minimum schema includes source identity, license, profile, disposition, transformation trace, behavior evidence, security evidence, canonical artifact, known loss, and training-use policy.
+Source identity includes repository URL, commit, content hash or Software Heritage identifier when available, opt-out/removal state, and original artifact digest. License and supply-chain evidence should use existing machine-readable standards where possible: SPDX for license/provenance and software-bill-of-material information, CycloneDX for broader bill-of-materials and cyber-risk metadata, SLSA/in-toto-style attestations for build and transformation steps, OpenTelemetry semantic conventions for runtime evidence, and policy-as-code systems such as Open Policy Agent for inclusion and release rules~\cite{spdxOverview,cyclonedx,openTelemetrySemconv,openPolicyAgent,slsa,intoto}.
+
+\begin{figure*}[t]
+\centering
+\scriptsize
+\begin{tikzpicture}[
+  node distance=0.65cm,
+  box/.style={draw, rounded corners, align=center, minimum height=0.75cm, text width=2.45cm, inner sep=4pt},
+  arr/.style={-Latex, thick}
+]
+\node[box] (raw) {Available code-training universe};
+\node[box, right=of raw] (classify) {Classify role, behavior, language, license};
+\node[box, right=of classify] (port) {Disposition, profile, provenance policy};
+\node[box, right=of port] (minimize) {Minimize valid token space};
+\node[box, right=of minimize] (train) {Canonical training corpus};
+\draw[arr] (raw) -- (classify);
+\draw[arr] (classify) -- (port);
+\draw[arr] (port) -- (minimize);
+\draw[arr] (minimize) -- (train);
+\end{tikzpicture}
+\caption{Governed full-corpus foundry. The corpus is not filtered down to clean examples; every artifact receives provenance-aware disposition, and only qualified artifacts become positive canonical training objects.}
+\label{fig:porting}
+\end{figure*}
+
+\textbf{Falsification:} Assumption B fails if a representative corpus cannot be assigned governed dispositions, if license/provenance metadata cannot be preserved through transformation and removal propagation, if behavior fixtures cannot be extracted for high-value classes, or if porting cost does not amortize across at least 3$\times$ the initial foundry investment.
+
+%% ============================================================

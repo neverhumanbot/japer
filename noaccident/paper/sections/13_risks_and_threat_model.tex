@@ -1,0 +1,33 @@
+%% SECTION 13: RISKS AND THREAT MODEL
+%% ============================================================
+\section{Risks and Threat Model}
+\label{sec:threatmodel}
+
+The canonical substrate is not risk-free. It deliberately concentrates software structure, so its failure modes must be named as design constraints rather than left as caveats.
+
+\begin{table*}[t]
+\caption{Canonical Substrate Threat Model}
+\label{tab:threatmodel}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.20\textwidth}X X}
+\toprule
+Risk & Failure mode & Required mitigation \\
+\midrule
+Behavior loss & Port drops hidden edge behavior, migration side effects, timing assumptions, or compatibility ghosts. & Declared contracts, preservation tiers, differential replay, accepted-incompatibility manifests, and human escalation. \\
+Weak oracles & Tests pass while behavior diverges. & Treat tests as evidence only; add fuzzing, property tests, mutation tests, generated tests, hidden review, and trace replay. \\
+Licensing/provenance & Canonical artifact loses attribution, opt-out state, source lineage, or derivative-risk status. & SPDX/CycloneDX metadata, source hashes, transformation traces, removal propagation, and policy gates. \\
+Canonical monoculture & One flawed auth, migration, billing, or policy cell creates correlated failure at scale. & One governed interface with independent implementations for critical cells, conformance suites, canaries, rollback, and cell advisories. \\
+Useful-diversity loss & Profile excludes a domain-specific implementation choice that carries performance, safety, accessibility, regulatory, or ecosystem value. & Secondary profiles, governed primitives, explicit exception process, and profile lifecycle evidence. \\
+Benchmark contamination & Public paired tasks leak into training or static tests age out. & Public, private held-out, and live/post-cutoff benchmark tiers. \\
+Foundry cost & Porting, proof, review, and governance costs exceed downstream savings. & Break-even accounting, staged dispositions, high-reuse prioritization, and amortization receipts. \\
+Governance capture & Canonical rules favor one vendor, stack, or implementation without evidence. & Versioned public specs, independent conformance suites, audit logs, and appeal paths. \\
+Generated-code opacity & Source becomes generated but reviewers cannot understand obligations or failures. & Proof-carrying change objects, generated-zone manifests, readable diffs, and reviewer rubrics. \\
+Scaling-curve uncertainty & Representation compression does not translate to training-token or model-size reduction. & Paired raw/canonical scaling curves and fixed-target accepted-change benchmarks. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+The central controlled-diversity rule is: canonicalize behavior interfaces, proof receipts, and edit grammars; diversify critical implementations and evaluators where common-mode failure would be catastrophic. N-version programming is a warning as much as a precedent: diversity is useful only when failures are sufficiently independent~\cite{nVersionProgramming}. Unlimited local dialects are not useful diversity. Independently validated lowerings, fuzzers, policy engines, monitors, and rollback paths are.
+
+%% ============================================================

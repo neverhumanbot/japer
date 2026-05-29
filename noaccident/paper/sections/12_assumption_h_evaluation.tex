@@ -1,0 +1,121 @@
+%% SECTION 12: ASSUMPTION H - EVALUATION
+%% ============================================================
+\section{Assumption H: Evaluation and Falsification}
+\label{sec:eval}
+
+\textbf{Assumption H: The canonical substrate reduces invalid actions and end-to-end change cost, not merely produces cleaner-looking code.} The evaluation target is not HumanEval-style function synthesis. The target is whether a model operating inside the canonical universe can implement, modify, test, migrate, secure, and deploy ported software at lower cost than a broad model operating inside the human-chaotic universe. SWE-bench Verified is a useful precedent~\cite{swebench,swebenchVerified}, but static issue benchmarks are vulnerable to weak tests, contamination, and benchmark aging~\cite{utboost,sweRebench,openaiSwebenchVerifiedCritique}. This paper's claim needs paired raw/canonical tasks from the same software lineage.
+
+The benchmark object is the tuple:
+\begin{quote}
+\footnotesize
+(\texttt{raw\_repo}, \texttt{canonical\_repo}, \texttt{issue}, \texttt{behavior\_contract},\\
+\texttt{preservation\_tier}, \texttt{proof\_lanes}, \texttt{hidden\_tests},\\
+\texttt{reviewer\_rubric}, \texttt{cost\_ledger})
+\end{quote}
+
+The proof program has three gates. \textbf{Gate 1} is the same-model substrate test: run the same broad frontier model on raw and canonical versions of the same issue lineage. This is the first falsification point because it isolates substrate value before specialist training. \textbf{Gate 2} trains or adapts a canonical specialist and compares it on canonical tasks against the same broad baseline and the raw/canonical same-model result. \textbf{Gate 3} measures paired scaling curves and verified-change economics: tokens-to-target, model size, serving cost, foundry amortization, and all-in cost per accepted proof-carrying change.
+
+\begin{table*}[t]
+\caption{Canonical Port Evaluation Arms}
+\label{tab:evalarms}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.06\textwidth}p{0.24\textwidth}p{0.22\textwidth}X}
+\toprule
+Arm & Model & Repository form & Purpose \\
+\midrule
+A & Broad frontier model & Original human repo & Current-world baseline: capability and cost in the messy corpus. \\
+B & Broad frontier model & Canonical repo & Measures substrate benefit without a new model. \\
+C & Canonical specialist & Canonical repo & Measures model plus substrate effect. \\
+D & Canonical specialist + cells & Cellized canonical repo & Measures behavior-cell compression benefit. \\
+E & Porter model & Human repo to canonical object & Measures foundry automation throughput. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+The key ablation is direct: \textbf{if the same broad frontier model performs much better on canonical repos than on the original raw repos, before canonical specialist training, then substrate compression is real.} That proof does not require waiting for a 100B-class specialist. The paired task must measure accepted patch rate and the full trajectory: files opened, context tokens, reasoning tokens, tool calls, invalid edits, generated-zone violations, failed tests, failed migrations, wall time, reviewer comments, cost ledger entries, and rollback/proof receipts.
+
+\begin{table*}[t]
+\caption{Killer Ablation: Raw Repo Versus Canonical Repo with the Same Model}
+\label{tab:killerablation}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.18\textwidth}X X}
+\toprule
+Metric & Raw repository expectation & Canonical repository target \\
+\midrule
+Files opened & Broad search across local architecture. & Fewer predictable file reads from canonical path grammar. \\
+Tool calls & Discover build, tests, migrations, policy, dependencies. & Invoke known proof lanes and typed patch tools. \\
+Reasoning tokens & Rediscover architecture, ownership, generated zones, repair strategy. & Use reasoning digest, cell contracts, and proof obligations. \\
+Invalid edits & Generated-file edits, wrong layer, unsafe migration, policy bypass. & Rejected by constrained edit grammar before proof lanes. \\
+Failed verification & Flaky or misselected commands and repeated repair loops. & Standard receipts and classified failures. \\
+Accepted patch rate & Baseline for current-world agents. & Higher acceptance at equal or lower total cost. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\begin{table*}[t]
+\caption{Contamination-Aware Benchmark Tiers}
+\label{tab:benchmarktiers}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.18\textwidth}X X}
+\toprule
+Tier & Use & Risk controlled \\
+\midrule
+Public paired & Reproducible raw/canonical ablations and open leaderboard tasks. & Transparent but contamination-prone; not sufficient for frontier claims. \\
+Private held-out & Partner repositories, undisclosed issues, hidden tests, and blinded review. & Reduces training contamination and patch memorization. \\
+Live / post-cutoff & New issues evaluated before public disclosure and paired canonicalization. & Tests current repository reasoning under fresh task distributions. \\
+Generated stress tasks & SWE-smith-style generated task families and preservation traps~\cite{sweSmith}. & Scales coverage and tests false-green, generated-zone, and compatibility-ghost failures. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\begin{table*}[t]
+\caption{Canonical Standard Ablation Ladder}
+\label{tab:ablation}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.20\textwidth}X X}
+\toprule
+Ablation & What changes & What it proves \\
+\midrule
+Naming only & Controlled vocabulary and role names; no layout or dependency changes. & Separates lexical entropy from structural entropy. \\
+Path grammar only & Canonical folders, ownership, test locations, generated/source paths. & Measures repository-navigation and edit-location reduction. \\
+Generated boundaries only & Contracts generate clients/adapters/fixtures; hand edits forbidden. & Measures duplicate-truth and invalid generated-edit reduction. \\
+Repository policy only & Branch protection, code owners, required checks, workflow permissions, secrets, release gates. & Measures hidden-state and CI/action-space reduction. \\
+Dependency governance only & Pinned, owned, scored dependencies and upgrade lanes. & Measures supply-chain and repair-loop reduction. \\
+Proof lanes only & Standard build/test/migration/security commands and acceptance artifacts. & Measures failed-loop reduction without full language/profile collapse. \\
+Behavior cells only & Top 50 cells with generated expansion. & Measures source-token and action-space reduction from cells alone. \\
+Full standard & Language roles, file grammar, naming, generated boundaries, repository policy, dependencies, data truth, cells, validation. & Measures total canonical substrate effect. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\begin{table*}[t]
+\caption{Core Assumptions, Strength Assessments, and Falsification Criteria}
+\label{tab:assumptions}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.03\textwidth}p{0.25\textwidth}p{0.12\textwidth}X}
+\toprule
+ID & Assumption & Strength & Falsified if \\
+\midrule
+A & One governed way can cover each supported product-software concern. & Strong & Primary profile covers less than 60\% of economically valuable product/web/backend/data tasks. \\
+B & Full-corpus foundry can assign governed dispositions and amortize cost. & Hard & Large fractions remain undispositioned or foundry cost exceeds downstream savings. \\
+C & Behavior can be preserved or dispositioned with graded confidence. & Hardest & Human review rejects core ports or security/migration regressions rise. \\
+D & Behavior cells absorb high-reuse routine product code. & Very plausible & Top 500--2,000 cells cover less than 50\% of product-app behavior. \\
+E & Canonicalization reduces representation entropy and legal action-space. & Central claim & Paired corpora show no entropy, path, AST, perplexity, or action-branching reduction. \\
+F & Canonical data reduces required model size and training tokens. & Hypothesis & Scaling curves show no lower token or parameter need for target canonical accuracy. \\
+G & Canonical mixture-of-experts routes better by software role than by language accident. & Plausible & Router entropy, utilization, and task success do not improve. \\
+H & Canonical substrate lowers cost per verified correct change. & Business claim & End-to-end change cost is not at least 3$\times$ lower after amortization. \\
+I & Canonical substrate compresses reasoning, tool, planning, and retry tokens. & Moonshot claim & Same-model canonical tasks do not reduce files opened, tool calls, reasoning tokens, invalid edits, failed tests, wall time, or reviewer burden. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+Major risks are first-class evaluation targets and are expanded in Section~\ref{sec:threatmodel}. \textbf{Licensing and provenance} must travel with every source artifact; The Stack v2 and the BigCode Governance Card both emphasize governance, provenance, privacy, and consent obligations for code data~\cite{theStackV2,bigcodeGovernanceCard}. Software Heritage's 2025 activity report is a reminder that the public software archive is enormous and must be treated as infrastructure, not scrapeable exhaust~\cite{softwareHeritage2025}. \textbf{Compression-factor overlap} is handled by paired-corpus measurement; the paper never multiplies language collapse, framework collapse, cell collapse, action-space collapse, reasoning-token collapse, and repair-path collapse naively. \textbf{Representational compression is not automatically model compression}; that requires scaling curves.
+
+\textbf{Falsification:} Assumption H fails if cost per verified correct change is not at least 3$\times$ lower after including foundry, verification, serving, reasoning, failed-loop, review, and maintenance cost amortization.
+
+%% ============================================================

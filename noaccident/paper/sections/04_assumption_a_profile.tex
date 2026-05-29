@@ -1,0 +1,58 @@
+%% SECTION 4: ASSUMPTION A - THE CANONICAL STANDARD
+%% ============================================================
+\section{Assumption A: Versioned Product Profiles and Canonical Programming}
+
+\textbf{Assumption A: For each supported software class, there should be one governed way to express, test, secure, deploy, and repair each concern.} The primary agent-first canonical profile targets web, product, SaaS, backend, and data applications---not all software. We denote the current profile $P_{\mathrm{app}}^{2026}$ as a \canonprofile{}: one maintained backend/core lane, one typed product-surface lane, one browser/product-shell lane, one durable-data lane, one schema/contract lane, and one build/deploy/proof envelope, plus repository policy and observability. Systems code, kernels, compilers, databases, browsers, GPU kernels, embedded, native mobile, and high-performance computing use \emph{secondary canonical profiles} or \emph{governed primitives}. The thesis is not implementation monoculture. The thesis is that human preference should not decide the shape of routine product software.
+
+The profile is replaceable. The invariant is governed role ownership, generated truth, proof lanes, constrained edits, provenance, and observability:
+\begin{equation}
+\begin{aligned}
+P_{\mathrm{app}}^{t+1} =
+\operatorname{Govern}(&P_{\mathrm{app}}^{t}, E_{\mathrm{security}}, E_{\mathrm{agent}},\\
+&E_{\mathrm{performance}}, E_{\mathrm{ecosystem}}, E_{\mathrm{migration}}).
+\end{aligned}
+\end{equation}
+Profile components change only when evidence shows lower accepted-change cost, stronger verification reliability, better security, or better ecosystem support after transition cost.
+
+Canonical does not mean a single unchecked implementation. It means one governed interface, multiple independently validated implementations where correlated failure would be catastrophic. Critical cells require independent implementations where feasible, adversarial review, conformance suites, canary rollout, version pinning, rollback, deprecation protocols, provenance records, and profile-specific exceptions. Unlimited drift is rejected; audited diversity is retained.
+
+The canonical standard has six hard properties:
+
+\textbf{First, profile roles are fixed.} The profile assigns one supported lane to backend/core/tooling, one lane to typed product surfaces, one lane to the browser product shell, one lane to durable data, one lane to deployment envelopes, and one lane to generated contracts. The concrete technologies are versioned profile choices, not the thesis. The invariant is that routine changes occur against explicit role ownership rather than local framework folklore.
+
+\textbf{Second, file grammar is enforced.} Source paths, generated paths, tests, migrations, contracts, adapters, and product surfaces live in predictable places.
+
+\textbf{Third, naming is canonical.} Variable and module names encode stable roles: actor, resource, command, event, policy, adapter, projection, migration, contract, and view.
+
+\textbf{Fourth, generated boundaries are sacred.} Contracts generate clients, schemas, test fixtures, and adapters. Generated outputs are not hand-edited.
+
+\textbf{Fifth, continuous integration, build, and proof commands are standard.} Every change maps to known local commands, CI jobs, permissions, logs, artifacts, and failure classes.
+
+\textbf{Sixth, repository policy, dependency policy, and data truth are governed.} One durable-data lane owns persistent truth; dependencies are pinned, owned, scored, and upgraded through canonical lanes; branch protection, required checks, code owners, release gates, environment secrets, and deploy permissions are generated from one repository-policy object.
+
+\begin{table*}[t]
+\caption{Canonical Standard as a Compression Language}
+\label{tab:standardcompression}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.18\textwidth}X X}
+\toprule
+Standard element & Human-code space removed & Training effect \\
+\midrule
+Limited language roles & Equivalent business behavior expressed across many backend, frontend, script, and migration languages. & Fewer grammars and lower cross-language transfer burden. \\
+Canonical file grammar & Local folder myths, mixed generated/source files, arbitrary helpers, unclear ownership. & Repository layout becomes predictable context instead of hidden state. \\
+Controlled vocabulary & Synonym drift, vague service names, local abbreviations, duplicated domain labels. & Lower lexical entropy and easier long-context retrieval. \\
+Generated boundaries & Data-transfer-object forks, hand-edited clients, duplicated schema truth, stale fixtures. & One source of truth replaces many invalid patch paths. \\
+Strict build/test commands & README folklore, local scripts, skipped tests, inconsistent CI gates. & Model learns standard completion actions instead of guessing rituals. \\
+Governed dependencies & Unpinned packages, stale transitive libraries, unsafe workflow permissions. & Dependency updates become canonical maintenance tasks. \\
+Data truth policy & Direct writes, app-owned durable truth, duplicate validation logic, unsafe migrations. & Database and migration repairs become standard forms. \\
+Repository policy & Hand-configured GitHub/GitLab settings, inconsistent branch protection, unscoped workflow permissions, unclear owners. & Review, merge, release, and secret-handling become generated infrastructure. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+The canonical standard is therefore a compression language for software. It compresses by removing representational degrees of freedom that do not change the product. If two repositories implement the same account-management route with eight framework stacks, four CI systems, three naming conventions, and incompatible deploy policies, a broad model pays for all of them. A canonical model pays for the behavior once, plus the governed exceptions that matter.
+
+\textbf{Falsification:} Assumption A fails if paired raw/canonical corpora do not reduce source tokens, identifier entropy, AST-pattern entropy, path grammar, perplexity, or action branching on target software classes.
+
+%% ============================================================

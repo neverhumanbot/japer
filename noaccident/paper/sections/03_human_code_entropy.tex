@@ -1,0 +1,39 @@
+%% SECTION 3: THE PROBLEM
+%% ============================================================
+\section{The Human-Code Entropy Problem}
+
+Human code is chaotic because human software production is chaotic. Teams choose languages for hiring markets, deployment constraints, fashion, deadlines, legacy compatibility, framework momentum, and personal preference. They choose continuous-integration systems and workflow YAML by copy-paste. They choose names under time pressure. They create folders that reflect organization charts and local arguments. They copy data transfer objects instead of generating contracts. They hand-edit generated artifacts. They split logic across services because the team split. They preserve test suites that prove mocks, not behavior. They keep dependencies because updating them breaks a release.
+
+This is not an argument that human software history lacks value. The public and private code record contains product judgment, edge cases, incident responses, migration scars, security repairs, tests, failure histories, and operational lessons that a canonical substrate must preserve or disposition. The target is narrower and more aggressive: remove optional representation that remains after behavior is fixed, while carrying forward the evidence that explains why the behavior matters.
+
+None of this is rare. GitGuardian found 28.65 million new hardcoded secrets added to public GitHub commits in 2025, a 34\% year-over-year increase~\cite{gitguardian2026}. Synopsys reported that 84\% of assessed codebases contained open-source vulnerabilities, 74\% contained high-risk vulnerabilities, and 91\% used components ten or more versions behind the current version~\cite{synopsysOSSRA2024}. GitHub Actions studies find exactly the same problem in automation: workflow complexity, heterogeneity, and compliance drift are now research subjects~\cite{ghaHeterogeneity2025}; workflow files change continuously across large repository samples~\cite{ghaEvolution2026}; security-practice adoption remains uneven even in a dominant CI/CD platform~\cite{ghaSecurityNDSS2026}. Travis CI evidence is similar: 3.7 million jobs across 1,276 projects showed noisy and heterogeneous build outcomes, including misleading pass/fail signals~\cite{travisNoise2018}, and 9,312 Travis-using projects exhibited detectable CI feature misuse~\cite{travisMisuse2020}. OpenSSF Scorecard exists because open-source projects do not consistently use secure practices~\cite{openssfScorecard,scorecardPaper}. METR's 2025 randomized trial found experienced open-source developers were 19\% slower with early-2025 AI tools on mature familiar projects, while METR's 2026 update emphasizes that adoption and task-selection effects make real productivity measurement difficult~\cite{metr2025,metr2026}.
+
+These findings do not prove every human program is broken. They prove the stronger substrate point: human software lacks a single enforced shape. The code may run, but the representation is filled with optionality that does not encode product behavior. For an agent, optionality is not freedom; it is branching factor. If there are 20 plausible files, five plausible CI fixes, three dependency-update conventions, four migration styles, and several local naming dialects, the agent must spend tokens and tool calls discovering local folklore before changing behavior. This is \textbf{agent sprawl}: the model becomes a repository cartographer, build engineer, migration reviewer, dependency archaeologist, security analyst, and code reviewer before it can safely edit behavior. A canonical substrate removes that burden by deleting opinions from the supported path.
+
+\begin{table*}[t]
+\caption{Human-Code Variation That Bloats the Training Target}
+\label{tab:chaos}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.18\textwidth}X X}
+\toprule
+Variation class & Human-code reality & Canonical target \\
+\midrule
+Language sprawl & Same backend behavior appears across many service, scripting, and systems languages. & One primary language per role, with secondary profiles for true infrastructure primitives. \\
+Framework drift & Express, FastAPI, Spring, Django, Rails, Laravel, Next, Remix, custom RPC, custom queues. & One canonical service grammar and one canonical UI/product grammar per profile. \\
+Naming drift & User/account/customer/member; manager/service/handler/repo/dao; vague helpers and utils. & Controlled vocabulary tied to role, boundary, and domain. \\
+Layout drift & Arbitrary folders, mixed generated and source files, stale migrations, implicit ownership. & Enforced file grammar, generated boundaries, and ownership maps. \\
+CI/build drift & GitHub Actions, GitLab CI, Travis, Circle, custom runners, local env assumptions, undocumented gates, skipped or flaky tests. & One proof-lane grammar with reproducible commands, artifacts, permissions, and failure classes. \\
+Dependency drift & Unpinned libraries, abandoned packages, vulnerable transitive dependencies, risky workflows. & Governed dependency closure, upgrade lanes, and scored exceptions. \\
+Data truth drift & Data-transfer-object forks, direct queries, app-owned durable truth, duplicated schema definitions. & Governed durable-data truth, generated contracts, typed adapters, migration policy. \\
+Repository-policy drift & Branch protection, code owners, required checks, release permissions, environments, secrets, and deployment credentials vary per team. & One repository-policy object with generated GitHub/GitLab settings and auditable exceptions. \\
+Agent ambiguity & Model guesses where to edit and what proves completion. & Agent-readable scope, canonical commands, valid repair paths, and no-edit generated zones. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+This variation is not free. Every equivalent way to express a behavior becomes probability mass the model must learn. Every framework convention becomes a routing burden. Every naming style becomes lexical entropy. Every CI dialect becomes an operational trap. Every ungoverned repository setting becomes hidden state. The frontier model pays for all of it.
+
+Agent sprawl is not solved by a larger context window alone. A larger window lets the model carry more accidental state; it does not remove the accidental state. The canonical countermeasure is to move repeated reasoning into substrate law: file grammar tells the model where behavior lives, generated-zone manifests tell it where not to edit, proof lanes tell it what proves completion, behavior cells identify the recurring primitive, semantic patch cells define legal change operations, reasoning digests summarize known architecture and failure modes, and proof-carrying change objects make review evidence explicit.
+
+%% ============================================================

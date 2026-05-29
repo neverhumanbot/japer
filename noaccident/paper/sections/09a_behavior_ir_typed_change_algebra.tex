@@ -1,0 +1,37 @@
+%% SECTION 9A: BEHAVIOR IR AND TYPED CHANGE ALGEBRA
+%% ============================================================
+\section{Behavior IR and Typed Change Algebra}
+\label{sec:behavior-ir}
+
+A canonical substrate should not merely prescribe file layouts. It needs an application-level behavior intermediate representation. The behavior IR represents entities, state machines, authorization edges, external contracts, effects, idempotency requirements, migration semantics, observability, privacy zones, rollout constraints, performance envelopes, and proof obligations. The IR lowers into governed service code, typed product surfaces, durable-data operations, OpenAPI/Protocol Buffers schemas, tests, dashboards, deployment manifests, and documentation. OpenAPI and Protocol Buffers already show the value of contract-first generated projections~\cite{openapi31,protobufOverview}; the canonical substrate generalizes this from API messages to product behavior.
+
+Routine edits should then be expressed as a typed change algebra rather than raw diffs:
+\begin{equation}
+\Delta = (op,params,pre,post,proofs,rollback,provenance).
+\end{equation}
+The operation determines the required proof lanes. For example, \texttt{AddField(User.timezone, default=UTC)} expands into schema diff, migration, API projection, form state, validation, fixtures, compatibility tests, rollout, and rollback. \texttt{AddPermissionEdge(Manager, ApproveInvoice)} expands into policy graph update, negative tests, audit event, UI affordance, threat-model delta, and authorization proof. \texttt{AddIdempotencyKey(WebhookDispatch)} expands into persistence, duplicate-replay tests, observability, retry semantics, and incident-runbook update.
+
+\begin{table*}[t]
+\caption{Typed Changes Should Compile to Proof Obligations, Not Merely Files}
+\label{tab:typed-change-compiler}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.19\textwidth}p{0.22\textwidth}X}
+\toprule
+Change operation & Canonical parameters & Compiled obligations \\
+\midrule
+\texttt{AddField} & entity, name, type, nullability, default/backfill & Schema diff, migration replay, generated clients, UI states, fixtures, compatibility, rollback. \\
+\texttt{AddPermissionEdge} & actor, resource, action, conditions & Policy graph proof, negative tests, audit log, UI affordance, threat-model delta. \\
+\texttt{SplitTable} & source, target, key, backfill, dual-write window & Data migration, read/write compatibility, rollback, observability, latency budget. \\
+\texttt{AddWebhook} & provider, event, signature, retry, idempotency & Contract fixture, signature verifier, replay test, dead-letter path, alerting. \\
+\texttt{UpgradeDependency} & package, version, risk class, migration notes & SBOM/provenance check, changelog constraints, compatibility tests, security scan, rollback. \\
+\texttt{RotateSecret} & provider, scope, rollout window & Secret inventory, dual-read window, audit receipt, rollback, leak scan. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+This is where the paper becomes more defensible and more ambitious. A raw diff asks the reviewer to reconstruct the operation. A typed change object states the operation first and makes generated diffs subordinate evidence. Proof-carrying code established the idea that producers can ship code with checkable evidence of safety~\cite{proofCarryingCode}; CompCert and seL4 show that semantic preservation and machine-checked proofs can be practical in constrained high-value domains~\cite{compcertManual,sel4Proofs}; SLSA and in-toto show that provenance and supply-chain integrity can be standardized as artifacts~\cite{slsa,intoto}. Proof-carrying change applies the same philosophy to everyday product software: the unit of work is not a patch, but a patch plus typed intent, generated obligations, proof receipts, rollback, and provenance.
+
+The research bet is that most product changes are not semantically arbitrary. They are drawn from a finite and learnable algebra: add field, add resource, add role, add permission, add workflow state, add integration, add notification, add idempotency, split entity, migrate invariant, upgrade dependency, add audit, expose report, tighten validation, change rollout, repair flaky proof lane. If true, agentic software engineering should focus less on unconstrained patch generation and more on recognizing, composing, proving, and amortizing these typed operations.
+
+%% ============================================================

@@ -1,0 +1,344 @@
+Moonshot Agent-First Canonical Code Paper Rewrite Checks
+Thu May 28 06:53:23 MDT 2026
+
+[structure]
+OK agent-first-canonical-code.tex is the build entrypoint.
+OK main body split into sections/*.tex for readable section-level editing.
+OK compression catalog remains compression_catalog.tex and is included immediately before conclusion.
+
+[build]
+Command:
+  rtk latexmk -pdf -interaction=nonstopmode agent-first-canonical-code.tex
+Result:
+  OK build completed; agent-first-canonical-code.pdf written.
+
+[pdfinfo]
+Command:
+  rtk pdfinfo agent-first-canonical-code.pdf
+Result:
+  Title: Agent-First Canonical Code: Compressing the Software Training Universe
+  Author: NeverHuman Research
+  Pages: 16
+  CreationDate: Thu May 28 06:53:23 2026 MDT
+  PDF version: 1.7
+Note:
+  Page count increased from the earlier 13-page draft because the compression frontier now includes per-domain approach guidance and the conclusion was expanded.
+
+[raw convergence data]
+Source:
+  /Users/bentaylor/code/jankurai_train/linux_train/remote_logs/iter_losses.csv
+  /Users/bentaylor/code/jankurai_train/linux_train/remote_logs/telemetry.csv
+Copied to:
+  figures/convergence_raw_iter_losses.csv
+  figures/convergence_raw_telemetry.csv
+Generated derivative:
+  figures/convergence_data.csv
+  figures/convergence_cubic_samples.csv
+Processing:
+  figures/make_convergence_plot.py parses the raw logs, filters nonzero train/eval loss rows, keeps the last observation per duplicate step after restarts, computes train-loss EMA with alpha=0.01, and writes EPS/PDF vector plots.
+Stats from script:
+  Raw training rows after restart de-duplication: 7,106.
+  Validation eval rows after restart de-duplication: 711.
+  Train loss first: 2.707014 at step 1.
+  Train loss final raw: 0.419002 at step 7,106.
+  Train loss final EMA: 0.591297.
+  Validation loss first: 2.261067 at step 10.
+  Validation loss final: 0.646182 at step 7,106.
+  Validation loss minimum: 0.644361 at step 6,780.
+  Cubic sample count: 40 points on the overlapping step range 10 to 7,106.
+  Max forbidden-language marker average in telemetry: 0.000000.
+
+[figure artifacts]
+Command:
+  rtk file figures/convergence_plot.eps figures/convergence_plot.pdf agent-first-canonical-code.pdf
+Result:
+  OK figures/convergence_plot.eps is EPS Level 3.
+  OK figures/convergence_plot.pdf is a 1-page vector PDF.
+  OK agent-first-canonical-code.pdf is a PDF 1.7 document.
+Source note:
+  figures/make_convergence_plot.py generated the vector EPS/PDF artifacts from copied raw logs, not reconstructed anchors.
+  The figure caption states that the vector figure is generated from raw per-step training logs, evaluation telemetry, and a lower cubic-resampled split.
+
+[unresolved scan]
+Command:
+  rtk rg -n "TODO|FIXME|PLACEHOLDER|unresolved|citation needed|\\?\\?" agent-first-canonical-code.tex sections/*.tex compression_catalog.tex references.bib
+Result:
+  OK no matches.
+
+[citation/log scan]
+Command:
+  rtk rg -n "undefined|Citation.*undefined|LaTeX Warning" agent-first-canonical-code.log
+Result:
+  OK no matches.
+
+[acronym/internal voice scan]
+Command:
+  rtk rg -n "AFCF|Agent-First Canonical Form|DTO|MFDL|MoE|SWE-Rebench|CoderForge|IaC|RBAC|ABAC|JWT|CRUD|HPC" agent-first-canonical-code.tex sections/*.tex compression_catalog.tex references.bib
+Result:
+  OK no matches.
+
+[known non-fatal layout notes]
+LaTeX reports underfull hbox/vbox warnings in dense IEEE columns, primarily in compact estimate lines and catalog paragraphs.
+Command:
+  rtk rg -n "Overfull" agent-first-canonical-code.log
+Result:
+  OK no matches.
+No undefined citations, unresolved references, or build failures remain.
+
+------------------------------------------------------------
+v6 hardening receipt
+Thu May 28 10:47:08 MDT 2026
+
+[scope]
+Implemented skeptical-reviewer hardening pass:
+- added claim-status macros and claim ledger
+- reduced abstract numeric density and removed raw-equivalent throughput language
+- framed primary stack as versioned P_app^2026 profile
+- added foundry legal/provenance dispositions and canonical training object schema
+- strengthened behavior preservation with declared contracts, normalized score, P0--P5 tiers, weak-oracle warning, and compatibility ghosts
+- renamed empirical section as preliminary learnability/stack-adherence evidence with pilot config and limits tables
+- added compression accounting protocol and formal MFDL frontier
+- added reasoning/economics break-even equation
+- added MoE router metrics
+- centered same-model raw-vs-canonical evaluation and contamination-aware tiers
+- added risks/threat-model section
+- moved full 30-domain catalog out of main build; main paper now contains a compact frontier summary and compression_catalog.tex is supplemental source
+- expanded future vision with behavior IR, typed change algebra, verification markets, and agent-native software OS
+- rewrote conclusion to lead with what is not proven and end on no accidental software
+
+[reference verification]
+Verified new citation sources from primary/official pages before use:
+- arXiv: QLoRA 2305.14314, UTBoost 2506.09289, SWE-rebench 2505.20411, SWE-smith 2504.21798
+- official pages: OpenAI SWE-bench Verified critique, SPDX overview, CycloneDX, OpenTelemetry semantic conventions, Open Policy Agent docs
+
+[build]
+Command:
+  rtk latexmk -pdf -interaction=nonstopmode -halt-on-error agent-first-canonical-code.tex
+Result:
+  OK build completed; agent-first-canonical-code.pdf written.
+
+[pdfinfo]
+Command:
+  rtk pdfinfo agent-first-canonical-code.pdf
+Result:
+  Pages: 19
+  PDF version: 1.7
+  File size: 402414 bytes
+
+[unresolved scan]
+Command:
+  rtk rg -n "TODO|FIXME|PLACEHOLDER|citation needed|unresolved|\\?\\?" agent-first-canonical-code.tex sections/*.tex compression_catalog.tex references.bib
+Result:
+  OK no matches.
+
+[citation/reference scan]
+Command:
+  rtk rg -n "undefined|Citation.*undefined|Reference.*undefined|LaTeX Warning:.*(Citation|Reference)" agent-first-canonical-code.log
+Result:
+  OK no matches.
+
+[overclaim/stale-phrase scan]
+Command:
+  rtk rg -n "eight distinct|token-efficient|essentially 100|full functionality remains|exhausts|exhaustive|raw-equivalent" agent-first-canonical-code.tex sections/*.tex compression_catalog.tex
+Result:
+  OK no matches.
+
+[layout scan]
+Command:
+  rtk rg -n "Overfull" agent-first-canonical-code.log
+Result:
+  OK no matches.
+Command:
+  rtk rg -n "Underfull" agent-first-canonical-code.log
+Result:
+  Non-fatal underfull hbox/vbox warnings remain in dense IEEE tables and compact estimate lines.
+
+[chktex]
+Command:
+  rtk sh -lc 'if command -v chktex >/dev/null 2>&1; then chktex -q agent-first-canonical-code.tex sections/*.tex compression_catalog.tex; else echo chktex-not-installed; fi'
+Result:
+  chktex is installed and returned style-only warnings, mostly intersentence-spacing suggestions, label-spacing suggestions, and command-terminated-with-space warnings in tables/macros. No syntax/build blockers were identified.
+
+------------------------------------------------------------
+v8 final synthesis receipt
+Thu May 28 12:06:52 MDT 2026
+
+[scope]
+Implemented final synthesis from all tips/v8 paper attempts against v7 feedback:
+- created v8-scorecard.md with rubric, scores, and per-file feedback
+- kept current split paper as the final source layout
+- harvested mainly from tips/v8/agent_first_canonical_code_final_monolith.tex and tips/v8/agent_first_canonical_code_final_rewrite(2).tex
+- selectively used tips/v8/agent_first_canonical_code_final_rewrite(6).tex and tips/v8/agent_first_canonical_code_final_rewrite(4).tex for human-signal preservation, wrong-substrate framing, and no-accidental-software posture
+- updated title/metadata/visible author to Jepson Taylor, NeverHuman Research
+- rewrote abstract around wrong substrate, correct-change substrate, behavior dossiers/cells, semantic patch cells, proof lanes, reasoning digests, proof-carrying change objects, and scoped QLoRA evidence
+- strengthened introduction with bad-bargain framing, filtering-versus-porting distinction, and same-model raw/canonical proof spine
+- added human-code entropy and agent sprawl as first-class definitions
+- strengthened human-code entropy, behavior-cell, reasoning-compression, evaluation-gate, and conclusion language
+- did not edit tips/ sources, raw convergence CSVs, training logs, figure artifacts, or empirical claims
+
+[scorecard]
+Path:
+  /Users/bentaylor/code/cancan/v8-scorecard.md
+
+[build]
+Command:
+  rtk latexmk -pdf -interaction=nonstopmode -halt-on-error agent-first-canonical-code.tex
+Result:
+  OK build completed; agent-first-canonical-code.pdf written.
+
+[pdfinfo]
+Command:
+  rtk pdfinfo agent-first-canonical-code.pdf
+Result:
+  Title: No Accidental Software: Agent-First Canonical Code as a Correct-Change Substrate
+  Author: Jepson Taylor
+  Pages: 20
+  PDF version: 1.7
+  File size: 401099 bytes
+
+[citation/reference scan]
+Command:
+  rtk rg -n "undefined|Citation.*undefined|Reference.*undefined|LaTeX Warning:.*(Citation|Reference)" agent-first-canonical-code.log
+Result:
+  OK no matches.
+
+[unresolved scan]
+Command:
+  rtk rg -n "TODO|FIXME|PLACEHOLDER|citation needed|unresolved|\\?\\?" agent-first-canonical-code.tex sections/*.tex compression_catalog.tex references.bib v8-scorecard.md
+Result:
+  OK no matches.
+
+[overclaim/stale-phrase scan]
+Command:
+  rtk rg -n "eight distinct|token-efficient|essentially 100|full functionality remains|exhausts|exhaustive|raw-equivalent" agent-first-canonical-code.tex sections/*.tex compression_catalog.tex
+Result:
+  OK no matches.
+
+[layout scan]
+Command:
+  rtk rg -n "Overfull" agent-first-canonical-code.log
+Result:
+  OK no matches after reflowing the benchmark tuple in sections/12_assumption_h_evaluation.tex.
+Known residual warnings:
+  Underfull hbox/vbox warnings remain in dense IEEE tables, compact numeric ranges, and code-like tuple entries.
+
+[chktex]
+Command:
+  rtk bash -lc 'if command -v chktex >/dev/null 2>&1; then chktex -q agent-first-canonical-code.tex sections/*.tex compression_catalog.tex; else echo chktex-not-installed; fi'
+Result:
+  chktex returned style-only warnings, primarily intersentence-spacing suggestions, label-spacing suggestions, punctuation-around-quotes suggestions, and command-terminated-with-space warnings in tables/macros. No syntax/build blockers were identified.
+
+[archive]
+Command:
+  rtk bash -lc 'cd /Users/bentaylor/code/cancan && { find . -type f \( -name "*.tex" -o -name "*.md" \) -print; find tips/v7 -maxdepth 1 -type f -name "*.txt" -print; } | sort -u > /tmp/cancan_final_sources_manifest.txt && tar -czf "$HOME/Desktop/cancan-final-paper-sources-2026-05-28.tar.gz" -T /tmp/cancan_final_sources_manifest.txt'
+Result:
+  OK archive created.
+Archive path:
+  /Users/bentaylor/Desktop/cancan-final-paper-sources-2026-05-28.tar.gz
+Archive size:
+  704.9K
+Manifest count:
+  45 files
+Archive contents include:
+  agent-first-canonical-code.tex
+  compression_catalog.tex
+  outside_agent_summary.md
+  sections/*.tex
+  tips/v8/*.tex
+  tips/v7/*.txt
+  v8-scorecard.md
+
+============================================================
+Paper revision receipts - No-Accident Horizon pass
+Date: 2026-05-28
+
+[scope]
+- Removed all paper-source and bibliography mentions of jankurai/Jankurai.
+- Removed concrete primary-stack framing from thesis sections and replaced it with a versioned limited-stack product profile.
+- Kept NeverHuman Research as the author affiliation, but removed NeverHuman from PDF keywords and IEEE keywords.
+- Added sections/14c_no_accident_horizon.tex before the conclusion.
+- Added figures/make_no_accident_horizon_plot.py and generated:
+  figures/no_accident_horizon.pdf
+  figures/no_accident_horizon.eps
+- Updated the abstract, conclusion, role/MoE framing, compression catalog, and bibliography.
+- Did not edit tips/ source drafts.
+
+[pre-edit receipts]
+Commands:
+  rtk shasum -a 256 agent-first-canonical-code.tex sections/*.tex compression_catalog.tex references.bib > paper-preedit-sha256.txt
+  rtk rg -n "jankurai|Jankurai|Rust|Vite|TypeScript|React|PostgreSQL|Docker|canonstack|NeverHuman" agent-first-canonical-code.tex sections/*.tex compression_catalog.tex references.bib > paper-preedit-brand-scan.txt
+Result:
+  OK receipts written before edits.
+
+[plot]
+Command:
+  rtk python3 figures/make_no_accident_horizon_plot.py
+Result:
+  OK generated vector PDF and EPS.
+Artifacts:
+  figures/no_accident_horizon.pdf
+  figures/no_accident_horizon.eps
+
+[build]
+Command:
+  rtk latexmk -pdf -interaction=nonstopmode -halt-on-error agent-first-canonical-code.tex
+Result:
+  OK build completed; agent-first-canonical-code.pdf written.
+
+[pdfinfo]
+Command:
+  rtk pdfinfo agent-first-canonical-code.pdf
+Result:
+  Valid PDF, 36 pages, PDF version 1.7.
+  Title preserved.
+  Author: Jepson Taylor.
+  Keywords no longer include NeverHuman.
+
+[branding scan]
+Command:
+  rtk rg -n "jankurai|Jankurai" agent-first-canonical-code.tex sections/*.tex compression_catalog.tex references.bib
+Result:
+  OK no matches.
+
+[stack-specific scan]
+Command:
+  rtk rg -n "Rust|Vite|TypeScript|React|PostgreSQL|Docker|canonstack" agent-first-canonical-code.tex sections/*.tex compression_catalog.tex
+Result:
+  OK no matches.
+
+[citation/reference health]
+Command:
+  rtk rg -n "undefined|Citation.*undefined|Reference.*undefined|LaTeX Warning:.*(Citation|Reference)" agent-first-canonical-code.log
+Result:
+  OK no matches.
+
+[placeholder scan]
+Command:
+  rtk rg -n "TODO|FIXME|PLACEHOLDER|citation needed|unresolved|\\?\\?" agent-first-canonical-code.tex sections/*.tex compression_catalog.tex references.bib
+Result:
+  OK no matches.
+
+[layout scan]
+Command:
+  rtk rg -n "Overfull" agent-first-canonical-code.log
+Result:
+  OK no matches. Underfull hbox/vbox warnings remain in dense IEEE tables and compact numeric ranges.
+
+[chktex]
+Command:
+  rtk bash -lc 'if command -v chktex >/dev/null 2>&1; then chktex -q agent-first-canonical-code.tex sections/*.tex compression_catalog.tex; else echo chktex-not-installed; fi'
+Result:
+  chktex returned style-only warnings, mostly pre-existing label-spacing, intersentence-spacing, punctuation, and table macro warnings. No syntax/build blockers were identified.
+
+[post-edit receipts]
+Command:
+  rtk shasum -a 256 agent-first-canonical-code.tex sections/*.tex compression_catalog.tex references.bib figures/no_accident_horizon.* > paper-postedit-sha256.txt
+Result:
+  OK post-edit hashes written.
+
+[title refresh]
+Command:
+  rtk pdfinfo agent-first-canonical-code.pdf
+Result:
+  PDF title now reads: No Accidental Software: Agent-First Canonical Code, Entropy, and 30x--500x Lower Frontier-Model Requirements
+  Affiliation tagline removed.

@@ -1,0 +1,40 @@
+%% SECTION 12A: COST LEDGER AND FIELD TRIAL
+%% ============================================================
+\section{Cost Ledger and Field Trial Design}
+\label{sec:cost-ledger}
+
+The paper should be judged by one primary endpoint: \textbf{amortized cost per verified correct change}. A result that reduces source tokens but increases proof failures is a loss. A result that improves benchmark pass rate but increases reviewer burden is incomplete. A result that lowers token cost while increasing incident remediation is not a win. The ledger must include source, context, reasoning, and action tokens; serving infrastructure; verification; security and provenance work; tool runtime; wall time; human review; failed attempts; rollback work; downstream defect cost where measurable; and foundry amortization.
+
+\begin{equation}
+R_{\mathrm{change}}=\frac{C^{\mathrm{raw}}_{\Delta}+A^{\mathrm{raw}}_{\mathrm{foundry}}/N}{C^{\mathrm{canon}}_{\Delta}+A^{\mathrm{canon}}_{\mathrm{foundry}}/N},
+\end{equation}
+where $A_{\mathrm{foundry}}$ is foundry construction and porting cost amortized across $N$ future changes. The aggressive case is impossible if the foundry never amortizes; the conservative case can be true even while the foundry is still expensive if repeated verified changes become much cheaper.
+
+\begin{table*}[t]
+\caption{Minimum Ledger for a Defensible Field Trial}
+\label{tab:cost-ledger}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.20\textwidth}X X}
+\toprule
+Ledger item & Raw repository measurement & Canonical repository measurement \\
+\midrule
+Discovery & Files opened, grep/search calls, dependency reads, architecture notes. & Cell lookups, profile docs read, reasoning digest reads. \\
+Context/pre-fill & Input tokens, cache hit rate, long-context latency. & Reduced context tokens, generated-zone manifests, cached profile/cell context. \\
+Planning/reasoning & Planning tokens, hidden reasoning budget where measurable, self-repair tokens, tool-selection deliberation. & Typed change recognition, bounded proof-plan tokens, no-reason lanes. \\
+Generation/action & Output tokens, patch size, tool calls, action tokens. & Typed operation, generated diff, proof object, rollback object. \\
+Serving & Dense-active or MoE cost/token, token/sec, memory, batching, utilization. & Matched-quality canonical specialist serving ledger plus verification overhead. \\
+Verification & Test commands, failed lanes, log interpretation, flaky reruns. & Standard proof-lane receipts, classified failures, deterministic replay. \\
+Security/provenance & SBOM, license/provenance review, secret scan, policy checks. & Carried metadata, transformation receipts, governed policy gates. \\
+Review & Reviewer comments, review minutes, rework cycles. & Intent audit, proof receipt audit, residual novelty audit. \\
+Reliability & Escaped defects, incident tickets, rollback time. & Runtime invariant violations, negative-memory updates, rejected cells. \\
+Amortization & None or local scripts only. & Foundry cost spread over future changes, repos, profiles, and cells. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+The first field trial should avoid the common benchmark trap of measuring only task success. It should choose 20--50 production-like repositories with known issue lineage and hidden reviewer rubrics, port each into the canonical substrate, and run arms A--D from Table~\ref{tab:evalarms}. The decisive result is not that the canonical specialist wins. The decisive result is that the same broad model in arm B becomes cheaper and more reliable than arm A. That isolates substrate value from model value. Then arm C tests specialist training, and arm D tests behavior-cell amortization.
+
+The paper should publish every failure. Failed ports reveal weak behavior oracles. Compatibility ghosts reveal hidden contracts. Non-preserved behavior reveals product decisions. Negative examples become training material. The foundry should not hide these cases; it should classify them. A canonical corpus with honest rejected dispositions is more valuable than a clean-looking corpus that silently drops behavior.
+
+%% ============================================================

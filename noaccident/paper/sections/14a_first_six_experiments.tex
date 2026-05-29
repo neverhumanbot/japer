@@ -1,0 +1,30 @@
+%% SECTION 14A: FIRST SIX EXPERIMENTS
+%% ============================================================
+\section{The First Six Experiments That Decide the Thesis}
+\label{sec:first-six-experiments}
+
+The paper becomes stronger if it stops asking readers to believe a grand end state and instead offers a near-term kill chain. The first decisive program should be small enough to run before a full foundry exists and strong enough that a negative result hurts.
+
+\begin{table*}[t]
+\caption{Six Experiments That Convert the Thesis into Evidence}
+\label{tab:first-six-experiments}
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.14}
+\begin{tabularx}{\textwidth}{p{0.18\textwidth}X X}
+\toprule
+Experiment & Pass condition & Fails the thesis if \\
+\midrule
+Same-model substrate ablation & A broad frontier or strong open model solves paired canonical tasks with materially fewer files, tokens, tool calls, failed loops, and reviewer comments than raw tasks. & Canonical repositories look cleaner but do not reduce search work or accepted-change cost. \\
+Training tokens to accepted-change target & Same model family reaches fixed accepted-change quality with fewer canonical tokens than raw tokens, with confidence intervals. & Representation compression does not become sample-efficiency gain. \\
+Reasoning/tool/retry reduction & Paired canonical tasks show fewer planning tokens, hidden reasoning tokens where measurable, tool calls, invalid edits, proof failures, validation reruns, and retries. & The model spends the same search budget despite the canonical substrate. \\
+Foundry behavior preservation & Ports survive hidden tests, fuzzing, mutation tests, replay, migration checks, security negatives, and human adjudication. & Canonicalization passes easy tests while losing compatibility ghosts or security behavior. \\
+Cost per verified correct change & Porting, proof, governance, serving, verification, review, and maintenance costs are repaid by repeated accepted-change savings. & Foundry cost or verification overhead erases downstream economics. \\
+Specialist versus broad model & A canonical specialist matches or beats a broad model on supported canonical work at lower all-in cost. & Supported-domain specialization fails to improve accepted-change quality, speed, or cost after corrections. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+These experiments also protect the paper from its own ambition. The 150$\times$--1,000$\times$ story is not the starting claim; it is the long-horizon envelope after cells, proof lanes, negative memory, and behavior IR mature. The starting claim is harsher and cleaner: if same-model raw/canonical ablation does not produce obvious cost and search-work savings, the training-token moonshot should not be believed.
+
+%% ============================================================

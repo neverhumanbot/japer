@@ -1,0 +1,72 @@
+%% SECTION 10: ASSUMPTION F - ECONOMICS
+%% ============================================================
+\section{Assumption F: Training and Inference Economics}
+
+\textbf{Assumption F: Canonical code reduces required training data, active inference compute, failed repairs, and review burden enough to lower cost per verified correct change.}
+
+Training compute for dense transformers is commonly approximated as
+\begin{equation}
+  C_{\text{train}} \approx 6ND,
+\end{equation}
+where $N$ is parameter count and $D$ is training tokens~\cite{kaplanScaling,hoffmannChinchilla}. The canonical program may attack both terms, but that remains a scaling-curve hypothesis. It should be stated as paired tokens-to-target-accuracy, not as a naked training-speed claim. At fixed hardware tokens/s, tokens-to-target reduction is also training-time reduction; equivalently, physical tokens/s become raw-corpus-equivalent tokens/s multiplied by $R_{\text{train}}$. A defensible central target is 30$\times$--150$\times$ lower tokens-to-target capability under successful paired scaling curves, with additional savings from lower active inference, fewer reasoning/tool tokens, fewer failed repair loops, and lower review burden.
+
+For inference, the dense-active speed claim is deliberately narrower than the verified-change claim. If a 100B--120B dense canonical specialist reaches the same accepted-change quality as a 1T-class dense-active baseline on supported canonical work, then first-order active-parameter accounting implies roughly 8.3$\times$--10$\times$ more same-hardware aggregate token/sec and roughly 88\%--90\% lower dense-active infrastructure cost/token before memory, batching, context, and utilization corrections. That claim does not apply unchanged to sparse mixture-of-experts systems: a 1T-total MoE with 32B active parameters may already be cheap per token, so the canonical MoE claim must be measured through router entropy, expert specialization, and end-to-end cost per verified change rather than nominal total parameter count.
+
+The all-in economics of canonical software intelligence are:
+\begin{equation}
+\begin{split}
+ C_{\text{correct}} ={}&
+ A_{\text{foundry}} + C_{\text{train}} + C_{\text{infer}} +
+ C_{\text{tools}} \\
+&+ C_{\text{verify}} + C_{\text{review}} +
+ C_{\text{failed}} + C_{\text{maint}}.
+\end{split}
+\end{equation}
+The foundry is a capital expenditure on the training substrate. Its cost must be amortized across repeated model runs, served tokens, downstream agent tasks, security repairs, and reusable certified cells. Active inference compute includes context tokens, reasoning tokens, action/tool tokens, verification-log interpretation, and repair attempts. The strongest business metric is therefore cost per verified correct change, not raw token price. The central specialist scenario is a matched-quality conditional, not a proven empirical result: if the 100B--120B model fails to match broad-model accepted-change quality on supported canonical tasks, then the dense-active speed and cost/token scenario does not activate.
+
+The simplest break-even condition is:
+\begin{equation}
+k^*=\frac{C_{\mathrm{foundry}}}{C_{\mathrm{raw/change}}-C_{\mathrm{canon/change}}}.
+\end{equation}
+Here $k^*$ is the number of accepted changes required to repay the foundry cost under a fixed task distribution. If the canonical path does not reduce same-quality change cost, or if verification/governance cost erases the savings, the economic claim fails even when source and action-space metrics improve.
+
+\begin{table*}[t]
+\caption{Cost Components Hidden by Raw Token Pricing}
+\label{tab:costcomponents}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.20\textwidth}X X}
+\toprule
+Component & Raw repository burden & Canonical compression route \\
+\midrule
+Training compute & Long-tail languages, frameworks, layouts, generated drift, and weak labels. & Paired scaling curves on canonical training objects and behavior graphs. \\
+Active inference compute & Long context reads, architecture rediscovery, exploratory tool use. & Reasoning digests, file grammar, generated-zone manifests, proof-carrying change objects. \\
+Tool calls & Search, test discovery, command guessing, dependency archaeology. & Proof lanes, repository policy, dependency closure, standard receipts. \\
+Verification cost & Ad hoc commands, flaky gates, unclear migration safety. & Deterministic proof lanes, migration replay, rollback receipts, policy checks. \\
+Review burden & Reviewers reconstruct intent and proof from a raw diff. & Intent, typed diff, security delta, test delta, receipts, and rollback plan in one object. \\
+Failed repairs & Invalid edits, generated-file modifications, unsafe migrations, repeated test failures. & Constrained edit grammar, semantic patch cells, negative-path curriculum. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\begin{table*}[t]
+\caption{Canonical Model Training Ladder}
+\label{tab:ladder}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.16\textwidth}X X}
+\toprule
+Stage & Model/data configuration & Purpose \\
+\midrule
+1B--3B scout & Canonical syntax, file grammar, naming, schema, and build command data. & Verify that the standard is learnable under small-model budgets. \\
+7B--14B repairer & Messy-to-canonical traces, generated-boundary repairs, migrations, dependency updates. & Measure how much porting logic fits in small specialists. \\
+32B--70B system model & Full canonical repositories with long-context tasks, UI/product changes, DB changes, and security fixes. & Establish capability curve before 100B-class runs. \\
+100B--120B central model & Full canonical corpus, behavior fixtures, profile routing, and long-horizon planning data. & Central target for matching broad dense-active coding models on canonical work. \\
+Mixture-of-experts canonical frontier & Experts for product surface, service/core, durable data and migration, contracts/generated artifacts, security/policy, infra/release, verifier/repair, and porting. & Reduce active compute and improve router precision. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\textbf{Falsification:} Assumption F fails if empirical scaling curves show no reduction in tokens to target canonical accuracy, if active inference and reasoning tokens do not fall on paired change tasks, if the 8.3$\times$--10$\times$ dense-active token/sec scenario disappears after memory, batching, context, utilization, verification, or quality corrections, if a canonical specialist needs more than 50\% of broad dense-active parameters to match broad-model accuracy on held-out canonical tasks, or if foundry cost does not amortize within 3$\times$ the initial investment.
+
+%% ============================================================

@@ -1,0 +1,64 @@
+%% SECTION 14: FUTURE VISION
+%% ============================================================
+\section{Future Vision: Minimum Viable Novelty}
+\label{sec:futurevision}
+
+The long-term prize is not a smaller corpus of cleaner code. It is a post-source-code substrate in which routine software is compiled from compact intent, behavior cells, invariants, policies, proofs, provenance, runtime evidence, and reusable reasoning. Source code remains useful, inspectable, and deployable, but it becomes one generated projection of a deeper object.
+
+This is the extreme form of \mfdl{}: the system should contain only \textbf{minimum viable novelty}. Humans still decide product goals, legal obligations, risk tolerance, taste, and genuinely new domain behavior. But all routine coding decisions---language, framework, folder, generated boundary, migration idiom, dependency wrapper, proof lane, review evidence, rollback form, and repair strategy---move out of human discretion and into governed substrate law.
+
+\begin{table*}[t]
+\caption{Three Build-Out Stages for the Canonical Substrate}
+\label{tab:futurestages}
+\centering
+\scriptsize
+\begin{tabularx}{\textwidth}{p{0.13\textwidth}X X X}
+\toprule
+Stage & Substrate built & Main compression denominator & Target range \\
+\midrule
+1. Canonical repo & Primary/secondary profiles, file grammar, generated zones, proof lanes, repository policy. & Training tokens, active context, tool discovery, invalid edits. & \conrange{3$\times$--10$\times$ training; 2$\times$--8$\times$ inference/reasoning/tool; 2$\times$--5$\times$ verified-change cost.} \\
+2. Correct-change substrate & Behavior cells, semantic patch cells, proof-carrying change objects, reasoning digests, negative corpus. & Action space, repair loops, review burden, repeated reasoning. & 30$\times$--150$\times$ training; 10$\times$--100$\times$ inference/reasoning/tool; 10$\times$--50$\times$ verified-change cost. \\
+3. Behavior genome & Behavior IR, software genome, runtime-derived invariants, agent-native OS, verification markets, evolutionary foundry. & Routine-domain training, action/reasoning/search space, institutional memory, non-novel implementation. & \aggrange{150$\times$--1,000$\times$ routine-domain training; 100$\times$--10,000$\times$ inference/action/reasoning; 50$\times$--1,000$\times$ verified-change cost.} \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+The defensible path starts with facts already visible in the field. Public software archives are massive and structured; Software Heritage reported over 27 billion unique source files from 421 million projects in its 2025 activity report~\cite{softwareHeritage2025}. Raw code is repetitive and predictable~\cite{hindleNaturalness}; large clone studies and notebook studies show heavy duplication~\cite{dejavu2017,jupyterClones2020}. Product-line engineering has long treated software families as managed commonality plus variability~\cite{clementsProductLines}. LLVM, MLIR, e-graphs, OpenAPI, Protocol Buffers, and Coccinelle are all partial precedents for moving from raw text toward intermediate representations, generated projections, equivalence classes, contracts, and semantic transformations~\cite{lattnerLLVM,lattnerMLIR,eggEgraphs,openapi31,protobufOverview,coccinelle}. Proof-carrying code, CompCert, seL4, and SLSA show that evidence and provenance can become first-class artifacts rather than after-the-fact paperwork~\cite{proofCarryingCode,compcertManual,sel4Proofs,slsa}.
+
+\textbf{Software genome.} The foundry should mine raw repositories, issues, tests, traces, incidents, dependency histories, and repair patches into a global atlas of behavior families: authentication, tenant boundaries, resource lifecycle, billing, uploads, jobs, webhooks, audit, observability, migrations, notifications, permissions, retries, cache invalidation, and product workflows. The output is not a snippet library. It is a behavior gene bank: canonical intent, variants, anti-examples, contracts, tests, proof templates, repair memories, provenance, legal transformations, and generated implementations. DreamCoder-style library learning supports the general idea that learned abstractions can shorten future program search~\cite{dreamcoder}; the canonical foundry applies that logic to production software behavior.
+
+\textbf{Behavior IR.} The substrate needs an application-level intermediate representation above source code. A behavior IR represents entities, state machines, policies, permissions, effects, external contracts, migration semantics, observability, runtime SLOs, and proof obligations. It lowers into governed service code, typed product surfaces, durable-data operations, UI, docs, tests, dashboards, deployment manifests, and formal/specification artifacts. This is the product-software analogue of compiler IR: agents edit semantic deltas, not arbitrary file trees.
+
+\textbf{Typed change algebra.} Routine changes should become typed operations with known proof obligations:
+\begin{table}[t]
+\caption{Typed Change Algebra Examples}
+\label{tab:typed-change-algebra}
+\centering
+\scriptsize
+\begin{tabularx}{\columnwidth}{p{0.42\columnwidth}X}
+\toprule
+Operation & Parameters \\
+\midrule
+\texttt{AddField} & \texttt{User, timezone, nullable=false, backfill=UTC} \\
+\texttt{AddPermissionEdge} & \texttt{actor=Manager, action=ApproveInvoice} \\
+\texttt{SplitTable} & \texttt{source=Events, target=AuditEvents} \\
+\texttt{AddIdempotencyKey} & \texttt{endpoint=WebhookDispatch} \\
+\texttt{RotateSecret} & \texttt{provider=Stripe} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+Each operation expands into schema diff, migration plan, generated client updates, UI state changes, security review, observability deltas, tests, rollback, and receipts.
+
+\textbf{Reasoning compiler.} The most important future gain is cognitive amortization. Successful and failed trajectories should compile into reusable plans: issue type to affected cells, repository profile to legal actions, failure signature to repair strategy, migration class to proof obligations, dependency update to compatibility checks. Current reasoning and acting methods show why intermediate reasoning helps~\cite{chainOfThought,selfConsistency,react}; the canonical future is to spend that reasoning once, store it as substrate law, and execute known work through no-reason or bounded-reason lanes.
+
+\textbf{Proof-carrying changes.} Future agents should not submit raw diffs. They should submit typed change objects containing intent, affected behavior cells, semantic patch, generated source diff, schema diff, migration diff, tests, security delta, proof obligations, receipts, rollback plan, and provenance/license metadata. Human review shifts from reconstructing intent from text to auditing changed obligations, assumptions, and residual novelty.
+
+\textbf{Evolutionary foundry.} Once behavior cells have evaluators, cells can improve continuously. Agents propose variants; tests, proofs, fuzzers, benchmarks, security scanners, and runtime monitors select survivors. AlphaDev and FunSearch are narrow but important evidence that evaluator-guided program search can discover useful algorithms beyond ordinary human implementation~\cite{alphadev,funsearch}. The canonical version extends the loop to product behavior: better retries, indexes, migrations, policy encodings, UI state machines, rollback paths, and proof envelopes.
+
+\textbf{Runtime and negative memory.} The substrate should learn from production traces, incidents, rejected patches, reverted commits, review objections, failed migrations, security bugs, flaky tests, and rollbacks. Runtime behavior reveals implicit compatibility contracts; negative examples become forbidden plans, red-team tests, proof obligations, and repair memories. This is how the system avoids destroying hidden behavior while still compressing historical accident.
+
+\textbf{Verification markets and agent-native software OS.} A mature substrate needs independent evaluators: proof-lane providers, fuzzing services, conformance suites, cell auditors, provenance validators, and runtime monitors competing on evidence quality. The agent-facing operating system is then not a terminal plus repository checkout. It is a governed environment exposing typed changes, behavior cells, proof lanes, policy decisions, provenance receipts, runtime traces, and negative memory as native system calls.
+
+The extreme endpoint is not zero code and not zero engineering judgment. It is \textbf{no accidental software}: no accidental architecture, no accidental dependency choice, no accidental CI, no accidental migration ritual, no accidental security policy, no accidental review burden, and no repeated reasoning where the substrate has already learned the law. The human and agent frontier moves to irreducible novelty.
+
+%% ============================================================

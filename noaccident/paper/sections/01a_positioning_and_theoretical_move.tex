@@ -1,0 +1,51 @@
+%% SECTION 1A: POSITIONING AND THEORETICAL MOVE
+%% ============================================================
+\section{Positioning: What Existing Work Proves, and What It Does Not}
+
+Adjacent work strongly supports the premise that software contains compressible regularity, but it does not yet prove the thesis in this paper. Naturalness results show that code is unusually repetitive and predictable~\cite{hindleNaturalness}; clone studies show massive exact and near-exact duplication in public repositories~\cite{dejavu2017,jupyterClones2020}; modern code LLMs show that trillion-token corpora can learn broad programming competence~\cite{starcoder2,qwenCoder,deepseekCoder,kimiK2}; and repository-level benchmarks show that agents can now operate over real projects, although contamination, weak tests, and distribution mismatch make static benchmarks fragile~\cite{swebench,swebenchVerified,sweRebench,utboost}. This paper's stronger claim is different: the target distribution itself is wrong. The right move is not only higher-quality filtering, more synthetic tasks, or larger context windows. It is to transform the code archive into a canonical behavior-and-change substrate before training.
+
+The strongest allies are not only code LLM papers. They are program-analysis and programming-language systems that already separate meaning from textual accident. OpenAPI and Protocol Buffers show that one source of truth can generate multiple projections of an interface~\cite{openapi31,protobufOverview}. MLIR shows that domain-specific dialects can lower through reusable compiler infrastructure rather than forcing every domain into one flat representation~\cite{lattnerMLIR}. Coccinelle shows that semantic patches can encode collateral evolutions more compactly than hand-written diffs~\cite{coccinelle}. CodeQL shows that code can become queryable semantic data for large-scale vulnerability reasoning~\cite{codeql}. E-graphs show how equivalence classes of programs can be represented compactly for rewrite search~\cite{eggEgraphs}. DreamCoder and library-learning systems show that repeated programs can be compressed into reusable abstractions that improve search~\cite{dreamcoder}. Agent-first canonical code combines these threads into one substrate-level bet: learn from human software history, but do not force future agents to imitate its incidental coordinates.
+
+This positioning also defines the paper's burden of proof. A reviewer should not accept the claim because the standard is elegant. The claim earns belief only if paired experiments show lower cost per verified correct change, lower tokens-to-target accepted-change capability, lower action branching, preserved behavior at declared evidence tiers, and lower infrastructure cost/token where model-size claims are invoked. Conversely, if canonicalization removes useful implementation diversity, harms robustness, fails to amortize foundry cost, or merely moves entropy into metadata, the thesis should be rejected or narrowed.
+
+\section{The Missing Theoretical Move: Train on the Quotient, Not the Orbit}
+\label{sec:quotient}
+
+The deepest version of the thesis is not that code can be standardized. It is that software learning should be quotiented by behavior. Let $P$ be the set of source-level programs, repositories, configurations, schemas, tests, and deployment artifacts. Let $O$ be a declared behavior oracle: public tests, hidden tests, trace equivalence, API contracts, migration replay, security policies, performance envelopes, accessibility checks, runtime invariants, and accepted incompatibility dispositions. Define an equivalence relation
+\begin{equation}
+p_1 \sim_O p_2 \quad \Longleftrightarrow \quad O(p_1)=O(p_2)
+\end{equation}
+up to the declared preservation tier. The human software corpus samples many points in the syntactic orbit $[p]_O$: Python/FastAPI, Java/Spring, Node/Express, Ruby/Rails, Go/Gin, C\#/ASP.NET, hand-written DTOs, generated DTOs, imperative migrations, declarative migrations, bespoke CI, and ad hoc review rules can all encode the same product behavior. A raw code model learns both the quotient $P/{\sim_O}$ and the orbit noise inside each class. A canonical foundry instead learns a versioned normal-form map
+\begin{equation}
+\kappa: [p]_O \rightarrow (s,e,r,d),
+\end{equation}
+where $s$ is the shortest accepted canonical specification, $e$ is the evidence bundle, $r$ is the renderer/generator, and $d$ is the disposition ledger for non-preserved behavior, legal risk, security defects, or domain mismatch.
+
+This distinction clarifies why the proposal is more ambitious than deduplication. Deduplication removes copied files. Near-deduplication improves pretraining quality by removing repeated text. Canonical quotienting removes degrees of freedom that should not be in the model's target language at all. The model is no longer asked to learn every valid implementation orbit; it is asked to learn canonical representatives plus the proof obligations that make the representative behaviorally acceptable.
+
+\begin{table*}[t]
+\caption{From Raw-Code Imitation to Behavior-Quotient Learning}
+\label{tab:quotient}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.18\textwidth}X X}
+\toprule
+Layer & Raw-code learning target & Canonical quotient target \\
+\midrule
+Representation & All languages, frameworks, layouts, generated artifacts, dependency rituals, and local repair customs. & One governed representative per behavior class, plus explicit profile escape hatches. \\
+Generalization & Infer semantics through many surface encodings. & Learn behavior primitives, typed deltas, proof obligations, and legal edit forms. \\
+Search & Explore file trees and patch locations in a high-entropy orbit. & Route to cells, owned files, generated truth, and proof lanes. \\
+Verification & Interpret arbitrary tests, logs, CI conventions, and reviewer expectations. & Consume structured proof receipts and behavior-oracle deltas. \\
+Memory & Remember past trajectories as chat/log traces. & Compile successful and failed trajectories into reasoning digests, semantic patch cells, and negative memory. \\
+Economic unit & Patch accepted after ad hoc reasoning and review. & Proof-carrying change accepted under a cost ledger. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+The theory also explains why the proposed breakthrough can coexist with modern scaling laws. Scaling-law work implies that data quality and token efficiency matter; Chinchilla-style compute-optimal training links model size and training tokens under a compute budget~\cite{hoffmannChinchilla}. Canonical code does not repeal scaling laws. It changes the data distribution so that a token is closer to irreducible behavior and farther from accidental representation. If the canonical token stream has lower conditional entropy and fewer irrelevant action branches, the same physical training and inference budget should buy more verified software capability.
+
+A useful analogy is compiler IR. LLVM and MLIR do not eliminate source languages; they provide structured intermediate forms that make analysis, lowering, optimization, and reuse tractable~\cite{lattnerLLVM,lattnerMLIR}. The canonical-code claim is that product software needs a higher IR: entities, permissions, policies, effects, state machines, migrations, API contracts, observability, proof obligations, rollout envelopes, and runtime invariants. Source code is then a projection, not the source of truth. Coccinelle's semantic patches show that many source changes are better represented as semantic transformations than text diffs~\cite{coccinelle}; e-graphs show that equivalence classes can be exploited computationally~\cite{eggEgraphs}. The missing leap is to make these ideas the training substrate for software agents.
+
+\textbf{The falsifiable prediction:} after controlling for behavior and task, canonical quotient learning should reduce entropy, search, and proof cost before any new specialist model is trained. If a broad frontier model does not become cheaper and more reliable when the same software lineage is presented through the canonical representative, the quotient thesis is wrong.
+
+%% ============================================================

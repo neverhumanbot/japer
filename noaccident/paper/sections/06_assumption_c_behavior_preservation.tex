@@ -1,0 +1,65 @@
+%% SECTION 6: ASSUMPTION C - BEHAVIOR PRESERVATION
+%% ============================================================
+\section{Assumption C: Behavior Preservation Under Declared Contracts}
+
+\textbf{Assumption C: Canonical ports can preserve, disposition, or explicitly reject behavior at a confidence level high enough for training.} This is the hardest assumption in agent-first canonical code. A canonical rewrite that silently deletes edge cases is not compression; it is corruption. Fully automatic behavior equivalence for arbitrary programs is not available in general; Rice's theorem is the theoretical warning label on any claim that a tool can decide nontrivial semantic properties for all programs~\cite{riceTheoremMIT}. The foundry therefore treats behavior evidence as part of the training object, not a best-effort annotation.
+
+Every canonical training object carries a preservation and divergence dossier: original tests, canonical tests, differential traces, API compatibility checks, UI replay where applicable, migration replay, security-negative cases, performance budgets for behavior that depends on latency or resource use, provenance/license records, accepted incompatibilities, compatibility ghosts, and rejected port paths. A canonical port is never behavior-preserving merely because tests pass; it is behavior-preserving only within a declared evidence envelope.
+
+The output is not binary pass/fail. It is graded behavior confidence for original artifact $o$ and canonical artifact $z$:
+\begin{equation}
+  B(o,z)=\sum_{i\in\mathcal{E}} w_i e_i(o,z),
+  \qquad 0\le e_i\le 1,\quad \sum_i w_i=1.
+\end{equation}
+Here $\mathcal{E}$ includes test agreement, differential execution coverage, migration and data-invariant replay, security-negative coverage, UI/API replay coverage, human acceptance for high-value cases, performance/SLO agreement where applicable, and provenance/license completeness.
+
+\begin{table*}[t]
+\caption{Behavior Preservation Dossier}
+\label{tab:behaviorpreservation}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.20\textwidth}X X}
+\toprule
+Evidence lane & What it catches & Canonical training use \\
+\midrule
+Original tests & Known intended behavior and regression expectations. & Positive evidence and weak-oracle metadata. \\
+Differential traces & Runtime behavior across original and ported artifacts. & Equivalence scoring and edge-case discovery. \\
+Migration replay & Data-shape, rollback, lock-budget, and invariant failures. & SQL/migration proof examples. \\
+Security negatives & Auth bypass, injection, secret leakage, unsafe defaults. & Labeled bad paths for refusal and repair training. \\
+UI/API replay & Browser, CLI, and API compatibility surfaces. & Product behavior fixtures. \\
+Human acceptance & High-value cases where automated tests are insufficient. & Gold labels and accepted-incompatibility manifests. \\
+Provenance/license & Legal and origin constraints. & Inclusion, exclusion, and attribution metadata. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+Compatibility ghosts are first-class. If downstream users depend on behavior that looks accidental---ordering, timing, error text, weak validation, legacy API quirks, migration side effects, or undocumented defaults---the foundry must either preserve it, encode it as a compatibility fixture, or record an accepted incompatibility signed by the relevant owner. Calling it accidental is not enough to delete it.
+
+The output is a preservation tier, not a blanket declaration of equivalence:
+
+\begin{table*}[t]
+\caption{Canonical Preservation Tiers}
+\label{tab:preservationtiers}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.10\textwidth}p{0.22\textwidth}X X}
+\toprule
+Tier & Name & Meaning & Training use \\
+\midrule
+P0 & Rejected / metadata-only & Unsafe, unlicensed, malicious, undispositioned, or behavior evidence is too weak. & Exclusion, quarantine metadata, negative examples only. \\
+P1 & Syntactic & Builds, formats, typechecks, or parses, but no behavior claim is made. & Low-weight syntax/profile examples only. \\
+P2 & Interface/test & Public interfaces are represented and original/canonical tests or fixtures pass. & Weak positive training with explicit weak-oracle label. \\
+P3 & Trace/contract & API, schema, migration, policy, compatibility ghosts, and negative cases match declared contracts and replay traces. & Standard product-app training target. \\
+P4 & Property/fuzz/differential & Generated, fuzzed, property-based, symbolic, mutation-tested, or production-derived inputs exercise critical paths. & Higher-confidence port and edge-case curriculum. \\
+P5 & Proof-backed & A formal or mechanized proof discharges specified invariants or semantic preservation obligations. & Certified cell, compiler/profile primitive, or critical dependency. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+The weak-oracle problem is explicit. Tests are evidence, not proof. SWE-bench-style patch evaluation can be distorted by insufficient tests and plausible-but-wrong patches; UTBoost found insufficient test cases and erroneous patches previously labeled as passed in SWE-bench-family evaluation~\cite{utboost}. Property-based testing, differential testing, compiler fuzzing, mutation testing, and symbolic execution are stronger evidence lanes, but they remain scoped evidence rather than universal equivalence~\cite{quickcheck,csmith,mutationTesting,kleeOSDI}. CompCert shows that semantic preservation can be a compiler contract rather than a slogan~\cite{compcertManual}. seL4 shows that proof-backed systems components are possible for security-critical kernels, while also making clear how much engineering work such proofs require~\cite{sel4Proofs}. The canonical foundry should use these methods where their cost is justified and reject overclaiming elsewhere.
+
+This section is intentionally early because behavior preservation is the trust anchor. The authorial claim that all human code is improvable does not mean all human code is disposable. It means every human artifact can be made more canonical if the behavior worth keeping is first identified, tested, replayed, and carried forward.
+
+\textbf{Falsification:} Assumption C fails if behavior confidence remains low, human review rejects core ports, security/migration regressions rise, or important edge behavior is routinely lost during canonicalization.
+
+%% ============================================================

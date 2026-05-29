@@ -1,0 +1,102 @@
+%% SECTION 2: DEFINITIONS
+%% ============================================================
+\section{Definitions and Claim Denominators}
+
+The paper separates public facts, preliminary measurements, near-term targets, central hypotheses, and moonshot targets.
+
+Human-code entropy is the residual representation uncertainty left after behavior, contracts, and execution environment are fixed:
+\begin{equation}
+\begin{aligned}
+H_{\mathrm{human}} ={}& H(\mathrm{representation} \mid \\
+&\mathrm{behavior},\mathrm{contracts},\mathrm{environment}).
+\end{aligned}
+\end{equation}
+A canonical substrate is useful only if it reduces this conditional entropy without erasing behavior evidence, safety constraints, provenance, compatibility ghosts, or deliberate diversity.
+
+We report the following distinct reductions:
+\begin{align}
+R_{\text{source}} &= \frac{\text{raw source tokens}}{\text{canonical source tokens}}, \\
+R_{\text{entropy}} &= \frac{H(\text{raw valid forms})}{H(\text{canonical valid forms})}, \\
+R_{\text{action}} &= \frac{\text{raw attempted/legal actions}}{\text{canonical legal actions}}, \\
+R_{\text{train}} &= \frac{\text{raw tokens to target accuracy}}{\text{canonical tokens to target accuracy}}, \\
+R_{\text{train-time}} &= \frac{\text{raw wall-clock to target accuracy}}{\text{canonical wall-clock to target accuracy}}, \\
+R_{\text{speed}} &= \frac{\text{raw wall-clock per verified change}}{\text{canonical wall-clock per verified change}}, \\
+R_{\text{cost/token}} &= \frac{\text{raw dense-active infrastructure cost/token}}{\text{canonical dense-active infrastructure cost/token}}, \\
+R_{\text{reason}} &= \frac{T^{\text{raw}}_{\text{reason+tool+plan+retry}}/\Delta}{T^{\text{canon}}_{\text{reason+tool+plan+retry}}/\Delta}, \\
+R_{\text{retry}} &= \frac{L^{\text{raw}}_{\text{failed proof/repair}}/\Delta}{L^{\text{canon}}_{\text{failed proof/repair}}/\Delta}, \\
+R_{\text{invalid}} &= \frac{A^{\text{raw}}_{\text{invalid edit}}/\Delta}{A^{\text{canon}}_{\text{invalid edit}}/\Delta}, \\
+R_{\text{cost}} &= \frac{\text{raw cost per verified correct change}}{\text{canonical cost per verified correct change}}.
+\end{align}
+Here $\Delta$ denotes an accepted change. $R_{\text{cost}}$ is the all-in version of the earlier $R_{\text{change}}$ notation, and $R_{\text{cost/token}}$ is only the dense-active serving denominator. At fixed accelerator throughput, $R_{\text{train-time}} \approx R_{\text{train}}$. Effective raw-corpus-equivalent training throughput is $S_{\text{eff}} = S_{\text{physical}}R_{\text{train}}$, so a 1M-token/s training run with a 10$\times$ canonical tokens-to-target reduction is measured as 10M raw-corpus-equivalent tokens/s against the same target capability.
+
+\begin{table*}[t]
+\caption{Core Definitions}
+\label{tab:definitions}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.22\textwidth}X}
+\toprule
+Term & Definition \\
+\midrule
+Canonical profile & A governed language-role, layout, naming, dependency, generated-boundary, data-truth, and validation configuration for a software class. The primary app profile is a \canonprofile{}: one maintained backend/core lane, one typed product-surface lane, one browser/product-shell lane, one durable-data lane, one schema/contract lane, and one build/deploy/proof envelope. Systems software uses approved secondary profiles or governed primitives. \\
+Canonical port & A behavior-preserving or behavior-dispositioned transformation from a human artifact into a canonical profile. \\
+Canonical training object & A machine-readable bundle: provenance, license status, original source, port disposition, behavior evidence, canonical artifact, rejected invalid paths, and validation results. \\
+Human-code entropy & Conditional representational uncertainty after behavior is fixed: the languages, frameworks, layouts, names, CI rituals, dependency choices, repository policies, and proof routes that vary without changing supported behavior. \\
+Agent sprawl & The inference-time expansion of context reads, reasoning tokens, tool calls, architecture discovery, invalid edits, proof-loop failures, and review burden caused by unconstrained human repositories. \\
+Canonical behavior cell & A named, versioned, proof-carrying software primitive: stable interface, schema, policy model, generated code, fixtures, tests, migration obligations, security negatives, repair memories, and known failure modes. \\
+Semantic patch cell & A typed, governed change archetype such as add field, migrate nullable to required, add permission edge, rotate secret, add idempotency key, split table, add audit trail, or upgrade dependency safely. \\
+Proof lane & A standard local or CI validation route: exact command, environment, required artifacts, log schema, and acceptance rule. \\
+Proof-carrying change object & The structured unit of accepted change: intent, affected cells, typed diff, schema diff, migration diff, test delta, security delta, proof obligations, lane receipts, rollback plan, and provenance/license metadata. \\
+Reasoning digest & A compact, versioned summary of known architecture, generated zones, proof routes, repair strategies, failure modes, rejected plans, compatibility ghosts, and prior proof objects for a repository, profile, or cell. \\
+Constrained edit grammar & The machine-checkable set of legal files, typed edits, schema operations, migration forms, dependency updates, proof lanes, and generated-zone protections available to an agent. \\
+Behavior intermediate representation & A product-level IR for entities, state machines, policies, permissions, effects, contracts, migrations, observability, proof obligations, and runtime constraints; source code is one generated projection. \\
+Software genome & The mined atlas of recurring behavior families, variants, invariants, tests, proofs, provenance, repair memories, and generated projections across raw software history. \\
+Minimum viable novelty & The irreducible product intent, domain fact, policy tradeoff, external constraint, or novel algorithm that remains after routine behavior, architecture, tests, proofs, dependencies, and deployment are generated or inherited. \\
+Canonical repository policy & A governed configuration for CI, branch protection, review, secrets, releases, ownership, generated zones, dependency updates, and deployment permissions. \\
+Behavior-equivalence class & The set of implementations that expose the same observable behavior, interfaces, security invariants, and migration guarantees. \\
+\mfdl{} & Minimum Functional Description Length: the shortest canonical specification plus proofs plus renderer needed to produce a working system. \\
+Cost per verified correct change & Total dollars, source/context/reasoning/action tokens, tool calls, wall time, failed loops, validation runs, and human review needed to produce an accepted proof-carrying behavior-preserving change. \\
+Dense-active infrastructure cost/token & Accelerator-side serving cost per generated or processed token under a specified active-parameter regime, context length, batch size, memory system, precision, and quality target; dense and MoE baselines must be reported separately. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+The 40$\times$--150$\times$ range belongs to effective token-space reduction ($R_{\text{entropy}}$); the 1,000$\times$--100,000$\times$ range belongs to action-space pruning ($R_{\text{action}}$); the 30$\times$--150$\times$ central range belongs to training-token efficiency ($R_{\text{train}}$); reasoning-token, retry-loop, invalid-edit, verified-change cost, and dense-active cost/token reductions belong to separate denominators ($R_{\text{reason}}$, $R_{\text{retry}}$, $R_{\text{invalid}}$, $R_{\text{cost}}$, $R_{\text{cost/token}}$). These do not multiply cleanly. Many overlap. The composite effect must be measured on paired raw/canonical corpora and reported as cost per verified correct change.
+
+\begin{table*}[t]
+\caption{Claim Status and Required Evidence}
+\label{tab:claim-status}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.22\textwidth}p{0.16\textwidth}X X}
+\toprule
+Claim & Status & Current evidence & Required evidence \\
+\midrule
+Canonical trajectories are learnable & \measured & QLoRA convergence on 64,088 translated trajectories and zero measured forbidden-language markers. & Replication across model sizes, held-out repositories, stronger profile-validity checks, and task success. \\
+Canonical repositories reduce same-model search cost & \targetclaim & Substrate design: file grammar, proof lanes, generated zones, and reasoning digests. & Paired raw/canonical tasks with identical model, issue lineage, hidden tests, and cost ledger. \\
+Behavior preservation is adequate for training & \centralclaim & Dossier and preservation-tier design. & Large paired ports with tiered tests, traces, contracts, fuzzing, differential replay, human review, and security/migration evidence. \\
+Training-token reduction & \centralclaim & Compression theory plus adjacent data-quality evidence. & Paired scaling curves to target accepted-change performance. \\
+Behavior-genome economics & \moonshotclaim & No direct measurement yet; proposed substrate architecture. & Cell coverage census, mature foundry, runtime negative memory, and verified-change cost curves after amortization. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\begin{table}[t]
+\caption{What This Paper Does Not Claim}
+\label{tab:notclaimed}
+\centering
+\footnotesize
+\begin{tabularx}{\columnwidth}{p{0.28\columnwidth}X}
+\toprule
+Not claimed & Boundary \\
+\midrule
+Universal stack destiny & The primary stack is a versioned product-app profile, not a permanent answer for all domains. \\
+Automatic equivalence & Tests, traces, and contracts are evidence; only proof-backed cells get proof-backed claims. \\
+Literal 100$\times$ source shrink & Large ranges refer to specific denominators such as action space or routine-domain tokens-to-target. \\
+Free canonicalization & Foundry, provenance, review, and verification costs must be amortized and included. \\
+Human code lacks value & Human artifacts carry behavior, edge cases, incidents, and product judgment; only accidental representation is targeted. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+%% ============================================================

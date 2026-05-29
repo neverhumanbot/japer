@@ -1,0 +1,79 @@
+%% SECTION 2A: CORRECT-CHANGE INFORMATION THEORY
+%% ============================================================
+\section{Correct-Change Information Theory}
+\label{sec:correct-change-info}
+
+The missing theoretical move is to stop treating code as the primary object. The primary object is a verified behavior change. A repository is only one historical encoding of the behavior, tests, policies, provenance, and operational memory needed to accept that change.
+
+Let $x$ be a raw repository state, $i$ an issue or requested change, $a_{1:k}$ an edit/tool trajectory, and $\Delta$ the accepted change object. A change is correct only under an oracle that includes behavior, tests, security, migration safety, provenance, and reviewer acceptance:
+\begin{equation}
+  \oracle(x,i,a_{1:k}) \rightarrow \{\textsc{accept},\textsc{reject},\textsc{escalate}\}.
+\end{equation}
+The canonical map $\canonmap$ is useful only when it preserves the information relevant to $\Delta$ while deleting information irrelevant to acceptance:
+\begin{align}
+  I(\canonmap(x);\Delta \mid i,\oracle)
+    &\approx I(x;\Delta \mid i,\oracle), \\
+  H(\canonmap(x)\mid \Delta,i,\oracle)
+    &\ll H(x\mid \Delta,i,\oracle).
+\end{align}
+This is the paper's central learning-theoretic claim. The model should see less accidental entropy without losing the facts needed to make the right change.
+
+\subsection{Accidental Representation Tax}
+
+For a behavior target $y$, define the behavior-equivalence class
+\begin{equation}
+  \mathcal{E}_{y,\tau}=\{x : \oracle(x,y)\ge \tau\}.
+\end{equation}
+Raw software often contains many members of this class: different languages, frameworks, layouts, naming schemes, migration styles, tests, CI dialects, dependency wrappers, and repository policies. Canonicalization selects a smaller governed set $\mathcal{C}_{y,\tau}$ plus audited exceptions. The accidental representation tax is:
+\begin{equation}
+  \mathrm{ART}(y,\tau)=\log |\mathcal{E}_{y,\tau}|-\log |\mathcal{C}_{y,\tau}|.
+\end{equation}
+The exact cardinalities are not directly observable for realistic software, but the tax can be estimated by source-token counts, identifier entropy, AST-pattern entropy, file-path entropy, dependency entropy, proof-lane entropy, repository-policy entropy, and model perplexity under paired raw/canonical corpora.
+
+This reframes the largest claim. The model is not merely learning fewer bytes. It is learning fewer behavior-equivalent encodings. That is why clone studies, naturalness results, software product-line engineering, compiler IRs, e-graphs, proof-carrying code, and library-learning systems all matter: they show different historical paths toward the same idea that repeated behavior should be represented by reusable structure rather than re-authored text~\cite{dejavu2017,hindleNaturalness,clementsProductLines,lattnerLLVM,lattnerMLIR,eggEgraphs,proofCarryingCode,dreamcoder}.
+
+\subsection{Correct-Change Search Work}
+
+A coding agent pays for branching. At each step $t$, it faces legal or perceived choices $A_t$: files to inspect, commands to run, edit locations, migration strategies, dependency changes, proof lanes, and repair paths. Raw repositories inflate $|A_t|$ with local folklore. Canonical repositories should shrink the legal set and reject invalid moves before they become failed trajectories. A crude lower bound for search work is:
+\begin{equation}
+  W_{\mathrm{search}} \propto \sum_{t=1}^{k}\log |A_t| + \sum_{j=1}^{m} \rho_j F_j,
+\end{equation}
+where $F_j$ are failed verification or review loops and $\rho_j$ are their token/tool/human penalties. Canonicalization wins when it reduces both the action entropy and the expected number of expensive failures.
+
+This is why the strongest near-term experiment is same-model raw/canonical ablation. It does not require a new model or a full training run. It asks whether the substrate itself reduces search work: fewer files opened, fewer tool calls, fewer invalid edits, fewer failed proof lanes, fewer review comments, and lower dollars per accepted change.
+
+\subsection{Minimum Functional Description Length}
+
+Minimum Functional Description Length is the product-software analogue of MDL: not the shortest text file, but the shortest behavior description plus evidence plus renderer that satisfies the declared oracle. The practical objective is:
+\begin{align}
+\operatorname{MFDL}_{\mathcal{S},\tau}(y)
+  ={}& \min_{z\in\mathcal{Z}_{\mathcal{S}}}
+  \Bigl(|z|+\lambda|\Pi(z)|+\mu|\mathcal{R}_{\mathcal{S}}|
+  +\nu|G(z)|\Bigr) \notag\\
+& \text{s.t.}\quad
+\oracle(\mathcal{R}_{\mathcal{S}}(z),y)\ge\tau.
+\end{align}
+Here $z$ is the canonical behavior object, $\Pi(z)$ its proof/evidence bundle, $\mathcal{R}_{\mathcal{S}}$ the renderer into source, tests, migrations, CI, documentation, observability, and deployment artifacts, and $G(z)$ the governance/provenance burden. This extra governance term matters: compression that drops attribution, opt-out state, security evidence, or compatibility ghosts is not a substrate win.
+
+\begin{table*}[t]
+\caption{From Code Imitation to Correct-Change Information}
+\label{tab:information-theory-spine}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.18\textwidth}X X}
+\toprule
+Layer & Raw-model burden & Canonical information object \\
+\midrule
+Text/source & Learn many strings for same behavior. & One governed rendering plus audited exceptions. \\
+Repository & Infer local architecture, generated zones, and proof commands. & File grammar, generated-zone manifest, proof lanes, repository-policy object. \\
+Behavior & Re-implement auth, lifecycle, billing, upload, search, jobs, webhooks, audit, observability. & Versioned behavior cells with parameters, tests, proofs, and negative cases. \\
+Change & Invent raw diffs and hope tests catch mistakes. & Typed semantic patch cell with preconditions, generated deltas, proof obligations, rollback. \\
+Evidence & Reviewer reconstructs intent from a diff and logs. & Proof-carrying change object with receipts, provenance, security delta, migration replay, review rubric. \\
+Memory & Incidents and failed patches disappear into history. & Runtime negative memory: forbidden plans, compatibility ghosts, regression generators, patched cells. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\textbf{Falsification:} this information theory fails if canonical artifacts preserve no more mutual information about accepted changes than raw repositories, or if they reduce entropy only by deleting behavior needed for hidden tests, product acceptance, security, migration safety, or provenance.
+
+%% ============================================================

@@ -1,0 +1,27 @@
+%% SECTION 10: ASSUMPTION I - REASONING-TOKEN COMPRESSION
+%% ============================================================
+\section{Assumption I: Reasoning-Token Compression and Agent-Sprawl Collapse}
+\label{sec:reasoningcompression}
+
+\textbf{Assumption I: Canonical software compresses the reasoning process required to produce a verified correct change.} Agent sprawl is a substrate failure: when a repository does not state its own laws, teams compensate with planner agents, search agents, reviewer agents, test-fixing agents, security agents, and release agents that repeatedly rediscover the same facts. Modern coding agents do not spend only source tokens. They spend planning tokens, tool tokens, hidden or explicit reasoning tokens, file-inspection tokens, failed test loops, repair attempts, and human review attention. Reasoning-model documentation and best-practice guidance already treat reasoning effort as a controllable inference resource~\cite{openaiReasoningDocs,openaiReasoningBestPractices}. Chain-of-thought, self-consistency, ReAct, and test-time planning work show that intermediate reasoning and tool use can improve outcomes, but also make inference cost a first-class denominator~\cite{chainOfThought,selfConsistency,react,planBudgetReasoning}.
+
+The correct-change cost model is:
+\begin{equation}
+\begin{split}
+C_{\text{change}} ={}& T_{\text{context}} + T_{\text{reason}} + T_{\text{action}} + T_{\text{verify}} \\
+&+ T_{\text{repair}} + H_{\text{review}} + A_{\text{foundry}}.
+\end{split}
+\end{equation}
+Here $T_{\text{context}}$ is repository reading, $T_{\text{reason}}$ is planning and architecture inference, $T_{\text{action}}$ is patch generation and tool use, $T_{\text{verify}}$ is proof-lane execution and log interpretation, $T_{\text{repair}}$ is failed-loop recovery, $H_{\text{review}}$ is human review burden, and $A_{\text{foundry}}$ is amortized canonical-foundry cost.
+
+Canonical repositories reduce these terms by compiling repeated reasoning into durable artifacts. Behavior cells encode architecture. Generated-zone manifests tell the agent where not to edit. Semantic patch cells encode common repairs. Proof lanes encode the validation sequence. Repository policy encodes review, secret, dependency, and deployment law. Reasoning digests summarize known plans, failure modes, rejected plans, compatibility ghosts, and prior proof objects. A proof-carrying change object then binds the intent, affected cells, typed diff, schema diff, migration diff, test delta, security delta, proof obligations, receipts, rollback plan, and provenance metadata.
+
+The moonshot is therefore not that agents ``think less'' in the abstract. It is that agents stop spending tokens on repository cartography, local policy discovery, command guessing, generated-zone detection, migration-law inference, and repair-loop archaeology when the substrate can state those facts once and verify them mechanically. Structured outputs and constrained decoding are useful precedents: they move part of correctness from prompt convention into machine-checkable shape~\cite{openaiStructuredOutputs,xgrammar}. Proof-carrying code established the broader principle that executable artifacts can carry evidence checked by a consumer rather than accepted on trust~\cite{proofCarryingCode}.
+
+The measurement unit is deliberately concrete: files opened, context tokens, planning tokens, hidden reasoning budget where observable, tool calls, invalid edits, generated-zone violations, failed proof loops, validation reruns, reviewer comments, and retries per accepted change. Closed models may hide some reasoning tokens, so field trials should report direct reasoning-token counters where available and proxy them with planning text, tool loops, wall-clock, and failed proof-lane traces where not. The conservative target is 3$\times$--10$\times$ fewer context/reasoning/tool/retry tokens per verified change. The central target is 10$\times$--100$\times$. The aggressive 100$\times$--10{,}000$\times$ band is only for routine supported work after behavior cells, semantic patch cells, proof lanes, and negative memory mature. It is not a universal inference-speed claim.
+
+Reasoning compression is not separate from economics; it is one term in the verified-change cost equation in Assumption F. A reasoning digest only matters if it reduces measured files opened, context tokens, reasoning tokens, tool calls, invalid edits, repair attempts, reviewer comments, or wall-clock at the same accepted-change standard.
+
+\textbf{Falsification:} Assumption I fails if, on paired raw/canonical tasks with the same broad model, canonical repositories do not reduce files opened, tool calls, reasoning tokens, invalid edits, failed verification loops, wall time, reviewer comments, or cost per accepted proof-carrying change.
+
+%% ============================================================

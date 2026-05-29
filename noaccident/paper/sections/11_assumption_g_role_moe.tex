@@ -1,0 +1,44 @@
+%% SECTION 11: ASSUMPTION G - MIXTURE-OF-EXPERTS
+%% ============================================================
+\section{Assumption G: Canonical Role Mixture-of-Experts}
+
+\textbf{Assumption G: Canonical code gives mixture-of-experts models cleaner expert domains, reducing router entropy and improving expert utilization.}
+
+Kimi K2 shows why dense and mixture-of-experts baselines must be separated: it reports 1T total parameters but only about 32B active parameters per token~\cite{kimiK2,kimiDocs}. A dense 100B canonical model is not automatically faster than a 32B-active mixture-of-experts model on raw per-token compute. The canonical opportunity for mixture-of-experts is different.
+
+The human-code mixture-of-experts model must route across many languages, frameworks, and repository idioms. A canonical-code mixture-of-experts model routes across fewer, cleaner domains: product surface, service/core, durable data and migration, contracts/generated artifacts, security policy, dependency governance, verification, repair, and planning. Experts specialize around canonical software roles rather than arbitrary language/framework combinations.
+
+This matters because routing uncertainty is another form of human-code entropy. In a raw repository, a billing change might require a controller, browser form, secret, CI permission, SQL migration, queue worker, and webhook verifier, each following local conventions. In the canonical substrate, those concerns have named roles, owned files, generated boundaries, and proof lanes. The router can learn the role graph directly: billing cell, policy cell, SQL migration expert, UI resource-state expert, verifier/repair expert. The model spends less capacity deciding what kind of software world it is inside.
+
+The canonical mixture-of-experts hypothesis is therefore not merely ``use sparse models.'' It is that canonicalization gives sparse models better expert boundaries. A role expert can specialize in migration invariants rather than every dialect of migrations; a security expert can specialize in policy edges and negative cases rather than every framework's middleware idiom; a verifier expert can specialize in proof receipts and failed lanes rather than repository-specific CI folklore.
+
+The metrics are explicit. Router entropy should fall for a fixed task distribution:
+\begin{equation}
+H_{\mathrm{router}}(x)=-\sum_e p(e\mid x)\log p(e\mid x).
+\end{equation}
+Success also requires expert load balance, low dropped-token or overflow rate, specialization purity by software role, low cross-expert repair churn, and equal or better task success at fixed active parameters. A canonical role mixture-of-experts should be compared against dense models and broad mixture-of-experts baselines by accepted-patch rate and cost per verified correct change, not by nominal total parameter count.
+
+\begin{table}[t]
+\caption{Canonical Role Mixture-of-Experts Layout}
+\label{tab:rolemoe}
+\centering
+\footnotesize
+\begin{tabularx}{\columnwidth}{p{0.26\columnwidth}X}
+\toprule
+Expert family & Canonical role \\
+\midrule
+Product surface & UI state, accessibility, visual behavior, and typed user-facing flows. \\
+Service/core & Domain logic, APIs, adapters, and service invariants. \\
+Durable data/migration & Durable truth, schema changes, migration safety, and rollback. \\
+Contracts/generated & Schemas, generated clients, fixtures, adapters, and docs. \\
+Security/policy & Authentication, authorization, input boundaries, secrets, dependency risk. \\
+Infra/release & Deployment envelopes, release policy, observability, and operational permissions. \\
+Verifier/repair & Validation lanes, failed traces, blocked changes. \\
+Porter & Messy-to-canonical translation and disposition assignment. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Falsification:} Assumption G fails if router entropy, expert utilization, or task success do not improve versus language/framework-oriented mixture-of-experts routing.
+
+%% ============================================================

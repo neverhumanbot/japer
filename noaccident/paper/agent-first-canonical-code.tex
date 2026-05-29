@@ -1,0 +1,185 @@
+\documentclass[conference]{IEEEtran}
+
+\usepackage{cite}
+\usepackage{amsmath}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{makecell}
+\usepackage{siunitx}
+\usepackage{url}
+\usepackage{xurl}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{
+  pdftitle={No Accidental Software: Agent-First Canonical Code for Human-Code Entropy Reduction and 30x--500x Lower Frontier-Model Requirements},
+  pdfauthor={Jepson Taylor},
+  pdfsubject={Agent-first canonical code training, corpus compression, behavior cells, proof-carrying change objects, reasoning compression, and verified correct-change economics},
+  pdfkeywords={canonical code, code language models, agent-first programming, corpus compression, software training data, behavior cells, proof-carrying change objects}
+}
+
+\sisetup{group-separator={,}, group-minimum-digits=4}
+\newcommand{\canonprofile}{versioned limited-stack product profile}
+\newcommand{\est}{\emph{estimate}}
+\newcommand{\mfdl}{\textsc{mfdl}}
+\newcommand{\measured}{\textsc{Measured}}
+\newcommand{\targetclaim}{\textsc{Near-term target}}
+\newcommand{\centralclaim}{\textsc{Central hypothesis}}
+\newcommand{\moonshotclaim}{\textsc{Moonshot}}
+\definecolor{nhConservative}{RGB}{20,125,72}
+\definecolor{nhCentral}{RGB}{52,72,94}
+\definecolor{nhAggressive}{RGB}{190,44,44}
+\definecolor{nhBlue}{RGB}{18,90,166}
+\definecolor{nhPurple}{RGB}{108,55,165}
+\definecolor{nhGold}{RGB}{156,101,0}
+\definecolor{nhPaleBlue}{RGB}{235,244,255}
+\definecolor{nhPaleGreen}{RGB}{235,250,241}
+\definecolor{nhPaleRed}{RGB}{255,239,239}
+\definecolor{nhPaleGold}{RGB}{255,248,230}
+\definecolor{nhPalePurple}{RGB}{245,240,255}
+\newcommand{\conrange}[1]{{\color{nhConservative}#1}}
+\newcommand{\midrange}[1]{{\color{nhCentral}#1}}
+\newcommand{\aggrange}[1]{{\color{nhAggressive}#1}}
+\newcommand{\conhead}{\conrange{\textbf{Conservative}}}
+\newcommand{\agghead}{\aggrange{\textbf{Aggressive}}}
+\newcommand{\bigclaim}[2]{\textcolor{#1}{\textbf{#2}}}
+\newcommand{\win}[1]{\textcolor{nhConservative}{\textbf{#1}}}
+\newcommand{\breakthrough}[1]{\textcolor{nhPurple}{\textbf{#1}}}
+\newcommand{\risk}[1]{\textcolor{nhAggressive}{\textbf{#1}}}
+\newcommand{\oracle}{\mathcal{O}}
+\newcommand{\canonmap}{\Phi}
+
+\title{\textbf{No Accidental Software}\\
+Agent-First Canonical Code for Human-Code Entropy Reduction and 30$\times$--500$\times$ Lower Frontier-Model Requirements}
+
+\author{
+\IEEEauthorblockN{Jepson Taylor}
+\IEEEauthorblockA{NeverHuman Research}
+}
+
+\begin{document}
+\twocolumn[
+\begin{@twocolumnfalse}
+\maketitle
+
+\begin{abstract}
+\textbf{The number is the hook, but the denominator is the science: frontier coding models are paying to learn human-code entropy, not just code.} Raw human repositories contain behavior, incidents, tests, edge cases, migrations, product judgment, and operational scar tissue worth preserving, but those signals are entangled with accidental representation: language fashion, framework churn, naming drift, folder folklore, duplicated contracts, generated-source confusion, dependency rituals, continuous-integration dialects, weak proof routes, and review customs built for humans rather than agents. A coding agent pays for this entropy four times: during training, during context gathering, during reasoning/tool/retry loops, and during human review. This paper proposes \textbf{agent-first canonical code}: a governed, proof-carrying substrate that ports routine product software into canonical profiles, behavior cells, generated truth, typed change algebra, proof lanes, constrained edit grammars, reasoning digests, semantic patch cells, runtime negative memory, and proof-carrying change objects before training and before agent operation.
+
+The claim is deliberately ambitious, but every range has a denominator. Detailed conservative, central, and aggressive bands are hypotheses reported in the tables, not measured frontier results, and they must not be multiplied into a miracle. The decisive endpoint is all-in cost per verified correct change: source tokens, context, reasoning, tools, verification, security, provenance, review, failed loops, downstream defects, and amortized foundry cost under the same acceptance oracle.
+
+The theoretical endpoint is the No-Accident Horizon: under a declared oracle and supported routine-product distribution, all removable accident can vanish only until the residual floor of novelty, evidence, governance, risk, and future optionality remains; a mature foundry therefore has a strongest defensible planning limit near 100$\times$ all-in verified-change cost reduction, not an unrestricted all-code guarantee.
+
+The theoretical spine is quotienting software by behavior equivalence under a declared oracle. Many behavior-equivalent human encodings should collapse to one governed representative plus evidence, while residual novelty, legal risk, security exposure, and domain mismatch remain explicit in a disposition ledger. The limit is \textsc{Minimum Functional Description Length}: the shortest canonical behavior specification, evidence bundle, proof obligations, and renderer that produce a working system under behavior, security, migration, provenance, and review constraints. Preliminary QLoRA evidence on Qwen2.5-Coder-14B shows that 64{,}088 canonically translated trajectories are learnable and suppress tested forbidden-language markers; it does \emph{not} establish behavior preservation, scaling economics, or verified-change cost. The contribution is a falsifiable research program whose decisive endpoint is amortized cost per verified correct change.
+\end{abstract}
+
+\begin{IEEEkeywords}
+code language models, agent-first programming, canonical code, training data, corpus compression, behavior cells, software engineering, model efficiency
+\end{IEEEkeywords}
+
+\noindent\fcolorbox{nhGold}{nhPaleGold}{\parbox{0.965\textwidth}{\textbf{One-sentence thesis.} Raw repositories force models to learn both product behavior and accidental implementation orbits; canonical proof-carrying behavior lets them spend training, inference, review, and verification budget on verified change instead of rediscovering local software folklore.}}
+
+\vspace{0.5em}
+\noindent\fcolorbox{nhPurple}{nhPalePurple}{\parbox{0.965\textwidth}{\textbf{What would make this undeniable.} On paired raw versus canonical repositories from the same lineage, the same model must spend materially fewer source, context, reasoning, tool, retry, and reviewer tokens to produce an accepted proof-carrying change. Only after that same-model result holds should specialist scaling curves be allowed to justify the 30$\times$--150$\times$ central training-token claim and the 8.3$\times$--10$\times$ dense-active serving-speed claim.}}
+
+\vspace{0.75em}
+\end{@twocolumnfalse}
+]
+
+\begin{table*}[!t]
+\caption{The Hook: Conservative-to-Aggressive Payoff Ranges by Measurement Denominator}
+\label{tab:hook-payoff}
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.16}
+\begin{tabularx}{\textwidth}{@{}p{0.21\textwidth}>{\columncolor{nhPaleGreen}}c>{\columncolor{nhPaleBlue}}c>{\columncolor{nhPaleRed}}cX@{}}
+\toprule
+\textbf{Outcome denominator} & \conhead & \textbf{Central} & \agghead & \textbf{What must be measured} \\
+\midrule
+Training tokens to fixed accepted-change target & \bigclaim{nhConservative}{$10\times$--$30\times$} & \bigclaim{nhBlue}{$30\times$--$150\times$} & \bigclaim{nhAggressive}{$150\times$--$1{,}000\times$} & Paired raw/canonical scaling curves to the same hidden-test accepted-change capability. \\
+Context, reasoning, tool, and retry tokens per verified change & \bigclaim{nhConservative}{$3\times$--$10\times$} & \bigclaim{nhBlue}{$10\times$--$100\times$} & \bigclaim{nhAggressive}{$100\times$--$10{,}000\times$} & Files opened, planning tokens, hidden reasoning budget where measurable, tool calls, failed repair loops, and validation reruns. \\
+Cost per verified correct change & \bigclaim{nhConservative}{$3\times$--$10\times$} & \bigclaim{nhBlue}{$10\times$--$50\times$} & \bigclaim{nhAggressive}{$50\times$--$1{,}000\times$} & End-to-end dollars including source/context/action tokens, serving, verification, security/provenance, review, downstream defects, and amortized foundry cost. \\
+Same-model verified-change wall-clock & \bigclaim{nhConservative}{$2\times$--$5\times$} & \bigclaim{nhBlue}{$5\times$--$20\times$} & \bigclaim{nhAggressive}{$20\times$--$100\times$} & End-to-end elapsed time from issue receipt to accepted proof-carrying patch under equal tool and reviewer budgets. \\
+Dense-active inference speed scenario & \bigclaim{nhConservative}{$3\times$--$5\times$} & \bigclaim{nhBlue}{$8.3\times$--$10\times$} & \bigclaim{nhAggressive}{$10\times$--$20\times$} & Conditional only: matched-quality canonical specialist versus 1T-class dense-active baseline on supported canonical work. \\
+Dense-active infrastructure cost/token & \bigclaim{nhConservative}{67\%--80\% lower} & \bigclaim{nhBlue}{88\%--90\% lower} & \bigclaim{nhAggressive}{90\%--95\% lower} & Active-parameter, memory, batching, utilization, MoE, context, and verification-overhead accounting. \\
+Effective action/representation space & \bigclaim{nhConservative}{$10\times$--$40\times$} & \bigclaim{nhBlue}{$40\times$--$150\times$} & \bigclaim{nhAggressive}{$100\times$--$300\times$} & Entropy of valid behavior-equivalent encodings and legal edit choices after contracts, profiles, and proof lanes are fixed. \\
+Foundry amortization and reuse & \bigclaim{nhConservative}{$2\times$--$5\times$} & \bigclaim{nhBlue}{$10\times$--$100\times$} & \bigclaim{nhAggressive}{$100\times$--$10{,}000\times$} & Reuse of behavior cells, semantic patches, negative memory, generated projections, and proof receipts across independent product lineages. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\begin{table*}[!t]
+\caption{External Facts the Canonical-Code Thesis Must Explain}
+\label{tab:external-facts}
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.14}
+\begin{tabularx}{\textwidth}{p{0.21\textwidth}X X}
+\toprule
+\textbf{Observed fact} & \textbf{Why it matters} & \textbf{Canonical-code interpretation} \\
+\midrule
+Public software is massive and multi-language: The Stack v2 contains over 3B files in 600+ languages and StarCoder2 trains on 3.3T--4.3T tokens across 619 languages~\cite{theStackV2,starcoder2}. & Broad code models pay to learn the whole human archive. & The archive is behavior raw material, not necessarily the optimal training substrate. \\
+Duplication is structural: D\'ej\`aVu found 85M unique files among 428M files across 4.5M non-fork projects, and Jupyter studies found more than 70\% exact snippet copies~\cite{dejavu2017,jupyterClones2020}. & Human code repeats behavior and representation. & Cells and semantic patches should capture repeated behavior directly. \\
+Agent benchmarks are brittle: SWE-bench Verified improves curation, but UTBoost found insufficient tests and erroneous pass labels in SWE-bench-family results~\cite{swebenchVerified,utboost}. & Passing tests is not equivalent to preserving behavior. & Ports and changes need evidence tiers, hidden tests, fuzzing, replay, mutation tests, and proof receipts. \\
+Agent cost matters: resource-constrained evaluation shows why resolve rate alone hides token, time, and failure cost~\cite{metr2025,metr2026}. & Accuracy without cost accounting can be economically misleading. & The denominator must be cost per verified correct change. \\
+CI/security sprawl is real: recent GitHub Actions studies report workflow heterogeneity and security-practice gaps, and GitGuardian reported 28.65M new public-GitHub secrets in 2025~\cite{ghaHeterogeneity2025,ghaEvolution2026,ghaSecurityNDSS2026,gitguardian2026}. & Repository operations are part of the software behavior surface. & CI, secrets, permissions, and release policy must become canonical substrate objects. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\begin{table*}[!t]
+\caption{Front-Door Measurement Ledger}
+\label{tab:frontledger}
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.14}
+\begin{tabularx}{\textwidth}{p{0.18\textwidth}p{0.22\textwidth}X X}
+\toprule
+\textbf{Question} & \textbf{Primary denominator} & \textbf{First test} & \textbf{Failure mode} \\
+\midrule
+Does the substrate help before new training? & Same-model cost per accepted change & Broad model on paired raw vs. canonical repositories with the same issue lineage, hidden tests, and reviewer rubric. & Canonical form looks cleaner but does not reduce files opened, context/reasoning tokens, tool calls, failed lanes, or review. \\
+Does canonical data train more efficiently? & Tokens-to-target accepted-change capability & Paired scaling curves from the same raw/canonical lineage. & Canonical data requires similar tokens, similar model scale, or larger models for the same accepted-change target. \\
+Does the serving denominator improve? & Dense-active infrastructure cost/token and token/sec at matched quality & Compare a broad dense-active baseline against a canonical specialist on supported canonical work. & Throughput gains disappear after batching, memory, context, verification, or quality corrections. \\
+Does behavior survive porting? & Preservation tier and hidden oracle pass rate & Differential tests, replay, fuzzing, contracts, migration checks, security checks, and human review. & Important compatibility ghosts are lost or security/migration regressions rise. \\
+Does the economics close? & All-in cost per verified correct change & Foundry amortization plus training, serving, tools, verification, failed loops, and review. & Foundry and verification overhead consume the gains. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+%% ============================================================
+
+\input{sections/01_introduction.tex}
+\input{sections/01a_positioning_and_theoretical_move.tex}
+\input{sections/02_definitions.tex}
+\input{sections/02a_correct_change_information_theory.tex}
+\input{sections/03_human_code_entropy.tex}
+\input{sections/04_assumption_a_profile.tex}
+\input{sections/05_assumption_b_foundry.tex}
+\input{sections/06_assumption_c_behavior_preservation.tex}
+\input{sections/07_assumption_d_behavior_cells.tex}
+\input{sections/08_empirical_validation.tex}
+\input{sections/09_assumption_e_compression_theory.tex}
+\input{sections/09a_behavior_ir_typed_change_algebra.tex}
+\input{sections/10_assumption_i_reasoning_compression.tex}
+\input{sections/10_assumption_f_economics.tex}
+\input{sections/11_assumption_g_role_moe.tex}
+\input{sections/12_assumption_h_evaluation.tex}
+\input{sections/12a_cost_ledger_field_trial.tex}
+\input{sections/13_risks_and_threat_model.tex}
+\input{sections/13_compression_frontier.tex}
+\input{sections/14_future_vision.tex}
+\input{sections/14a_first_six_experiments.tex}
+\input{sections/14b_frontier_extensions.tex}
+\input{sections/14c_no_accident_horizon.tex}
+\input{sections/14_limits_and_conclusion.tex}
+
+\appendices
+\input{compression_catalog.tex}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

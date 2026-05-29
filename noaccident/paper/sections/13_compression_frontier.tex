@@ -1,0 +1,29 @@
+%% SECTION 13: COMPRESSION FRONTIER
+%% ============================================================
+\section{Compression Frontier Summary}
+\label{sec:compression-frontier}
+
+The full 30-domain compression catalog is supplemental source in \texttt{compression\_catalog.tex}. The main paper keeps only the proof spine: every domain is a prior or target until paired measurement promotes it. The catalog is useful for search-space accounting, but it is not the evidence base by itself.
+
+\begin{table*}[t]
+\caption{Main-Paper Compression Frontier Summary}
+\label{tab:frontier-summary}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.18\textwidth}p{0.18\textwidth}X X}
+\toprule
+Layer & Current status & Main mechanism & Required measurement \\
+\midrule
+Corpus hygiene & Partly measured in prior corpora & Deduplication, generated/vendor/secret/malware filtering, provenance assignment. & Raw/canonical token counts, removal receipts, license disposition rates. \\
+Canonical profile & Near-term target & Fixed roles, path grammar, generated zones, proof lanes, dependency law, repository policy. & Same-model raw/canonical files opened, invalid edits, proof-lane failures, accepted patch rate. \\
+Contract-first generation & Central hypothesis & Schemas generate clients, fixtures, validators, docs, migrations, and adapters. & Duplicate-truth removal, generated-edit violations, schema drift rate, migration failures. \\
+Behavior cells & Central hypothesis & Auth, resource lifecycle, search, billing, uploads, jobs, webhooks, audit, observability as certified cells. & Behavior-cell census by accepted changes, AST nodes, traces, issues, review burden, and security paths. \\
+Semantic patch cells & Central hypothesis & Typed edits such as add field, split table, rotate secret, add idempotency key, and add permission edge. & Legal action count, invalid edit count, proof receipt completeness, repair-loop reduction. \\
+Runtime and negative memory & Moonshot & Incidents, reverted patches, production traces, and rejected plans become invariants and forbidden paths. & Incident recurrence, compatibility-ghost capture, negative-test reuse, post-deployment regression rate. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+The frontier should be read as an accounting program. Literal source-token reduction is expected to be modest compared with legal-action and reasoning-space reduction. Training-token reduction is the hardest claim and remains conditional on paired scaling curves. Cost per verified correct change is the final denominator because it includes foundry, verification, serving, reasoning, failed-loop, review, and maintenance cost.
+
+%% ============================================================
