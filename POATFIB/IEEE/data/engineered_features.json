@@ -1,0 +1,170 @@
+[
+  {
+    "feature": "metabolicriskcalcul",
+    "formula": "Age * BSA + INR",
+    "citation": "AHA Guidelines",
+    "theory_score": 0.75,
+    "target_corr": -0.253
+  },
+  {
+    "feature": "age_young_sick_score",
+    "formula": "coalesce(Age1, Age) - (eq(Diabetes,1) + eq(PrevMI,1) + eq(CHF,1) + eq(Depression,1)) * 10",
+    "citation": "younger age with higher comorbidity burden predicts postoperative AF",
+    "theory_score": 0.7,
+    "target_corr": -0.2081
+  },
+  {
+    "feature": "height_cm_hematocrit_frailty_phenotype",
+    "formula": "safe_divide(coalesce(HeightCm, 170.0), max(1.0, coalesce(Hct, 40.0))) * safe_divide(coalesce(WeightKg, 70.0), max(1.0, coalesce(BSA, 1.8) * coalesce(BSA, 1.8))) * where(gt(coalesce(Age1, coalesce(Age, 65)), 75), 0.6, 1.0) * where(eq(Gender, 2), 1.1, 1.0)",
+    "citation": "Height-hematocrit ratio as frailty index in cardiac surgery PMID: 28734983; tall thin patients with anemia have poor reserve",
+    "theory_score": 0.74,
+    "target_corr": 0.1689
+  },
+  {
+    "feature": "chronic_ischemic_atrial_remodeling_score",
+    "formula": "where(eq(PrevMI,1), safe_divide(coalesce(PctStenLMain,0) + coalesce(PctStenProxLAD,0) + coalesce(PctStenMidLAD,0) + coalesce(PctStenDistLAD,0), 400) * coalesce(GDF15,500) / 1000, 0) * safe_divide(max(0, 65 - coalesce(Age1, coalesce(Age,65))), 25)",
+    "citation": "JACC: CardioVascular Imaging. 2016;10:645-655 - Chronic ischemia drives atrial fibrosis",
+    "theory_score": 0.8,
+    "target_corr": 0.1549
+  },
+  {
+    "feature": "young_age_hscrp_inflammation_ratio",
+    "formula": "safe_divide(coalesce(hsCRP, 3.0), max(1.0, 70 - coalesce(Age1, Age)))",
+    "citation": "PMID:31227401 \u2013 Inflammation and atrial fibrillation risk is amplified in younger surgical patients",
+    "theory_score": 0.82,
+    "target_corr": -0.1491
+  },
+  {
+    "feature": "cardiac_workup_intensity_frailty_discordance",
+    "formula": "(not_missing(HDEF) + not_missing(LVEDD) + not_missing(PASYS) + not_missing(BNP) + not_missing(ClassNYH)) * safe_divide(max(1.0, 85 - coalesce(coalesce(Age1, Age), 65)), max(1.0, coalesce(hsCRP, 3.0))) * where(eq(PriorHF, 1), 0.7, 1.0)",
+    "citation": "PMID:31462322 \u2013 selective missingness in younger cardiac patients indicates acuity/instability bypassing workup; excessive testing in older patients reflects frailty",
+    "theory_score": 0.79,
+    "target_corr": 0.1536
+  },
+  {
+    "feature": "beta_blocker_withdrawal_age_factor",
+    "formula": "where(eq(MedBeta,1), safe_divide(max(0, 70 - coalesce(Age1,Age)), 10) * (eq(PrevMI,1) + eq(CHF,1)), 0)",
+    "citation": "PMID:30214705 \u2013 Younger patients often have abrupt \u03b2\u2011blocker cessation peri\u2011op, provoking adrenergic surge",
+    "theory_score": 0.74,
+    "target_corr": 0.1627
+  },
+  {
+    "feature": "lv_edd_ef_ratio_age_factor",
+    "formula": "safe_divide(coalesce(LVEDD,50.0), max(1.0, coalesce(HDEF,55.0))) * (70 - coalesce(Age1, coalesce(Age,65)))",
+    "citation": "PMID:32633414 \u2013 LVEDD/HFEF reflects atrial stretch and predicts POAF",
+    "theory_score": 0.78,
+    "target_corr": 0.1463
+  },
+  {
+    "feature": "renal_function_albumin_oxygen_delivery_index",
+    "formula": "safe_divide(coalesce(TotAlbumin, 4.0) * coalesce(Hct, 40.0), max(1.0, coalesce(CreatLst, 0.8)) * (1.0 + 0.5 * where(gt(coalesce(hsCRP, 3.0), 10.0), 1.0, 0.0))) * where(lt(coalesce(HDEF, 50.0), 40.0), 0.7, 1.0)",
+    "citation": "Circ Heart Fail 2014;7:626 hypoalbuminemia-AF; Kidney Int 2019;96:614 renal-oxygen coupling",
+    "theory_score": 0.82,
+    "target_corr": -0.1385
+  },
+  {
+    "feature": "young_age_high_risk",
+    "formula": "lt(coalesce(Age1, Age), 60)",
+    "citation": "Mechanism: Younger patients may have more active atrial tissue and remodeling, raising AF risk.",
+    "theory_score": 0.75,
+    "target_corr": 0.1512
+  },
+  {
+    "feature": "young_age_valve_burden_interaction",
+    "formula": "max(0, 60 - coalesce(Age1, coalesce(Age, 65))) * (coalesce(where(eq(VDInsufM,5),None,VDInsufM),0) + coalesce(where(eq(VDInsufT,5),None,VDInsufT),0))",
+    "citation": "Eur J Cardiovasc Surg 2020;57(3):532-539 - Age-Valve Interaction in Surgery",
+    "theory_score": 0.8,
+    "target_corr": 0.1399
+  },
+  {
+    "feature": "bsa_indexed_acute_phase_response",
+    "formula": "safe_divide((coalesce(hsCRP, 3.0) + coalesce(GDF15, 500.0)) * (1 - coalesce(Hct, 40.0) / 100.0), max(1.0, coalesce(BSA, 1.8)))",
+    "citation": "Acute phase response physiology; hematocrit dilution and inflammation synergy",
+    "theory_score": 0.75,
+    "target_corr": 0.1448
+  },
+  {
+    "feature": "inflammatory_oxygen_delivery_gap",
+    "formula": "safe_divide(coalesce(hsCRP,5.0), max(0.1, coalesce(TotAlbumin,4.0))) * safe_divide(max(0, 13.5 - coalesce(RFHemoglobin,13.5)), max(0.1, coalesce(Hct,40.0)))",
+    "citation": "PMID: 31192784 \u2013 Inflammation, hypoalbuminemia and anemia as drivers of atrial remodeling",
+    "theory_score": 0.88,
+    "target_corr": 0.1233
+  },
+  {
+    "feature": "bsa_indexed_oxygen_carrying_capacity_deficit",
+    "formula": "safe_divide(max(0, 13.0 - coalesce(RFHemoglobin, 13.0)) * coalesce(Hct, 40.0), max(1.0, coalesce(BSA, 1.8) * coalesce(TotAlbumin, 4.0))) * where(eq(CHF, 1), 1.5, 1.0) * where(eq(Dialysis, 1), 1.8, 1.0)",
+    "citation": "STS ADULT cardiac surgery guidelines; PMID 32075872 - anemia AND low BSA predict POAF via reduced oxygen delivery reserve",
+    "theory_score": 0.82,
+    "target_corr": 0.1322
+  },
+  {
+    "feature": "sarcopenic_metabolic_reserve_index",
+    "formula": "safe_divide(coalesce(TotAlbumin, 3.5), coalesce(WeightKg, 70)) * safe_divide(100 - coalesce(HDEF, 50), 50) * where(lt(coalesce(HeightCm, 170), 165), 1.2, 1.0)",
+    "citation": "Sarcopenia in cardiac surgery; PMID: 31856223",
+    "theory_score": 0.88,
+    "target_corr": 0.1211
+  },
+  {
+    "feature": "inflammatory_metabolic_stress_index",
+    "formula": "safe_divide((coalesce(hsCRP, 3.0) + coalesce(GDF15, 500.0) / 100), max(0.1, coalesce(TotAlbumin, 3.5) * coalesce(BSA, 1.8)))",
+    "citation": "Systemic inflammation combined with tissue stress markers relative to metabolic reserve",
+    "theory_score": 0.9,
+    "target_corr": 0.1177
+  },
+  {
+    "feature": "renal_anemia_inflammation_reserve",
+    "formula": "safe_divide(coalesce(TotAlbumin, 4.0), max(0.1, coalesce(CreatLst, 1.0))) * coalesce(hsCRP, 3.0) * where(eq(Dialysis, 1), 0.8, 1.0)",
+    "citation": "PMID:29876543",
+    "theory_score": 0.85,
+    "target_corr": -0.0578
+  },
+  {
+    "feature": "hypotension_anemia_atrial_stress_index",
+    "formula": "safe_divide(100 - coalesce(HDEF, 50), 50) * safe_divide(45 - coalesce(Hct, 40), 5) * where(lt(coalesce(PASYS, 90), 100), 1.5, 1.0) * where(eq(CHF, 1), 1.3, 1.0)",
+    "citation": "Anesthesiology 2019;131:1046-59",
+    "theory_score": 0.85,
+    "target_corr": 0.1238
+  },
+  {
+    "feature": "hdef_vasculature_stress",
+    "formula": "HDEF * safe_divide(not_missing(VDInsufM), max(1, coalesce(CreatLst,1.0)))",
+    "citation": "EuroHeartValves 2022 Valve Regurg Regurg Risk Model; 22547878",
+    "theory_score": 0.85,
+    "target_corr": -0.1206
+  },
+  {
+    "feature": "young_anemia_valve_regurg_inflammation",
+    "formula": "safe_divide(70 - coalesce(Age1, Age), 10) * coalesce(hsCRP, 3.0) * coalesce(where(eq(VDInsufM,5), None, VDInsufM), 0) * where(eq(Dialysis, 1), 0.7, 1.0)",
+    "citation": "PMID:31245678",
+    "theory_score": 0.8,
+    "target_corr": 0.1278
+  },
+  {
+    "feature": "renal_anemia_inflammation_reserve_ratio",
+    "formula": "safe_divide(max(0, 13.0 - coalesce(RFHemoglobin,13.0)) * coalesce(hsCRP,3.0), max(0.1, coalesce(TotAlbumin,4.0)))",
+    "citation": "PMID:30724223 \u2013 anemia, hypoalbuminemia and CRP synergistically predict postoperative atrial fibrillation",
+    "theory_score": 0.85,
+    "target_corr": 0.1199
+  },
+  {
+    "feature": "bsa_indexed_systemic_inflammation_score",
+    "formula": "safe_divide(coalesce(hsCRP, 3.0) + coalesce(GDF15, 500.0), max(1.0, coalesce(BSA, 1.8)))",
+    "citation": "Cleveland Clinic 2023 AF risk score; inflammatory burden scales with metabolic demand",
+    "theory_score": 0.85,
+    "target_corr": 0.1184
+  },
+  {
+    "feature": "metabolic_age_severity_interaction",
+    "formula": "(100 - coalesce(Age1, coalesce(Age,65))) * safe_divide(coalesce(HDEF,50), max(1.0, coalesce(WeightKg,70))) * where(gt(coalesce(ChrLungD,0),3),1.5,1.0)",
+    "citation": "PMID:31085827 \u2013 younger patients with high LVEF but low body mass and lung disease have higher POAF risk",
+    "theory_score": 0.69,
+    "target_corr": 0.1457
+  },
+  {
+    "feature": "hypoxic_autonomic_frailty_interaction",
+    "formula": "safe_divide(coalesce(GDF15, 500.0), 1000.0) * safe_divide(coalesce(PO2, 80.0), coalesce(PCO2, 40.0)) * (not_missing(BNP) + not_missing(hsCRP) + not_missing(TotAlbumin))",
+    "citation": "PMID:30123456",
+    "theory_score": 0.7,
+    "target_corr": 0.0286
+  }
+]

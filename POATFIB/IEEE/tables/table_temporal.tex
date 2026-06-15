@@ -1,0 +1,17 @@
+% leaked_frac=0.2463 (2463/10000 holdout rows feature-identical to train); clean = de-duplicated holdout (7537 rows).
+\begin{tabular}{llrrr}
+\toprule
+Model & Class & Smoke 3k & Temporal full & Temporal clean \\
+ & & AUROC & AUROC & AUROC \\
+\midrule
+E3 (engineered \#1) & EI & 0.6893 & 0.6791 & 0.6806 \\
+C1 (CV-top) & EI & 0.6861 & 0.6795 & 0.6807 \\
+C2 (CV-top) & EI & 0.6858 & 0.6785 & 0.6802 \\
+B5 (CV-top) & EI & 0.6873 & 0.6789 & $\approx$full \\
+C4 (CV-top) & EI & 0.6877 & 0.6790 & $\approx$full \\
+B6 (CV-top) & EI & 0.6879 & 0.6789 & $\approx$full \\
+LASSO logistic (POLARIS-style) & recreated & 0.6758 & 0.6775 & 0.6797 \\
+Random forest (NOPAF/INSPIRE-style) & recreated & 0.6806 & 0.7783 & 0.6840 \\
+Super-learner (H2O-style) & recreated & 0.6830 & 0.7303 & 0.6887 \\
+\bottomrule
+\end{tabular}

@@ -1,0 +1,879 @@
+\documentclass[11pt]{article}
+
+% ============================================================================
+%  NEJM AI — Engineered Intelligence for Postoperative Atrial Fibrillation
+%  First author: Zain Khalpey, MD (HonorHealth, Scottsdale AZ)
+%  Second author: Jepson Taylor (NeverHuman Search)
+%  Compile: latexmk -pdf nejm_poaf.tex   (figures are .png; pdflatex picks them up)
+% ============================================================================
+
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{threeparttable}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{caption}
+
+\graphicspath{{figures/}}
+
+% red placeholders for items that must NOT be invented
+\newcommand{\confirm}[1]{\textcolor{red}{[TO CONFIRM: #1]}}
+
+\title{\bfseries Engineered Intelligence Invents Whole Machine-Learning Pipelines
+for Postoperative Atrial Fibrillation: A License-Clean Discovery System and an
+Honest Discrimination Ceiling on Society of Thoracic Surgeons Registry Data}
+
+\author{
+Zain Khalpey, MD\,$^{1}$\and
+Jepson Taylor\,$^{2}$
+}
+\date{}
+
+\begin{document}
+\maketitle
+
+\noindent\small
+$^{1}$Department of Cardiothoracic Surgery, HonorHealth, Scottsdale, Arizona, USA.\\
+$^{2}$NeverHuman Search, Scottsdale, Arizona, USA.\\
+\textbf{Corresponding author:} Zain Khalpey, MD (HonorHealth, Scottsdale, AZ).\\
+\textbf{Manuscript type:} Original Article — clinical machine learning.\\
+\textbf{Reporting:} Prepared in accordance with TRIPOD+AI~\cite{collins2024} and assessed with PROBAST/PROBAST+AI~\cite{wolff2019,moons2025}.\\
+\normalsize
+
+% ----------------------------------------------------------------------------
+\begin{abstract}
+\noindent
+Postoperative atrial fibrillation (POAF) complicates one in five to two in five adult
+cardiac operations and prolongs hospitalization, raises stroke risk, and inflates cost,
+yet the best published registry-based risk models discriminate only moderately. We asked a
+different question than the usual one: instead of asking which model a human should pick, we
+asked whether a machine could invent the entire analysis pipeline in response to the data.
+We built an engineered-intelligence (EI) system that decomposes a tabular machine-learning
+pipeline into an eight-stage grammar (sanitize, scale, expand, select, reduce, sample, model,
+fuse), exposes that grammar through an agent scripting language (ZYAL), and lets a fleet of up
+to seventy autonomous workers evolve complete pipelines under genetic search, adversarial
+judging, and a single-use holdout firewall. The test bed was a fixed Society of Thoracic
+Surgeons (STS) derived split: 10{,}000 training and 3{,}000 holdout operations, 147 registry
+predictors, and 9 postoperative outcomes (POAF primary; 8 auxiliary labels used only during
+training of multi-output models and never at inference). A raw linear-discriminant baseline
+reached holdout AUROC 0.685 (95\% CI 0.664--0.705); the strongest single human model reached
+0.683, with the best non-foundation human model (random forest) at 0.681 (95\% CI 0.660--0.700);
+five carefully recreated published methods read 0.667--0.683 on our cohort. The deployable
+license-clean EI champion (``E3'') reached holdout AUROC 0.689 (95\% CI 0.670--0.709). These
+intervals overlap heavily (Hanley--McNeil SE $\approx0.011$): by DeLong testing, E3 edges the
+raw baseline by only $\Delta=0.0042$ ($p=0.048$, borderline) and is statistically
+indistinguishable from the best human model ($\Delta=0.0087$, $p=0.099$, not significant). Two
+distinct searches were run: a 500-generation genetic search over a linear-discriminant feature
+mask, whose cross-validation peaked at 0.732 at generation~165 while its repeatedly-measured 3k
+monitor stayed near 0.675--0.690; and a separate receipt-audited multi-output search (5{,}917
+runs over 200 generations) whose generation-169 champion reached cross-validation 0.697 and
+holdout 0.686. Stage-level attribution suggests representation fusion---not any single
+estimator---explains what won the noisy cross-validation objective (ridge $R^{2}=0.548$), though
+this attribution is observational over search-selected genomes and predicts selection score
+rather than generalization. Twenty-four ZYAL-engineered features survived into the champion's
+mask; their train-only associations re-encode a cohort-specific ``young-and-sick'' selection
+structure (younger patients here are enriched for sicker, emergent valve cases) that runs
+opposite to population epidemiology and should not be read as rediscovered physiology. E3 was
+well calibrated (slope 0.845, intercept $-0.113$, Brier 0.200) and showed positive
+decision-curve net benefit across clinically plausible thresholds. On a temporally separated
+external cohort, after removing 24.6\% of holdout rows that were feature-identical to training
+rows---a leak that had spuriously inflated unregularized trees to AUROC 0.78---every method,
+human and engineered, collapsed into a single 0.680--0.689 band, confirming the ceiling out of
+cohort. The honest finding is that
+autonomous invention \emph{reaches} the registry-only POAF discrimination ceiling near 0.689 but
+does \emph{not} significantly surpass strong human baselines---and E3, selected as champion under
+the same noisy regime, is itself subject to the winner's curse. Cross-validation did not predict
+holdout rank at all (Spearman $-0.06$, $p=0.18$), which is precisely why a single-use holdout
+firewall matters. The contribution is an auditable search and an honest characterization of the
+ceiling and the cross-validation--holdout decoupling, not a superior predictor.
+\end{abstract}
+
+% ============================================================================
+\section{Introduction}
+% ============================================================================
+Postoperative atrial fibrillation (POAF) is the most common arrhythmic complication of adult
+cardiac surgery. Across coronary, valve, and combined procedures, reported incidence spans
+roughly 20\% to 40\%, and our own cohort sits squarely in that range, with a POAF prevalence of
+33.9\% in training and 32.8\% in the held-out set. POAF is not a benign nuisance rhythm. It is
+associated with longer intensive-care and hospital stays, increased perioperative stroke,
+recurrent and sometimes persistent atrial fibrillation, exposure to anticoagulation and its
+bleeding hazards, and excess downstream cost and resource use~\cite{andrei2024,karri2021,pandey2023,riad2022}.
+For the cardiac surgeon and the perioperative team, a reliable preoperative estimate of POAF
+risk would inform monitoring intensity, prophylaxis decisions, length-of-stay planning, and
+shared decision-making before the patient ever enters the operating room.
+
+The aspiration to predict POAF from structured data is decades old. Early multicenter risk
+indices identified age, valve surgery, and withdrawal of beta-blockade as drivers~\cite{mathew2004,magee2007},
+and a generation of risk scores followed~\cite{pollock2018,belley2015,qian2022}. The modern
+machine-learning era has not produced the discontinuous jump in performance that other domains
+enjoyed. Systematic review and meta-analysis place the discrimination of POAF risk scores in a
+moderate band, with substantial heterogeneity and frequent optimism~\cite{pandey2023}. The
+strongest contemporary registry-based efforts---including national STS analyses of new-onset
+atrial fibrillation after mitral and coronary surgery---report test-set AUROC in the high-0.6
+region, with penalized logistic regression often matching or exceeding random forests and
+gradient boosting~\cite{andrei2024,karri2021,pollock2018,kaur2026,elsherbini2023,ma2025,zheng2026}.
+This is a revealing state of the art: when more flexible learners fail to clearly beat
+regression, the bottleneck is unlikely to be the choice of estimator. It is more likely to be
+the signal itself, the representation, and the discipline with which optimism is controlled.
+
+This pattern motivates a reframing. The conventional pipeline asks a human expert to choose,
+in sequence, how to clean the data, how to scale it, what features to engineer, which features
+to keep, how to reduce dimensionality, whether to resample, which model to fit, and how to
+combine models. Every one of those choices is a hypothesis; every hypothesis competes for the
+investigator's finite attention; and every competition is vulnerable to the optimism of the
+maximum. We propose instead to make the pipeline itself the unit of discovery---to let an
+autonomous system invent complete, end-to-end analysis pipelines in response to the data, and
+to hold those inventions to a single-use holdout that a human can never quietly relax.
+
+We call this approach \emph{engineered intelligence} (EI). In this paper we (i) recreate the top
+published POAF methods on our exact cohort to establish an honest, same-data bar; (ii) exhaustively
+fit conventional human models, including modern foundation tabular models, to establish the best a
+careful human can do without inventing pipelines; (iii) confront the central reliability problem of
+automated search---cross-validation optimism versus a firewalled holdout, with formal statistical
+inference (95\% confidence intervals and DeLong tests) on every key comparison; (iv) describe the EI
+system itself, its stage grammar, its agent scripting language (ZYAL), its agent fleet, and the four
+structural limits of the human researcher that it is built to relieve; (v) report the engineered
+features that ZYAL invented and that survived into the champion model, and reframe their associations
+as cohort-specific signals rather than rediscovered biology; (vi) dissect the deployable,
+license-clean champion pipeline stage by stage; and (vii) present the benchmark ladder, calibration
+and decision-curve analysis, and temporal external validation. Throughout, we resist the temptation
+to overclaim. The headline is not a miraculous AUROC, and it is not that machine invention beats
+human experts: by formal testing the champion is statistically indistinguishable from strong human
+baselines. The headline is a method---machine invention of whole pipelines, fully audited---and an
+honest discrimination ceiling, with an honest accounting of the optimism, that method helped us
+measure.
+
+% ============================================================================
+\section{Recreating the Published State of the Art on Our Cohort}
+% ============================================================================
+Comparisons across POAF studies are notoriously unfair: cohorts differ in era, surgery mix,
+monitoring intensity, and the very definition of the outcome. To create an honest internal bar,
+we recreated five families of previously published methods and refit each on our own
+10{,}000/3{,}000 split using only the 147 registry predictors and the primary POAF endpoint.
+We emphasize a point that we will not let the reader forget: \emph{these are recreations on our
+data}, not reproductions of the original cohorts. Because the original headlines were computed on
+different populations, our recreated numbers should be expected to read below those headlines.
+They are useful precisely because they are now directly comparable to everything else in this
+paper.
+
+The recreated families span (M1) an XGBoost model with importance- and Boruta-style feature
+reduction~\cite{chen2016,karri2021}; (M2) a penalized LASSO logistic ``POLARIS-style'' score;
+(M3) a random-forest-with-importance approach in the spirit of NOPAF/INSPIRE-style
+models~\cite{breiman2001}; (M4) an H2O-AutoML-style super learner using stacked
+generalization~\cite{wolpert1992}; and (M5) a COM-AF-style combined risk-score logistic model.
+Cross-validated and holdout discrimination, average precision, and calibration (Brier score)
+are reported in Table~\ref{tab:recreated}.
+
+\begin{table}[ht]
+\centering
+\begin{threeparttable}
+\caption{Published POAF methods \emph{recreated on our cohort} (10{,}000 train / 3{,}000 holdout;
+147 registry predictors; POAF endpoint). Numbers read below the original publications' headlines
+because the original cohorts differ; only same-data comparison is valid here.}
+\label{tab:recreated}
+\begin{tabular}{llccccc}
+\toprule
+ID & Recreated method (family) & Features & CV AUROC & Holdout AUROC & Holdout AUPRC & Brier \\
+\midrule
+M1 & Shin-style XGBoost + importance/Boruta & 146 & 0.6699 & 0.6715 & 0.498 & 0.2036 \\
+M2 & POLARIS-style penalized LASSO logistic & 146 & 0.6822 & 0.6758 & 0.493 & 0.2026 \\
+M3 & NOPAF/INSPIRE-style random forest      & 146 & 0.6859 & 0.6806 & 0.506 & 0.2008 \\
+M4 & H2O-AutoML-style super learner (stacked) & 146 & 0.6910 & 0.6830 & 0.505 & 0.2006 \\
+M5 & COM-AF-style combined risk-score logistic & 17 & 0.6786 & 0.6669 & 0.487 & 0.2042 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item AUROC, area under the receiver-operating-characteristic curve; AUPRC, area under the
+precision--recall curve; Brier, mean squared probability error (lower is better). CV denotes
+5-fold cross-validation on the training split; the holdout was used once.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+Two observations follow. First, all five recreated methods occupy a narrow band of holdout AUROC,
+from 0.667 to 0.683. The stacked super learner (M4) is the strongest, the single-score logistic
+(M5) the weakest, and the spread between them is roughly 0.016 of AUROC. Second, the more flexible
+learners do not dominate the simpler ones by any comfortable margin---an internal echo of the
+published literature in which regression repeatedly competes with, and sometimes beats, ensembles
+on registry data~\cite{andrei2024}. This compression is the central empirical fact of the problem,
+and it frames everything that follows.
+
+% ============================================================================
+\section{The Best a Human Can Do Without Inventing Pipelines}
+% ============================================================================
+We next asked how far conventional model selection alone can go. We fit an exhaustive battery of
+human models---no engineered pipelines, no stage grammar, just an estimator applied to the
+147-feature matrix with standard preprocessing---spanning linear models, discriminant analysis,
+tree ensembles, gradient boosting in several implementations, naive Bayes variants, kernel
+machines, neighbor methods, multilayer perceptrons, and modern foundation tabular models. The
+foundation models include AutoGluon and the TabPFN family, evaluated here strictly as
+\emph{human baselines}. We make this explicit because it matters for interpretation: TabPFN
+(including the GPU-accelerated v2.5 configurations) is reported only as a human comparator and
+plays no role in our engineered-intelligence results, figures, or claims.
+
+\begin{table}[ht]
+\centering
+\begin{threeparttable}
+\caption{Exhaustive human models (no pipelines), top of a 33-model sweep, ranked by holdout AUROC
+on the 3{,}000-operation holdout. TabPFN and TabPFN v2.5 (GPU) appear here \emph{only as human
+baselines}.}
+\label{tab:human}
+\begin{tabular}{lc}
+\toprule
+Human model (estimator only) & Holdout AUROC \\
+\midrule
+TabPFNClassifier (foundation tabular; human baseline) & 0.6832 \\
+RandomForestBinaryClassifier & 0.6828 \\
+AutoGluonClassifier & 0.6810 \\
+TabPFN v2.5, $n{=}32$, GPU (human baseline) & 0.6797 \\
+RandomForestBaseline & 0.6788 \\
+LinearDiscriminantBinaryClassifier & 0.6741 \\
+TabPFN v2.5, $n{=}16$, GPU (human baseline) & 0.6731 \\
+LogisticRegressionBaseline & 0.6730 \\
+GradientBoostingClassifier & 0.6728 \\
+LogisticRegressionClassifier & 0.6680 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item The full sweep of 33 estimators ranged from 0.683 (best) down to chance-level performance
+for several kernel and neighbor methods. The raw linear-discriminant analysis substrate on 112
+features (``LDA-112''), used downstream as the engineered-intelligence baseline, reached holdout
+AUROC 0.685.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+The result is sobering and instructive (Table~\ref{tab:human}). The very best a careful human
+achieved with a single estimator was a holdout AUROC of 0.683 (TabPFN as a human baseline), with
+the best non-foundation human estimator a tuned random forest at 0.681 (95\% CI 0.660--0.700). A
+simple raw linear-discriminant substrate over 112 features reached 0.685---higher than every human
+estimator in the sweep. These differences are small relative to sampling noise: at this sample size
+and prevalence the Hanley--McNeil standard error of a single AUROC is approximately 0.011, so the
+confidence intervals of the leading human models, the raw baseline, and (as we show below) the
+engineered champion all overlap heavily. In other words, on this registry-only POAF problem,
+conventional model selection does not separate the field, and neither, by a statistically
+significant margin, does anything else we tried. The foundation tabular models, despite their power
+on many tabular tasks, do not break away. The ceiling is not waiting behind a cleverer choice of
+classifier. If progress exists, it must come from how the entire pipeline is constructed---and from
+the discipline with which apparent progress is validated.
+
+% ============================================================================
+\section{AutoML and the Reality of the Holdout}
+% ============================================================================
+Automated machine learning promises to relieve the human of model and hyperparameter
+choice~\cite{hutter2019,bergstra2012}. But automation introduces its own hazard, and on this
+problem the hazard is acute. When a search evaluates thousands of candidate pipelines and selects
+the cross-validation maximum, the selected score is biased upward: the maximum of many noisy
+estimates overstates the truth, an effect long understood in hyperparameter optimization as the
+optimism of the maximum and closely related to the statistician's winner's curse~\cite{bergstra2012,hutter2019}.
+The only honest defense is a holdout that the search cannot touch and a human cannot quietly
+re-use.
+
+We ran two distinct engineered-intelligence searches, and we keep them separate throughout because
+conflating them would misstate both. The first is a 500-generation genetic search over a
+linear-discriminant feature mask (the ``lda500'' search of the present work). The second is a
+separate receipt-audited multi-output (MIMO) pipeline search, run under a Codex orchestration of the
+same EI system, comprising 5{,}917 receipt-audited runs over 200 generations. The two searches have
+different champions and different generation indices; they should not be read as one trajectory.
+
+Our search makes the central hazard visible rather than hiding it. Figure~\ref{fig:evolution} shows
+the lda500 trajectory: across 500 generations, the best cross-validation AUROC climbed and peaked at
+0.732 at generation~165, while the corresponding 3{,}000-operation holdout for those same champions
+stubbornly hovered between roughly 0.675 and 0.690. We stress that this per-generation holdout was a
+\emph{repeatedly measured monitor}, not a single-use firewall---it was scored on the 3k holdout many
+times across the series. That repeated measurement is exactly what lets it expose overfitting; it is
+not the single-use firewall, which we reserved for the final-20 confirmation draw described below.
+The gap between the promise of cross-validation and the payment of the holdout is the story. It is
+not noise to be smoothed away; it is the single most important reliability signal in the entire
+study.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.92\textwidth]{fig1_evolution}
+\caption{Evolutionary search trajectory of the lda500 genetic feature-mask search (this work).
+Cross-validation discrimination rises across generations and peaks at 0.732 at generation~165, while
+the repeatedly-measured 3{,}000-operation holdout monitor for the same champions stays in the
+0.675--0.690 band. The widening cross-validation--holdout gap is the optimism of the maximum
+(winner's curse) made visible. This holdout was a monitor measured many times across the series---not
+the single-use firewall, which applied only to the final-20 confirmation draw. The separate
+receipt-audited MIMO search (5{,}917 runs / 200 generations) and its generation-169 champion are a
+\emph{different} search and are not shown on this trajectory.}
+\label{fig:evolution}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.78\textwidth]{fig3_cv_vs_holdout}
+\caption{Cross-validation versus holdout discrimination for searched pipelines (lda500 series). Across
+500 generations, cross-validation and holdout AUROC are essentially uncorrelated (Spearman
+$-0.06$, $p=0.18$; Pearson $-0.04$); the points do not track the identity line. The cloud shows that
+cross-validation rank carries no information about which pipeline will generalize.}
+\label{fig:cvholdout}
+\end{figure}
+
+Figure~\ref{fig:cvholdout} makes a still stronger and, to us, the most important methodological point
+of the paper: \emph{cross-validation was not a valid ranking signal here at all}. Over the 500-generation
+series, the rank correlation between cross-validation and holdout AUROC was Spearman $-0.061$
+($p=0.175$; Pearson $-0.039$). Stratifying by cross-validation did nothing: the top-50 pipelines by
+cross-validation had a mean holdout AUROC of 0.6775, the bottom-50 had 0.6775, and the overall mean was
+0.6775---identical to three decimals. A leaderboard ranked on cross-validation, or on a holdout that has
+been peeked at many times, is therefore not merely optimistic; it is uninformative about generalization.
+This is the concrete, quantitative reason a held-out firewall matters: when the selection signal is
+decoupled from the target, only an untouched holdout can adjudicate. Our system reserves a single-use
+firewall for the COXMAZE final-20 confirmation draw (a one-time lock followed by a DeLong test); the
+exploratory lda500 evolution series (Figs.~\ref{fig:evolution} and \ref{fig:cvholdout}) and the
+benchmark ladder were measured on the 3{,}000-operation holdout repeatedly, as monitors, which is
+precisely why they expose---rather than hide---the optimism. We do not claim that the whole study used a
+single-use holdout; we claim that the firewall, where applied, is what makes the final confirmation
+credible, and that the repeated monitors are what make the optimism measurable.
+
+% ============================================================================
+\section{Engineered Intelligence: Inventing the Whole Pipeline}
+% ============================================================================
+\subsection{Algorithm decomposition into a stage grammar}
+The core idea is to stop treating ``the model'' as the object of search and to treat the entire
+pipeline as a composable program. We decompose any tabular pipeline into an ordered grammar of
+eight stage families: \textbf{sanitize} (handle missingness, non-finite values, near-constant
+columns), \textbf{scale} (standardize, transform, discretize), \textbf{expand} (engineer new
+features and representations), \textbf{select} (choose informative features), \textbf{reduce}
+(compress dimensionality), \textbf{sample} (rebalance classes), \textbf{model} (fit one or two
+estimators, single- or multi-output), and \textbf{fuse} (combine estimator outputs). A concrete
+pipeline is a genome: a choice of stage operator in each slot, with two expansion slots, an
+optional surrogate, and an optional secondary model plus a fusion rule. This is a strictly larger
+and more structured search space than hyperparameter tuning over a fixed estimator, and it is the
+space in which the lift, when it exists, is found.
+
+\subsection{ZYAL: an agent scripting language}
+The grammar is exposed to autonomous agents through ZYAL, an agent scripting language in which a
+candidate pipeline, its data contract, its scoring protocol, and its provenance are all first-class,
+serializable objects. ZYAL is what makes the search auditable: every candidate emits a receipt
+recording its generation, its full stage genome, the estimator family (single- or multi-output),
+the cross-validation/selection score, the holdout score when one was spent, and a genome
+fingerprint for deduplication. Figure~\ref{fig:zyal} shows the end-to-end ZYAL workflow, from genome
+specification through agent execution, adversarial judging, and holdout firewalling.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{fig5_zyal_workflow}
+\caption{The ZYAL engineered-intelligence workflow. A genome over the eight-stage grammar is scripted,
+dispatched to the agent fleet, scored under cross-validation, judged adversarially, evolved by genetic
+operators, and---only for promoted candidates---charged once against the single-use holdout firewall.
+Every step emits a receipt for end-to-end auditability.}
+\label{fig:zyal}
+\end{figure}
+
+\subsection{The agent fleet, evolution, adversarial judges, and the holdout firewall}
+ZYAL pipelines are executed by a fleet of autonomous agents---in this study, up to seven concurrent
+users orchestrating as many as seventy workers---under a Python supervisor. Candidates reproduce by
+genetic operators (mutation of individual stage slots and crossover of partial genomes) and are pruned by
+adversarial judges that penalize instability and overfitting during selection. During exploration,
+candidates were scored by cross-validation and monitored against the 3{,}000-operation holdout
+repeatedly; the single-use holdout firewall---a one-time lock and DeLong test---was reserved for the
+final-20 confirmation draw only. The receipt corpus for the MIMO search comprises 5{,}917 receipt-audited
+runs across 200 generations, yielding 5{,}768 deduplicated genomes---a search at a scale and with an audit
+trail that no individual investigator could match by hand. We note for honesty that scoring thousands of
+distinct models against the same 3{,}000-operation holdout is itself the multiple-comparisons context that
+makes the winner's curse acute (Section~9).
+
+\subsection{The four limits of the human researcher}
+Why automate at this altitude at all? Because the human researcher faces four structural limits that no
+amount of expertise removes, and engineered intelligence is designed to relieve each one.
+
+\begin{description}[leftmargin=1.5em,style=nextline]
+\item[(a) Knowledge consumption.] The scientific literature now grows at a pace no person can read.
+Bibliometric analysis estimates modern science expanding on the order of several percent per year, with
+the global corpus doubling roughly every one to two decades~\cite{bornmann2015}. A surgeon-scientist
+cannot consume, let alone integrate, the relevant cardiology, electrophysiology, surgery, and
+machine-learning literature simultaneously. An agent fleet can encode that literature as priors over
+stage operators and engineered features, and can revisit them for every candidate.
+\item[(b) Hypothesis generation.] A human proposes a handful of features or model variants per study.
+The combinatorics of an eight-stage grammar are astronomical, and the productive regions are not where
+intuition expects them. Machine search generates and tests hypotheses---feature formulas, stage
+compositions, fusion rules---at a rate that decouples discovery from individual imagination.
+\item[(c) Idea validation: time and quality.] Each human-proposed idea takes hours to days to implement
+and evaluate correctly, and informal evaluation is error-prone. The agent fleet validates thousands of
+ideas under one fixed, leakage-controlled protocol, so that the \emph{quality} of validation is uniform
+and the \emph{speed} is bounded only by compute.
+\item[(d) Cognitive bias.] Human-driven analysis is a garden of forking paths. Flexible analytic choices,
+made in good faith, manufacture significance and inflate apparent performance---a principal reason most
+published findings fail to replicate~\cite{ioannidis2005,gelman2014}. An engineered system with a
+single-use holdout firewall on the final confirmation draw and pre-registered scoring removes the human
+degrees of freedom that quietly tune a result toward the test set. It does not, however, remove the
+multiplicity of an automated search that scores thousands of candidates; that hazard is controlled only by
+the firewall and by reporting it honestly, as we do here.
+\end{description}
+
+\noindent
+None of these four limits is a deficiency of any individual scientist; they are properties of the human
+cognitive and institutional system. Engineered intelligence does not make the scientist obsolete. It
+relocates the scientist's role from proposing and validating individual pipelines to designing the
+grammar, the priors, the judges, and the firewall within which invention occurs.
+
+% ============================================================================
+\section{ZYAL Feature Discovery: Cohort-Specific Signals, Not Rediscovered Biology}
+% ============================================================================
+The expansion stage is where ZYAL invents candidate features. From a candidate library of 50 engineered
+features layered on top of 146 raw registry predictors (a 196-feature substrate), exactly 24 engineered
+features survived into the champion model's LDA-112 feature mask. Survival here is a selection test on this
+cohort: a feature must earn its place against the raw registry variables and the other engineered candidates
+under the leakage-controlled selection criterion. Figure~\ref{fig:features} shows the discovery and survival
+of these features; Table~\ref{tab:features} lists them with formula sketches and their feature--target
+associations. We label every reported correlation as a \emph{train-only marginal association} on this
+specific cohort. We present the clinical rationales below as \emph{hypotheses} supported by the feature
+formula and its train-only association, not as established mechanisms: we deliberately do not attach
+per-feature citations, because a marginal correlation in one surgical research cache is not evidence for a
+named physiological mechanism.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{fig6_feature_discovery}
+\caption{ZYAL feature discovery. Engineered features are proposed from physiological priors, scored, and
+filtered; 24 survive into the champion's LDA-112 mask. Several encode interactions---age with comorbidity,
+inflammation with oxygen delivery, valve burden with anemia---that no single registry column expresses.
+Survival reflects usefulness for selection \emph{on this cohort}; it is not evidence of generalizable
+physiology.}
+\label{fig:features}
+\end{figure}
+
+Four hypothesis families recur. We describe them as candidate readings of cohort-specific structure.
+
+\paragraph{The ``young-and-sick'' inversion is a cohort-selection confound, not discovered physiology.}
+The strongest surviving features encode a relationship that runs \emph{opposite} to population epidemiology:
+in this cohort, younger age is \emph{negatively} associated (train-only) with POAF, whereas in the general
+literature older age \emph{increases} POAF risk. We interpret this inversion as a selection artifact rather
+than a biological discovery. This is a surgical research cache in which younger patients are enriched for
+sicker, emergent, and complex valve cases (referral and collider selection): conditioning on having reached
+cardiac surgery, youth co-varies with acuity. The \texttt{metabolicriskcalcul} feature
+($\mathrm{Age}\times\mathrm{BSA}+\mathrm{INR}$; train-only correlation $-0.253$, the strongest of any
+engineered feature) and \texttt{age\_young\_sick\_score} (younger age minus ten points per major comorbidity;
+$-0.208$) re-encode this cohort-specific selection structure, and \texttt{young\_age\_hscrp\_inflammation\_ratio}
+($\mathrm{hsCRP}/(70-\mathrm{Age})$; $-0.149$) amplifies it. Because the underlying structure is a property of
+who was referred and operated on here, these features should not be expected to generalize, and we make no
+claim that the inversion reflects rediscovered biology. They are useful as cohort-specific signals only.
+
+\paragraph{Atrial stretch and valve regurgitation (hypothesis).}
+Features such as \texttt{lv\_edd\_ef\_ratio\_age\_factor} ($\mathrm{LVEDD}/\mathrm{HDEF}$, weighted by youth;
+train-only correlation $0.146$), \texttt{young\_age\_valve\_burden\_interaction} (youth times mitral and tricuspid
+insufficiency grade; $0.140$), \texttt{hdef\_vasculature\_stress} ($-0.121$), and
+\texttt{young\_anemia\_valve\_regurg\_inflammation} ($0.128$) plausibly track mechanical atrial stretch from
+chamber dilation and regurgitant valve burden. The \texttt{chronic\_ischemic\_atrial\_remodeling\_score}
+(coronary stenosis burden $\times$ GDF-15, youth-weighted; $0.155$) is consistent with an ischemia--fibrosis
+hypothesis. All carry the same caveat: each is youth-weighted and so partly re-expresses the cohort selection
+structure above.
+
+\paragraph{Inflammation, frailty, and selective missingness (hypothesis).}
+Several survivors exploit not just values but \emph{which values are recorded}. The
+\texttt{cardiac\_workup\_intensity\_frailty\_discordance} feature (train-only correlation $0.154$) counts how many of
+HDEF, LVEDD, PASYS, BNP, and NYHA class were measured, scaled by youth and inverse inflammation. A natural
+reading is that selective missingness in younger patients marks acuity bypassing routine workup while
+exhaustive testing in older patients marks frailty---but this is precisely a center-practice and selection
+signal, not physiology. The \texttt{beta\_blocker\_withdrawal\_age\_factor} ($0.163$) operationalizes a possible
+peri-operative adrenergic-surge effect, youth-weighted. Composite inflammation-reserve indices
+(\texttt{inflammatory\_metabolic\_stress\_index}, \texttt{bsa\_indexed\_systemic\_inflammation\_score},
+\texttt{sarcopenic\_metabolic\_reserve\_index}, \texttt{metabolic\_age\_severity\_interaction}; train-only
+correlations $0.118$--$0.146$) tie systemic inflammation and GDF-15 to metabolic and body-size reserve.
+
+\paragraph{Anemia and oxygen delivery (hypothesis).}
+A final cluster is consistent with an oxygen-delivery reading of atrial vulnerability:
+\texttt{renal\_function\_albumin\_oxygen\_delivery\_index} (albumin and hematocrit over creatinine, penalized
+by inflammation; train-only correlation $-0.139$), \texttt{inflammatory\_oxygen\_delivery\_gap} ($0.123$),
+\texttt{bsa\_indexed\_oxygen\_carrying\_capacity\_deficit} ($0.132$),
+\texttt{hypotension\_anemia\_atrial\_stress\_index} ($0.124$), and
+\texttt{renal\_anemia\_inflammation\_reserve\_ratio} (anemia $\times$ hsCRP over albumin; $0.120$) combine
+anemia, hypoalbuminemia, renal dysfunction, and inflammation. We offer these as hypotheses supported by the
+formula and the train-only association only.
+
+\begin{table}[ht]
+\centering
+\begin{threeparttable}
+\caption{The 24 ZYAL-engineered features that survived into the champion's LDA-112 mask, with their
+\emph{train-only} marginal association to the POAF endpoint and an abbreviated formula. Correlations are
+cohort-specific train-set associations, \emph{not} validated effects and \emph{not} evidence of mechanism;
+the clinical rationales in the text are hypotheses supported by the formula and the train-only association
+only.}
+\label{tab:features}
+\footnotesize
+\begin{tabular}{lcl}
+\toprule
+Engineered feature & Train corr.\ & Formula sketch \\
+\midrule
+metabolicriskcalcul & $-0.253$ & $\mathrm{Age}\cdot\mathrm{BSA}+\mathrm{INR}$ \\
+age\_young\_sick\_score & $-0.208$ & $\mathrm{Age}-10\cdot(\mathrm{DM}{+}\mathrm{PrevMI}{+}\mathrm{CHF}{+}\mathrm{Depr})$ \\
+height\_cm\_hematocrit\_frailty\_phenotype & $0.169$ & $(\mathrm{Height}/\mathrm{Hct})\cdot(\mathrm{Weight}/\mathrm{BSA}^2)$, age/sex weighted \\
+beta\_blocker\_withdrawal\_age\_factor & $0.163$ & on beta-blocker $\times (70-\mathrm{Age})/10 \times$ ischemic burden \\
+chronic\_ischemic\_atrial\_remodeling\_score & $0.155$ & coronary stenosis sum $\times$ GDF-15, youth-weighted \\
+cardiac\_workup\_intensity\_frailty\_discordance & $0.154$ & (count of measured workup) $\times$ youth / hsCRP \\
+young\_age\_high\_risk & $0.151$ & $\mathbb{1}[\mathrm{Age}<60]$ \\
+young\_age\_hscrp\_inflammation\_ratio & $-0.149$ & $\mathrm{hsCRP}/(70-\mathrm{Age})$ \\
+metabolic\_age\_severity\_interaction & $0.146$ & $(100-\mathrm{Age})\cdot \mathrm{HDEF}/\mathrm{Weight}$, lung-weighted \\
+lv\_edd\_ef\_ratio\_age\_factor & $0.146$ & $(\mathrm{LVEDD}/\mathrm{HDEF})\cdot(70-\mathrm{Age})$ \\
+bsa\_indexed\_acute\_phase\_response & $0.145$ & $(\mathrm{hsCRP}{+}\mathrm{GDF15})\cdot(1-\mathrm{Hct})/\mathrm{BSA}$ \\
+young\_age\_valve\_burden\_interaction & $0.140$ & $(60-\mathrm{Age})\cdot(\mathrm{VDInsufM}{+}\mathrm{VDInsufT})$ \\
+renal\_function\_albumin\_oxygen\_delivery\_index & $-0.139$ & $\mathrm{Alb}\cdot\mathrm{Hct}/(\mathrm{Creat}\cdot \text{inflamm.})$ \\
+bsa\_indexed\_oxygen\_carrying\_capacity\_deficit & $0.132$ & anemia $\times \mathrm{Hct}/(\mathrm{BSA}\cdot\mathrm{Alb})$, CHF/dialysis weighted \\
+young\_anemia\_valve\_regurg\_inflammation & $0.128$ & $(70-\mathrm{Age})/10 \cdot \mathrm{hsCRP}\cdot \mathrm{VDInsufM}$ \\
+hypotension\_anemia\_atrial\_stress\_index & $0.124$ & low-EF $\times$ anemia $\times$ low-PASYS $\times$ CHF \\
+inflammatory\_oxygen\_delivery\_gap & $0.123$ & $(\mathrm{hsCRP}/\mathrm{Alb})\cdot(\text{anemia}/\mathrm{Hct})$ \\
+sarcopenic\_metabolic\_reserve\_index & $0.121$ & $(\mathrm{Alb}/\mathrm{Weight})\cdot(100-\mathrm{HDEF})/50$ \\
+renal\_anemia\_inflammation\_reserve\_ratio & $0.120$ & anemia $\times \mathrm{hsCRP}/\mathrm{Alb}$ \\
+bsa\_indexed\_systemic\_inflammation\_score & $0.118$ & $(\mathrm{hsCRP}{+}\mathrm{GDF15})/\mathrm{BSA}$ \\
+inflammatory\_metabolic\_stress\_index & $0.118$ & $(\mathrm{hsCRP}{+}\mathrm{GDF15}/100)/(\mathrm{Alb}\cdot\mathrm{BSA})$ \\
+hdef\_vasculature\_stress & $-0.121$ & $\mathrm{HDEF}\cdot \text{valve-recorded}/\mathrm{Creat}$ \\
+renal\_anemia\_inflammation\_reserve & $-0.058$ & $(\mathrm{Alb}/\mathrm{Creat})\cdot\mathrm{hsCRP}$, dialysis weighted \\
+hypoxic\_autonomic\_frailty\_interaction & $0.029$ & $(\mathrm{GDF15}/1000)\cdot(\mathrm{PO_2}/\mathrm{PCO_2})\cdot$ workup count \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item DM, diabetes; Depr, depression; Hct, hematocrit; Alb, total albumin; Creat, creatinine;
+HDEF, left-ventricular ejection fraction; LVEDD, left-ventricular end-diastolic diameter; VDInsufM/T,
+mitral/tricuspid insufficiency grade; PASYS, pulmonary-artery systolic pressure. ``Inflamm.'' denotes a
+penalty term in hsCRP; ``anemia'' denotes a hemoglobin-deficit term. ``Train corr.'' is the train-only
+marginal correlation with the POAF endpoint; these are cohort-specific associations, not validated effects.
+Formulae are abbreviated; full expressions are in the supplementary feature dictionary.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+The cohort-specific reading is that, on this cache, POAF-associated structure is captured not by single
+registry columns but by interactions---age against comorbidity, inflammation against oxygen delivery,
+chamber geometry against valve burden, and the very pattern of what was and was not measured. We emphasize
+the limits of this reading. The associations are train-only and the most prominent of them, the inverted
+``young-and-sick'' relationship, is a cohort-selection confound that contradicts population epidemiology;
+it does not generalize and is not a biological discovery. The result here is methodological---that an
+autonomous system can surface and encode cohort-specific selection structure---not a claim of rediscovered
+physiology.
+
+% ============================================================================
+\section{The Champion Model E3, Stage by Stage}
+% ============================================================================
+The deployable engineered-intelligence champion is \textbf{E3}, a license-clean pipeline. We stress
+license-clean: E3 uses no restrictively licensed foundation model, and in particular it does not use
+TabPFN at any stage. E3's genome reads:
+\[
+\text{LDA-112} \;\rightarrow\; \text{BrownianBridgeRankExpander} \;\rightarrow\;
+\text{MonotoneRunAtlasExpander} \;\rightarrow\; \text{TopologicalSubspaceClassifier}.
+\]
+Figure~\ref{fig:e3} shows the full pipeline. We dissect it stage by stage.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{fig7_e3_pipeline}
+\caption{The license-clean champion pipeline E3. A 196-feature substrate (146 raw + 50 ZYAL-engineered) is
+reduced by linear-discriminant analysis to a 112-feature mask in which 24 engineered features survive; two
+expansion stages add rank/bridge and monotone-run descriptors; a multi-output Topological Subspace
+classifier produces the POAF risk using 8 auxiliary outcomes as training labels only.}
+\label{fig:e3}
+\end{figure}
+
+\paragraph{Substrate and LDA-112 reduction.}
+E3 begins from the full 196-feature substrate (146 raw registry predictors plus 50 ZYAL-engineered features).
+A linear-discriminant projection selects a 112-feature mask; 24 of the 50 engineered features survive this
+mask (Section~6). This is the same LDA-112 substrate that, raw, already discriminates at holdout AUROC 0.685
+(95\% CI 0.664--0.705)---nominally at or above every human single estimator in the sweep, though within
+sampling noise of them.
+
+\paragraph{BrownianBridgeRankExpander (+10 descriptors).}
+The first expansion stage adds 10 rank- and bridge-based descriptors. Intuitively, it re-expresses each
+patient's position within the cohort distribution as a set of rank statistics and Brownian-bridge style
+deviations, exposing nonlinear, monotone-but-not-linear relationships that the discriminant projection alone
+cannot represent.
+
+\paragraph{MonotoneRunAtlasExpander (+12 descriptors).}
+The second expansion stage adds 12 monotone-run descriptors, cataloguing locally monotone segments across
+ordered features---an ``atlas'' of monotone structure that captures threshold-like physiology (e.g.,
+risk that rises sharply only past an anemia or inflammation cut-point) without imposing a global functional
+form.
+
+\paragraph{TopologicalSubspaceClassifier (multi-output).}
+The estimator is a license-clean multi-output (MIMO) classifier. It is trained against all 9 outcomes, using
+the 8 auxiliary postoperative outcomes purely as auxiliary labels to shape a shared representation. Critically,
+\emph{none of the auxiliary outcomes is available at inference}: at prediction time the model sees only the 147
+registry predictors and emits POAF risk. The benefit, where it exists, comes from representation regularization,
+not from leaking future complications into the predictor.
+
+\paragraph{Performance, with statistical inference.}
+E3 reaches holdout AUROC \textbf{0.6893} (95\% CI 0.670--0.709), with cross-validation near 0.685. Nominally
+this edges the raw LDA-112 baseline (0.6852; 95\% CI 0.664--0.705) and the best non-foundation human model
+(random forest, 0.6806; 95\% CI 0.660--0.700), but the confidence intervals overlap heavily (Hanley--McNeil
+SE $\approx0.011$). Formal DeLong testing on the paired holdout predictions makes the size of the effect
+explicit: E3 versus the raw baseline gives $\Delta=0.0042$ (95\% CI $0.00004$--$0.0083$, $p=0.048$), a
+borderline difference; E3 versus the best human model gives $\Delta=0.0087$ (95\% CI $-0.0016$--$0.019$,
+$p=0.099$), which is \emph{not} statistically significant. The honest reading is that E3 \emph{reaches} the
+same discrimination ceiling as the strongest human baselines and is statistically indistinguishable from
+them; it does not surpass them. We apply this caution to E3 itself: E3 was selected as champion under exactly
+the same noisy regime that inflates cross-validation maxima, so its small nominal edge is a winner's-curse
+candidate, not a robustly significant improvement. We resist any ``beats / exceeds / outperforms'' framing
+because the data do not support it.
+
+\paragraph{What won the cross-validation objective: stage attribution (with caveats).}
+To understand what stage choices drove the \emph{selection} score, we regressed each genome's
+cross-validation score on its stage choices across the 5{,}768 deduplicated genomes (ridge regression;
+cross-validated $R^{2}=0.548$). Figure~\ref{fig:attribution} and Table~\ref{tab:attribution} report the macro
+attribution. Fusion dominates by a wide margin: removing fusion choices drops $R^{2}$ by 0.257, an order of
+magnitude more than any other stage, with logistic and ridge stacking carrying the largest positive
+coefficients. Reduction is a distant second ($\Delta R^{2}=0.020$), and primary-model choice third
+($\Delta R^{2}=0.008$). Two caveats are essential and we state them prominently. First, this attribution
+predicts the cross-validation/selection AUROC, which (Section~4) is essentially \emph{uncorrelated} with
+holdout AUROC here; it therefore explains ``what won the noisy cross-validation objective,'' not ``what
+generalizes.'' Second, it is an observational analysis over search-selected genomes---the population of
+genomes is shaped by selection, making the analysis collider-prone---so it is descriptive, not causal, and it
+is not a randomized ablation. With those caveats, the descriptive pattern is that the selection objective
+rewarded \emph{how representations and estimators are combined} more than any single classifier, which is the
+structure one expects on noisy registry data.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.92\textwidth]{fig4_stage_attribution}
+\caption{Stage attribution over the receipt corpus (5{,}768 deduplicated genomes; ridge $R^{2}=0.548$). Left:
+drop in cross-validated $R^{2}$ when each macro stage is removed. Right: largest positive stage coefficients.
+Fusion dominates; reduction and primary-model family follow.}
+\label{fig:attribution}
+\end{figure}
+
+\begin{table}[ht]
+\centering
+\begin{threeparttable}
+\caption{Macro-stage attribution: drop in cross-validated ridge $R^{2}$ when each stage family is removed from
+the model predicting search score (full-model $R^{2}=0.548$).}
+\label{tab:attribution}
+\begin{tabular}{lc}
+\toprule
+Macro stage & $\Delta R^{2}$ when removed \\
+\midrule
+Fusion & 0.2566 \\
+Reducer & 0.0200 \\
+Primary model & 0.0080 \\
+Secondary model & 0.0026 \\
+Feature selector & 0.0020 \\
+Scaler & 0.0015 \\
+Sanitizer & 0.0009 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item Fusion's dominance indicates how the \emph{cross-validation selection objective} was won, not what
+generalizes: this $R^{2}$ predicts selection AUROC, which is roughly uncorrelated with holdout AUROC here.
+The analysis is observational over search-selected genomes (collider-prone) and is descriptive, not causal.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+For completeness, the \emph{separate} receipt-audited MIMO search (run under the Codex orchestration of the
+same EI system, and distinct from the lda500 genetic search of Section~4) produced its own champion at its
+generation~169: an AxiomForge multi-output pipeline (high-missingness dropper, visibility-graph expansion,
+gradient-boosting importance reduction, decision-tree secondary model, logistic stacking fusion) reaching
+cross-validation AUROC 0.697 and holdout AUROC 0.686. We keep this search clearly distinct from the lda500
+trajectory in Figure~\ref{fig:evolution}; the two have different champions and different generation indices.
+We report the MIMO result as corroborating the stage-attribution pattern, but the \emph{deployable} champion
+is the license-clean E3 at holdout 0.689---which, as shown above, is itself statistically indistinguishable
+from the strong human baselines.
+
+% ============================================================================
+\section{Results: The Benchmark Ladder and Temporal External Validation}
+% ============================================================================
+Figure~\ref{fig:benchmark} and Table~\ref{tab:ladder} assemble every comparator on a single ladder, all
+computed on the identical 3{,}000-operation holdout. The nominal ordering places the license-clean EI champion
+E3 (0.689) at the top, followed by the separate EI MIMO pipeline (0.686), the raw LDA-112 baseline (0.685), the
+best human estimators (0.681--0.683), the recreated published methods (0.667--0.683), and the generation-0 search
+baseline (0.667). The ordering must be read with its confidence intervals in mind: the entire top of the ladder
+falls within a band narrower than a single AUROC standard error ($\approx0.011$), so the rank order is not
+statistically meaningful. As shown in Section~7, E3's edge over the baseline is borderline and its edge over the
+best human model is not significant. What is honest about this ladder is not the ordering but the protocol:
+every number paid the same 3{,}000-operation holdout, and that holdout was scored repeatedly across the study
+as a monitor (the single-use firewall was reserved for the final-20 confirmation draw).
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.92\textwidth]{fig2_benchmark}
+\caption{The benchmark ladder on the fixed 3{,}000-operation holdout. The license-clean engineered-intelligence
+champion E3 sits nominally at the top, but conventional human models, recreated published methods, and the raw
+baseline all cluster within roughly one AUROC standard error ($\approx0.011$); by DeLong testing the differences
+are borderline-to-not-significant (Section~7). All comparators share the identical holdout, scored repeatedly as
+a monitor.}
+\label{fig:benchmark}
+\end{figure}
+
+\begin{table}[ht]
+\centering
+\begin{threeparttable}
+\caption{Benchmark ladder: holdout AUROC on the fixed 3{,}000-operation holdout, all comparators. The leading
+entries fall within roughly one AUROC standard error ($\approx0.011$) of one another; E3 vs.\ baseline
+$p=0.048$ and E3 vs.\ best human $p=0.099$ by DeLong (Section~7), so the rank order is not statistically
+meaningful.}
+\label{tab:ladder}
+\begin{tabular}{llc}
+\toprule
+Comparator & Category & Holdout AUROC \\
+\midrule
+EI \#1: E3 (license-clean) & Engineered & 0.6893 \\
+EI: AxiomForge MIMO (separate MIMO search) & Engineered & 0.6858 \\
+Raw LDA-112 baseline & Baseline & 0.6852 \\
+Human: TabPFNClassifier (human baseline) & Human & 0.6832 \\
+Recreated: H2O-AutoML-style super learner & Recreated & 0.6830 \\
+Human: RandomForestBinaryClassifier & Human & 0.6828 \\
+Human: AutoGluonClassifier & Human & 0.6810 \\
+Recreated: NOPAF/INSPIRE-style random forest & Recreated & 0.6806 \\
+Human: TabPFN v2.5 (GPU; human baseline) & Human & 0.6797 \\
+Recreated: POLARIS-style LASSO logistic & Recreated & 0.6758 \\
+Recreated: Shin-style XGBoost + importance & Recreated & 0.6715 \\
+EI: generation-0 search baseline & Engineered & 0.6670 \\
+Recreated: COM-AF-style risk-score logistic & Recreated & 0.6669 \\
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\end{table}
+
+\paragraph{Temporal external validation (and a leakage lesson).}
+A model evaluated on its discovery holdout must still be checked out of cohort. We therefore re-evaluated the
+champion, the top cross-validation pipelines, and three recreated methods on a temporally separated external
+cohort (train $n{=}49{,}999$; 2017 holdout $n{=}10{,}000$) under the same no-leakage feature contract: the
+engineered pipeline (including the LDA-112 mask) was reproduced end to end, and human/recreated comparators again
+received only raw default features. Auditing that split revealed a data-quality problem we report transparently:
+\textbf{2{,}463 of 10{,}000 holdout rows (24.6\%) were feature-identical to a training row}. High-capacity
+unregularized tree models memorize such duplicates and post spuriously high discrimination---the recreated random
+forest reached AUROC 0.778 and the super-learner 0.730 on the leaky split---whereas a depth-3 forest (0.66), the
+linear baselines, and the engineered pipeline are unaffected. We therefore de-duplicated the holdout (7{,}537
+clean rows) and report both columns in Table~\ref{tab:temporal}. On the \emph{clean} external cohort every method,
+human and engineered, collapses into a single band of \textbf{0.680--0.689}: E3 0.6806, the top-CV pipelines
+0.680, LASSO 0.6797, the random forest 0.6840 (down 0.094 once its memorized rows are removed), and the
+super-learner 0.6887. The engineered pipeline generalizes (E3 holds $\sim$0.681 out of cohort) but does not lead;
+no method, human or engineered, separates from the $\sim$0.68 wall. This is the central message made concrete: an
+external AUROC that looks like a win can be an artifact, and only leakage-robust, calibration-checked evaluation
+distinguishes a real signal from a memorized one. We do not overstate the temporal result in either direction.
+
+\input{tables/table_temporal.tex}
+
+% ============================================================================
+\section{Interpretability and Reliability: The Surgeon's Perspective}
+% ============================================================================
+Discrimination is necessary but not sufficient for a model a surgeon would trust at the bedside. Three further
+properties matter, and we address each.
+
+\paragraph{Calibration.}
+A POAF probability is only actionable if it means what it says: among patients told they have a 30\% risk, close
+to 30\% should develop POAF. Modern flexible models---especially those tuned for discrimination---are frequently
+miscalibrated~\cite{guo2017}, and calibration must be assessed before deployment using established
+methods~\cite{steyerberg2010}. We assessed E3's calibration directly on the 3{,}000-operation holdout
+(Figure~\ref{fig:caldca}, left). E3 is well calibrated: the calibration slope is 0.845, the calibration
+intercept is $-0.113$, calibration-in-the-large is $-0.010$, and the Brier score is 0.200. The reliability
+diagram tracks the diagonal across deciles of predicted risk, with only mild over-extension at the highest
+decile (a slope below one is the expected residue of selecting on a noisy objective). Calibration is therefore
+not a deployment blocker for E3; we report discrimination as the primary metric but treat this calibration
+result as a deployment prerequisite that E3 meets.
+
+\paragraph{Clinical utility: decision-curve analysis.}
+AUROC does not tell a surgeon whether to act. Decision-curve analysis~\cite{vickers2006} quantifies net benefit
+across the range of risk thresholds at which a clinician might intensify monitoring or start prophylaxis. We
+computed the decision curve for E3 on the holdout (Figure~\ref{fig:caldca}, right). E3 delivers positive net
+benefit over both treat-all and treat-none strategies across the clinically plausible threshold range: at a 20\%
+threshold the net benefit is 0.172 versus 0.160 for treat-all, and the advantage widens as the threshold rises
+(e.g.\ 0.083 vs.\ $-0.034$ at 35\%, and 0.023 vs.\ $-0.345$ at 50\%), where indiscriminate prophylaxis becomes
+net-harmful. So although E3's discrimination edge over strong baselines is statistically marginal, the model is
+clinically usable: it is well calibrated and yields positive net benefit across thresholds. We frame the
+discrimination result with the caution it deserves, but the calibration and decision-curve results are real and
+favorable.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{fig8_calibration_dca}
+\caption{Calibration and clinical utility of the champion E3 on the 3{,}000-operation holdout. Left:
+reliability diagram across deciles of predicted risk (calibration slope 0.845, intercept $-0.113$,
+calibration-in-the-large $-0.010$, Brier 0.200), tracking the diagonal with mild high-end over-extension.
+Right: decision-curve analysis showing positive net benefit over treat-all and treat-none across clinically
+plausible thresholds.}
+\label{fig:caldca}
+\end{figure}
+
+\paragraph{Explanation and trust.}
+Surgeons will not, and should not, defer to an opaque score. The champion's reliance on legible engineered
+features (Section~6) already buys interpretability that black-box estimators lack. Post-hoc explanation
+methods---SHAP attributions~\cite{lundberg2017} and local surrogate explanations~\cite{ribeiro2016}---can render
+individual predictions inspectable, allowing a clinician to see that a given patient's elevated risk is driven by,
+say, the young-and-sick interaction plus an oxygen-delivery deficit. Crucially, because every pipeline in our
+system carries a ZYAL receipt, the \emph{model itself} is auditable end to end, not merely its outputs.
+
+\paragraph{Reporting standards and governance.}
+We have written this study to the TRIPOD+AI reporting standard~\cite{collins2024} and assessed it against
+PROBAST and PROBAST+AI for risk of bias and applicability~\cite{wolff2019,moons2025}. A completed TRIPOD+AI
+checklist and a procedure-type subgroup analysis (coronary vs.\ valve vs.\ combined operations) are provided as
+online supplements~(\confirm{supplementary file numbers for the TRIPOD+AI checklist and the procedure-type
+subgroup analysis}). The single-use holdout firewall on the final-20 confirmation draw, the deduplicated receipt
+corpus, the explicit separation of human baselines from engineered results, and the temporal external validation
+are all governance choices intended to make the optimism we measured impossible to hide. We are explicit about
+the multiplicity context for the winner's curse: thousands of distinct models were scored against the same
+3{,}000-operation holdout---33 human estimators, 5 recreated published methods, the 20 final-20 confirmation
+candidates, 500 generations of the lda500 series, and the separate Codex MIMO corpus of 5{,}917 runs. With a
+denominator that large against one holdout, a nominal best is expected to be optimistic; this is the formal
+reason we apply the winner's curse to E3 itself and report DeLong tests rather than rank order.
+
+\paragraph{Limitations.}
+Registry variables were collected for surgical quality reporting, not continuous electrophysiologic forecasting;
+the richest POAF signal (preoperative ECG morphology, atrial size, telemetry burden, electrolyte and medication
+trajectories, center-level monitoring practice) is largely outside the registry~\cite{andrei2024,karri2021,ma2025}.
+A specific and important caveat concerns \emph{outcome ascertainment}: the precise POAF definition in our
+source data cache is underspecified (the monitoring window, the duration/episode threshold qualifying as POAF,
+and whether detection relied on routine telemetry versus clinical documentation are not fully pinned down), and
+because POAF discrimination is sensitive to how the outcome is defined and detected, this limits direct
+comparison to published cohorts and is a source of irreducible label noise~(\confirm{exact POAF outcome
+definition, monitoring window, and ascertainment method for the STS-derived cache}). Our recreations are
+recreations, not reproductions, and read below their original headlines by construction. The discovery and
+external cohorts are STS-derived research caches, not prospective or site-held-out validations. The
+engineered-intelligence champion's edge over the raw baseline is small and only borderline significant, and its
+edge over the best human model is not significant; we therefore frame the contribution as the auditable search
+and the honest ceiling characterization, not a superior predictor. The ``young-and-sick'' inversion is a
+cohort-selection confound and its features are not expected to generalize. The stage-attribution analysis is
+observational over search-selected genomes (collider-prone) and predicts the selection objective rather than
+generalization; it is not a randomized ablation. \confirm{IRB approval / waiver number, approving institution,
+and date for the use of STS-derived data in this analysis.} \confirm{Data use agreement (DUA) status and terms
+governing the STS-derived research cache.}
+
+% ============================================================================
+\section{Conclusion}
+% ============================================================================
+We set out to test whether a machine could invent, rather than merely tune, the analysis of a hard clinical
+prediction problem. It can: an engineered-intelligence system---an eight-stage pipeline grammar, an agent scripting
+language, a fleet of autonomous workers, genetic evolution, adversarial judges, and a single-use holdout firewall
+on the final confirmation draw---searched thousands of audited pipelines and produced a license-clean champion. But
+the honest verdict on performance is more measured than the method's ambition. By formal inference the champion
+\emph{reaches} the same discrimination ceiling as the strongest human baselines and is statistically
+indistinguishable from them (E3 vs.\ best human $p=0.099$); its edge over the raw baseline is borderline
+($p=0.048$). It does not surpass expert model selection, and we explicitly subject E3 to the same winner's curse
+as every other candidate. The engineered ``young-and-sick'' features re-encode a cohort-selection confound, not
+rediscovered physiology, and are not expected to generalize. What the champion does offer for deployment is good
+calibration and positive decision-curve net benefit.
+
+Two truths sit side by side, and we hold both. The first is methodological and genuinely useful: algorithms can now
+be invented in response to the data---features, pipelines, and combination rules that no investigator proposed---and
+validated under one protocol at a scale no person can match, with a complete audit trail. The role of the
+surgeon-scientist shifts toward designing the grammar, priors, judges, and firewalls within which invention happens,
+and toward deciding what, clinically, is worth predicting at all. The second truth is empirical and humbling: a
+discrimination ceiling near holdout AUROC 0.689 stands for registry-only POAF prediction, and nothing we tried
+significantly surpassed it. Cross-validation kept promising 0.73 and above while carrying \emph{no} information
+about which pipeline would generalize (Spearman $-0.06$); the holdout kept paying about 0.689. That decoupling is
+not a failure of the method---it is the method working, measuring the optimism that human-driven analysis would have
+spent silently. The honest path forward is not a cleverer classifier but richer signal and better-specified
+outcomes, and an engine disciplined enough to tell us, without flattery, exactly how far the data can take us.
+
+% ============================================================================
+\section*{Declarations}
+% ============================================================================
+\noindent\textbf{Funding.} \confirm{funding sources and grant numbers, or a statement that the work received no
+external funding.}\\[2pt]
+\textbf{Competing interests.} \confirm{competing-interest disclosures for all authors, including any commercial
+affiliation of NeverHuman Search and any relationship with model or tooling vendors.}\\[2pt]
+\textbf{Ethics and data.} \confirm{IRB/ethics approval or waiver, and the data use agreement (DUA) governing the
+STS-derived data.}\\[2pt]
+\textbf{Data and code availability.} \confirm{availability of the ZYAL receipt corpus, engineered-feature
+dictionary, and reproduction code, subject to STS data governance.}\\[2pt]
+\textbf{AI-assisted writing disclosure.} \confirm{disclosure of any AI assistance used in drafting or editing this
+manuscript, per journal policy.}\\[2pt]
+\textbf{Author contributions.} \confirm{author contribution statement (CRediT taxonomy) for Z.K.\ and J.T.}
+
+\bibliographystyle{unsrt}
+\bibliography{references}
+
+\end{document}

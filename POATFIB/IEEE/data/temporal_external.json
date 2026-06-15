@@ -1,0 +1,83 @@
+{
+  "train": "/home/ubuntu/zain_scratch/data/sts_mimo_afib/normalized/sts_mimo_afib_paper_train_49999.csv",
+  "holdout": "/home/ubuntu/zain_scratch/data/sts_mimo_afib/normalized/sts_mimo_afib_paper_holdout_2017_10k.csv",
+  "holdout_rows": 10000,
+  "poaf_prev_holdout": 0.3269,
+  "rows": [
+    {
+      "model": "E3",
+      "kind": "engineered_intelligence",
+      "holdout_auroc": 0.67907,
+      "holdout_auprc": 0.511479,
+      "holdout_brier": 0.200053,
+      "elapsed_s": 257.0
+    },
+    {
+      "model": "C2",
+      "kind": "engineered_intelligence",
+      "holdout_auroc": 0.678494,
+      "holdout_auprc": 0.508977,
+      "holdout_brier": 0.200277,
+      "elapsed_s": 574.2
+    },
+    {
+      "model": "C1",
+      "kind": "engineered_intelligence",
+      "holdout_auroc": 0.679469,
+      "holdout_auprc": 0.510724,
+      "holdout_brier": 0.200002,
+      "elapsed_s": 515.9
+    },
+    {
+      "model": "B5",
+      "kind": "engineered_intelligence",
+      "holdout_auroc": 0.678914,
+      "holdout_auprc": 0.511013,
+      "holdout_brier": 0.200105,
+      "elapsed_s": 326.0
+    },
+    {
+      "model": "C4",
+      "kind": "engineered_intelligence",
+      "holdout_auroc": 0.678953,
+      "holdout_auprc": 0.511308,
+      "holdout_brier": 0.200073,
+      "elapsed_s": 2520.9
+    },
+    {
+      "model": "B6",
+      "kind": "engineered_intelligence",
+      "holdout_auroc": 0.678923,
+      "holdout_auprc": 0.511026,
+      "holdout_brier": 0.200105,
+      "elapsed_s": 609.0
+    },
+    {
+      "model": "M2_lasso_logistic",
+      "kind": "recreated_published",
+      "paper": "POLARIS score (penalized LASSO logistic)",
+      "holdout_auroc": 0.677529,
+      "holdout_auprc": 0.508752,
+      "holdout_brier": 0.200557,
+      "elapsed_s": 24.1
+    },
+    {
+      "model": "M3_rf_importance",
+      "kind": "recreated_published",
+      "paper": "NOPAF / INSPIRE (random forest + importance)",
+      "holdout_auroc": 0.778258,
+      "holdout_auprc": 0.65113,
+      "holdout_brier": 0.177652,
+      "elapsed_s": 14.4
+    },
+    {
+      "model": "M4_superlearner",
+      "kind": "recreated_published",
+      "paper": "H2O-AutoML-style super learner (stacked generalization)",
+      "holdout_auroc": 0.730255,
+      "holdout_auprc": 0.572424,
+      "holdout_brier": 0.188561,
+      "elapsed_s": 147.0
+    }
+  ]
+}

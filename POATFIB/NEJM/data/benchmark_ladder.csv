@@ -1,0 +1,14 @@
+name,category,holdout_auroc
+EI #1: E3 (license-clean),engineered,0.689309
+EI: AxiomForge MIMO (Codex),engineered,0.6858
+Raw LDA-112 baseline,baseline,0.685153
+Human: TabPFNClassifier,human,0.683203
+Recreated: H2O-AutoML-style super learner (stacked ,recreated,0.682988
+Human: RandomForestBinaryClassifier,human,0.682778
+Human: AutoGluonClassifier,human,0.681039
+Recreated: NOPAF / INSPIRE (random forest + importa,recreated,0.680609
+Human: TabPFN v2.5 (GPU),human,0.679688
+Recreated: POLARIS score (penalized LASSO logistic),recreated,0.675825
+Recreated: Shin et al. (XGBoost + importance/Boruta,recreated,0.671499
+EI: gen-0 MISO best,engineered,0.667
+Recreated: COM-AF-style combined risk-score logisti,recreated,0.666948

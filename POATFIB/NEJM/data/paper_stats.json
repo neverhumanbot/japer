@@ -1,0 +1,203 @@
+{
+  "holdout": {
+    "n": 3000,
+    "pos": 983,
+    "neg": 2017,
+    "prevalence": 0.32766666666666666
+  },
+  "hanley_se_note": "Hanley-McNeil SE of a single AUROC ~ 0.0107 at this n/prevalence.",
+  "aurocs": {
+    "E3": {
+      "auroc": 0.689309,
+      "ci95": [
+        0.6697,
+        0.7089
+      ],
+      "brier": 0.199842
+    },
+    "LDA112_baseline": {
+      "auroc": 0.685153,
+      "ci95": [
+        0.664,
+        0.7054
+      ],
+      "brier": 0.200674
+    },
+    "best_human_RF": {
+      "auroc": 0.680609,
+      "ci95": [
+        0.6602,
+        0.6999
+      ],
+      "brier": 0.200833
+    }
+  },
+  "delong": {
+    "E3_vs_baseline": {
+      "auc_base": 0.685153,
+      "auc_soup": 0.689309,
+      "delta": 0.004155,
+      "var": 4e-06,
+      "se": 0.002101,
+      "delta_lcb": 0.0007,
+      "p_two_sided": 0.0479,
+      "ci95": [
+        4e-05,
+        0.00827
+      ]
+    },
+    "E3_vs_best_human": {
+      "auc_base": 0.680609,
+      "auc_soup": 0.689309,
+      "delta": 0.0087,
+      "var": 2.8e-05,
+      "se": 0.005273,
+      "delta_lcb": 2.6e-05,
+      "p_two_sided": 0.098981,
+      "ci95": [
+        -0.00164,
+        0.01904
+      ]
+    }
+  },
+  "calibration_E3": {
+    "slope": 0.8448,
+    "intercept": -0.1128,
+    "calibration_in_the_large": -0.0097,
+    "brier": 0.199842,
+    "reliability_deciles": [
+      {
+        "pred_mean": 0.1119,
+        "obs_rate": 0.16,
+        "n": 300
+      },
+      {
+        "pred_mean": 0.1646,
+        "obs_rate": 0.15,
+        "n": 300
+      },
+      {
+        "pred_mean": 0.2065,
+        "obs_rate": 0.1967,
+        "n": 300
+      },
+      {
+        "pred_mean": 0.2445,
+        "obs_rate": 0.22,
+        "n": 300
+      },
+      {
+        "pred_mean": 0.2838,
+        "obs_rate": 0.2933,
+        "n": 300
+      },
+      {
+        "pred_mean": 0.3242,
+        "obs_rate": 0.3067,
+        "n": 300
+      },
+      {
+        "pred_mean": 0.3689,
+        "obs_rate": 0.44,
+        "n": 300
+      },
+      {
+        "pred_mean": 0.422,
+        "obs_rate": 0.4133,
+        "n": 300
+      },
+      {
+        "pred_mean": 0.5,
+        "obs_rate": 0.4767,
+        "n": 300
+      },
+      {
+        "pred_mean": 0.6717,
+        "obs_rate": 0.62,
+        "n": 300
+      }
+    ]
+  },
+  "dca_E3": [
+    {
+      "threshold": 0.1,
+      "nb_model": 0.25204,
+      "nb_treat_all": 0.25296,
+      "nb_treat_none": 0.0
+    },
+    {
+      "threshold": 0.15,
+      "nb_model": 0.20931,
+      "nb_treat_all": 0.20902,
+      "nb_treat_none": 0.0
+    },
+    {
+      "threshold": 0.2,
+      "nb_model": 0.17217,
+      "nb_treat_all": 0.15958,
+      "nb_treat_none": 0.0
+    },
+    {
+      "threshold": 0.25,
+      "nb_model": 0.13878,
+      "nb_treat_all": 0.10356,
+      "nb_treat_none": 0.0
+    },
+    {
+      "threshold": 0.3,
+      "nb_model": 0.1071,
+      "nb_treat_all": 0.03952,
+      "nb_treat_none": 0.0
+    },
+    {
+      "threshold": 0.35,
+      "nb_model": 0.08315,
+      "nb_treat_all": -0.03436,
+      "nb_treat_none": 0.0
+    },
+    {
+      "threshold": 0.4,
+      "nb_model": 0.05078,
+      "nb_treat_all": -0.12056,
+      "nb_treat_none": 0.0
+    },
+    {
+      "threshold": 0.45,
+      "nb_model": 0.03685,
+      "nb_treat_all": -0.22242,
+      "nb_treat_none": 0.0
+    },
+    {
+      "threshold": 0.5,
+      "nb_model": 0.02333,
+      "nb_treat_all": -0.34467,
+      "nb_treat_none": 0.0
+    },
+    {
+      "threshold": 0.55,
+      "nb_model": 0.01607,
+      "nb_treat_all": -0.49407,
+      "nb_treat_none": 0.0
+    },
+    {
+      "threshold": 0.6,
+      "nb_model": 0.0065,
+      "nb_treat_all": -0.68083,
+      "nb_treat_none": 0.0
+    }
+  ],
+  "cv_holdout_decoupling": {
+    "n_gen": 500,
+    "spearman": -0.0607,
+    "spearman_p": 0.175,
+    "pearson": -0.0389,
+    "cv_max": 0.731667,
+    "cv_max_gen": 165,
+    "cv_max_holdout": 0.680473,
+    "holdout_max": 0.68551,
+    "holdout_max_gen": 90,
+    "top50cv_mean_holdout": 0.677454,
+    "bot50cv_mean_holdout": 0.677518,
+    "overall_mean_holdout": 0.677502
+  }
+}

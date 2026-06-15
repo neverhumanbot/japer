@@ -1,0 +1,232 @@
+slot,label,stage,count,coef
+model_fusion,Fusion,LogisticStackingFusion,523,0.05626116750423547
+model_fusion,Fusion,RidgeStackingFusion,764,0.054128683970861916
+model_family,model_family,MIMO,1783,0.029143956591041575
+model_family,model_family,MISO,35,0.02254513272727285
+model_2,Secondary model,EntropicBridgeCascadeClassifier,23,0.01593877326114822
+model_1,Primary model,AxiomForgeCopulaWeaverClassifier,189,0.01556483711189768
+model_1,Primary model,AutoGluonMISO,30,0.014674940044636667
+reducer,Reducer,RandomForestProximityReducer,133,0.01411723963900604
+model_2,Secondary model,TopologicalSubspaceClassifier,75,0.012841954225771801
+reducer,Reducer,GradientBoostingImportanceReducer,59,0.012254938042014454
+model_2,Secondary model,MarkovianCascadeClassifier,44,0.011587854322735267
+expander_2,Expansion II,QuantumPathIntegralExpander,39,0.01156936358866628
+model_1,Primary model,EntropicBridgeCascadeClassifier,321,0.011499559686261072
+scaler,Scaler,TitrationAdaptiveScaler,70,0.01148081587811542
+expander_2,Expansion II,CumulantTensorExpander,57,0.010545616605368471
+model_1,Primary model,GenerativeTransportAtlasMultiTargetBinaryClassifier,125,0.009997759189564926
+reducer,Reducer,NullReducer,1230,0.009929755273350181
+reducer,Reducer,GrammaticalisationReducer,22,0.0098598259398993
+reducer,Reducer,ConstraintRankReducer,27,0.00983429220897446
+model_2,Secondary model,LogisticRegressionBaseline,27,0.009317564851871319
+model_1,Primary model,NullModel,90,0.009024840272674898
+reducer,Reducer,FeatureEconomyReducer,41,0.008699145397698154
+expander_1,Expansion I,SpikeJitterExpander,60,0.008465949028765686
+model_1,Primary model,OnlineLogisticRegressionClassifier,169,0.008408150126456147
+scaler,Scaler,QuantumGravityScaler,53,0.007819292072447408
+expander_2,Expansion II,KernelPCAFrequenciesExpander,36,0.0072069825093150595
+expander_2,Expansion II,RollingWindowExpander,62,0.00716962606187372
+scaler,Scaler,RelativismScaler,76,0.007162005804253439
+expander_2,Expansion II,SingularityManifoldExpander,277,0.007040673315421627
+expander_2,Expansion II,CrossDeformationExpander,21,0.007025938527181313
+model_1,Primary model,HolographicLatentRouter,29,0.006914638226656723
+reducer,Reducer,SelectKBest,360,0.006902459007357949
+reducer,Reducer,KernelPCACentroidReducer,41,0.0069011539670676995
+expander_2,Expansion II,VolatilitySurfaceExpander,30,0.006817494444642825
+model_2,Secondary model,GraphManifoldClassifier,52,0.006797745662739961
+model_1,Primary model,NoesisCausalMirrorFlowMultiTargetBinaryClassifier,36,0.006695434080283452
+feature_selector,Feature selector,TreeImportanceSelector,756,0.006429389502173708
+model_1,Primary model,AegisTargetGraphMultiTargetBinaryClassifier,20,0.006137216163716157
+reducer,Reducer,PhonemeFeatureReducer,50,0.006106202709912582
+model_1,Primary model,MultinomialNaiveBayesBinaryClassifier,30,0.005916797592625991
+expander_2,Expansion II,MultiscaleTrendExpander,127,0.005633007901241056
+reducer,Reducer,VarianceThreshold,39,0.005308149884817415
+expander_1,Expansion I,VisibilityGraphExpander,251,0.005293315553156255
+expander_1,Expansion I,SandpilePerturbExpander,91,0.005247016954144732
+expander_2,Expansion II,CatastropheFoldExpander,25,0.005245892456746564
+sanitizer,Sanitizer,HighMissingnessDropper,1091,0.005175729874518696
+sanitizer,Sanitizer,NullSanitizer,2183,0.005125834768857793
+expander_2,Expansion II,HyperionFeatureExpander,27,0.005124625558755313
+reducer,Reducer,SpectralMutualInfoReducer,294,0.005044032825201585
+model_1,Primary model,OmniBankV5MultiTargetBinaryClassifier,32,0.004888612799715171
+feature_selector,Feature selector,MutualInformationSelector,1353,0.004549653920990929
+scaler,Scaler,GaussianCopulaScaler,59,0.004498115841204892
+scaler,Scaler,AdaptiveTailLogScaler,37,0.004490064063688634
+expander_1,Expansion I,ChangePointExpander,20,0.00447390106292663
+expander_2,Expansion II,ValenceArousalExpander,162,0.004411876828257012
+expander_1,Expansion I,FourierSeasonalExpander,59,0.004296637342057179
+expander_2,Expansion II,RewardScheduleExpander,38,0.004289269152295758
+reducer,Reducer,HyperbolicBarycentricReducer,69,0.004246015964938388
+scaler,Scaler,PatternAdaptiveScaler,73,0.004156624562173119
+scaler,Scaler,CategoryStringTheoryVacuumScaler,21,0.00411541019798882
+model_2,Secondary model,AletheiaSpectralCopulaCascadeClassifier,23,0.0040578760511734095
+expander_1,Expansion I,NullExpander,2135,0.00402657639090554
+expander_1,Expansion I,InvariantMomentsExpander,58,0.003886322227274544
+model_1,Primary model,BernoulliNaiveBayesBinaryClassifier,22,0.0038783106784868356
+scaler,Scaler,PowerTransformer,272,0.0038252244777868087
+model_1,Primary model,AletheiaSpectralCopulaCascadeClassifier,404,0.0037894629964883284
+expander_2,Expansion II,EntropyPoolingExpander,39,0.0037809101197467474
+expander_1,Expansion I,MultiscaleTrendExpander,54,0.003668417836442869
+model_1,Primary model,SvcBaseline,22,0.003564887650320089
+reducer,Reducer,NoOpStage,277,0.003500459561593363
+expander_2,Expansion II,ReactionPathwayExpander,21,0.003387629690324654
+model_fusion,Fusion,MeanPredictionFusion,480,0.0032883745774799173
+model_1,Primary model,CausalSpectralTransportMultiTargetBinaryClassifier,20,0.0030284557760661395
+scaler,Scaler,VarianceStabilizingOTScaler,30,0.0029563893276477356
+expander_2,Expansion II,NoOpStage,851,0.002945329984576759
+scaler,Scaler,NullScaler,306,0.002834274211638568
+expander_1,Expansion I,GlacierFlowExpander,41,0.0027675558858329657
+scaler,Scaler,QuantumEntanglementScaler,35,0.002746992597049546
+scaler,Scaler,PeriodizationScaler,441,0.002746216044276117
+model_2,Secondary model,AdversarialDistillationClassifier,42,0.0027396749962664353
+sampler,Sampler,SMOTESampler,451,0.0025401354737412995
+expander_2,Expansion II,ComplexCauchyTransformExpander,20,0.0025330616194517734
+expander_1,Expansion I,InformationFlowExpander,43,0.0025320179509135217
+expander_1,Expansion I,ControlErrorExpander,21,0.002513960712210812
+reducer,Reducer,RobustReducer,28,0.0024311969493045513
+reducer,Reducer,FiberModeCouplingReducer,96,0.0021567595127137823
+surrogate_1,Surrogate,OracleDistillationSurrogate,677,0.002112280095532712
+sanitizer,Sanitizer,NearZeroVarianceDropper,1542,0.002090623189605805
+expander_1,Expansion I,TropicalAlgebraExpander,330,0.0020868560303853876
+reducer,Reducer,CategorySupersymmetricRepresentationReducer,20,0.0020219585514510965
+expander_2,Expansion II,NullExpander,2105,0.0019754289816223255
+scaler,Scaler,StandardScaler,2112,0.0019683363783577763
+model_2,Secondary model,ExtraTreesBinaryClassifier,23,0.0018757556521520257
+expander_1,Expansion I,TurbulentEddyExpander,78,0.0017972226299738936
+expander_1,Expansion I,DiffeomorphicRegimeExpander,22,0.001764728588802293
+reducer,Reducer,GoedelDimensionalityReducer,23,0.0017326435468621036
+scaler,Scaler,KBinsDiscretizer,48,0.001716027136980563
+expander_2,Expansion II,SheafLaplacianExpander,64,0.00168400924230079
+expander_2,Expansion II,HamiltonianEnergyExpander,48,0.001615123269691941
+model_2,Secondary model,AxiomForgeCopulaWeaverClassifier,38,0.001598483260697287
+scaler,Scaler,AdaptiveWhiteningScaler,33,0.0015188791405640288
+expander_1,Expansion I,KalmanStateSpaceExpander,41,0.0014933345151527844
+sampler,Sampler,RandomUnderSampler,982,0.0014146880723067607
+expander_2,Expansion II,LatticeDefectExpander,20,0.0013987574518223105
+expander_2,Expansion II,AgentFeatureExpander,381,0.0012921544336423035
+model_2,Secondary model,MLPBinaryClassifier,26,0.0012191347920158745
+expander_1,Expansion I,QuasicrystalCutProjectExpander,27,0.001175739295944754
+scaler,Scaler,CategorySupersymmetricFieldScaler,25,0.0008838754901048899
+model_2,Secondary model,ContrastiveManifoldMultiTarget,21,0.0006872908822017922
+surrogate_1,Surrogate,MahalanobisKernelSurrogate,236,0.0005728630821426055
+scaler,Scaler,StreamConsciousScaler,27,0.0005539892675347994
+expander_2,Expansion II,MuellerPolarisationExpander,40,0.00048020714966602726
+model_2,Secondary model,SGDBinaryClassifier,242,0.0004480847017805439
+model_2,Secondary model,InformationBottleneckClassifier,25,0.0003755851057693745
+expander_1,Expansion I,SpectralCoherenceExpander,95,0.00036458877714873854
+expander_1,Expansion I,EmpiricalModeDecompositionExpander,35,0.0003616143224772408
+scaler,Scaler,TranspositionScaler,143,0.00035732515412572176
+expander_1,Expansion I,SheafLaplacianExpander,561,0.00035595565630697776
+model_2,Secondary model,NoOpStage,1917,0.0003146080306095913
+sampler,Sampler,NullSampler,2186,0.00031187884864559024
+scaler,Scaler,RowEnergyNormalizerScaler,38,0.00030339145746341765
+model_2,Secondary model,NaiveBayesClassifier,56,0.00030133291010640264
+model_1,Primary model,AetherCrossfoldTransportMultiTargetBinaryClassifier,132,0.0002539769989688273
+expander_1,Expansion I,RollingWindowExpander,51,-4.8228898044761696e-05
+feature_selector,Feature selector,CorrelationPrunerSelector,718,-0.00012698391597256407
+model_2,Secondary model,ComplementNaiveBayesBinaryClassifier,39,-0.0001474985995907934
+scaler,Scaler,LogitGaussianScaler,32,-0.00021182759269132
+surrogate_1,Surrogate,NullSurrogate,4074,-0.0002361671702534807
+reducer,Reducer,StratigraphyReducer,24,-0.0004485260164080033
+scaler,Scaler,MaxAbsScaler,107,-0.0005163893563447665
+expander_1,Expansion I,KernelPCAFrequenciesExpander,189,-0.000579538831128973
+expander_1,Expansion I,AdaptiveWaveletScatteringExpander,229,-0.0005796362203444806
+scaler,Scaler,DensityLoadScaler,44,-0.0006622843311769944
+expander_1,Expansion I,NoOpStage,258,-0.0007397033772207015
+expander_2,Expansion II,LocalTrendExpander,34,-0.0007583354977612252
+scaler,Scaler,RobustScaler,450,-0.0008290954774560965
+sanitizer,Sanitizer,FiniteValueSanitizer,880,-0.0008687895010118694
+scaler,Scaler,HomeostasisBatchScaler,103,-0.0010391560308016163
+expander_2,Expansion II,BioIsostereExpander,47,-0.0010501996780360912
+expander_2,Expansion II,RandomProjectionInteractionExpander,253,-0.001094332882955408
+reducer,Reducer,ChoreographyGestureReducer,30,-0.001094920294339233
+expander_2,Expansion II,AdaptiveWaveletScatteringExpander,71,-0.0014329384500633945
+model_1,Primary model,NaiveBayesClassifier,56,-0.0014833030275694789
+model_1,Primary model,LogisticRegressionBaseline,757,-0.0015115323363409882
+expander_2,Expansion II,OrderSplitExpander,38,-0.001574696765762759
+expander_2,Expansion II,HarmonicEnrichmentExpander,26,-0.0015950973859116565
+scaler,Scaler,PPPUtilityScaler,34,-0.001638879827117508
+expander_2,Expansion II,MemePropagationExpander,21,-0.0016670913326087015
+scaler,Scaler,VenueAdaptationScaler,22,-0.001678760970431146
+scaler,Scaler,QuantileTransformer,20,-0.0016896363089452635
+feature_selector,Feature selector,NullFeatureSelector,1493,-0.0016910684645811457
+expander_1,Expansion I,BackTranslationExpander,33,-0.0017321267439390482
+expander_1,Expansion I,ComplexCauchyTransformExpander,20,-0.0017656293827886468
+expander_1,Expansion I,RewardScheduleExpander,27,-0.0017721832848563701
+reducer,Reducer,QuantumEntanglementReducer,82,-0.0019516776113535613
+expander_2,Expansion II,BackTranslationExpander,27,-0.0021426029356019284
+model_1,Primary model,DecisionTreeBinaryClassifier,21,-0.002219385956490968
+expander_2,Expansion II,ControlErrorExpander,20,-0.0022559908788914052
+scaler,Scaler,AudioEqualizerScaler,234,-0.0023562924935224498
+model_2,Secondary model,OnlineLogisticRegressionClassifier,646,-0.002460158822653506
+reducer,Reducer,PoincareProjectionReducer,165,-0.0025589979419077613
+model_1,Primary model,LogisticRegressionClassifier,1350,-0.0027241731270566845
+sampler,Sampler,RandomOverSampler,926,-0.002853711742625897
+expander_2,Expansion II,InvariantMomentsExpander,20,-0.002951059009940664
+model_2,Secondary model,GradientBoostingClassifier,34,-0.003102900127160772
+expander_1,Expansion I,TopologicalPersistenceExpander,87,-0.0031216497109956922
+sampler,Sampler,BalancedBootstrapSampler,1222,-0.003191727740514166
+model_2,Secondary model,LogisticRegressionClassifier,1019,-0.003196010307502214
+scaler,Scaler,MDLAdaptiveScaler,210,-0.003506024025295761
+expander_2,Expansion II,CrossCorrelationExpander,36,-0.0035264626271408967
+expander_1,Expansion I,SeismicRotationExpander,21,-0.00358290118800275
+model_1,Primary model,LinearDiscriminantBinaryClassifier,70,-0.0038199312442043273
+expander_2,Expansion II,SplineBinnerExpander,53,-0.00387353799904861
+model_1,Primary model,RandomForestBaseline,231,-0.004051665531840732
+expander_1,Expansion I,PolynomialExpander,28,-0.004173561931511917
+surrogate_1,Surrogate,NoOpStage,770,-0.004339779641191223
+model_1,Primary model,ComplementNaiveBayesBinaryClassifier,44,-0.004370198107254459
+reducer,Reducer,FunctionArgumentReducer,24,-0.004517586943592369
+expander_2,Expansion II,KolmogorovArnoldSuperpositionExpander,25,-0.004638678522280233
+model_1,Primary model,KNNClassifier,35,-0.004751876224551509
+expander_1,Expansion I,HurstExponentExpander,32,-0.0047520910738935735
+reducer,Reducer,RegisterOffsetReducer,738,-0.004798631445505626
+feature_selector,Feature selector,MissingnessSelector,1003,-0.004971873465956523
+model_2,Secondary model,ExampleBinaryClassifier,25,-0.004979629833870489
+expander_1,Expansion I,AutocorrelationExpander,20,-0.005002173705777225
+expander_1,Expansion I,LatticeDefectExpander,38,-0.0050191403458923235
+model_1,Primary model,TemporalCrossWeaveClassifier,66,-0.005249246974209556
+expander_2,Expansion II,PolynomialExpander,51,-0.005370471295261824
+scaler,Scaler,MinMaxScaler,59,-0.005526240087754898
+expander_2,Expansion II,TropicalAlgebraExpander,25,-0.005617702867704776
+model_fusion,Fusion,WeightedAverageFusion,1152,-0.005630779752372524
+expander_2,Expansion II,QuasicrystalCutProjectExpander,26,-0.005657359993451934
+expander_1,Expansion I,HyperionFeatureExpander,34,-0.005869281554227416
+feature_selector,Feature selector,VarianceThresholdSelector,444,-0.005967854665100819
+reducer,Reducer,UltraRandomProjectionReducer,73,-0.00602005551284555
+expander_2,Expansion II,InformationFlowExpander,91,-0.006145166427162978
+expander_2,Expansion II,AdaptiveSplineExpander,28,-0.006184721020423924
+model_2,Secondary model,BernoulliNaiveBayesBinaryClassifier,226,-0.006486961044387792
+expander_1,Expansion I,InformationGeometryExpander,104,-0.006644424239566546
+reducer,Reducer,PCA,515,-0.006731736520692026
+model_1,Primary model,GradientBoostingClassifier,31,-0.006937397680313885
+expander_1,Expansion I,AgentFeatureExpander,105,-0.007154456420662663
+model_2,Secondary model,DecisionTreeBaseline,414,-0.007195544667716409
+model_1,Primary model,RandomForestBinaryClassifier,179,-0.007397983006980558
+model_1,Primary model,ExtraTreesBinaryClassifier,294,-0.007599437677379352
+model_1,Primary model,InformationBottleneckClassifier,119,-0.008123448261473957
+model_2,Secondary model,AdaBoostBinaryClassifier,284,-0.008708177011283132
+model_2,Secondary model,QuadraticDiscriminantBinaryClassifier,34,-0.008829302687100513
+model_fusion,Fusion,MedianPredictionFusion,895,-0.008996217928866575
+reducer,Reducer,StressTensorReducer,90,-0.009362916226219228
+expander_1,Expansion I,FractalNoiseExpander,42,-0.00946238370500337
+expander_1,Expansion I,MuellerPolarisationExpander,58,-0.009767598689178989
+scaler,Scaler,RedshiftScaler,83,-0.01001990788947653
+scaler,Scaler,QuantumProbScaler,39,-0.010288331217843762
+reducer,Reducer,BlackHoleInformationReducer,156,-0.011577078264957482
+scaler,Scaler,ConsciousnessEmergenceScaler,25,-0.01193503775651828
+model_1,Primary model,HistGradientBoostingBinaryClassifier,470,-0.01223999803536059
+scaler,Scaler,KoopmanInvariantScaler,390,-0.013289566615320858
+sanitizer,Sanitizer,NoOpStage,71,-0.013302135420416798
+model_2,Secondary model,RandomForestBinaryClassifier,64,-0.013646489617599847
+reducer,Reducer,OrbitalResonanceReducer,31,-0.01375086311394884
+model_1,Primary model,QuantumResonanceMultiTargetClassifier,22,-0.014462702296348107
+reducer,Reducer,ZipfHeadTailReducer,167,-0.015204415919977971
+model_1,Primary model,EideticCopulaGraphDiffusionMultiTargetBinaryClassifier,22,-0.01619343100319285
+model_2,Secondary model,TemporalCrossWeaveClassifier,31,-0.018428439739125134
+reducer,Reducer,GraphSheafCohomologyReducer,389,-0.02163827352724006
+model_1,Primary model,CogMultiRefinerMultiTargetBinaryClassifier,112,-0.025642407101422984
+reducer,Reducer,ManuscriptPaletteReducer,284,-0.033191298463583464
+model_fusion,Fusion,MultiOutputMeanFusion,541,-0.03730906446951376
+model_family,model_family,Single-output,3950,-0.05168908931831583
+model_fusion,Fusion,NullFusion,1412,-0.06352090099027065

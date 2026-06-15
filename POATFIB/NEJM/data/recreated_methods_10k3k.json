@@ -1,0 +1,70 @@
+{
+  "tag": "10k3k",
+  "train": "/home/ubuntu/zain_scratch/data/sts_mimo_afib/normalized/sts_mimo_afib_smoke_train_10k.csv",
+  "holdout": "/home/ubuntu/zain_scratch/data/sts_mimo_afib/normalized/sts_mimo_afib_smoke_holdout_3k.csv",
+  "n_numeric_features": 146,
+  "poaf_prev_train": 0.339,
+  "poaf_prev_holdout": 0.32766666666666666,
+  "methods": [
+    {
+      "method": "M1_xgb_importance",
+      "paper": "Shin et al. (XGBoost + importance/Boruta reduction)",
+      "cite": "shin2023",
+      "n_features": 146,
+      "cv_auroc": 0.669884,
+      "cv_std": 0.009748,
+      "holdout_auroc": 0.671499,
+      "holdout_auprc": 0.498392,
+      "holdout_brier": 0.203573,
+      "elapsed_s": 5.9
+    },
+    {
+      "method": "M2_lasso_logistic",
+      "paper": "POLARIS score (penalized LASSO logistic)",
+      "cite": "polaris2025",
+      "n_features": 146,
+      "cv_auroc": 0.682184,
+      "cv_std": 0.009354,
+      "holdout_auroc": 0.675825,
+      "holdout_auprc": 0.49313,
+      "holdout_brier": 0.202631,
+      "elapsed_s": 1.5
+    },
+    {
+      "method": "M3_rf_importance",
+      "paper": "NOPAF / INSPIRE (random forest + importance)",
+      "cite": "inspire2024",
+      "n_features": 146,
+      "cv_auroc": 0.685854,
+      "cv_std": 0.012899,
+      "holdout_auroc": 0.680609,
+      "holdout_auprc": 0.506364,
+      "holdout_brier": 0.200833,
+      "elapsed_s": 6.9
+    },
+    {
+      "method": "M4_superlearner",
+      "paper": "H2O-AutoML-style super learner (stacked generalization)",
+      "cite": "ledell2020",
+      "n_features": 146,
+      "cv_auroc": 0.691027,
+      "cv_std": 0.012218,
+      "holdout_auroc": 0.682988,
+      "holdout_auprc": 0.505124,
+      "holdout_brier": 0.20057,
+      "elapsed_s": 90.7
+    },
+    {
+      "method": "M5_riskscore_logit",
+      "paper": "COM-AF-style combined risk-score logistic",
+      "cite": "comaf2019",
+      "n_features": 17,
+      "cv_auroc": 0.678623,
+      "cv_std": 0.009348,
+      "holdout_auroc": 0.666948,
+      "holdout_auprc": 0.486595,
+      "holdout_brier": 0.204171,
+      "elapsed_s": 0.1
+    }
+  ]
+}

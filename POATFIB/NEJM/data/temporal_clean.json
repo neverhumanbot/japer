@@ -1,0 +1,58 @@
+{
+  "clean_rows": 7537,
+  "total_rows": 10000,
+  "leaked_frac": 0.2463,
+  "rows": [
+    {
+      "model": "E3",
+      "kind": "engineered_intelligence",
+      "temporal_full_auroc": 0.67907,
+      "temporal_clean_auroc": 0.680637,
+      "temporal_clean_auprc": 0.511451,
+      "temporal_clean_brier": 0.199943
+    },
+    {
+      "model": "C1",
+      "kind": "engineered_intelligence",
+      "temporal_full_auroc": 0.679469,
+      "temporal_clean_auroc": 0.680696,
+      "temporal_clean_auprc": 0.509731,
+      "temporal_clean_brier": 0.200006
+    },
+    {
+      "model": "C2",
+      "kind": "engineered_intelligence",
+      "temporal_full_auroc": 0.678494,
+      "temporal_clean_auroc": 0.680215,
+      "temporal_clean_auprc": 0.508804,
+      "temporal_clean_brier": 0.200143
+    },
+    {
+      "model": "M2_lasso_logistic",
+      "kind": "recreated_published",
+      "paper": "POLARIS score (penalized LASSO logistic)",
+      "temporal_full_auroc": 0.677529,
+      "temporal_clean_auroc": 0.679704,
+      "temporal_clean_auprc": 0.510975,
+      "temporal_clean_brier": 0.200114
+    },
+    {
+      "model": "M3_rf_importance",
+      "kind": "recreated_published",
+      "paper": "NOPAF / INSPIRE (random forest + importance)",
+      "temporal_full_auroc": 0.778258,
+      "temporal_clean_auroc": 0.684022,
+      "temporal_clean_auprc": 0.513158,
+      "temporal_clean_brier": 0.199562
+    },
+    {
+      "model": "M4_superlearner",
+      "kind": "recreated_published",
+      "paper": "H2O-AutoML-style super learner (stacked generalization)",
+      "temporal_full_auroc": 0.730255,
+      "temporal_clean_auroc": 0.68873,
+      "temporal_clean_auprc": 0.522015,
+      "temporal_clean_brier": 0.19826
+    }
+  ]
+}

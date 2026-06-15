@@ -1,0 +1,28 @@
+{
+  "tag": "10k3k",
+  "device": "cuda",
+  "models": [
+    {
+      "model": "tabpfn_v25_real_n16",
+      "n_est": 16,
+      "ckpt": "tabpfn-v2.5-classifier-v2.5_real.ckpt",
+      "cv_auroc": 0.68379,
+      "cv_std": 0.011169,
+      "holdout_auroc": 0.673091,
+      "holdout_auprc": 0.497056,
+      "holdout_brier": 0.211954,
+      "elapsed_s": 231.9
+    },
+    {
+      "model": "tabpfn_v25_real_n32",
+      "n_est": 32,
+      "ckpt": "tabpfn-v2.5-classifier-v2.5_real.ckpt",
+      "cv_auroc": 0.686973,
+      "cv_std": 0.010708,
+      "holdout_auroc": 0.679688,
+      "holdout_auprc": 0.502423,
+      "holdout_brier": 0.203994,
+      "elapsed_s": 479.7
+    }
+  ]
+}
