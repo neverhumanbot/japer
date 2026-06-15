@@ -1,0 +1,10 @@
+model,kind,clean_auroc,clean_auprc,clean_brier
+E3,engineered_intelligence,0.681444,0.522989,0.202332
+C1,engineered_intelligence,0.680779,0.521998,0.20249
+C2,engineered_intelligence,0.680362,0.521072,0.202578
+B5,engineered_intelligence,0.680888,0.522562,0.202395
+C4,engineered_intelligence,0.68098,0.522754,0.202374
+B6,engineered_intelligence,0.681033,0.522602,0.202377
+M2_lasso_logistic,recreated_published,0.675825,0.519207,0.203366
+M3_rf_importance,recreated_published,0.68228,0.53011,0.202123
+M4_superlearner,recreated_published,0.685541,0.5321,0.20119

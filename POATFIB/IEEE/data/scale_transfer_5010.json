@@ -1,0 +1,81 @@
+{
+  "train": "/home/ubuntu/zain_scratch/data/sts_mimo_afib/normalized/sts_mimo_afib_paper_train_49999.csv",
+  "holdout": "/home/ubuntu/zain_scratch/data/sts_mimo_afib/normalized/sts_mimo_afib_paper_holdout_2017_10k_balanced.csv",
+  "holdout_rows": 10000,
+  "overlap_rows": 0,
+  "rows": [
+    {
+      "meta": "overlap",
+      "overlap_rows": 0,
+      "overlap_pct": 0.0,
+      "poaf_prev_train": 0.3371,
+      "poaf_prev_holdout": 0.337
+    },
+    {
+      "model": "E3",
+      "kind": "engineered_intelligence",
+      "clean_auroc": 0.681444,
+      "clean_auprc": 0.522989,
+      "clean_brier": 0.202332
+    },
+    {
+      "model": "C1",
+      "kind": "engineered_intelligence",
+      "clean_auroc": 0.680779,
+      "clean_auprc": 0.521998,
+      "clean_brier": 0.20249
+    },
+    {
+      "model": "C2",
+      "kind": "engineered_intelligence",
+      "clean_auroc": 0.680362,
+      "clean_auprc": 0.521072,
+      "clean_brier": 0.202578
+    },
+    {
+      "model": "B5",
+      "kind": "engineered_intelligence",
+      "clean_auroc": 0.680888,
+      "clean_auprc": 0.522562,
+      "clean_brier": 0.202395
+    },
+    {
+      "model": "C4",
+      "kind": "engineered_intelligence",
+      "clean_auroc": 0.68098,
+      "clean_auprc": 0.522754,
+      "clean_brier": 0.202374
+    },
+    {
+      "model": "B6",
+      "kind": "engineered_intelligence",
+      "clean_auroc": 0.681033,
+      "clean_auprc": 0.522602,
+      "clean_brier": 0.202377
+    },
+    {
+      "model": "M2_lasso_logistic",
+      "kind": "recreated_published",
+      "paper": "POLARIS score (penalized LASSO logistic)",
+      "clean_auroc": 0.675825,
+      "clean_auprc": 0.519207,
+      "clean_brier": 0.203366
+    },
+    {
+      "model": "M3_rf_importance",
+      "kind": "recreated_published",
+      "paper": "NOPAF / INSPIRE (random forest + importance)",
+      "clean_auroc": 0.68228,
+      "clean_auprc": 0.53011,
+      "clean_brier": 0.202123
+    },
+    {
+      "model": "M4_superlearner",
+      "kind": "recreated_published",
+      "paper": "H2O-AutoML-style super learner (stacked generalization)",
+      "clean_auroc": 0.685541,
+      "clean_auprc": 0.5321,
+      "clean_brier": 0.20119
+    }
+  ]
+}

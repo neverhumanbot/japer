@@ -80,11 +80,12 @@ mask; their train-only associations re-encode a cohort-specific ``young-and-sick
 structure (younger patients here are enriched for sicker, emergent valve cases) that runs
 opposite to population epidemiology and should not be read as rediscovered physiology. E3 was
 well calibrated (slope 0.845, intercept $-0.113$, Brier 0.200) and showed positive
-decision-curve net benefit across clinically plausible thresholds. On a temporally separated
-external cohort, after removing 24.6\% of holdout rows that were feature-identical to training
-rows---a leak that had spuriously inflated unregularized trees to AUROC 0.78---every method,
-human and engineered, collapsed into a single 0.680--0.689 band, confirming the ceiling out of
-cohort. The honest finding is that
+decision-curve net benefit across clinically plausible thresholds. On a disjoint, distribution-matched
+2017 external cohort (a 49{,}999/10{,}000 split, 5$\times$ the training data, 0\% feature-row overlap),
+every method---human and engineered---compressed into a single 0.676--0.686 band and the discovery ranking
+did not transfer: the champion E3 (0.681) no longer led, confirming the ceiling out of cohort. (An initial
+mis-paired holdout that shared 24.6\% of its rows with training had spuriously inflated unregularized trees
+to 0.78; the disjoint split above removes that artifact.) The honest finding is that
 autonomous invention \emph{reaches} the registry-only POAF discrimination ceiling near 0.689 but
 does \emph{not} significantly surpass strong human baselines---and E3, selected as champion under
 the same noisy regime, is itself subject to the winner's curse. Cross-validation did not predict
@@ -733,34 +734,37 @@ Recreated: COM-AF-style risk-score logistic & Recreated & 0.6669 \\
 A result earned on a 10{,}000-operation discovery split raises an obvious question: does the pipeline that wins
 there remain the winner when it is retrained on five times as much data and tested on a larger, temporally
 separated cohort? We answer it directly. We rebuilt the entire engineered pipeline end to end---the ZYAL feature
-engineering and the LDA-112 downsample re-derived on the new data---and retrained the champion E3, the top
-cross-validation pipelines (C1, C2), and three recreated published methods on a \textbf{49{,}999-operation
-training set}, evaluating on a \textbf{2017 holdout of 10{,}000 operations}. Human and recreated comparators again
-received only the raw default features. This is both a scale test (5$\times$ the training data) and a temporal
-external test (a later operative cohort).
+engineering and the LDA-112 downsample \emph{re-derived on the new data}---and retrained the champion E3, the five
+top cross-validation pipelines (C1, C2, B5, C4, B6), and three recreated published methods on a
+\textbf{49{,}999-operation training set}, evaluating on a \textbf{disjoint 2017 holdout of 10{,}000 operations}.
+We verified the engineered features were correctly regenerated at scale (all 26 special features present in E3's
+mask and non-degenerate on the new cohort). The holdout has \textbf{0\% feature-row overlap} with the training set
+and is distribution-matched: all nine outcomes agree to within $\pm$0.0001 (POAF 0.337 in both). Human and recreated
+comparators again received only the raw default features. This is simultaneously a scale test (5$\times$ the
+training data) and a temporal external test (a later operative cohort).
 
-\paragraph{A leakage audit first.} Auditing the larger split exposed a data-quality problem we report
-transparently: \textbf{2{,}463 of 10{,}000 holdout operations (24.6\%) were feature-identical to a training
-operation}. High-capacity, unregularized tree models memorize such duplicates and post spuriously high
-discrimination---the recreated random forest reached AUROC \textbf{0.778} and the super-learner \textbf{0.730} on
-the uncleaned split---whereas a depth-3 forest (0.66), the linear baselines, and the regularized engineered
-pipeline are unaffected. This is itself a transfer lesson: a flexible model that ``improves'' on a larger cohort
-may simply be recalling leaked rows. We therefore de-duplicated the holdout (7{,}537 clean operations) and report
-both columns in Table~\ref{tab:temporal}.
+\paragraph{The champion's edge does not transfer; the ceiling does.} On the larger cohort every method---human and
+engineered---compresses into a single band of \textbf{0.676--0.686}, and the discovery ranking does not survive.
+E3, which led the 10{,}000/3{,}000 ladder at 0.689, sits at \textbf{0.6814} here and \emph{no longer leads}: the
+recreated super-learner (0.6855) and random forest (0.6823) nominally edge it, the other top-CV pipelines match it
+(C4 0.6810, B6 0.6810, B5 0.6809, C1 0.6808, C2 0.6804), and only the LASSO baseline (0.6758) trails---every gap far
+inside one AUROC standard error. Scaling the data 5$\times$ neither widens nor preserves the champion's small
+in-cohort advantage; it dissolves it. This is the cross-validation--holdout decoupling again, now at the level of
+datasets: the identity of the ``best'' pipeline is not stable across cohorts because the genuine differences among
+strong pipelines are smaller than the noise. What \emph{does} transfer is the ceiling itself---registry-only POAF
+discrimination remains $\sim$0.68 whether trained on 10{,}000 or 50{,}000 operations, in-cohort or out. The
+engineered pipeline generalizes (E3 holds $\sim$0.681 at scale) but confers no durable advantage; the reproducible
+finding is the wall, not any one model.
 
-\paragraph{The champion's edge does not transfer.} On the clean larger cohort, every method---human and
-engineered---collapses into a single band of \textbf{0.680--0.689}, and the discovery ranking does not survive.
-E3, which led the 10{,}000/3{,}000 ladder at 0.689, sits at \textbf{0.6806} here and \emph{no longer leads}: the
-recreated super-learner (0.6887) and random forest (0.6840) nominally edge it, the top-CV pipelines match it
-(C1 0.6807, C2 0.6802), and the LASSO baseline (0.6797) is within a hair---all differences far inside one AUROC
-standard error. In other words, scaling the data 5$\times$ neither widens nor preserves the champion's small
-in-cohort advantage; it dissolves it. This is the same lesson as the cross-validation--holdout decoupling, now at
-the level of datasets: the identity of the ``best'' pipeline is not stable across cohorts because the genuine
-differences among strong pipelines are smaller than the noise. What \emph{does} transfer is the ceiling itself---
-registry-only POAF discrimination remains $\sim$0.68--0.69 whether trained on 10{,}000 or 50{,}000 operations,
-and whether tested in-cohort or out-of-cohort. The engineered pipeline generalizes (it holds $\sim$0.681 at
-scale) but confers no durable advantage; the honest conclusion is that the wall, not any one model, is the
-reproducible finding.
+\paragraph{A data-quality lesson worth recording.} Our first attempt at this comparison used a mis-paired 2017
+holdout file that, on audit, shared \textbf{24.6\% of its rows} (2{,}463 of 10{,}000) with the training set.
+High-capacity, unregularized tree models memorized those duplicated operations and posted spuriously high
+discrimination---the random forest reached \textbf{0.778} and the super-learner \textbf{0.730}, while a depth-3
+forest (0.66), the linear baselines, and the regularized engineered pipeline were unaffected. Replacing it with the
+disjoint, distribution-matched holdout above removed the artifact entirely (random forest 0.778 $\rightarrow$ 0.682).
+We report this because it is the operative caution for external validation of clinical AI: an out-of-cohort AUROC
+that looks like a win can be a memorized one, and only leakage-checked, distribution-matched evaluation distinguishes
+a real signal from a recalled row.
 
 \input{tables/table_temporal.tex}
 

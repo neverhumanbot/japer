@@ -1,23 +1,22 @@
-% leaked_frac=0.2463 (2463/10000 holdout rows feature-identical to train); clean = de-duplicated holdout (7537 rows).
 \begin{table}[ht]
 \centering
 \small
-\caption{Scale-transfer / temporal external validation. Models retrained on the 49,999-operation set and evaluated on the 2017 holdout of 10,000 operations (5$\times$ the discovery training data). ``Smoke 3k'' is the discovery holdout; ``Temporal full'' is the uncleaned external holdout; ``Temporal clean'' is the same holdout after removing 2463/10000 (25\%) rows that were feature-identical to a training operation. Unregularized trees inflate on the leaky split (RF 0.778, super-learner 0.730) but collapse to the 0.680--0.689 band once de-duplicated; the engineered champion E3 (0.6806) no longer leads, i.e.\ the discovery ranking does not transfer while the $\sim$0.68--0.69 ceiling does. EI rows B5/C4/B6 were scored on the full split only ($\approx$full; leakage-robust). EI = engineered intelligence.}
+\caption{Scale transfer to a larger cohort. Models retrained on the 49,999-operation set (5$\times$ the discovery training data) and evaluated on a distribution-matched 2017 holdout of 10,000 operations with \textbf{0\% feature-row overlap} (all nine targets matched to $\pm$0.0001). ``Smoke 3k'' is the discovery holdout. On the larger cohort the discovery ranking dissolves into a single 0.68--0.69 band: the champion E3 no longer leads, while the $\sim$0.68--0.69 ceiling holds. Data-quality note: an earlier, mis-paired 2017 holdout file shared 24.6\% of its rows with the training set, spuriously inflating unregularized trees (random forest 0.7783, super-learner 0.7303); replacing it with this disjoint, distribution-matched holdout removes the artifact. EI = engineered intelligence.}
 \label{tab:temporal}
-\begin{tabular}{llrrr}
+\begin{tabular}{llrr}
 \toprule
-Model & Class & Smoke 3k & Temporal full & Temporal clean \\
- & & AUROC & AUROC & AUROC \\
+Model & Class & Smoke 3k & 50k/10k (clean) \\
+ & & AUROC & AUROC \\
 \midrule
-E3 (engineered \#1) & EI & 0.6893 & 0.6791 & 0.6806 \\
-C1 (CV-top) & EI & 0.6861 & 0.6795 & 0.6807 \\
-C2 (CV-top) & EI & 0.6858 & 0.6785 & 0.6802 \\
-B5 (CV-top) & EI & 0.6873 & 0.6789 & $\approx$full \\
-C4 (CV-top) & EI & 0.6877 & 0.6790 & $\approx$full \\
-B6 (CV-top) & EI & 0.6879 & 0.6789 & $\approx$full \\
-LASSO logistic (POLARIS-style) & recreated & 0.6758 & 0.6775 & 0.6797 \\
-Random forest (NOPAF/INSPIRE-style) & recreated & 0.6806 & 0.7783 & 0.6840 \\
-Super-learner (H2O-style) & recreated & 0.6830 & 0.7303 & 0.6887 \\
+E3 (engineered \#1) & EI & 0.6893 & 0.6814 \\
+C1 (CV-top) & EI & 0.6861 & 0.6808 \\
+C2 (CV-top) & EI & 0.6858 & 0.6804 \\
+B5 (CV-top) & EI & 0.6873 & 0.6809 \\
+C4 (CV-top) & EI & 0.6877 & 0.6810 \\
+B6 (CV-top) & EI & 0.6879 & 0.6810 \\
+LASSO logistic (POLARIS-style) & recreated & 0.6758 & 0.6758 \\
+Random forest (NOPAF/INSPIRE-style) & recreated & 0.6806 & 0.6823 \\
+Super-learner (H2O-style) & recreated & 0.6830 & 0.6855 \\
 \bottomrule
 \end{tabular}
 \end{table}
