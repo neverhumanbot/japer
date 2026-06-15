@@ -1,4 +1,9 @@
 % leaked_frac=0.2463 (2463/10000 holdout rows feature-identical to train); clean = de-duplicated holdout (7537 rows).
+\begin{table}[ht]
+\centering
+\small
+\caption{Scale-transfer / temporal external validation. Models retrained on the 49,999-operation set and evaluated on the 2017 holdout of 10,000 operations (5$\times$ the discovery training data). ``Smoke 3k'' is the discovery holdout; ``Temporal full'' is the uncleaned external holdout; ``Temporal clean'' is the same holdout after removing 2463/10000 (25\%) rows that were feature-identical to a training operation. Unregularized trees inflate on the leaky split (RF 0.778, super-learner 0.730) but collapse to the 0.680--0.689 band once de-duplicated; the engineered champion E3 (0.6806) no longer leads, i.e.\ the discovery ranking does not transfer while the $\sim$0.68--0.69 ceiling does. EI rows B5/C4/B6 were scored on the full split only ($\approx$full; leakage-robust). EI = engineered intelligence.}
+\label{tab:temporal}
 \begin{tabular}{llrrr}
 \toprule
 Model & Class & Smoke 3k & Temporal full & Temporal clean \\
@@ -15,3 +20,4 @@ Random forest (NOPAF/INSPIRE-style) & recreated & 0.6806 & 0.7783 & 0.6840 \\
 Super-learner (H2O-style) & recreated & 0.6830 & 0.7303 & 0.6887 \\
 \bottomrule
 \end{tabular}
+\end{table}

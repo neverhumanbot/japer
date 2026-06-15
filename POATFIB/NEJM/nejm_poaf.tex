@@ -673,7 +673,7 @@ is the license-clean E3 at holdout 0.689---which, as shown above, is itself stat
 from the strong human baselines.
 
 % ============================================================================
-\section{Results: The Benchmark Ladder and Temporal External Validation}
+\section{Results: The Benchmark Ladder}
 % ============================================================================
 Figure~\ref{fig:benchmark} and Table~\ref{tab:ladder} assemble every comparator on a single ladder, all
 computed on the identical 3{,}000-operation holdout. The nominal ordering places the license-clean EI champion
@@ -727,23 +727,40 @@ Recreated: COM-AF-style risk-score logistic & Recreated & 0.6669 \\
 \end{threeparttable}
 \end{table}
 
-\paragraph{Temporal external validation (and a leakage lesson).}
-A model evaluated on its discovery holdout must still be checked out of cohort. We therefore re-evaluated the
-champion, the top cross-validation pipelines, and three recreated methods on a temporally separated external
-cohort (train $n{=}49{,}999$; 2017 holdout $n{=}10{,}000$) under the same no-leakage feature contract: the
-engineered pipeline (including the LDA-112 mask) was reproduced end to end, and human/recreated comparators again
-received only raw default features. Auditing that split revealed a data-quality problem we report transparently:
-\textbf{2{,}463 of 10{,}000 holdout rows (24.6\%) were feature-identical to a training row}. High-capacity
-unregularized tree models memorize such duplicates and post spuriously high discrimination---the recreated random
-forest reached AUROC 0.778 and the super-learner 0.730 on the leaky split---whereas a depth-3 forest (0.66), the
-linear baselines, and the engineered pipeline are unaffected. We therefore de-duplicated the holdout (7{,}537
-clean rows) and report both columns in Table~\ref{tab:temporal}. On the \emph{clean} external cohort every method,
-human and engineered, collapses into a single band of \textbf{0.680--0.689}: E3 0.6806, the top-CV pipelines
-0.680, LASSO 0.6797, the random forest 0.6840 (down 0.094 once its memorized rows are removed), and the
-super-learner 0.6887. The engineered pipeline generalizes (E3 holds $\sim$0.681 out of cohort) but does not lead;
-no method, human or engineered, separates from the $\sim$0.68 wall. This is the central message made concrete: an
-external AUROC that looks like a win can be an artifact, and only leakage-robust, calibration-checked evaluation
-distinguishes a real signal from a memorized one. We do not overstate the temporal result in either direction.
+% ============================================================================
+\section{Does the Champion Transfer to a Larger Cohort? The 50{,}000/10{,}000 Test}
+% ============================================================================
+A result earned on a 10{,}000-operation discovery split raises an obvious question: does the pipeline that wins
+there remain the winner when it is retrained on five times as much data and tested on a larger, temporally
+separated cohort? We answer it directly. We rebuilt the entire engineered pipeline end to end---the ZYAL feature
+engineering and the LDA-112 downsample re-derived on the new data---and retrained the champion E3, the top
+cross-validation pipelines (C1, C2), and three recreated published methods on a \textbf{49{,}999-operation
+training set}, evaluating on a \textbf{2017 holdout of 10{,}000 operations}. Human and recreated comparators again
+received only the raw default features. This is both a scale test (5$\times$ the training data) and a temporal
+external test (a later operative cohort).
+
+\paragraph{A leakage audit first.} Auditing the larger split exposed a data-quality problem we report
+transparently: \textbf{2{,}463 of 10{,}000 holdout operations (24.6\%) were feature-identical to a training
+operation}. High-capacity, unregularized tree models memorize such duplicates and post spuriously high
+discrimination---the recreated random forest reached AUROC \textbf{0.778} and the super-learner \textbf{0.730} on
+the uncleaned split---whereas a depth-3 forest (0.66), the linear baselines, and the regularized engineered
+pipeline are unaffected. This is itself a transfer lesson: a flexible model that ``improves'' on a larger cohort
+may simply be recalling leaked rows. We therefore de-duplicated the holdout (7{,}537 clean operations) and report
+both columns in Table~\ref{tab:temporal}.
+
+\paragraph{The champion's edge does not transfer.} On the clean larger cohort, every method---human and
+engineered---collapses into a single band of \textbf{0.680--0.689}, and the discovery ranking does not survive.
+E3, which led the 10{,}000/3{,}000 ladder at 0.689, sits at \textbf{0.6806} here and \emph{no longer leads}: the
+recreated super-learner (0.6887) and random forest (0.6840) nominally edge it, the top-CV pipelines match it
+(C1 0.6807, C2 0.6802), and the LASSO baseline (0.6797) is within a hair---all differences far inside one AUROC
+standard error. In other words, scaling the data 5$\times$ neither widens nor preserves the champion's small
+in-cohort advantage; it dissolves it. This is the same lesson as the cross-validation--holdout decoupling, now at
+the level of datasets: the identity of the ``best'' pipeline is not stable across cohorts because the genuine
+differences among strong pipelines are smaller than the noise. What \emph{does} transfer is the ceiling itself---
+registry-only POAF discrimination remains $\sim$0.68--0.69 whether trained on 10{,}000 or 50{,}000 operations,
+and whether tested in-cohort or out-of-cohort. The engineered pipeline generalizes (it holds $\sim$0.681 at
+scale) but confers no durable advantage; the honest conclusion is that the wall, not any one model, is the
+reproducible finding.
 
 \input{tables/table_temporal.tex}
 

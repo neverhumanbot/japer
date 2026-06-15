@@ -697,26 +697,41 @@ clears, the registry-only POAF ceiling.}
 \label{fig:ladder}
 \end{figure}
 
-\subsection{Temporal external validation (with a leakage audit)}
-To probe stability beyond the discovery split, we re-create the EI pipeline
-end-to-end (engineered features + LDA-112 mask) on a temporally separated external
-split (train $n{=}49{,}999$; 2017 holdout $n{=}10{,}000$) and evaluate the champion,
-the top-CV pipelines, and three recreated methods there; human/recreated comparators
-again receive only raw default features. Auditing the split exposed a data-quality
-issue we report transparently: \textbf{2{,}463/10{,}000 (24.6\%) holdout rows are
-feature-identical to a training row}. High-capacity unregularized trees memorize
-these duplicates and inflate discrimination---the recreated random forest scored
-$0.778$ and the super-learner $0.730$ on the leaky split, while a depth-3 forest
-($0.66$), the linear baselines, and the regularized EI pipeline are unaffected. We
-therefore de-duplicate the holdout ($7{,}537$ clean rows) and report both columns in
-Table~\ref{tab:temporal}. On the \emph{clean} external cohort every method collapses
-into one band of $\mathbf{0.680\text{--}0.689}$: E3 $0.6806$, top-CV pipelines
-$0.680$, LASSO $0.6797$, random forest $0.6840$ (down $0.094$ once memorized rows are
-removed), super-learner $0.6887$. The EI pipeline generalizes (E3 holds
-$\sim$$0.681$ out of cohort) but does not lead, and no method separates from the
-$\sim$$0.68$ wall. This operationalizes the paper's thesis: an external AUROC that
-looks like a win can be a memorization artifact, and only leakage-robust evaluation
-tells a real signal from a recalled one \cite{collins2024,wolff2019}.
+\section{Does the Top Model Transfer to a Larger Dataset? The 50k/10k Test}
+\label{sec:transfer}
+A pipeline selected on a $10{,}000/3{,}000$ split invites a scaling question: does
+the discovery champion remain the champion when retrained on $5\times$ the data and
+tested on a larger, later cohort? We test it directly. We rebuild the EI pipeline
+end-to-end---ZYAL feature engineering and the LDA-112 downsample \emph{re-derived} on
+the new data---and retrain the champion E3, the top-CV pipelines (C1, C2), and three
+recreated methods on a $\mathbf{49{,}999}$-operation training set, evaluating on a
+$\mathbf{2017}$ holdout of $\mathbf{10{,}000}$ operations. Human/recreated comparators
+again receive only raw default features. This is simultaneously a scale test ($5\times$
+training data) and a temporal external test.
+
+\paragraph{Leakage audit first.} The larger split contains a data-quality flaw we
+report transparently: \textbf{$2{,}463/10{,}000$ ($24.6\%$) holdout rows are
+feature-identical to a training row}. Unregularized trees memorize these and inflate
+discrimination---the recreated random forest scored $0.778$ and the super-learner
+$0.730$ on the uncleaned split, while a depth-3 forest ($0.66$), the linear baselines,
+and the regularized EI pipeline are unaffected. A model that appears to ``improve''
+at scale may merely be recalling leaked rows. We de-duplicate the holdout ($7{,}537$
+clean rows) and report both columns in Table~\ref{tab:temporal}.
+
+\paragraph{The ranking does not transfer; the ceiling does.} On the clean larger
+cohort every method collapses into one band, $\mathbf{0.680\text{--}0.689}$, and the
+discovery ranking dissolves: E3---top of the $10$k/$3$k ladder at $0.689$---sits at
+$0.6806$ and \emph{no longer leads}; the recreated super-learner ($0.6887$) and random
+forest ($0.6840$) nominally edge it, the top-CV pipelines match it (C1 $0.6807$, C2
+$0.6802$), and LASSO ($0.6797$) is within a hair, all far inside one Hanley--McNeil SE.
+Scaling the data $5\times$ does not widen or preserve the champion's small edge---it
+erases it, exactly as the CV--holdout decoupling predicts, now at the dataset level:
+the identity of the ``best'' pipeline is unstable across cohorts because real
+differences among strong pipelines are smaller than the noise. What transfers is the
+$\sim$$0.68$--$0.69$ ceiling itself, in-cohort or out, at $10$k or $50$k. The EI
+pipeline generalizes (it holds $\sim$$0.681$ at scale) but confers no durable
+advantage; the reproducible finding is the wall, not any single model
+\cite{collins2024,wolff2019}.
 
 \input{tables/table_temporal.tex}
 
