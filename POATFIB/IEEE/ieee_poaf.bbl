@@ -21,34 +21,18 @@
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
-\bibitem{andrei2024}
-A.-C. Andrei, J.~L. Cox, S.~Shah, S.~C. Malaisrie, C.~Mehta, I.~R. Efimov,
-  A.~Churyla, J.~Kruse, and P.~M. McCarthy, ``Machine learning-based prediction
-  of new onset of atrial fibrillation after mitral valve surgery,''
-  \emph{International Journal of Arrhythmia}, vol.~25, no.~18, 2024.
-
-\bibitem{pandey2023}
-A.~Pandey, I.~Okaj, S.~Ichhpuniani \emph{et~al.}, ``Risk scores for prediction
-  of postoperative atrial fibrillation after cardiac surgery: A systematic
-  review and meta-analysis,'' \emph{Journal of the American Heart Association},
-  2023.
-
-\bibitem{karri2021}
-R.~Karri, A.~Kawai, Y.~J. Thong, D.~M. Ramson, L.~A. Perry, R.~Segal, J.~A.
-  Smith, and J.~C. Penny-Dimri, ``Machine learning outperforms existing
-  clinical scoring tools in the prediction of postoperative atrial fibrillation
-  during intensive care unit admission after cardiac surgery,'' \emph{Heart,
-  Lung and Circulation}, vol.~30, no.~12, pp. 1929--1937, 2021.
-
-\bibitem{riad2022}
-F.~S. Riad \emph{et~al.}, ``Anticoagulation in new-onset postoperative atrial
-  fibrillation: An analysis from the society of thoracic surgeons adult cardiac
-  surgery database,'' \emph{The Annals of Thoracic Surgery}, 2022.
-
 \bibitem{mathew2004}
-J.~P. Mathew, M.~L. Fontes, I.~C. Tudor \emph{et~al.}, ``A multicenter risk
-  index for atrial fibrillation after cardiac surgery,'' \emph{JAMA}, vol. 291,
-  no.~14, pp. 1720--1729, 2004.
+J.~P. Mathew, M.~L. Fontes, I.~C. Tudor, J.~Ramsay, P.~Duke, C.~D. Mazer, P.~G.
+  Barash, P.~H. Hsu, and D.~T. Mangano, ``A multicenter risk index for atrial
+  fibrillation after cardiac surgery,'' \emph{JAMA}, vol. 291, no.~14, pp.
+  1720--1729, 2004.
+
+\bibitem{mariscalco2014}
+G.~Mariscalco, F.~Biancari, M.~Zanobini, M.~Cottini, G.~Piffaretti,
+  M.~Saccocci, M.~Banach, C.~Beghi, and G.~D. Angelini, ``Bedside tool for
+  predicting the risk of postoperative atrial fibrillation after cardiac
+  surgery: the {POAF} score,'' \emph{Journal of the American Heart
+  Association}, vol.~3, no.~2, p. e000752, 2014.
 
 \bibitem{pollock2018}
 B.~D. Pollock, G.~Filardo, B.~da~Graca, T.~K. Phan, G.~Ailawadi, V.~Thourani,
@@ -56,123 +40,130 @@ B.~D. Pollock, G.~Filardo, B.~da~Graca, T.~K. Phan, G.~Ailawadi, V.~Thourani,
   artery bypass graft atrial fibrillation with existing risk scores,''
   \emph{The Annals of Thoracic Surgery}, vol. 105, no.~1, pp. 115--121, 2018.
 
-\bibitem{ma2025}
-H.~Ma \emph{et~al.}, ``Performance of an ai prediction tool for new-onset
-  atrial fibrillation after coronary artery bypass grafting,''
-  \emph{eClinicalMedicine}, vol.~80, 2025.
+\bibitem{pandey2023}
+A.~Pandey, I.~Okaj, S.~Ichhpuniani \emph{et~al.}, ``Risk scores for prediction
+  of postoperative atrial fibrillation after cardiac surgery: a systematic
+  review and meta-analysis,'' \emph{Journal of the American Heart Association},
+  2023.
 
-\bibitem{zheng2026}
-J.-L. Zheng \emph{et~al.}, ``Development and validation of a machine
-  learning-based predictive model for new-onset atrial fibrillation after
-  cabg,'' \emph{Frontiers in Cardiovascular Medicine}, 2026.
+\bibitem{andrei2024}
+A.-C. Andrei, J.~L. Cox, S.~Shah, S.~C. Malaisrie, C.~Mehta, I.~R. Efimov,
+  A.~Churyla, J.~Kruse, and P.~M. McCarthy, ``Machine learning-based prediction
+  of new onset of atrial fibrillation after mitral valve surgery,''
+  \emph{International Journal of Arrhythmia}, vol.~25, no.~18, 2024.
 
-\bibitem{elsherbini2023}
-A.~El-Sherbini \emph{et~al.}, ``Machine learning for predicting postoperative
-  atrial fibrillation after cardiac surgery,'' \emph{The American Journal of
-  Cardiology}, 2023.
+\bibitem{stsDatabase}
+{The Society of Thoracic Surgeons}, ``{STS National Database},''
+  \url{https://www.sts.org/research-data/registries/sts-national-database},
+  2026, accessed June 20, 2026.
 
-\bibitem{kaur2026}
-H.~Kaur, H.~Chen, J.~Catrip, N.~Weitzel, and N.~Liu, ``Predicting postoperative
-  atrial fibrillation: An explainable deep learning approach,'' \emph{Journal
-  of Biomedical Research}, vol.~40, no.~1, pp. 43--54, 2026.
+\bibitem{openfe2022}
+T.~Zhang, Z.~Zhang, Z.~Fan, H.~Luo, F.~Liu, Q.~Liu, W.~Cao, and J.~Li,
+  ``{OpenFE}: automated feature generation with expert-level performance,''
+  2022.
 
-\bibitem{bergstra2012}
-J.~Bergstra and Y.~Bengio, ``Random search for hyper-parameter optimization,''
-  \emph{Journal of Machine Learning Research}, vol.~13, pp. 281--305, 2012.
-
-\bibitem{hutter2019}
-F.~Hutter, L.~Kotthoff, and J.~Vanschoren, \emph{Automated Machine Learning:
-  Methods, Systems, Challenges}.\hskip 1em plus 0.5em minus 0.4em\relax
-  Springer, 2019.
-
-\bibitem{holland1975}
-J.~H. Holland, ``Adaptation in natural and artificial systems,''
-  \emph{University of Michigan Press}, 1975.
+\bibitem{autofeat2019}
+F.~Horn, R.~Pack, and M.~Rieger, ``The autofeat python library for automated
+  feature engineering and selection,'' 2019.
 
 \bibitem{koza1992}
 J.~R. Koza, \emph{Genetic Programming: On the Programming of Computers by Means
-  of Natural Selection}.\hskip 1em plus 0.5em minus 0.4em\relax MIT Press,
-  1992.
-
-\bibitem{stanley2002}
-K.~O. Stanley and R.~Miikkulainen, ``Evolving neural networks through
-  augmenting topologies,'' \emph{Evolutionary Computation}, vol.~10, no.~2, pp.
-  99--127, 2002.
+  of Natural Selection}.\hskip 1em plus 0.5em minus 0.4em\relax Cambridge, MA:
+  MIT Press, 1992.
 
 \bibitem{real2020}
-E.~Real, C.~Liang, D.~R. So, and Q.~V. Le, ``Automl-zero: Evolving machine
-  learning algorithms from scratch,'' \emph{Proc. ICML}, 2020.
+E.~Real, C.~Liang, D.~R. So, and Q.~V. Le, ``{AutoML-Zero}: evolving machine
+  learning algorithms from scratch,'' in \emph{Proceedings of the 37th
+  International Conference on Machine Learning (ICML)}, ser. PMLR, vol. 119,
+  2020, pp. 8007--8019.
 
-\bibitem{bornmann2015}
-L.~Bornmann and R.~Mutz, ``Growth rates of modern science: A bibliometric
-  analysis based on the number of publications and cited references,''
-  \emph{Journal of the Association for Information Science and Technology},
-  vol.~66, no.~11, pp. 2215--2222, 2015.
+\bibitem{autogen2023}
+Q.~Wu, G.~Bansal, J.~Zhang, Y.~Wu, B.~Li, E.~Zhu, L.~Jiang, X.~Zhang, S.~Zhang,
+  J.~Liu, A.~H. Awadallah, R.~W. White, D.~Burger, and C.~Wang, ``{AutoGen}:
+  enabling next-gen llm applications via multi-agent conversation,'' 2023.
 
-\bibitem{ioannidis2005}
-J.~P.~A. Ioannidis, ``Why most published research findings are false,''
-  \emph{PLoS Medicine}, vol.~2, no.~8, p. e124, 2005.
+\bibitem{evoagent2024}
+S.~Yuan, K.~Song, J.~Chen, X.~Tan, D.~Li, and D.~Yang, ``{EvoAgent}: towards
+  automatic multi-agent generation via evolutionary algorithms,'' 2024.
+
+\bibitem{dspy2023}
+O.~Khattab, A.~Singhvi, P.~Maheshwari, Z.~Zhang, K.~Santhanam, S.~Haq,
+  A.~Sharma, T.~T. Joshi, H.~Moazam, H.~Miller, M.~Zaharia, and C.~Potts,
+  ``{DSPy}: compiling declarative language model calls into self-improving
+  pipelines,'' 2023.
+
+\bibitem{tsamardinos2018}
+I.~Tsamardinos, E.~Greasidou, and G.~Borboudakis, ``Bootstrapping the
+  out-of-sample predictions for efficient and accurate cross-validation,''
+  \emph{Machine Learning}, vol. 107, no.~12, pp. 1895--1922, 2018.
+
+\bibitem{catboost2018}
+L.~Prokhorenkova, G.~Gusev, A.~Vorobev, A.~V. Dorogush, and A.~Gulin,
+  ``{CatBoost}: unbiased boosting with categorical features,'' in
+  \emph{Advances in Neural Information Processing Systems}, 2018.
+
+\bibitem{chen2016}
+T.~Chen and C.~Guestrin, ``{XGBoost}: a scalable tree boosting system,'' in
+  \emph{Proceedings of the 22nd ACM SIGKDD International Conference on
+  Knowledge Discovery and Data Mining}, 2016, pp. 785--794.
+
+\bibitem{ke2017}
+G.~Ke, Q.~Meng, T.~Finley, T.~Wang, W.~Chen, W.~Ma, Q.~Ye, and T.-Y. Liu,
+  ``{LightGBM}: a highly efficient gradient boosting decision tree,'' in
+  \emph{Advances in Neural Information Processing Systems}, 2017.
+
+\bibitem{autogluon2020}
+N.~Erickson, J.~Mueller, A.~Shirkov, H.~Zhang, P.~Larroy, M.~Li, and A.~Smola,
+  ``{AutoGluon-Tabular}: robust and accurate automl for structured data,''
+  2020.
+
+\bibitem{fawzi2022}
+A.~Fawzi, M.~Balog, A.~Huang \emph{et~al.}, ``Discovering faster matrix
+  multiplication algorithms with reinforcement learning,'' \emph{Nature}, vol.
+  610, no. 7930, pp. 47--53, 2022.
+
+\bibitem{mankowitz2023}
+D.~J. Mankowitz, A.~Michi, A.~Zhernov \emph{et~al.}, ``Faster sorting
+  algorithms discovered using deep reinforcement learning,'' \emph{Nature},
+  vol. 618, no. 7964, pp. 257--263, 2023.
+
+\bibitem{tabpfn2025}
+N.~Hollmann, S.~Muller, L.~Purucker, A.~Krishnakumar, M.~Korfer, S.~B. Hoo,
+  R.~T. Schirrmeister, and F.~Hutter, ``Accurate predictions on small data with
+  a tabular foundation model,'' \emph{Nature}, vol. 637, pp. 319--326, 2025.
+
+\bibitem{lundberg2017}
+S.~M. Lundberg and S.-I. Lee, ``A unified approach to interpreting model
+  predictions,'' in \emph{Advances in Neural Information Processing Systems},
+  vol.~30, 2017.
+
+\bibitem{popper1959}
+K.~R. Popper, \emph{The Logic of Scientific Discovery}.\hskip 1em plus 0.5em
+  minus 0.4em\relax London: Hutchinson, 1959.
+
+\bibitem{merton1973}
+R.~K. Merton, ``The normative structure of science,'' in \emph{The Sociology of
+  Science: Theoretical and Empirical Investigations}.\hskip 1em plus 0.5em
+  minus 0.4em\relax University of Chicago Press, 1973, originally published
+  1942.
+
+\bibitem{kapoor2023}
+S.~Kapoor and A.~Narayanan, ``Leakage and the reproducibility crisis in
+  machine-learning-based science,'' \emph{Patterns}, vol.~4, no.~9, p. 100804,
+  2023.
+
+\bibitem{collins2024}
+G.~S. Collins, P.~Dhiman, J.~Ma \emph{et~al.}, ``{TRIPOD+AI} statement: updated
+  guidance for reporting clinical prediction models that use regression or
+  machine learning methods,'' \emph{BMJ}, vol. 385, p. e078378, 2024.
 
 \bibitem{gelman2014}
 A.~Gelman and E.~Loken, ``The statistical crisis in science,'' \emph{American
   Scientist}, vol. 102, no.~6, pp. 460--465, 2014.
 
-\bibitem{wolpert1992}
-D.~H. Wolpert, ``Stacked generalization,'' \emph{Neural Networks}, vol.~5,
-  no.~2, pp. 241--259, 1992.
-
-\bibitem{collins2024}
-G.~S. Collins, K.~G.~M. Moons, P.~Dhiman \emph{et~al.}, ``{TRIPOD+AI}
-  statement: updated guidance for reporting clinical prediction models that use
-  regression or machine learning methods,'' \emph{BMJ}, vol. 385, p. e078378,
-  2024.
-
-\bibitem{wolff2019}
-R.~F. Wolff, K.~G.~M. Moons, R.~D. Riley, P.~F. Whiting, M.~Westwood, G.~S.
-  Collins, J.~B. Reitsma, J.~Kleijnen, and S.~Mallett, ``{PROBAST}: A tool to
-  assess the risk of bias and applicability of prediction model studies,''
-  \emph{Annals of Internal Medicine}, vol. 170, no.~1, pp. 51--58, 2019.
-
-\bibitem{guo2017}
-C.~Guo, G.~Pleiss, Y.~Sun, and K.~Q. Weinberger, ``On calibration of modern
-  neural networks,'' in \emph{Proc. ICML}, 2017.
-
-\bibitem{steyerberg2010}
-E.~W. Steyerberg, A.~J. Vickers, N.~R. Cook, T.~Gerds, M.~Gonen, N.~Obuchowski,
-  M.~J. Pencina, and M.~W. Kattan, ``Assessing the performance of prediction
-  models: A framework for traditional and novel measures,''
-  \emph{Epidemiology}, vol.~21, no.~1, pp. 128--138, 2010.
-
-\bibitem{vickers2006}
-A.~J. Vickers and E.~B. Elkin, ``Decision curve analysis: a novel method for
-  evaluating prediction models,'' \emph{Medical Decision Making}, vol.~26,
-  no.~6, pp. 565--574, 2006.
-
-\bibitem{lundberg2017}
-S.~M. Lundberg and S.-I. Lee, ``A unified approach to interpreting model
-  predictions,'' \emph{Advances in Neural Information Processing Systems},
-  2017.
-
-\bibitem{ribeiro2016}
-M.~T. Ribeiro, S.~Singh, and C.~Guestrin, ``Why should i trust you? explaining
-  the predictions of any classifier,'' in \emph{Proc. ACM SIGKDD}, 2016, pp.
-  1135--1144.
-
-\bibitem{collins2015}
-G.~S. Collins, J.~B. Reitsma, D.~G. Altman, and K.~G.~M. Moons, ``Transparent
-  reporting of a multivariable prediction model for individual prognosis or
-  diagnosis ({TRIPOD}),'' \emph{Annals of Internal Medicine}, vol. 162, no.~1,
-  pp. 55--63, 2015.
-
-\bibitem{moons2025}
-K.~G.~M. Moons, J.~A.~A. Damen, T.~Kaul \emph{et~al.}, ``{PROBAST+AI}: an
-  updated quality, risk of bias, and applicability assessment tool for
-  prediction models using artificial intelligence,'' \emph{BMJ}, vol. 388, p.
-  e082505, 2025.
-
-\bibitem{honorHealthKhalpey}
-{HonorHealth}, ``{Zain Khalpey, MD},''
-  \url{https://www.honorhealth.com/physicians/zain-khalpey}, 2026, accessed May
-  25, 2026.
+\bibitem{lu2024}
+C.~Lu, C.~Lu, R.~T. Lange, J.~Foerster, J.~Clune, and D.~Ha, ``The {AI}
+  scientist: towards fully automated open-ended scientific discovery,''
+  \emph{arXiv preprint arXiv:2408.06292}, 2024.
 
 \end{thebibliography}

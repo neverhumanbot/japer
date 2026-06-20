@@ -1,48 +1,57 @@
-# POATFIB — Engineered Intelligence for Post-Operative Atrial Fibrillation
+# POATFIB — Self-Evolving Agent Networks (SEAN) for Postoperative Atrial Fibrillation
 
-Two manuscripts on an **engineered-intelligence** (EI) system — algorithm decomposition into a stage
-grammar + an agent scripting language (ZYAL) + an agent fleet + genetic evolution + adversarial judges +
-a holdout firewall — that searches the space of *complete* tabular ML pipelines for STS post-operative
-atrial fibrillation (POAF), with the cohort used as a deliberately hard test bed.
+Two coordinated manuscripts on **Self-Evolving Agent Networks (SEAN)** — a governed system of
+language-model agents that autonomously *discover* clinical features and *invent* algorithm
+components for predicting STS-defined treated postoperative atrial fibrillation/flutter
+(`TARGET_COtAFib`), evaluated honestly under a single-use holdout firewall.
 
-- **NEJM/** — clinical framing (NEJM AI style). First author: **Zain Khalpey, MD**. (`nejm_poaf.tex`)
-- **IEEE/** — technical framing (IEEEtran). First author: **Jepson Taylor**. (`ieee_poaf.tex`)
-
-Each folder is self-contained: `*.tex`, `references.bib`, `figures/*.{png,eps}`, `data/*.{csv,json}`,
-`tables/table_temporal.tex`, plus the verified `FACTS.md` / `paper_stats.json` used to ground every number.
+- `NEJM/nejm_poaf.tex` — clinical framing. First author: **Zain Khalpey, MD**.
+- `IEEE/ieee_poaf.tex` — technical framing (IEEEtran). First author: **Jepson Taylor**.
 
 ## Headline (honest) result
 
-On a fixed 10,000-train / 3,000-holdout STS-derived split (147 registry predictors, 9 outcomes; POAF
-prevalence ~33%), the engineered #1 pipeline **E3** (LDA-112 → BrownianBridgeRankExpander →
-MonotoneRunAtlasExpander → TopologicalSubspace, license-clean) reaches **holdout AUROC 0.6893
-(95% CI 0.670–0.709)**. A raw LDA baseline reaches 0.6852 and the best human model 0.6806; **the 95%
-confidence intervals overlap heavily** (Hanley–McNeil SE ≈ 0.011). DeLong tests: E3 vs baseline
-Δ=0.0042 (p=0.048, borderline); E3 vs best human Δ=0.0087 (**p=0.099, not significant**).
+On a leakage-controlled **50,000/10,000** STS-derived split (2016–17 train / held-out 2017 test;
+147 preoperative predictors; gates passed: 0 feature-row hash overlap, adversarial-shift AUROC
+0.509, target drift 0.0014), the field sits in a **moderate, overlapping band** and SEAN reaches
+the top of it:
 
-**Interpretation:** engineered intelligence *reaches* the ~0.689 ceiling that bounds registry-only POAF
-prediction; it does **not** significantly surpass strong human baselines. Two further findings stand on
-their own: (1) **cross-validation does not predict held-out performance** in this regime
-(Spearman(CV, holdout) = −0.06 over 500 generations), which is why a held-out firewall is essential; and
-(2) the apparent "young-and-sick" inversion is a **cohort selection confound**, not rediscovered
-physiology. The contribution is an **auditable search** and an **honest characterization of the ceiling**,
-not a superior bedside predictor.
+| Model | Held-out AUROC |
+| --- | ---: |
+| **SEAN** (best fair holdout) | **0.69196** |
+| AutoGluon (default) | 0.6905 |
+| CatBoost (default) | 0.6874 |
+| TabPFN (default, baseline only) | 0.6869 |
+| LightGBM (default) | 0.6863 |
+| Random Forest (default) | 0.6747 |
+| XGBoost (default) | 0.6687 |
 
-## Fairness protocol
+SEAN **leads**, but its margin over the best default is within the AUROC sampling interval
+(~0.011) — a moderate field, **not a decisive separation**. The contribution is an auditable,
+trustworthy discovery instrument and an honest measurement of the ceiling. SEAN also discovers
+theory-backed features (the top of 2,182 is `metabolicriskcalcul = Age×BSA+INR`) and novel
+algorithm components that generalize where signal exists (HIGGS +0.0023; a frozen benchmark
++0.037). The "young-and-sick" age signal is a cohort-selection confound (POAF 50.8% in <60 vs
+24.1% in >75), not rediscovered physiology.
 
-Human models (all human baselines, recreated published methods, TabPFN v2.5) receive **only the 146
-default registry features** — no engineered features, no LDA downsample, and never any `TARGET_*` column.
-Engineered-intelligence models receive the engineered features + the LDA-112 downsample; MIMO models use
-the 8 auxiliary outcomes as training labels only, never at inference. The 50k/10k temporal external
-validation re-creates the engineered features and applies the identical downsample. **TabPFN v2.5 is
-reported only as a human baseline**, never inside the EI results.
+## Grounding receipts
+
+- `/tmp/apex/preds/` — per-patient predictions (`preds_*.{npy,txt}`, `y_test.npy`), `ranking.json`.
+- `…/sts_mimo_afib_50k10kprime_manifest.json` — split/gate manifest.
+- `data/clinical_analyses.json` — real DeLong / calibration (raw→Platt) / subgroup, from
+  `compute_clinical_analyses.py` (cross-checked to `ranking.json`).
+- `data/engineered_features.json` — discovered-feature formulae + citations.
 
 ## Build
 
 ```bash
-cd NEJM && latexmk -pdf nejm_poaf.tex      # -> nejm_poaf.pdf
-cd ../IEEE && latexmk -pdf ieee_poaf.tex   # -> ieee_poaf.pdf
+cd POATFIB
+python3 compute_clinical_analyses.py     # -> */data/clinical_analyses.json
+python3 make_figures.py                  # vector PDF + PNG into NEJM/IEEE figures
+cd NEJM  && latexmk -pdf nejm_poaf.tex
+cd ../IEEE && latexmk -pdf ieee_poaf.tex
 ```
 
-`TO CONFIRM` placeholders (IRB/DUA, funding, disclosures, AI-assisted-writing disclosure, CRediT
-contributions) must be completed before submission.
+## Before submission (`TO CONFIRM` in both papers)
+
+STS database version + `COtAFib` dictionary; IRB/DUA; the 2,182-feature ranking receipt + hash;
+funding, conflicts, data/code availability, CRediT, and AI-writing disclosure.

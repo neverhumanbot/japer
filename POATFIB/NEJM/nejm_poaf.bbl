@@ -1,7 +1,7 @@
 \begin{thebibliography}{10}
 
 \bibitem{collins2024}
-Gary~S Collins, Karel G~M Moons, Paula Dhiman, et~al.
+G.~S. Collins, P.~Dhiman, J.~Ma, et~al.
 \newblock {TRIPOD+AI} statement: updated guidance for reporting clinical
   prediction models that use regression or machine learning methods.
 \newblock {\em BMJ}, 385:e078378, 2024.
@@ -9,56 +9,46 @@ Gary~S Collins, Karel G~M Moons, Paula Dhiman, et~al.
 \bibitem{wolff2019}
 R.~F. Wolff, K.~G.~M. Moons, R.~D. Riley, P.~F. Whiting, M.~Westwood, G.~S.
   Collins, J.~B. Reitsma, J.~Kleijnen, and S.~Mallett.
-\newblock {PROBAST}: A tool to assess the risk of bias and applicability of
+\newblock {PROBAST}: a tool to assess the risk of bias and applicability of
   prediction model studies.
 \newblock {\em Annals of Internal Medicine}, 170(1):51--58, 2019.
 
 \bibitem{moons2025}
-Karel G~M Moons, Johanna A~A Damen, Tabea Kaul, et~al.
+K.~G.~M. Moons, J.~A. A.~G. Damen, T.~Kaul, et~al.
 \newblock {PROBAST+AI}: an updated quality, risk of bias, and applicability
-  assessment tool for prediction models using artificial intelligence.
+  assessment tool for prediction models using regression or artificial
+  intelligence methods.
 \newblock {\em BMJ}, 388:e082505, 2025.
 
-\bibitem{andrei2024}
-A.-C. Andrei, J.~L. Cox, S.~Shah, S.~C. Malaisrie, C.~Mehta, I.~R. Efimov,
-  A.~Churyla, J.~Kruse, and P.~M. McCarthy.
-\newblock Machine learning-based prediction of new onset of atrial fibrillation
-  after mitral valve surgery.
-\newblock {\em International Journal of Arrhythmia}, 25(18), 2024.
-
-\bibitem{karri2021}
-R.~Karri, A.~Kawai, Y.~J. Thong, D.~M. Ramson, L.~A. Perry, R.~Segal, J.~A.
-  Smith, and J.~C. Penny-Dimri.
-\newblock Machine learning outperforms existing clinical scoring tools in the
-  prediction of postoperative atrial fibrillation during intensive care unit
-  admission after cardiac surgery.
-\newblock {\em Heart, Lung and Circulation}, 30(12):1929--1937, 2021.
-
-\bibitem{pandey2023}
-A.~Pandey, I.~Okaj, S.~Ichhpuniani, et~al.
-\newblock Risk scores for prediction of postoperative atrial fibrillation after
-  cardiac surgery: A systematic review and meta-analysis.
-\newblock {\em Journal of the American Heart Association}, 2023.
-
-\bibitem{riad2022}
-F.~S. Riad et~al.
-\newblock Anticoagulation in new-onset postoperative atrial fibrillation: An
-  analysis from the society of thoracic surgeons adult cardiac surgery
-  database.
-\newblock {\em The Annals of Thoracic Surgery}, 2022.
-
 \bibitem{mathew2004}
-J.~P. Mathew, M.~L. Fontes, I.~C. Tudor, et~al.
+J.~P. Mathew, M.~L. Fontes, I.~C. Tudor, J.~Ramsay, P.~Duke, C.~D. Mazer, P.~G.
+  Barash, P.~H. Hsu, and D.~T. Mangano.
 \newblock A multicenter risk index for atrial fibrillation after cardiac
   surgery.
 \newblock {\em JAMA}, 291(14):1720--1729, 2004.
 
-\bibitem{magee2007}
-M.~J. Magee, M.~A. Herbert, T.~M. Dewey, J.~R. Edgerton, W.~H. Ryan, S.~Prince,
-  and M.~J. Mack.
-\newblock Atrial fibrillation after coronary artery bypass grafting surgery:
-  development of a predictive risk algorithm.
-\newblock {\em The Annals of Thoracic Surgery}, 83(5):1707--1712, 2007.
+\bibitem{pandey2023}
+A.~Pandey, I.~Okaj, S.~Ichhpuniani, et~al.
+\newblock Risk scores for prediction of postoperative atrial fibrillation after
+  cardiac surgery: a systematic review and meta-analysis.
+\newblock {\em Journal of the American Heart Association}, 2023.
+
+\bibitem{stsDatabase}
+{The Society of Thoracic Surgeons}.
+\newblock {STS National Database}.
+\newblock
+  \url{https://www.sts.org/research-data/registries/sts-national-database},
+  2026.
+\newblock Accessed June 20, 2026.
+
+\bibitem{stsPoafGuideline2026}
+{The Society of Thoracic Surgeons}.
+\newblock {New STS Clinical Practice Guidelines Advance Evidence-Based Care for
+  Postoperative Atrial Fibrillation}.
+\newblock
+  \url{https://www.sts.org/news/new-sts-clinical-practice-guidelines-advance-evidence-based-care-postoperative-atrial-fibrillation},
+  2026.
+\newblock Accessed June 20, 2026.
 
 \bibitem{pollock2018}
 B.~D. Pollock, G.~Filardo, B.~da~Graca, T.~K. Phan, G.~Ailawadi, V.~Thourani,
@@ -67,111 +57,134 @@ B.~D. Pollock, G.~Filardo, B.~da~Graca, T.~K. Phan, G.~Ailawadi, V.~Thourani,
   fibrillation with existing risk scores.
 \newblock {\em The Annals of Thoracic Surgery}, 105(1):115--121, 2018.
 
-\bibitem{belley2015}
-E.~P. Belley-Cote et~al.
-\newblock Predicting new-onset postoperative atrial fibrillation in cardiac
-  surgery patients.
-\newblock {\em Journal of Cardiothoracic and Vascular Anesthesia},
-  29(5):1117--1124, 2015.
+\bibitem{andrei2024}
+A.-C. Andrei, J.~L. Cox, S.~Shah, S.~C. Malaisrie, C.~Mehta, I.~R. Efimov,
+  A.~Churyla, J.~Kruse, and P.~M. McCarthy.
+\newblock Machine learning-based prediction of new onset of atrial fibrillation
+  after mitral valve surgery.
+\newblock {\em International Journal of Arrhythmia}, 25(18), 2024.
 
-\bibitem{qian2022}
-S.~S. Qian, I.~Crandell, A.~Hanlon, M.~J. Turrentine, et~al.
-\newblock Predictive capability of metabolic panels for post-operative atrial
-  fibrillation in cardiac surgery patients.
-\newblock {\em Journal of Surgical Research}, 278:271--281, 2022.
+\bibitem{mariscalco2014}
+Giovanni Mariscalco, Fausto Biancari, Matteo Zanobini, Michele Cottini,
+  Gabriele Piffaretti, Matteo Saccocci, Maciej Banach, Cesare Beghi, and
+  Gianni~D. Angelini.
+\newblock Bedside tool for predicting the risk of postoperative atrial
+  fibrillation after cardiac surgery: the {POAF} score.
+\newblock {\em Journal of the American Heart Association}, 3(2):e000752, 2014.
 
-\bibitem{kaur2026}
-H.~Kaur, H.~Chen, J.~Catrip, N.~Weitzel, and N.~Liu.
-\newblock Predicting postoperative atrial fibrillation: An explainable deep
-  learning approach.
-\newblock {\em Journal of Biomedical Research}, 40(1):43--54, 2026.
+\bibitem{tabpfn2025}
+Noah Hollmann, Samuel Muller, Lennart Purucker, Arjun Krishnakumar, Max Korfer,
+  Shi~Bin Hoo, Robin~Tibor Schirrmeister, and Frank Hutter.
+\newblock Accurate predictions on small data with a tabular foundation model.
+\newblock {\em Nature}, 637:319--326, 2025.
 
-\bibitem{elsherbini2023}
-A.~El-Sherbini et~al.
-\newblock Machine learning for predicting postoperative atrial fibrillation
-  after cardiac surgery.
-\newblock {\em The American Journal of Cardiology}, 2023.
+\bibitem{koza1992}
+John~R. Koza.
+\newblock {\em Genetic Programming: On the Programming of Computers by Means of
+  Natural Selection}.
+\newblock MIT Press, Cambridge, MA, 1992.
 
-\bibitem{ma2025}
-H.~Ma et~al.
-\newblock Performance of an ai prediction tool for new-onset atrial
-  fibrillation after coronary artery bypass grafting.
-\newblock {\em eClinicalMedicine}, 80, 2025.
+\bibitem{real2020}
+Esteban Real, Chen Liang, David~R. So, and Quoc~V. Le.
+\newblock {AutoML-Zero}: evolving machine learning algorithms from scratch.
+\newblock In {\em Proceedings of the 37th International Conference on Machine
+  Learning (ICML)}, volume 119 of {\em PMLR}, pages 8007--8019, 2020.
 
-\bibitem{zheng2026}
-J.-L. Zheng et~al.
-\newblock Development and validation of a machine learning-based predictive
-  model for new-onset atrial fibrillation after cabg.
-\newblock {\em Frontiers in Cardiovascular Medicine}, 2026.
+\bibitem{autogen2023}
+Qingyun Wu, Gagan Bansal, Jieyu Zhang, Yiran Wu, Beibin Li, Erkang Zhu,
+  Li~Jiang, Xiaoyun Zhang, Shaokun Zhang, Jiale Liu, Ahmed~Hassan Awadallah,
+  Ryen~W. White, Doug Burger, and Chi Wang.
+\newblock {AutoGen}: enabling next-gen llm applications via multi-agent
+  conversation, 2023.
 
-\bibitem{chen2016}
-T.~Chen and C.~Guestrin.
-\newblock {XGBoost}: A scalable tree boosting system.
-\newblock In {\em Proc. ACM SIGKDD}, pages 785--794, 2016.
+\bibitem{evoagent2024}
+Siyu Yuan, Kaitao Song, Jiangjie Chen, Xu~Tan, Dongsheng Li, and Deqing Yang.
+\newblock {EvoAgent}: towards automatic multi-agent generation via evolutionary
+  algorithms, 2024.
 
-\bibitem{breiman2001}
-L.~Breiman.
-\newblock Random forests.
-\newblock {\em Machine Learning}, 45(1):5--32, 2001.
+\bibitem{vickers2006}
+A.~J. Vickers and E.~B. Elkin.
+\newblock Decision curve analysis: a novel method for evaluating prediction
+  models.
+\newblock {\em Medical Decision Making}, 26(6):565--574, 2006.
 
-\bibitem{wolpert1992}
-D.~H. Wolpert.
-\newblock Stacked generalization.
-\newblock {\em Neural Networks}, 5(2):241--259, 1992.
+\bibitem{steyerberg2010}
+E.~W. Steyerberg, A.~J. Vickers, N.~R. Cook, T.~Gerds, M.~Gonen, N.~Obuchowski,
+  M.~J. Pencina, and M.~W. Kattan.
+\newblock Assessing the performance of prediction models: a framework for
+  traditional and novel measures.
+\newblock {\em Epidemiology}, 21(1):128--138, 2010.
 
-\bibitem{hutter2019}
-F.~Hutter, L.~Kotthoff, and J.~Vanschoren.
-\newblock {\em Automated Machine Learning: Methods, Systems, Challenges}.
-\newblock Springer, 2019.
+\bibitem{popper1959}
+Karl~R. Popper.
+\newblock {\em The Logic of Scientific Discovery}.
+\newblock Hutchinson, London, 1959.
 
-\bibitem{bergstra2012}
-J.~Bergstra and Y.~Bengio.
-\newblock Random search for hyper-parameter optimization.
-\newblock {\em Journal of Machine Learning Research}, 13:281--305, 2012.
+\bibitem{merton1973}
+Robert~K. Merton.
+\newblock The normative structure of science.
+\newblock In {\em The Sociology of Science: Theoretical and Empirical
+  Investigations}. University of Chicago Press, 1973.
+\newblock Originally published 1942.
 
-\bibitem{bornmann2015}
-Lutz Bornmann and R{\"u}diger Mutz.
-\newblock Growth rates of modern science: A bibliometric analysis based on the
-  number of publications and cited references.
-\newblock {\em Journal of the Association for Information Science and
-  Technology}, 66(11):2215--2222, 2015.
+\bibitem{kapoor2023}
+Sayash Kapoor and Arvind Narayanan.
+\newblock Leakage and the reproducibility crisis in machine-learning-based
+  science.
+\newblock {\em Patterns}, 4(9):100804, 2023.
 
-\bibitem{ioannidis2005}
-John P~A Ioannidis.
-\newblock Why most published research findings are false.
-\newblock {\em PLoS Medicine}, 2(8):e124, 2005.
+\bibitem{tsamardinos2018}
+Ioannis Tsamardinos, Elissavet Greasidou, and Giorgos Borboudakis.
+\newblock Bootstrapping the out-of-sample predictions for efficient and
+  accurate cross-validation.
+\newblock {\em Machine Learning}, 107(12):1895--1922, 2018.
 
 \bibitem{gelman2014}
 Andrew Gelman and Eric Loken.
 \newblock The statistical crisis in science.
 \newblock {\em American Scientist}, 102(6):460--465, 2014.
 
-\bibitem{guo2017}
-C.~Guo, G.~Pleiss, Y.~Sun, and K.~Q. Weinberger.
-\newblock On calibration of modern neural networks.
-\newblock In {\em Proc. ICML}, 2017.
+\bibitem{fawzi2022}
+Alhussein Fawzi, Matej Balog, Aja Huang, et~al.
+\newblock Discovering faster matrix multiplication algorithms with
+  reinforcement learning.
+\newblock {\em Nature}, 610(7930):47--53, 2022.
 
-\bibitem{steyerberg2010}
-E.~W. Steyerberg, A.~J. Vickers, N.~R. Cook, T.~Gerds, M.~Gonen, N.~Obuchowski,
-  M.~J. Pencina, and M.~W. Kattan.
-\newblock Assessing the performance of prediction models: A framework for
-  traditional and novel measures.
-\newblock {\em Epidemiology}, 21(1):128--138, 2010.
+\bibitem{mankowitz2023}
+Daniel~J. Mankowitz, Andrea Michi, Anton Zhernov, et~al.
+\newblock Faster sorting algorithms discovered using deep reinforcement
+  learning.
+\newblock {\em Nature}, 618(7964):257--263, 2023.
 
-\bibitem{vickers2006}
-Andrew~J Vickers and Elena~B Elkin.
-\newblock Decision curve analysis: a novel method for evaluating prediction
-  models.
-\newblock {\em Medical Decision Making}, 26(6):565--574, 2006.
+\bibitem{lu2024}
+Chris Lu, Cong Lu, Robert~Tjarko Lange, Jakob Foerster, Jeff Clune, and David
+  Ha.
+\newblock The {AI} scientist: towards fully automated open-ended scientific
+  discovery.
+\newblock {\em arXiv preprint arXiv:2408.06292}, 2024.
 
-\bibitem{lundberg2017}
-S.~M. Lundberg and S.-I. Lee.
-\newblock A unified approach to interpreting model predictions.
-\newblock {\em Advances in Neural Information Processing Systems}, 2017.
+\bibitem{catboost2018}
+Liudmila Prokhorenkova, Gleb Gusev, Aleksandr Vorobev, Anna~Veronika Dorogush,
+  and Andrey Gulin.
+\newblock {CatBoost}: unbiased boosting with categorical features.
+\newblock In {\em Advances in Neural Information Processing Systems}, 2018.
 
-\bibitem{ribeiro2016}
-M.~T. Ribeiro, S.~Singh, and C.~Guestrin.
-\newblock Why should i trust you? explaining the predictions of any classifier.
-\newblock In {\em Proc. ACM SIGKDD}, pages 1135--1144, 2016.
+\bibitem{chen2016}
+Tianqi Chen and Carlos Guestrin.
+\newblock {XGBoost}: a scalable tree boosting system.
+\newblock In {\em Proceedings of the 22nd ACM SIGKDD International Conference
+  on Knowledge Discovery and Data Mining}, pages 785--794, 2016.
+
+\bibitem{ke2017}
+Guolin Ke, Qi~Meng, Thomas Finley, Taifeng Wang, Wei Chen, Weidong Ma, Qiwei
+  Ye, and Tie-Yan Liu.
+\newblock {LightGBM}: a highly efficient gradient boosting decision tree.
+\newblock In {\em Advances in Neural Information Processing Systems}, 2017.
+
+\bibitem{autogluon2020}
+Nick Erickson, Jonas Mueller, Alexander Shirkov, Hang Zhang, Pedro Larroy,
+  Mu~Li, and Alexander Smola.
+\newblock {AutoGluon-Tabular}: robust and accurate automl for structured data,
+  2020.
 
 \end{thebibliography}
