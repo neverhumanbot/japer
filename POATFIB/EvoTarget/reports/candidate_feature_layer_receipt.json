@@ -1,0 +1,417 @@
+{
+  "raw_sha256": "7dfb31e0c32dd63526d0dabf3a2270f79a60392cf9a0b3dc8f3206fd9f31181c",
+  "candidate_features_sha256": "79c20e1d8b0a2c2bae0cd7b260213c0ec990bf77fe24aab5e892853883cbeff6",
+  "matched_split_sha256": "3ea4a6e5cc8c330bc887d169a00939cd6020067e324f6499cee26305e759528e",
+  "disposition": "Opt-in research candidates with complete pre-incision lineage. Publication decisions are in features/registry.json.",
+  "cases": 367695,
+  "columns": [
+    "score_poaf_mariscalco",
+    "score_com_af_burgos",
+    "score_cha2ds2_vasc",
+    "score_hatch",
+    "score_mathew_preop",
+    "score_sts_comorbidity_burden",
+    "egfr_ckdepi_2021",
+    "cockcroft_gault_crcl",
+    "ckd_kdigo_stage",
+    "egfr_age_normalized_ratio",
+    "cardiorenal_stretch_index",
+    "bmi_kg_m2",
+    "bmi_u_shape_dev",
+    "weight_to_ibw_devine_ratio",
+    "age_exact_coalesced",
+    "age_excess_55_nonlinear",
+    "age_x_bsa_la_size_proxy",
+    "age_x_height_sex_proxy",
+    "lv_fractional_shortening",
+    "lvedd_indexed_bsa",
+    "lvsd_indexed_bsa",
+    "lvedv_teichholz_bsa_idx",
+    "valvular_atrial_stretch_burden",
+    "biatrial_remodeling_composite",
+    "sa_av_nodal_artery_stenosis",
+    "coronary_leaman_jeopardy_score",
+    "n_territories_severe_stenosis",
+    "lmain_prox_lad_severity",
+    "num_diseased_vessels_true_count",
+    "anemia_who_deficit_hgb",
+    "hct_to_hgb_mchc_proxy",
+    "log_wbc_inflammatory",
+    "wbc_to_hgb_stress_ratio",
+    "log_platelet_to_wbc_ratio",
+    "meld_xi_score",
+    "albi_nutritional_hepatic_score",
+    "age_to_albumin_frailty_ratio",
+    "beta_blocker_withdrawal_flag",
+    "beta_blocker_continuity_tier",
+    "cardioprotective_prophylaxis_bundle",
+    "occult_preop_arrhythmia_proxy",
+    "preop_catecholamine_instability",
+    "pulmonary_copd_osa_burden",
+    "abg_pco2_to_po2_ratio",
+    "pulmonary_htn_right_heart_load",
+    "cath_to_surg_log_days",
+    "smoking_paradox_ordinal",
+    "race_adjusted_age_risk",
+    "race_x_age_x_bsa_substrate",
+    "frailty_gait_speed_mps",
+    "preop_workup_intensity",
+    "acuity_status_admit_mi_score",
+    "degenerative_vs_familial_age",
+    "disability_payor_vulnerability",
+    "natriuretic_peptide_harmonized_log",
+    "missing_core_preop_labs_count",
+    "pulmonary_pressure_lv_dysfunction",
+    "combined_pulmonary_deficit"
+  ],
+  "diagnostic": {
+    "score_poaf_mariscalco": {
+      "matched_vs_train_tv": 0.006041919428569783,
+      "temporal_vs_development_tv": 0.014159202687229762,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "score_com_af_burgos": {
+      "matched_vs_train_tv": 0.008507510149670166,
+      "temporal_vs_development_tv": 0.013634554890432516,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "score_cha2ds2_vasc": {
+      "matched_vs_train_tv": 0.01043626546355165,
+      "temporal_vs_development_tv": 0.013188681692158767,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "score_hatch": {
+      "matched_vs_train_tv": 0.009309166949321898,
+      "temporal_vs_development_tv": 0.012123854446948558,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "score_mathew_preop": {
+      "matched_vs_train_tv": 0.007100104271046904,
+      "temporal_vs_development_tv": 0.012205249282659258,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "score_sts_comorbidity_burden": {
+      "matched_vs_train_tv": 0.0037423012195874944,
+      "temporal_vs_development_tv": 0.013686333961337198,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "egfr_ckdepi_2021": {
+      "matched_vs_train_tv": 0.007595045117746278,
+      "temporal_vs_development_tv": 0.011455564265789435,
+      "matched_missing": 0.0017629199177304038,
+      "train_missing": 0.002384831816269943
+    },
+    "cockcroft_gault_crcl": {
+      "matched_vs_train_tv": 0.0069602959784382315,
+      "temporal_vs_development_tv": 0.01096034018036263,
+      "matched_missing": 0.001926153243446182,
+      "train_missing": 0.002568594541838689
+    },
+    "ckd_kdigo_stage": {
+      "matched_vs_train_tv": 0.004640217694155974,
+      "temporal_vs_development_tv": 0.009196602516286448,
+      "matched_missing": 0.0017302732525872483,
+      "train_missing": 0.0023358284227849445
+    },
+    "egfr_age_normalized_ratio": {
+      "matched_vs_train_tv": 0.009660708224931886,
+      "temporal_vs_development_tv": 0.0072267978840325955,
+      "matched_missing": 0.0017792432503019816,
+      "train_missing": 0.0023889154323936935
+    },
+    "cardiorenal_stretch_index": {
+      "matched_vs_train_tv": 0.004956165211219738,
+      "temporal_vs_development_tv": 0.010547836890066435,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "bmi_kg_m2": {
+      "matched_vs_train_tv": 0.005104969097826578,
+      "temporal_vs_development_tv": 0.007241000179870262,
+      "matched_missing": 0.0008488132937220463,
+      "train_missing": 0.0007758870635124816
+    },
+    "bmi_u_shape_dev": {
+      "matched_vs_train_tv": 0.00424963756300438,
+      "temporal_vs_development_tv": 0.0042369942714672645,
+      "matched_missing": 0.0008488132937220463,
+      "train_missing": 0.0007758870635124816
+    },
+    "weight_to_ibw_devine_ratio": {
+      "matched_vs_train_tv": 0.0054297669606182195,
+      "temporal_vs_development_tv": 0.007053531562378108,
+      "matched_missing": 0.001664979922300937,
+      "train_missing": 0.001429265643312466
+    },
+    "age_exact_coalesced": {
+      "matched_vs_train_tv": 0.007577286233660844,
+      "temporal_vs_development_tv": 0.01800910362747932,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "age_excess_55_nonlinear": {
+      "matched_vs_train_tv": 0.007588196851778682,
+      "temporal_vs_development_tv": 0.01800910362747933,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "age_x_bsa_la_size_proxy": {
+      "matched_vs_train_tv": 0.008208201125261471,
+      "temporal_vs_development_tv": 0.012477101106423853,
+      "matched_missing": 0.00031014331885997843,
+      "train_missing": 0.0004369469252412396
+    },
+    "age_x_height_sex_proxy": {
+      "matched_vs_train_tv": 0.007534806147301046,
+      "temporal_vs_development_tv": 0.01298935601714815,
+      "matched_missing": 0.0008324899611504685,
+      "train_missing": 0.0007105492055324832
+    },
+    "lv_fractional_shortening": {
+      "matched_vs_train_tv": 0.007831219405139136,
+      "temporal_vs_development_tv": 0.06007785470767507,
+      "matched_missing": 0.4990206000457053,
+      "train_missing": 0.4925086062209808
+    },
+    "lvedd_indexed_bsa": {
+      "matched_vs_train_tv": 0.011606579237694625,
+      "temporal_vs_development_tv": 0.060817216918719,
+      "matched_missing": 0.4859456106558715,
+      "train_missing": 0.47521449193689996
+    },
+    "lvsd_indexed_bsa": {
+      "matched_vs_train_tv": 0.003416104867254588,
+      "temporal_vs_development_tv": 0.06015007523727035,
+      "matched_missing": 0.4854069406810094,
+      "train_missing": 0.48531735822705724
+    },
+    "lvedv_teichholz_bsa_idx": {
+      "matched_vs_train_tv": 0.011255834661178828,
+      "temporal_vs_development_tv": 0.060692942796963946,
+      "matched_missing": 0.4859456106558715,
+      "train_missing": 0.47521449193689996
+    },
+    "valvular_atrial_stretch_burden": {
+      "matched_vs_train_tv": 0.007431351117043872,
+      "temporal_vs_development_tv": 0.06549949437738058,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "biatrial_remodeling_composite": {
+      "matched_vs_train_tv": 0.009274068128089383,
+      "temporal_vs_development_tv": 0.03615094191695227,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "sa_av_nodal_artery_stenosis": {
+      "matched_vs_train_tv": 0.013547360961706854,
+      "temporal_vs_development_tv": 0.01447341686072601,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "coronary_leaman_jeopardy_score": {
+      "matched_vs_train_tv": 0.016698498521676118,
+      "temporal_vs_development_tv": 0.01622367629005169,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "n_territories_severe_stenosis": {
+      "matched_vs_train_tv": 0.014353317150153689,
+      "temporal_vs_development_tv": 0.00926249939862172,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "lmain_prox_lad_severity": {
+      "matched_vs_train_tv": 0.013914817821531783,
+      "temporal_vs_development_tv": 0.00765116858012567,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "num_diseased_vessels_true_count": {
+      "matched_vs_train_tv": 0.003092562712088248,
+      "temporal_vs_development_tv": 0.00824265972873132,
+      "matched_missing": 0.006464039698344814,
+      "train_missing": 0.007027903348973583
+    },
+    "anemia_who_deficit_hgb": {
+      "matched_vs_train_tv": 0.004586697206116003,
+      "temporal_vs_development_tv": 0.008684627539762957,
+      "matched_missing": 0.013760569357840096,
+      "train_missing": 0.013990468839967168
+    },
+    "hct_to_hgb_mchc_proxy": {
+      "matched_vs_train_tv": 0.018547341823464143,
+      "temporal_vs_development_tv": 0.04325824918423874,
+      "matched_missing": 0.029071855309980084,
+      "train_missing": 0.014827610145335898
+    },
+    "log_wbc_inflammatory": {
+      "matched_vs_train_tv": 0.007912695085853112,
+      "temporal_vs_development_tv": 0.0036298187943368367,
+      "matched_missing": 0.01575201593157259,
+      "train_missing": 0.012928728647792194
+    },
+    "wbc_to_hgb_stress_ratio": {
+      "matched_vs_train_tv": 0.006519939551693414,
+      "temporal_vs_development_tv": 0.007954568431100808,
+      "matched_missing": 0.0198654957396102,
+      "train_missing": 0.01855186805019581
+    },
+    "log_platelet_to_wbc_ratio": {
+      "matched_vs_train_tv": 8.167232247501092e-06,
+      "temporal_vs_development_tv": 6.532894758356963e-06,
+      "matched_missing": 1.0,
+      "train_missing": 0.9999918327677525
+    },
+    "meld_xi_score": {
+      "matched_vs_train_tv": 0.005476375857377732,
+      "temporal_vs_development_tv": 0.0209894879185349,
+      "matched_missing": 0.17074205869870393,
+      "train_missing": 0.1743254887067596
+    },
+    "albi_nutritional_hepatic_score": {
+      "matched_vs_train_tv": 0.01786120972538781,
+      "temporal_vs_development_tv": 0.020006061028117292,
+      "matched_missing": 0.18221736149652312,
+      "train_missing": 0.18175358643586068
+    },
+    "age_to_albumin_frailty_ratio": {
+      "matched_vs_train_tv": 0.012050608199295317,
+      "temporal_vs_development_tv": 0.02027510411682149,
+      "matched_missing": 0.16595932225523163,
+      "train_missing": 0.16260959404772113
+    },
+    "beta_blocker_withdrawal_flag": {
+      "matched_vs_train_tv": 0.00026198055223890064,
+      "temporal_vs_development_tv": 0.001022818594331277,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "beta_blocker_continuity_tier": {
+      "matched_vs_train_tv": 0.007497828097415239,
+      "temporal_vs_development_tv": 0.008254972428912778,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "cardioprotective_prophylaxis_bundle": {
+      "matched_vs_train_tv": 0.01946390780265001,
+      "temporal_vs_development_tv": 0.0311090823704383,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "occult_preop_arrhythmia_proxy": {
+      "matched_vs_train_tv": 0.0030780137547835222,
+      "temporal_vs_development_tv": 0.002915289002294236,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "preop_catecholamine_instability": {
+      "matched_vs_train_tv": 0.004342046592290608,
+      "temporal_vs_development_tv": 0.008533029982630466,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "pulmonary_copd_osa_burden": {
+      "matched_vs_train_tv": 0.004545610343297758,
+      "temporal_vs_development_tv": 0.016130433471466796,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "abg_pco2_to_po2_ratio": {
+      "matched_vs_train_tv": 0.00425906463568701,
+      "temporal_vs_development_tv": 0.0045321638977357725,
+      "matched_missing": 0.7796513336162711,
+      "train_missing": 0.7812570187152127
+    },
+    "pulmonary_htn_right_heart_load": {
+      "matched_vs_train_tv": 0.014635173585016625,
+      "temporal_vs_development_tv": 0.0301722246968417,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "cath_to_surg_log_days": {
+      "matched_vs_train_tv": 0.012370993554285607,
+      "temporal_vs_development_tv": 0.026554558177835405,
+      "matched_missing": 0.018020959159021906,
+      "train_missing": 0.01778823183505458
+    },
+    "smoking_paradox_ordinal": {
+      "matched_vs_train_tv": 0.009823204377347553,
+      "temporal_vs_development_tv": 0.008392770052503308,
+      "matched_missing": 0.006741536352061637,
+      "train_missing": 0.006006999318036108
+    },
+    "race_adjusted_age_risk": {
+      "matched_vs_train_tv": 0.009028331651793627,
+      "temporal_vs_development_tv": 0.01323044585832435,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "race_x_age_x_bsa_substrate": {
+      "matched_vs_train_tv": 0.006377809286507035,
+      "temporal_vs_development_tv": 0.00917918020765268,
+      "matched_missing": 0.00031014331885997843,
+      "train_missing": 0.0004369469252412396
+    },
+    "frailty_gait_speed_mps": {
+      "matched_vs_train_tv": 0.0039021562398485385,
+      "temporal_vs_development_tv": 0.014294264703594683,
+      "matched_missing": 0.9344454963925435,
+      "train_missing": 0.935013333006644
+    },
+    "preop_workup_intensity": {
+      "matched_vs_train_tv": 0.012714869334100825,
+      "temporal_vs_development_tv": 0.03264061713571961,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "acuity_status_admit_mi_score": {
+      "matched_vs_train_tv": 0.006148857417693538,
+      "temporal_vs_development_tv": 0.0231284979426149,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "degenerative_vs_familial_age": {
+      "matched_vs_train_tv": 0.007755932273949039,
+      "temporal_vs_development_tv": 0.021387775964378238,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "disability_payor_vulnerability": {
+      "matched_vs_train_tv": 0.0010786987109638203,
+      "temporal_vs_development_tv": 0.0027875686384544202,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "natriuretic_peptide_harmonized_log": {
+      "matched_vs_train_tv": 0.0070530069694795675,
+      "temporal_vs_development_tv": 0.02262117300484157,
+      "matched_missing": 0.8014266592667559,
+      "train_missing": 0.7948595440234236
+    },
+    "missing_core_preop_labs_count": {
+      "matched_vs_train_tv": 0.02056036893058518,
+      "temporal_vs_development_tv": 0.025613359852482146,
+      "matched_missing": 0.0,
+      "train_missing": 0.0
+    },
+    "pulmonary_pressure_lv_dysfunction": {
+      "matched_vs_train_tv": 0.006395090564416922,
+      "temporal_vs_development_tv": 0.016804516512800436,
+      "matched_missing": 0.6768633084130457,
+      "train_missing": 0.6832583989774625
+    },
+    "combined_pulmonary_deficit": {
+      "matched_vs_train_tv": 0.0028833202803132314,
+      "temporal_vs_development_tv": 0.019452210124020212,
+      "matched_missing": 0.9163102739055206,
+      "train_missing": 0.9154895643189958
+    }
+  }
+}

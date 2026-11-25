@@ -1,0 +1,277 @@
+{
+  "bootstrap_seed": 42,
+  "bootstrap_draws": 5000,
+  "fixed_saved_predictions": true,
+  "evaluated_arms_in_exporter": 103,
+  "balanced_test_nested_rows": 10000,
+  "natural_test_rows": 21241,
+  "traditional_split_hospitals": {
+    "development": 1086,
+    "2017": 1003,
+    "shared": 998
+  },
+  "2017_cases_in_training_for_2017_stress_analysis": {
+    "full": 57997,
+    "small": 8446
+  },
+  "full": {
+    "rows": 21241,
+    "hospitals": 74,
+    "contrasts": {
+      "FT_Transformer_ClinicalAttn_PLR__gen20_p2b2 vs FT_Transformer_ClinicalAttn_PLR__binary_ctrl": {
+        "auc_candidate": 0.67628876390791,
+        "auc_baseline": 0.6746842414539957,
+        "delta_auc": 0.0016045224539142922,
+        "hospital_bootstrap_percentile_95": [
+          -0.00020695010289603356,
+          0.0035312927589308063
+        ],
+        "bootstrap_positive_fraction": 0.959
+      },
+      "FT_Transformer_ClinicalAttn_PLR__gen20_p2b2 vs CatBoost_CE__binary_ctrl": {
+        "auc_candidate": 0.67628876390791,
+        "auc_baseline": 0.6740828407929045,
+        "delta_auc": 0.002205923115005559,
+        "hospital_bootstrap_percentile_95": [
+          0.0004298888048322791,
+          0.00407672053867934
+        ],
+        "bootstrap_positive_fraction": 0.994
+      },
+      "FT_Transformer_ClinicalAttn_PLR__gen20_p2b2 vs ParadigmBlend_3Way_Neural+GBDT+TabPFN35__binary_ctrl": {
+        "auc_candidate": 0.67628876390791,
+        "auc_baseline": 0.6756843262958019,
+        "delta_auc": 0.0006044376121081552,
+        "hospital_bootstrap_percentile_95": [
+          -0.0005815952349202208,
+          0.001728738927133516
+        ],
+        "bootstrap_positive_fraction": 0.8378
+      },
+      "FT_Transformer_ClinicalAttn_PLR__gen20_p2b2 vs V1__catboost_5f_small__bayes_nat": {
+        "auc_candidate": 0.67628876390791,
+        "auc_baseline": 0.6742276563559769,
+        "delta_auc": 0.002061107551933117,
+        "hospital_bootstrap_percentile_95": [
+          0.0003135423300889839,
+          0.003912883612779371
+        ],
+        "bootstrap_positive_fraction": 0.9922
+      },
+      "CatBoost_CE__gen20_p2b2 vs CatBoost_CE__binary_ctrl": {
+        "auc_candidate": 0.6749732459077085,
+        "auc_baseline": 0.6740828407929045,
+        "delta_auc": 0.0008904051148039827,
+        "hospital_bootstrap_percentile_95": [
+          -0.00012162559688297935,
+          0.001976325223661921
+        ],
+        "bootstrap_positive_fraction": 0.9582
+      },
+      "LightGBM_MultiSeed_CE__gen20_p2b2 vs LightGBM_MultiSeed_CE__binary_ctrl": {
+        "auc_candidate": 0.6744719682190307,
+        "auc_baseline": 0.6731986180426706,
+        "delta_auc": 0.0012733501763600996,
+        "hospital_bootstrap_percentile_95": [
+          -0.0005241696909589977,
+          0.002904552509160442
+        ],
+        "bootstrap_positive_fraction": 0.9174
+      },
+      "XGBoost_CE__gen20_p2b2 vs XGBoost_CE__binary_ctrl": {
+        "auc_candidate": 0.6748652654271086,
+        "auc_baseline": 0.6735717110905113,
+        "delta_auc": 0.0012935543365972801,
+        "hospital_bootstrap_percentile_95": [
+          -0.000346118387847269,
+          0.00276939689020054
+        ],
+        "bootstrap_positive_fraction": 0.9376
+      },
+      "TabPFN35_Reg_50kNative_e8__gen20_p2b2 vs TabPFN35_Reg_50kNative_e8__binary_ctrl": {
+        "auc_candidate": 0.6741253219529619,
+        "auc_baseline": 0.6728150282315931,
+        "delta_auc": 0.001310293721368816,
+        "hospital_bootstrap_percentile_95": [
+          -0.0003866166743211968,
+          0.00321272397698629
+        ],
+        "bootstrap_positive_fraction": 0.9236
+      },
+      "TabPFN35_Reg_Bag5x10k_e40__gen20_p2b2 vs TabPFN35_Reg_Bag5x10k_e40__binary_ctrl": {
+        "auc_candidate": 0.6739517336892833,
+        "auc_baseline": 0.6713438243119016,
+        "delta_auc": 0.0026079093773816453,
+        "hospital_bootstrap_percentile_95": [
+          0.0006804281812887031,
+          0.0048874232499343424
+        ],
+        "bootstrap_positive_fraction": 0.9982
+      },
+      "KumoTabular_Large_Reg_Bag5x10k_e40__gen20_p2b2 vs KumoTabular_Large_Reg_Bag5x10k_e40__binary_ctrl": {
+        "auc_candidate": 0.6749884607912752,
+        "auc_baseline": 0.6721993346184939,
+        "delta_auc": 0.0027891261727812644,
+        "hospital_bootstrap_percentile_95": [
+          0.0006180564540990086,
+          0.005121289523884887
+        ],
+        "bootstrap_positive_fraction": 0.9942
+      },
+      "TabFM_v1_Reg_Bag5x10k_e15__gen12_p2b3 vs TabFM_v1_Reg_Bag5x10k_e15__binary_ctrl": {
+        "auc_candidate": 0.6743047551422089,
+        "auc_baseline": 0.6641005997255175,
+        "delta_auc": 0.010204155416691396,
+        "hospital_bootstrap_percentile_95": [
+          0.0065297540309185165,
+          0.013980433640747664
+        ],
+        "bootstrap_positive_fraction": 1.0
+      },
+      "TabFM_v1_Reg_Bag5x10k_e15__gen20_p2b2 vs TabFM_v1_Reg_Bag5x10k_e15__binary_ctrl": {
+        "auc_candidate": 0.673819282855351,
+        "auc_baseline": 0.6641005997255175,
+        "delta_auc": 0.009718683129833483,
+        "hospital_bootstrap_percentile_95": [
+          0.006272898184509379,
+          0.013251136602314743
+        ],
+        "bootstrap_positive_fraction": 1.0
+      }
+    }
+  },
+  "2017": {
+    "rows": 3555,
+    "hospitals": 63,
+    "contrasts": {
+      "FT_Transformer_ClinicalAttn_PLR__gen20_p2b2 vs FT_Transformer_ClinicalAttn_PLR__binary_ctrl": {
+        "auc_candidate": 0.6571476319274274,
+        "auc_baseline": 0.6571630721275324,
+        "delta_auc": -1.544020010502134e-05,
+        "hospital_bootstrap_percentile_95": [
+          -0.0035429415096521477,
+          0.003382352361004545
+        ],
+        "bootstrap_positive_fraction": 0.5162
+      },
+      "FT_Transformer_ClinicalAttn_PLR__gen20_p2b2 vs CatBoost_CE__binary_ctrl": {
+        "auc_candidate": 0.6571476319274274,
+        "auc_baseline": 0.655885168507078,
+        "delta_auc": 0.0012624634203494134,
+        "hospital_bootstrap_percentile_95": [
+          -0.0029520529535105506,
+          0.005444513848833068
+        ],
+        "bootstrap_positive_fraction": 0.708
+      },
+      "FT_Transformer_ClinicalAttn_PLR__gen20_p2b2 vs ParadigmBlend_3Way_Neural+GBDT+TabPFN35__binary_ctrl": {
+        "auc_candidate": 0.6571476319274274,
+        "auc_baseline": 0.6572230164338224,
+        "delta_auc": -7.538450639499317e-05,
+        "hospital_bootstrap_percentile_95": [
+          -0.002518727863654696,
+          0.002325139460756405
+        ],
+        "bootstrap_positive_fraction": 0.448
+      },
+      "FT_Transformer_ClinicalAttn_PLR__gen20_p2b2 vs V1__catboost_5f_small__bayes_nat": {
+        "auc_candidate": 0.6571476319274274,
+        "auc_baseline": 0.6565039118201089,
+        "delta_auc": 0.0006437201073185017,
+        "hospital_bootstrap_percentile_95": [
+          -0.003689343798896069,
+          0.005045426153415994
+        ],
+        "bootstrap_positive_fraction": 0.595
+      }
+    }
+  },
+  "no_recorded_preop_af": {
+    "rows": 21103,
+    "hospitals": 74,
+    "contrasts": {
+      "FT_Transformer_ClinicalAttn_PLR__gen20_p2b2 vs V1__catboost_5f_small__bayes_nat": {
+        "auc_candidate": 0.6767633359057939,
+        "auc_baseline": 0.6746468963778354,
+        "delta_auc": 0.0021164395279584802,
+        "hospital_bootstrap_percentile_95": [
+          0.000348883726740884,
+          0.003995351233241161
+        ],
+        "bootstrap_positive_fraction": 0.9928
+      },
+      "FT_Transformer_ClinicalAttn_PLR__gen20_p2b2 vs FT_Transformer_ClinicalAttn_PLR__binary_ctrl": {
+        "auc_candidate": 0.6767633359057939,
+        "auc_baseline": 0.6752059550689116,
+        "delta_auc": 0.0015573808368822828,
+        "hospital_bootstrap_percentile_95": [
+          -0.00013281398877077177,
+          0.0034211792050792542
+        ],
+        "bootstrap_positive_fraction": 0.9642
+      },
+      "FT_Transformer_ClinicalAttn_PLR__gen20_p2b2 vs pred_V1_raw": {
+        "auc_candidate": 0.6767633359057939,
+        "auc_baseline": 0.6772739853229239,
+        "delta_auc": -0.0005106494171300824,
+        "hospital_bootstrap_percentile_95": [
+          -0.0023121266134333183,
+          0.0013436283868699871
+        ],
+        "bootstrap_positive_fraction": 0.2976
+      }
+    }
+  },
+  "rare_clinical_tails": {
+    "rows": 1917,
+    "hospitals": 73,
+    "contrasts": {
+      "FT_Transformer_ClinicalAttn_PLR__gen20_p2b2 vs V1__catboost_5f_small__bayes_nat": {
+        "auc_candidate": 0.6935023522232939,
+        "auc_baseline": 0.688994744404858,
+        "delta_auc": 0.004507607818435955,
+        "hospital_bootstrap_percentile_95": [
+          0.00020822368713920846,
+          0.008357203338321835
+        ],
+        "bootstrap_positive_fraction": 0.978
+      },
+      "FT_Transformer_ClinicalAttn_PLR__gen20_p2b2 vs FT_Transformer_ClinicalAttn_PLR__binary_ctrl": {
+        "auc_candidate": 0.6935023522232939,
+        "auc_baseline": 0.6927346810227742,
+        "delta_auc": 0.0007676712005196817,
+        "hospital_bootstrap_percentile_95": [
+          -0.005005779120136111,
+          0.0063364302008579515
+        ],
+        "bootstrap_positive_fraction": 0.609
+      },
+      "FT_Transformer_ClinicalAttn_PLR__gen20_p2b2 vs pred_V1_raw": {
+        "auc_candidate": 0.6935023522232939,
+        "auc_baseline": 0.6927803757370908,
+        "delta_auc": 0.0007219764862030909,
+        "hospital_bootstrap_percentile_95": [
+          -0.004630386589279218,
+          0.005541025998459273
+        ],
+        "bootstrap_positive_fraction": 0.5956
+      }
+    }
+  },
+  "calibration_sensitivity": {
+    "development_only": {
+      "prior": 0.242967320336899,
+      "logit_offset": -1.136479472383675,
+      "brier": 0.17127622867528425,
+      "log_loss": 0.5181828179940499,
+      "ece_15_equal_width": 0.009549536711465344
+    },
+    "test_rate_observed": {
+      "prior": 0.2429264158937903,
+      "logit_offset": -1.1367018713784163,
+      "brier": 0.17127610084904543,
+      "log_loss": 0.5181825887112981,
+      "ece_15_equal_width": 0.009526566508954412
+    }
+  }
+}

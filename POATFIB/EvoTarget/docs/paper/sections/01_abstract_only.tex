@@ -1,0 +1,9 @@
+\begin{center}
+\begin{minipage}{0.88\textwidth}
+{\centering\sffamily\bfseries\fontsize{9.6}{11.5}\selectfont\color{ink}Abstract\par}\vspace{3.5pt}
+\fontsize{9.2}{11.4}\selectfont\noindent
+How well can pre-incision predictors identify postoperative atrial fibrillation (POAF) after isolated coronary artery bypass grafting (CABG) at hospitals outside model development? We audited \textbf{368,132} procedures at \textbf{1,091} U.S.\ centers in the Society of Thoracic Surgeons Adult Cardiac Surgery Database v2.81. Of 367,695 procedures with known outcomes, 89,337 (24.30\%) involved POAF requiring treatment. A calendar-2017 holdout shared 99.5\% of its hospitals with development. We constructed an outcome-aware hospital partition with 21,241 holdout cases at \textbf{74 unseen hospitals} and used a nested 50,000-case development sample for matched comparisons. We audited 92 engineered features. Adding the 82 deterministic features changed 50k tree and tabular foundation-model ROC-AUC little. Calibration error point estimates fell across all four tested 50k configurations, with hospital-cluster intervals spanning zero. Two full-scale multitask networks gained about 0.001 ROC-AUC.
+
+\noindent\textbf{EvoTarget-FT}, a clinical transformer trained on evolved continuous targets, achieved \textbf{0.67629 ROC-AUC} using 207 pre-incision predictors. Its paired gain was $+0.00206$ over tuned 50k CatBoost (95\% hospital-cluster interval $[+0.00031, +0.00391]$) and $+0.00160$ over the same transformer trained on binary targets ($[-0.00021, +0.00353]$). The same continuous targets improved discrimination in three bagged tabular foundation models. Since the holdout ranked 103 model--target combinations, these intervals describe selected runs. Confirmation requires evaluating a frozen pipeline on an unused cohort.
+\end{minipage}
+\end{center}

@@ -1,0 +1,202 @@
+% =============================================================================
+%  Continuous-Target Learning for Pre-Incision Postoperative Atrial Fibrillation
+%  Layout: letter, single-column Page 1 (Title + Byline + Abstract + Hero),
+%          two-column body, clean Appendices A-E.
+%  Typography & palette adapted from the NEVERHUMAN Research DOPE v3 house style:
+%    Bitstream Charter (body), URW Nimbus Sans (display, headings, captions),
+%    Latin Modern Mono (identifiers), tx math symbols with Charter math letters.
+% =============================================================================
+\documentclass[10pt,letterpaper,twocolumn]{article}
+\pdfminorversion=7
+
+% ---- fonts -------------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{txfonts}
+\usepackage{charter}
+\usepackage[scaled=0.885]{helvet}
+\renewcommand{\ttdefault}{lmtt}
+\usepackage[italic,defaultmathsizes]{mathastext}
+\makeatletter
+\DeclareSymbolFontAlphabet{\mathrm}{mtoperatorfont}
+\renewcommand{\operator@font}{\mathgroup\symmtoperatorfont}
+\makeatother
+\usepackage[protrusion=true,expansion=true,final]{microtype}
+\DisableLigatures[-]{encoding = T1, family = tt*}
+
+% ---- page geometry -----------------------------------------------------------
+\usepackage[letterpaper,left=0.80in,right=0.80in,top=0.98in,bottom=0.95in,
+            columnsep=0.29in,headheight=12pt,headsep=0.30in,footskip=0.42in]{geometry}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{array,booktabs,tabularx,makecell,multirow}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{stfloats}
+\usepackage{xurl}
+\usepackage[most]{tcolorbox}
+\usepackage[numbers,sort&compress,square]{natbib}
+
+% ---- house palette (DOPE v3) -------------------------------------------------
+\definecolor{ink}{HTML}{111827}        % headings, display type
+\definecolor{sub}{HTML}{4B5563}        % secondary text, captions
+\definecolor{muted}{HTML}{9CA3AF}      % tertiary text
+\definecolor{hair}{HTML}{D1D5DB}       % rules
+\definecolor{gridline}{HTML}{E5E7EB}   % chart gridlines
+\definecolor{surface}{HTML}{F3F4F6}    % neutral card
+\definecolor{accent}{HTML}{D9480F}     % house orange
+\definecolor{accentdark}{HTML}{B53A0B} % orange on tint
+\definecolor{accenttint}{HTML}{FDEBE1}
+\definecolor{blue}{HTML}{256ABF}
+\definecolor{bluetint}{HTML}{EEF3FA}
+\definecolor{teal}{HTML}{006D77}
+\definecolor{navy}{HTML}{1E3A5F}
+\definecolor{slate}{HTML}{64748B}
+
+% ---- links & PDF metadata ----------------------------------------------------
+\newcommand{\papertitle}{Continuous-Target Learning for Pre-Incision Postoperative Atrial Fibrillation Prediction}
+\newcommand{\paperbyline}{Jepson Taylor, Zain Khalpey, Ricky Ray Butler, Jordan Morrow, Alton Alexander, Jordan Hildebrandt, and Besterlyne Jirongo}
+\usepackage[colorlinks=true,linkcolor=accent,citecolor=blue,urlcolor=blue,
+            bookmarksnumbered=true]{hyperref}
+\hypersetup{
+  pdftitle={\papertitle},
+  pdfauthor={\paperbyline},
+  pdfsubject={Hospital-disjoint pre-incision POAF benchmark across 368,132 STS ACSD v2.81 isolated-CABG records},
+  pdfkeywords={postoperative atrial fibrillation, STS ACSD, CABG, hospital-disjoint validation, tabular foundation models, EvoTarget-FT}
+}
+\urlstyle{same}
+
+% ---- text rhythm -------------------------------------------------------------
+\linespread{1.03}
+\setlength{\parindent}{1.05em}
+\setlength{\parskip}{0pt}
+\emergencystretch=1.2em
+\raggedbottom
+\makeatletter\@secpenalty=0 \@beginparpenalty=0 \@endparpenalty=0 \@itempenalty=0 \makeatother
+\clubpenalty=6000 \widowpenalty=6000
+\setlist{leftmargin=1.5em,itemsep=2pt,topsep=4pt,parsep=0pt}
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\dbltopfraction}{0.92}
+\renewcommand{\bottomfraction}{0.6}
+\renewcommand{\textfraction}{0.06}
+\renewcommand{\floatpagefraction}{0.85}
+\renewcommand{\dblfloatpagefraction}{0.85}
+\setcounter{topnumber}{3}\setcounter{dbltopnumber}{3}\setcounter{totalnumber}{5}
+\setlength{\textfloatsep}{12pt plus 3pt minus 2pt}
+\setlength{\dbltextfloatsep}{12pt plus 3pt minus 2pt}
+\setlength{\floatsep}{10pt plus 2pt minus 2pt}
+\setlength{\intextsep}{9pt plus 2pt minus 2pt}
+
+% ---- headings ----------------------------------------------------------------
+\titleformat{\section}{\sffamily\bfseries\fontsize{11.6}{14}\selectfont\color{ink}\raggedright}
+  {\textcolor{accent}{\thesection}}{0.62em}{}
+\titlespacing*{\section}{0pt}{14pt plus 3pt minus 2pt}{4.5pt plus 1pt}
+\titleformat{\subsection}{\sffamily\bfseries\fontsize{9.1}{11.4}\selectfont\color{ink}\raggedright}
+  {\thesubsection}{0.62em}{}
+\titlespacing*{\subsection}{0pt}{9.5pt plus 2pt minus 1pt}{3pt plus 1pt}
+\titleformat{\subsubsection}[runin]{\normalfont\bfseries}{}{0pt}{}[.]
+\titlespacing*{\subsubsection}{0pt}{5.5pt plus 1pt minus 1pt}{0.5em}
+\newcommand{\runin}[1]{\par\smallskip\noindent\textbf{#1.}\hspace{0.45em}\ignorespaces}
+
+% ---- running head ------------------------------------------------------------
+\pagestyle{fancy}\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}\renewcommand{\footrulewidth}{0pt}
+\fancyhead[L]{\sffamily\fontsize{7.4}{9}\selectfont\textcolor{sub}{Pre-Incision POAF Prediction Across 1,091 U.S.\ Surgical Centers}}
+\fancyhead[R]{\sffamily\fontsize{7.4}{9}\selectfont\textcolor{sub}{\thepage}}
+\fancypagestyle{front}{\fancyhf{}%
+  \fancyfoot[C]{\sffamily\fontsize{7.4}{9}\selectfont\textcolor{sub}{\thepage}}}
+
+% ---- captions ----------------------------------------------------------------
+\DeclareCaptionLabelFormat{house}{\textcolor{accent}{\bfseries #1~#2}}
+\DeclareCaptionLabelSeparator{housebar}{\hspace{0.5em}\textcolor{hair}{\rule[-0.22em]{0.6pt}{1.05em}}\hspace{0.5em}}
+\DeclareCaptionFont{housefont}{\sffamily\fontsize{7.9}{10.3}\selectfont\color{sub}}
+\captionsetup{font=housefont,labelformat=house,labelsep=housebar,
+              justification=raggedright,singlelinecheck=false,skip=5.5pt}
+\captionsetup[table]{position=top,skip=4.5pt}
+\newcommand{\ct}[1]{{\bfseries\color{ink}#1}}
+
+% ---- small typographic helpers -----------------------------------------------
+\newcommand{\cli}[1]{{\ttfamily\fontsize{8.5}{10.6}\selectfont #1}}
+\newcommand{\tcli}[1]{{\ttfamily\fontsize{7.3}{9.2}\selectfont #1}}
+\newcommand{\x}{\ensuremath{\times}}
+\newcommand{\m}{\ensuremath{-}}
+\newcommand{\tablefont}{\fontsize{8.0}{10.0}\selectfont}
+\newcommand{\thd}[1]{{\sffamily\bfseries\fontsize{7.2}{9}\selectfont\color{ink}#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\setlength{\heavyrulewidth}{0.7pt}\setlength{\lightrulewidth}{0.4pt}
+\setlength{\aboverulesep}{2.1pt}\setlength{\belowrulesep}{2.4pt}
+\arrayrulecolor{ink}
+
+% ---- callout box -------------------------------------------------------------
+\newtcolorbox{callout}[1]{enhanced,breakable=false,colback=surface,colframe=surface,
+  boxrule=0pt,arc=0pt,outer arc=0pt,left=10pt,right=9pt,top=7.5pt,bottom=7.5pt,
+  borderline west={2.2pt}{0pt}{accent},before skip=9pt plus 2pt,after skip=9pt plus 2pt,
+  fontupper=\fontsize{9.0}{11.3}\selectfont,
+  before upper={{\sffamily\bfseries\fontsize{7.4}{9.5}\selectfont\color{accentdark}\MakeUppercase{#1}}\par\vspace{3pt}\noindent\ignorespaces}}
+
+\begin{document}
+
+% =============================================================================
+%  PAGE 1: SINGLE-COLUMN TITLE, BYLINE, ABSTRACT, AND HERO GRAPHIC (DOPE v3)
+% =============================================================================
+\onecolumn
+\thispagestyle{front}
+\vspace*{-0.42in}
+\begin{center}
+{\bfseries\fontsize{17.8}{21.2}\selectfont\color{ink}Continuous-Target Learning for Pre-Incision\\ Postoperative Atrial Fibrillation Prediction\par}
+\vspace{4.5pt}
+{\fontsize{12.0}{14.6}\selectfont\color{sub}A Hospital-Disjoint Evaluation Across 368,132 STS Isolated-CABG Procedures\par}
+\vspace{10pt}
+{\fontsize{10.4}{13.6}\selectfont\color{ink}Jepson Taylor\textsuperscript{$\ast$,1}\hspace{1.8em}Zain Khalpey, MD, PhD\textsuperscript{$\ast$,2}\hspace{1.8em}Ricky Ray Butler\textsuperscript{$\ast$,1}\par
+Jordan Morrow\textsuperscript{1}\hspace{1.5em}Alton Alexander\textsuperscript{1}\hspace{1.5em}Jordan Hildebrandt\textsuperscript{1}\hspace{1.5em}Besterlyne Jirongo\textsuperscript{1}\par}
+\vspace{3.5pt}
+{\fontsize{9.2}{11.4}\selectfont\color{ink}\textsuperscript{1}NEVERHUMAN Research\hspace{1.6em}\textsuperscript{2}HonorHealth Heart Care \& HonorHealth Research Institute, Scottsdale, AZ\par}
+\vspace{2.5pt}
+{\fontsize{8.4}{10.8}\selectfont\color{sub}\textsuperscript{$\ast$}Primary authors.\hspace{1.2em}25 November 2026\par}
+\end{center}
+\vspace{5pt}
+
+\input{sections/01_abstract_only}
+
+\vspace{6pt}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig1_hero_benchmark_comparison.pdf}
+  \caption{\ct{EvoTarget-FT versus world-leading Tabular Foundation Models and tuned GBDTs on 74 unseen STS hospitals ($N=21{,}241$).} \textbf{(A)}~All 50,000-patient models consume strictly the same 207 raw predictors available by incision; the dashed navy line marks 7$\x$ full-registry CatBoost ($N=346{,}454$, 0.67732). \textbf{EvoTarget-FT} reaches \textbf{0.67629}, clearly surpassing all three frontier Tabular Foundation Models---Google TabFM v1.0.0 (0.67115), NVIDIA KumoTabular-Large v2 (0.67147), and PriorLabs TabPFN-3.5 (0.67376)---and tuned 50k CatBoost (0.67423), recovering 66.7\% of the 50k$\to$346k scaling gap. \textbf{(B)}~Paired 5,000-draw 74-hospital cluster bootstrap advantages ($\Delta$ROC-AUC $\times 10^{-4}$) relative to zero: orange intervals strictly exceed zero against every individual ELO baseline ($+51.4$ vs.\ TabFM, $+48.2$ vs.\ KumoTabular-Large, $+25.3$ vs.\ TabPFN-3.5, $+20.6$ vs.\ CatBoost), while the blue same-architecture binary FT-Transformer ablation ($+16.0$, $[-2.1, +35.3]$) transparently spans zero. Intervals condition on retrospective selection across 103 evaluated arms.}
+  \label{fig:hero}
+\end{figure}
+
+% =============================================================================
+%  MAIN BODY: TWO-COLUMN COMPACT TECHNICAL PAPER (SECTIONS 1-6)
+% =============================================================================
+\clearpage
+\twocolumn
+
+\input{sections/01_introduction}
+\input{sections/02_published_poaf_literature}
+\input{sections/03_cohort_2017_and_splits}
+\input{sections/04_agentic_feature_engineering}
+\input{sections/05_benchmarks_and_evotarget}
+\input{sections/06_discussion_and_conclusion}
+
+% ---- references --------------------------------------------------------------
+{\fontsize{7.4}{8.8}\selectfont
+\setlength{\bibsep}{0.95pt plus 0.1ex}
+\bibliographystyle{unsrtnat}
+\bibliography{references}
+}
+
+% =============================================================================
+%  APPENDICES A-E: DENSE PROOFS, LITERATURE INVENTORY, SCHEMA & GOVERNANCE
+% =============================================================================
+\clearpage
+\appendix
+\input{sections/07_appendices}
+
+\end{document}

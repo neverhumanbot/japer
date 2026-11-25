@@ -1,0 +1,221 @@
+{
+  "created_at_utc": "2026-11-25T07:53:07.675995+00:00",
+  "elapsed_seconds": 37.2,
+  "small_splits_path": "data/small_50k_10k_splits.parquet",
+  "small_splits_sha256": "edd74118b28a73dac7824f1f0d62100da2d0d1b604f0256f9a94e655a90c4ac6",
+  "counts": {
+    "train_small_50k_rows": 50000,
+    "train_small_50k_poaf_pos": 25000,
+    "train_small_50k_poaf_neg": 25000,
+    "train_small_50k_hospitals": 1017,
+    "test_small_10k_rows": 10000,
+    "test_small_10k_poaf_pos": 5000,
+    "test_small_10k_poaf_neg": 5000,
+    "test_small_10k_hospitals": 74,
+    "hospital_overlap_pct": 0.0
+  },
+  "prior_shift_calibration": {
+    "natural_poaf_rate_train_full": 0.242967,
+    "natural_poaf_rate_test_full": 0.242926,
+    "balanced_poaf_rate": 0.5,
+    "bayes_logit_offset_train": 1.136479,
+    "bayes_logit_offset_test": 1.136702
+  },
+  "class_conditional_fidelity": [
+    {
+      "contrast": "train_50k vs train_full (Y=1)",
+      "n_parent": 84177,
+      "n_sub": 25000,
+      "energy_distance_32d": 0.000725,
+      "mmd2_rbf_multiscale": 4.69e-05,
+      "mean_abs_smd_206": 0.00544,
+      "max_abs_smd_206": 0.14746,
+      "max_ks_core18": 0.00575,
+      "max_w1_core18": 0.01278,
+      "max_missingness_drift": 0.00639,
+      "region_tv_distance": 0.00048,
+      "year_tv_distance": 0.00031,
+      "rare_tail_rate_diff": 0.00033,
+      "max_aux_cond_rate_diff": 0.00213
+    },
+    {
+      "contrast": "train_50k vs train_full (Y=0)",
+      "n_parent": 262277,
+      "n_sub": 25000,
+      "energy_distance_32d": 0.00062,
+      "mmd2_rbf_multiscale": 3.36e-05,
+      "mean_abs_smd_206": 0.00727,
+      "max_abs_smd_206": 0.19498,
+      "max_ks_core18": 0.00808,
+      "max_w1_core18": 0.0167,
+      "max_missingness_drift": 0.00989,
+      "region_tv_distance": 0.0003,
+      "year_tv_distance": 0.00018,
+      "rare_tail_rate_diff": 0.00017,
+      "max_aux_cond_rate_diff": 0.00089
+    },
+    {
+      "contrast": "test_10k vs test_full (Y=1)",
+      "n_parent": 5160,
+      "n_sub": 5000,
+      "energy_distance_32d": 0.0,
+      "mmd2_rbf_multiscale": 0.0,
+      "mean_abs_smd_206": 0.00193,
+      "max_abs_smd_206": 0.01543,
+      "max_ks_core18": 0.00261,
+      "max_w1_core18": 0.00604,
+      "max_missingness_drift": 0.00169,
+      "region_tv_distance": 0.00053,
+      "year_tv_distance": 0.00053,
+      "rare_tail_rate_diff": 0.00072,
+      "max_aux_cond_rate_diff": 0.00094
+    },
+    {
+      "contrast": "test_10k vs test_full (Y=0)",
+      "n_parent": 16081,
+      "n_sub": 5000,
+      "energy_distance_32d": 0.0,
+      "mmd2_rbf_multiscale": 0.0,
+      "mean_abs_smd_206": 0.00671,
+      "max_abs_smd_206": 0.0735,
+      "max_ks_core18": 0.01541,
+      "max_w1_core18": 0.02993,
+      "max_missingness_drift": 0.00834,
+      "region_tv_distance": 0.00114,
+      "year_tv_distance": 0.00017,
+      "rare_tail_rate_diff": 0.00033,
+      "max_aux_cond_rate_diff": 0.00249
+    },
+    {
+      "contrast": "test_10k vs train_50k (overall)",
+      "n_parent": 50000,
+      "n_sub": 10000,
+      "energy_distance_32d": 0.004438,
+      "mmd2_rbf_multiscale": 0.0002996,
+      "mean_abs_smd_206": 0.03003,
+      "max_abs_smd_206": 0.26847,
+      "max_ks_core18": 0.02375,
+      "max_w1_core18": 0.0357,
+      "max_missingness_drift": 0.0362,
+      "region_tv_distance": 0.01624,
+      "year_tv_distance": 0.00582,
+      "rare_tail_rate_diff": 0.00208,
+      "max_aux_cond_rate_diff": 0.00407
+    }
+  ],
+  "target_enrichment_9_outcomes": [
+    {
+      "target": "PRIMARY_TARGET_COtAFib",
+      "train_full_rate": 0.24297,
+      "train_small_50k_rate": 0.5,
+      "train_enrichment_x": 2.058,
+      "test_full_rate": 0.24293,
+      "test_small_10k_rate": 0.5,
+      "test_enrichment_x": 2.058
+    },
+    {
+      "target": "TARGET_Mortalty",
+      "train_full_rate": 0.01804,
+      "train_small_50k_rate": 0.02249,
+      "train_enrichment_x": 1.247,
+      "test_full_rate": 0.01881,
+      "test_small_10k_rate": 0.02282,
+      "test_enrichment_x": 1.213
+    },
+    {
+      "target": "TARGET_CSepsis",
+      "train_full_rate": 0.00704,
+      "train_small_50k_rate": 0.01047,
+      "train_enrichment_x": 1.488,
+      "test_full_rate": 0.00948,
+      "test_small_10k_rate": 0.01455,
+      "test_enrichment_x": 1.534
+    },
+    {
+      "target": "TARGET_CPVntLng",
+      "train_full_rate": 0.0688,
+      "train_small_50k_rate": 0.0838,
+      "train_enrichment_x": 1.218,
+      "test_full_rate": 0.06717,
+      "test_small_10k_rate": 0.08119,
+      "test_enrichment_x": 1.209
+    },
+    {
+      "target": "TARGET_CPPneum",
+      "train_full_rate": 0.02178,
+      "train_small_50k_rate": 0.02815,
+      "train_enrichment_x": 1.292,
+      "test_full_rate": 0.02299,
+      "test_small_10k_rate": 0.02924,
+      "test_enrichment_x": 1.272
+    },
+    {
+      "target": "TARGET_CVTE",
+      "train_full_rate": 0.00652,
+      "train_small_50k_rate": 0.00868,
+      "train_enrichment_x": 1.332,
+      "test_full_rate": 0.00834,
+      "test_small_10k_rate": 0.01072,
+      "test_enrichment_x": 1.285
+    },
+    {
+      "target": "TARGET_CRenFail",
+      "train_full_rate": 0.01717,
+      "train_small_50k_rate": 0.02348,
+      "train_enrichment_x": 1.368,
+      "test_full_rate": 0.01837,
+      "test_small_10k_rate": 0.02594,
+      "test_enrichment_x": 1.412
+    },
+    {
+      "target": "TARGET_CPlEff",
+      "train_full_rate": 0.03166,
+      "train_small_50k_rate": 0.03873,
+      "train_enrichment_x": 1.223,
+      "test_full_rate": 0.03189,
+      "test_small_10k_rate": 0.03926,
+      "test_enrichment_x": 1.231
+    },
+    {
+      "target": "TARGET_COtArrst",
+      "train_full_rate": 0.0145,
+      "train_small_50k_rate": 0.01768,
+      "train_enrichment_x": 1.219,
+      "test_full_rate": 0.01597,
+      "test_small_10k_rate": 0.02022,
+      "test_enrichment_x": 1.266
+    }
+  ],
+  "inner_5fold_balance": {
+    "fold_0": {
+      "rows": 10000,
+      "hospitals": 203,
+      "poaf_pos": 5000,
+      "poaf_rate": 0.5
+    },
+    "fold_1": {
+      "rows": 10000,
+      "hospitals": 203,
+      "poaf_pos": 5000,
+      "poaf_rate": 0.5
+    },
+    "fold_2": {
+      "rows": 10000,
+      "hospitals": 203,
+      "poaf_pos": 5000,
+      "poaf_rate": 0.5
+    },
+    "fold_3": {
+      "rows": 10000,
+      "hospitals": 204,
+      "poaf_pos": 5000,
+      "poaf_rate": 0.5
+    },
+    "fold_4": {
+      "rows": 10000,
+      "hospitals": 204,
+      "poaf_pos": 5000,
+      "poaf_rate": 0.5
+    }
+  }
+}

@@ -1,0 +1,30 @@
+\begin{table*}[t]
+\centering
+\tablefont
+\caption{\ct{Published POAF prediction benchmarks and why higher reported AUCs are not directly comparable to pre-incision isolated-CABG unseen-hospital STS transport.} Extended 42-study annotated inventory appears in Appendix~A.}
+\label{tab:lit_landscape}
+\setlength{\tabcolsep}{4.3pt}
+\begin{tabularx}{\textwidth}{@{}L{3.25cm}L{2.45cm}L{1.8cm}R{1.45cm}Y@{}}
+\toprule
+\multicolumn{1}{@{}l}{\thd{Study / Review}} & \multicolumn{1}{l}{\thd{Cohort \& Surgery}} & \multicolumn{1}{l}{\thd{Window}} & \multicolumn{1}{r}{\thd{Reported AUC}} & \multicolumn{1}{l@{}}{\thd{Key Methodological Factor Governing Comparison}} \\
+\midrule
+\multicolumn{5}{@{}l@{}}{\textit{\color{sub}Closest STS / Multi-Center Pre-Incision Baselines \& Systematic Reviews:}} \\
+Pollock et al.\ (2018)~\cite{pollock2018sts} & STS, 5 centers, iso-CABG ($N=8{,}976$) & Pre-incision & 0.58--0.68 & CHARGE-AF~\cite{alonso2013chargeaf} 0.68, age 0.66, POAF 0.65, STS mort 0.58; pooled site random-effect fit (not unseen sites). \\
+Mariscalco et al.\ (2014)~\cite{mariscalco2014poaf} & 3 EU centers, mixed ($N=17{,}262$) & Pre-incision & 0.64 (0.65 log.) & Bedside point score 0.64 in derivation/validation; includes valve indicator (23\% CABG vs.\ 40\% combined). \\
+Cameron et al.\ (2018)~\cite{cameron2018validation} & Prospective ext.\ ($N=1{,}416$) & Pre-incision & 0.56--0.65 & External validation: POAF 0.651, $\mathrm{CHA_2DS_2\text{-}VASc}$ 0.593, AFRisk 0.563 in eligible subsets. \\
+Fields et al.\ (2025)~\cite{fields2025poaf} & Systematic review (PROBAST~\cite{wolff2019probast}) & Mixed & 0.61 ext.\ (0.71 app.) & Median external AUC 0.61 (0.51--0.77) vs.\ 0.71 apparent; 100\% high risk of bias. \\
+L{\'o}pez Tuesta (2026)~\cite{lopeztuesta2026poaf} & Systematic review (39 studies) & Mixed & 0.60--0.98 & Only 6/39 externally validated; 32/39 rated high risk of bias. \\
+\midrule
+\multicolumn{5}{@{}l@{}}{\textit{\color{sub}Representative Higher-AUC Reports Driven by Later Windows, Case Mix, Small-$N$ Optimism, or Richer Modalities:}} \\
+Magee et al.\ (2007)~\cite{magee2007atrial} & STS iso-CABG ($N=19{,}083$) & Intra/post-op & 0.72 & Uses cardiopulmonary bypass and $\ge$24\,h postoperative ventilation (unavailable by incision). \\
+Mathew et al.\ (2004)~\cite{mathew2004multicenter} & 70 centers, CABG+valve ($N=4{,}657$) & Intra/post-op & 0.77 & Incident-POAF model ($n=1{,}564$ val.) includes concomitant valve surgery and post-op drug withdrawal (cf.~\cite{waldron2018poaf}). \\
+Cho et al.\ (2026)~\cite{cho2026poaf} & Mixed cardiac ($516 \to 1{,}701$) & Perioperative & 0.891 $\to$ 0.726 & Sharp internal-to-external drop illustrates site transport difficulty; mixed surgery. \\
+Ma et al.\ (2025)~\cite{ma2025noaf} & CABG, 2 sites ($N=508$ ext.) & Post-procedure & 0.931 ext. & Legitimate external test, but requires actual surgical duration and LA diameter. \\
+Javaherforooshzadeh et al.\ (2026)~\cite{javaherforooshzadeh2026car} & Single center CABG ($N=109$) & Pre-op lab & 0.971 app. & Apparent discrimination on 29 events; no external validation reported. \\
+Han et al.\ (2025)~\cite{han2025aiecg} & Cardiac surgery + 12-lead ECG & Pre-op AI-ECG & 0.643 $\to$ 0.680 & Waveform AI-ECG adds signal beyond clinical POAF score (0.901 is non-surgical AF task). \\
+Khalpey \& King (2026)~\cite{khalpey2026digital} & STS + EHR multimodal ($N=38{,}742$) & Multimodal & 0.89 & Combines continuous ECG, hemodynamics, and biomarkers absent from STS structured fields. \\
+\midrule
+\textbf{\color{accent}This study (EvoTarget-FT)} & \textbf{STS iso-CABG (74 unseen sites, $N=21{,}241$)} & \textbf{By incision (207 raw)} & \textbf{\color{accent}0.6763} & \textbf{Strictly pre-incision STS structured predictors; 0.0\% hospital overlap; 74-hospital cluster CIs.} \\
+\bottomrule
+\end{tabularx}
+\end{table*}

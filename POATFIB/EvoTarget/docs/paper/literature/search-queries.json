@@ -1,0 +1,27 @@
+{
+  "searched_through": "2026-11-25",
+  "database": "PubMed via NCBI ESearch and EFetch",
+  "unique_records": 566,
+  "queries": {
+    "sts_acsd": {
+      "query": "(\"postoperative atrial fibrillation\"[tiab] OR \"post-operative atrial fibrillation\"[tiab] OR ((\"atrial fibrillation\"[tiab] OR POAF[tiab] OR NOAF[tiab]) AND (postoperative[tiab] OR \"after cardiac surgery\"[tiab] OR \"after coronary\"[tiab] OR \"following coronary\"[tiab] OR \"after CABG\"[tiab]))) AND ((\"coronary artery bypass\"[tiab] OR CABG[tiab]) OR \"cardiac surgery\"[tiab] OR \"heart surgery\"[tiab] OR \"valve surgery\"[tiab]) AND (\"Society of Thoracic Surgeons\"[tiab] OR \"STS database\"[tiab] OR \"adult cardiac surgery database\"[tiab] OR \"CAPS-Care\"[tiab])",
+      "hits": 102
+    },
+    "cabg_prediction": {
+      "query": "(\"postoperative atrial fibrillation\"[tiab] OR \"post-operative atrial fibrillation\"[tiab] OR ((\"atrial fibrillation\"[tiab] OR POAF[tiab] OR NOAF[tiab]) AND (postoperative[tiab] OR \"after cardiac surgery\"[tiab] OR \"after coronary\"[tiab] OR \"following coronary\"[tiab] OR \"after CABG\"[tiab]))) AND (\"coronary artery bypass\"[tiab] OR CABG[tiab]) AND (predict*[ti] OR score[ti] OR model[ti] OR nomogram[ti] OR \"machine learning\"[tiab] OR artificial intelligence[ti] OR \"external validation\"[tiab] OR \"risk algorithm\"[tiab] OR \"risk index\"[tiab])",
+      "hits": 428
+    },
+    "recent_cardiac_prediction": {
+      "query": "(\"postoperative atrial fibrillation\"[tiab] OR \"post-operative atrial fibrillation\"[tiab] OR ((\"atrial fibrillation\"[tiab] OR POAF[tiab] OR NOAF[tiab]) AND (postoperative[tiab] OR \"after cardiac surgery\"[tiab] OR \"after coronary\"[tiab] OR \"following coronary\"[tiab] OR \"after CABG\"[tiab]))) AND ((\"coronary artery bypass\"[tiab] OR CABG[tiab]) OR \"cardiac surgery\"[tiab] OR \"heart surgery\"[tiab] OR \"valve surgery\"[tiab]) AND (predict*[ti] OR score[ti] OR model[ti] OR nomogram[ti] OR \"machine learning\"[tiab] OR artificial intelligence[ti] OR \"external validation\"[tiab] OR \"risk algorithm\"[tiab] OR \"risk index\"[tiab]) AND (\"2025/07/01\"[dp] : \"2026/11/25\"[dp])",
+      "hits": 107
+    }
+  },
+  "backward_search": [
+    "https://pubmed.ncbi.nlm.nih.gov/41118128/",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC13362612/",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC12992526/",
+    "https://pubmed.ncbi.nlm.nih.gov/37922611/",
+    "https://pubmed.ncbi.nlm.nih.gov/42240420/"
+  ],
+  "registry_publication_index": "https://www.sts.org/research-data/research/published-research"
+}

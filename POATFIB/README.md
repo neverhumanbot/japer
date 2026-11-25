@@ -1,5 +1,7 @@
 # POATFIB — Self-Evolving Agent Networks (SEAN) for Postoperative Atrial Fibrillation
 
+The [EvoTarget-FT study bundle](EvoTarget/README.md) contains the current STS v2.81 pre-incision POAF manuscript, bibliography, figures, and aggregate results.
+
 Two coordinated manuscripts on **Self-Evolving Agent Networks (SEAN)** — a governed system of
 language-model agents that autonomously *discover* clinical features and *invent* algorithm
 components for predicting STS-defined treated postoperative atrial fibrillation/flutter

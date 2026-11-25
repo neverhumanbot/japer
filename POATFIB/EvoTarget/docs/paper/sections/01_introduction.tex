@@ -1,0 +1,13 @@
+\section{Introduction}
+\label{sec:intro}
+
+Postoperative atrial fibrillation (POAF) complicates roughly one quarter of isolated coronary artery bypass grafting (CABG) procedures and is associated with stroke, prolonged intensive care, readmission, higher costs, and lower long-term survival~\cite{aranki1996predictors,almassi1997,villareal2004,filardo2009survival,elchami2010poaf,lapar2014poaf,dobrev2019postoperative,jawitz2020poaf,caldonazo2023meta,gaudino2023ehj}. The Society of Thoracic Surgeons Adult Cardiac Surgery Database (STS ACSD) v2.81 records new atrial fibrillation or flutter requiring treatment in patients free of atrial fibrillation at the start of surgery~\cite{sts2014v281,shahian2018sts,obrien2018sts2}. Recorded incidence depends on how AF is detected~\cite{filardo2017telemetry,filardo2020telemetry,perezgrovas2023jaha}. A reliable pre-incision estimate could help define eligibility for trials of targeted prevention~\cite{gaudino2021palacs,chatterjee2026sts}.
+
+An evaluation at a new hospital tests whether a model transports across clinical settings. A calendar holdout can still contain almost all the same hospitals and differ in coverage and documentation. Predictor timing matters independently because intraoperative processes contribute to POAF risk~\cite{echahidi2008mechanisms,dobrev2019postoperative}. We ask how well structured data available by incision discriminate POAF at unseen hospitals, and whether engineered features or continuous training targets improve that prediction.
+
+\subsection{Study design and contributions}
+\begin{enumerate}
+  \item \textbf{Clinical evidence.} We compare published AUCs by prediction time, procedure mix, endpoint, and validation design. Appendix~A annotates 35 primary studies and guidelines and seven systematic reviews (\S\ref{sec:literature}).
+  \item \textbf{Cohort and evaluation.} We reconstructed outcomes from STS skip logic, checked 638 fields for timing and leakage, and compared five split designs. The hospital-disjoint benchmark includes a full-registry partition and nested balanced 50,000/10,000 samples (\S\ref{sec:cohort_splits}, Appendices~B--C).
+  \item \textbf{Feature and supervision experiments.} We audited 92 engineered features across model families and training scales. We then compared EvoTarget-FT against six binary-target baselines, applied the same evolved targets across those families, and quantified paired hospital-level uncertainty (\S\ref{sec:agentic_fe}--\ref{sec:benchmarks}, Appendices~D--E).
+\end{enumerate}
