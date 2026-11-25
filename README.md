@@ -2,6 +2,15 @@
 
 Jepson keeps papers here and works with collaborators.
 
+## Isosyll: Always Listening, Barely Computing
+
+Bit-exact streaming speech recognition on one CPU core. The 11-page paper and both executive briefs are in this repo.
+
+- **[Paper (PDF)](Isosyll/paper/paper.pdf)** · [Hero figure](Isosyll/paper/money.png) · [LaTeX](Isosyll/paper/paper.tex)
+- **[CEO brief (PDF)](Isosyll/briefs/isosyll-v4-ceo-brief.pdf)** · [Markdown](Isosyll/briefs/ceo-brief.md)
+- **[CTO brief (PDF)](Isosyll/briefs/isosyll-v4-cto-brief.pdf)** · [Markdown](Isosyll/briefs/cto-brief.md)
+- [Isosyll folder](Isosyll/README.md)
+
 ## EvoTarget-FT for postoperative atrial fibrillation
 
 Pre-incision prediction after isolated coronary artery bypass surgery, evaluated on 74 hospitals held out from model development.
@@ -12,6 +21,5 @@ Pre-incision prediction after isolated coronary artery bypass surgery, evaluated
 
 ## Other papers
 
-- **Isosyll: Always Listening, Barely Computing** · [Manuscript (PDF)](Isosyll/paper/paper.pdf) · [CEO brief](Isosyll/briefs/isosyll-v4-ceo-brief.pdf) · [CTO brief](Isosyll/briefs/isosyll-v4-cto-brief.pdf)
 - [Earlier postoperative atrial fibrillation manuscripts](POATFIB/README.md)
 - [NoAccident paper](noaccident/paper/)
