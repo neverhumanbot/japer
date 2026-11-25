@@ -4,6 +4,8 @@ This playbook captures the complete multi-node distributed compute architecture,
 
 > **Fleet Status Note (2026-11-25):** Cloud nodes `xbabe5`–`xbabe9` were idle at the last successful check and later became unreachable over SSH. Provider instance and volume status remain unconfirmed. See [05_xbabe5_9_spindown_audit_and_harvest.md](05_xbabe5_9_spindown_audit_and_harvest.md) for preservation evidence and recovery steps. IP addresses in this playbook are documentation examples.
 
+The reusable templates are included here. References to original experiment launchers and model training scripts refer to the archived research workspace.
+
 ---
 
 ## Playbook Index

@@ -88,20 +88,16 @@ Auditing all **368,132 isolated-CABG records** across **1,091 U.S. centers** (ST
 Offline Stage-1 evolution and heterogeneous model fan-out ran across a **10-node LAN + Cloud fleet** (`601` cores, `10+` GPUs, zero shared NFS/Slurm) documented in [docs/distributed_compute/](../distributed_compute/README.md): `/dev/shm` `mmap_mode='r'`, `uint16` genome streaming (`~75 KB`), in-node sufficient-stats reduction (`>50×` WAN cut), OS idle priority wrappers (`ionice -c 3 nice -n 19 chrt -i 0`), live external-load backpressure, and strict `y_test` quarantine on the controller.
 
 ```bash
-# 1. Audit every paper metric, 95 citations & 15 cross-refs against JSON receipts (0 errors)
+# Run from POATFIB/EvoTarget in Japer.
+# Check citations, cross-references, and manuscript artifacts.
 python3 scripts/20_audit_paper_numbers.py
 
-# 2. Run all 48 leakage, skip-logic & feature-contract unit tests
-OPENBLAS_NUM_THREADS=1 python3 -m pytest -q
-
-# 3. Deterministically rebuild the 17-page manuscript and verify both 2-page PDF briefs
+# Rebuild the manuscript and verify both PDF briefs.
 make -C docs/paper -B
 bash docs/briefs/scripts/build_briefs.sh --check
-
-# 4. Smoke-test zero-NFS distributed CPU pull-queue fabric on active LAN fleet
-python3 scripts/target_solver/bootstrap_cluster.py --hosts xbabe0 xbabe1 xbabe2 xbabe3 xbabe4
-python3 scripts/11_run_target_solver.py --mode dry-run-cluster
 ```
+
+The full test suite passed 48 tests in the research workspace, which also contains the original distributed launchers.
 
 ---
 

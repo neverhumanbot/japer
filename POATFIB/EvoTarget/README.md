@@ -41,7 +41,7 @@ All 50k models consume identical **207 strictly raw pre-incision predictors** (`
 
 ## Rebuild & Audit
 
-Rebuild the manuscript and both 2-page executive briefs with pdfLaTeX and BibTeX, and verify every reported number against shipped aggregate receipts:
+Verify citations and references and rebuild the manuscript and both executive briefs with pdfLaTeX and BibTeX.
 
 ```sh
 python3 scripts/20_audit_paper_numbers.py

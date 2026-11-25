@@ -248,26 +248,21 @@ Google TabFM v1.0.0 (5\x{}10k, e80) & 50,000 & 0.67115 & \textbf{+51.4 [+22.8, +
   {\fontsize{7.65}{9.55}\selectfont\raggedright
   \begin{itemize}[leftmargin=1.12em,itemsep=1.5pt,topsep=1.2pt]
     \item \textbf{Cryptographic provenance:} Source STS export pinned via SHA-256 (\tcli{89cab3de...2b5ed38}); every leaderboard metric bound to committed JSON receipts (\tcli{paper\_red\_team\_receipt.json}, \tcli{paper\_v3\_master\_receipt.json}).
-    \item \textbf{Automated CI audit:} \tcli{scripts/20\_audit\_paper\_numbers.py} verifies all 12 \tcli{.tex} files, 95 citations, and 15 cross-refs (0 errors); \tcli{pytest -q} passes \textbf{48/48} leakage, skip-logic, and feature-contract guards.
+    \item \textbf{Automated audit:} The public audit checked 12 \tcli{.tex} files, 95 citations, and 15 cross-references. The research workspace also passed \textbf{48/48} tests.
     \item \textbf{Multi-node playbook (\tcli{docs/distributed\_compute/}):} Documents all 5 proven patterns --- SSH-piped CPU pull queues, zero-leakage GPU fan-out (A100/A10/4090/3090/M3 Ultra), VPC private-LAN NCCL DDP (\tcli{PIN\_TREE\_SHA256}), async WAN DiLoCo, and co-tenancy VRAM/disk guards.
   \end{itemize}
   }
 \end{minipage}\hfill
 \begin{minipage}[t]{0.486\textwidth}
   \vspace{0pt}
-  \briefsection{04}{5-Minute Audit \& Verification CLI}
-  \begin{codecard}{Zero-Trust Verification \& Reproducible Build}
-{\color{codecomment}\# 1. Verify every paper number, citation \& receipt (0 errors):}\\
+  \briefsection{04}{Audit \& Build Commands}
+  \begin{codecard}{Run from POATFIB/EvoTarget in Japer}
+{\color{codecomment}\# 1. Check citations, cross-references, and paper artifacts.}\\
 python3 scripts/20\_audit\_paper\_numbers.py\\[2.5pt]
-{\color{codecomment}\# 2. Run all 48 leakage, skip-logic \& contract unit tests:}\\
-OPENBLAS\_NUM\_THREADS=1 python3 -m pytest -q\\[2.5pt]
-{\color{codecomment}\# 3. Deterministically rebuild manuscript + 2-page briefs:}\\
+{\color{codecomment}\# 2. Rebuild the manuscript.}\\
 make -C docs/paper -B\\
-bash docs/briefs/scripts/build\_briefs.sh --check\\[2.5pt]
-{\color{codecomment}\# 4. Smoke-test zero-NFS distributed CPU pull-queue fabric:}\\
-python3 scripts/target\_solver/bootstrap\_cluster.py \textbackslash\\
-\hspace*{1.2em}--hosts xbabe0 xbabe1 xbabe2 xbabe3 xbabe4\\
-python3 scripts/11\_run\_target\_solver.py --mode dry-run-cluster
+{\color{codecomment}\# 3. Verify both executive briefs compile.}\\
+bash docs/briefs/scripts/build\_briefs.sh --check
   \end{codecard}
 
   \vspace{2pt}
