@@ -1,5 +1,14 @@
 # Research Notes & Publication Manuscript Index (`docs/`) — STS ACSD v2.81 POAF Study
 
+| Executives & Clinical Leaders | CTOs & ML Architects | Full Technical Paper & Compute |
+| :---: | :---: | :---: |
+| **[CEO Brief (PDF)](briefs/evotarget-poaf-ceo-brief.pdf)** ([MD](briefs/ceo-brief.md))<br>*Clinical opportunity, external validation & governance* | **[CTO Brief (PDF)](briefs/evotarget-poaf-cto-brief.pdf)** ([MD](briefs/cto-brief.md))<br>*EvoTarget-FT architecture, paired comparisons & reproducibility* | **[17-Page Manuscript (PDF)](paper/main.pdf)** ([TeX](paper/main.tex))<br>*[Distributed Compute Playbook](distributed_compute/README.md) · [Brief Builder](briefs/scripts/build_briefs.sh)* |
+
+## Executive Briefs & Distributed Compute Playbook
+
+- **[CEO Brief (2-Page PDF)](briefs/evotarget-poaf-ceo-brief.pdf)** ([Markdown](briefs/ceo-brief.md)) · **[CTO Brief (2-Page PDF)](briefs/evotarget-poaf-cto-brief.pdf)** ([Markdown](briefs/cto-brief.md)) · [Deterministic Brief Builder](briefs/scripts/build_briefs.sh)
+- **[Distributed Multi-Node Compute Playbook](distributed_compute/README.md)**: [01 SSH Fabric & Bootstrap](distributed_compute/01_ssh_fabric_and_bootstrap.md) · [02 CPU SSH Pull-Queue](distributed_compute/02_cpu_ssh_pull_queue_cluster.md) · [03 GPU Fan-Out, DDP & DiLoCo](distributed_compute/03_gpu_fanout_ddp_and_diloco.md) · [04 Co-Tenancy & Guardrails](distributed_compute/04_cotenancy_guardrails_and_ops.md) · [05 Retirement Audit](distributed_compute/05_xbabe5_9_spindown_audit_and_harvest.md) · [Templates](distributed_compute/templates/)
+
 ## Manuscript and supporting evidence
 
 - [Manuscript PDF](paper/main.pdf) and [LaTeX source](paper/main.tex). Build with [the Makefile](paper/Makefile).

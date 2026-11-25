@@ -2,6 +2,8 @@
 
 The [EvoTarget-FT study bundle](EvoTarget/README.md) contains the current STS v2.81 pre-incision POAF manuscript, bibliography, figures, and aggregate results.
 
+**[Current manuscript (PDF)](EvoTarget/docs/paper/main.pdf)** · [CEO brief (PDF)](EvoTarget/docs/briefs/evotarget-poaf-ceo-brief.pdf) · [CTO brief (PDF)](EvoTarget/docs/briefs/evotarget-poaf-cto-brief.pdf)
+
 Two coordinated manuscripts on **Self-Evolving Agent Networks (SEAN)** — a governed system of
 language-model agents that autonomously *discover* clinical features and *invent* algorithm
 components for predicting STS-defined treated postoperative atrial fibrillation/flutter
