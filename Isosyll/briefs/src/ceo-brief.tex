@@ -1,0 +1,274 @@
+% Isosyll v4.0.0 — Executive Brief (CEOs, product leaders & operations executives)
+% Strict 2-page US Letter PDF. Every measured number is a macro from the paper's generated
+% docs/paper/data/metrics.tex or a fact from the v4.0.0 release record; nothing is typed by hand
+% that the data pipeline does not also publish.
+\documentclass[letterpaper]{article}
+\pdfminorversion=7
+\usepackage{isosyll-brief-style}
+\input{../../paper/data/metrics}
+
+\renewcommand{\briefrunningtitle}{Executive Brief}
+\hypersetup{
+  pdftitle={Isosyll v4.0.0 — Executive Brief},
+  pdfauthor={NEVERHUMAN Research},
+  pdfsubject={An always-listening speech recognizer on one CPU core},
+  pdfkeywords={Isosyll, speech recognition, streaming ASR, on-device, energy, CPU}
+}
+
+% Hero chart marks: comparator (neutral) and Isosyll (orange) styles.
+\tikzset{
+  cmp/.style={circle,fill=ink,draw=white,line width=0.6pt,inner sep=0pt,minimum size=5.2pt},
+  cmpoff/.style={rectangle,fill=white,draw=ink,line width=0.8pt,inner sep=0pt,minimum size=4.8pt},
+  isolive/.style={circle,fill=accent,draw=white,line width=1.1pt,inner sep=0pt,minimum size=9.0pt},
+  isofinal/.style={diamond,fill=accent,draw=white,line width=0.9pt,inner sep=0pt,minimum size=8.6pt},
+  clab/.style={font=\sffamily\fontsize{6.2}{7.3}\selectfont,text=sub,inner sep=1.2pt},
+  clabb/.style={font=\sffamily\bfseries\fontsize{6.4}{7.5}\selectfont,text=ink,inner sep=1.2pt},
+}
+
+\begin{document}
+\thispagestyle{briefpage1}
+
+\briefmasthead{Executive Brief \;\textbar\; For CEOs, Product Leaders \& Operations Executives}%
+  {Always Listening, Barely Computing: Speech Recognition on One CPU Core}%
+  {Isosyll turns live speech into text on \textbf{a few percent of one ordinary CPU core}, with no cloud round trip, no GPU and no Python stack --- \textbf{\VsSpeedXOne\x{} the throughput of the strongest open streaming recognizer we measured, at \VsEnergyPctOne\% of its energy}.}
+
+% ---- 4-Column Hero KPI Strip ------------------------------------------------
+\noindent
+\begin{minipage}[t]{0.242\textwidth}
+  \vspace{0pt}%
+  \kpicard{accent}{\VsSpeedXOne\x}{Throughput vs.\ Best Open Rival}{Paired against Zipformer INT8 on the same core in the same timing blocks: \textbf{\ColdRcTwoLiveLmSpeed\x} vs.\ \ColdZipRsixSpeed\x{} real time.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.242\textwidth}
+  \vspace{0pt}%
+  \kpicard{navy}{\VsEnergyPctOne\%}{Of the Rival's Energy}{\textbf{\ColdRcTwoLiveLmWatts\,J} vs.\ \ColdZipRsixWatts\,J of idle-subtracted CPU-core energy per second of audio (not wall power).}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.242\textwidth}
+  \vspace{0pt}%
+  \kpicard{teal}{\ColdRcTwoLiveLmCorePct\%}{Of One Core per Live Stream}{\ColdRcTwoLiveLmWer\% word error rate live, \ColdRcTwoFinalWer\% after the end-of-sentence pass; \ColdRcTwoLiveLmRss\,MB of memory.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.242\textwidth}
+  \vspace{0pt}%
+  \kpicard{blue}{1 Command}{One Signed Binary}{\textasciitilde 1.6\,MB pure-Rust program for Linux (x86-64, arm64) and Apple-silicon Macs. Audio never leaves the device.}
+\end{minipage}
+
+\vspace{5pt}
+
+% ---- Executive Narrative ----------------------------------------------------
+\noindent
+\begin{minipage}[t]{0.486\textwidth}
+  \vspace{0pt}
+  \colheading{Always-On Speech Has a Meter That Never Stops}
+  {\fontsize{8.45}{10.5}\selectfont
+  A recognizer that waits for a wake word or a button press misses what matters. An \emph{always-on} recognizer --- for meeting capture, call-centre assist, in-car and wearable assistants, accessibility captions --- must process \textbf{every second of audio, whether anyone is speaking or not}. That cost never pauses: it is paid in cloud bills, in battery life, and in heat.
+
+  \vspace{2.5pt}
+  Today the usual answer is to stream audio to the cloud, where a large model does the work. That adds a network round trip, a per-minute bill, and a privacy question every customer and regulator will ask: \textbf{where does the recording go?} Keeping speech on the device answers it --- if the device can afford to listen.
+  }
+\end{minipage}\hfill
+\begin{minipage}[t]{0.486\textwidth}
+  \vspace{0pt}
+  \colheading{What Isosyll Changes: Listening Becomes Cheap}
+  {\fontsize{8.45}{10.5}\selectfont
+  \textbf{Isosyll} is a compact \emph{streaming} recognizer: it writes words while the person is still talking, then quietly corrects the sentence when they pause. One live stream runs at \textbf{\ColdRcTwoLiveLmSpeed\x{} real time} --- an hour of speech in under two minutes --- using \ColdRcTwoLiveLmCorePct\% of one CPU core.
+
+  \vspace{2.5pt}
+  Against Zipformer INT8, the strongest open streaming recognizer we measured, Isosyll delivers \textbf{\VsSpeedXOne\x{} the throughput at \VsEnergyPctOne\% of the energy} on the same core. Put simply: \textbf{the same fleet can listen to \VsSpeedXOne\x{} as many streams, or the same streams for roughly half the energy}. Its end-of-sentence text (\ColdRcTwoFinalWer\% errors) is statistically level with Zipformer's (\ColdZipRsixWer\%).
+  }
+\end{minipage}
+
+\vspace{6pt}
+
+% ---- Signature Vector Hero Graphic ------------------------------------------
+\begin{tcolorbox}[enhanced,colback=white,colframe=hair,boxrule=0.5pt,arc=2.5pt,
+  left=7pt,right=7pt,top=5pt,bottom=4.5pt,before skip=0pt,after skip=0pt]
+  \noindent{\sffamily\bfseries\fontsize{8.2}{9.8}\selectfont\color{ink}Speed vs.\ Accuracy for Every Open Recognizer We Timed --- One CPU Core, the Same 730 Recordings}\par
+  \vspace{3.5pt}
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm,font=\fsfont]
+    \begin{axis}[
+      briefhouse,
+      at={(0,0)},anchor=north west,
+      width=11.0cm,height=7.9cm,scale only axis,
+      xmode=log,xmin=0.30,xmax=62,ymin=1.4,ymax=19.2,y dir=reverse,
+      axis background/.style={shading=tswash},
+      ymajorgrids,xmajorgrids,grid style={white,line width=0.55pt},
+      xtick={0.5,1,2,5,10,20,50},xticklabels={0.5\x,1\x,2\x,5\x,10\x,20\x,50\x},
+      ytick={3,6,9,12,15,18},
+      tick label style={font=\sffamily\fontsize{6.6}{8.0}\selectfont,text=sub},
+      xlabel={Speed on one CPU core (\x{} real time, log scale) \;$\rightarrow$\; faster},
+      ylabel={Word error rate (\%) \;$\rightarrow$\; fewer errors},
+      label style={font=\sffamily\fontsize{7.0}{8.4}\selectfont,text=sub},
+      ylabel style={yshift=-3pt},xlabel style={yshift=2pt},
+    ]
+      % Real-time boundary
+      \draw[sub,densely dashed,line width=0.5pt] (axis cs:1,1.4) -- (axis cs:1,19.2);
+      \node[anchor=west,clab,align=left] at (axis cs:1.05,11.6) {\textbf{\color{ink}1\x{} real time}\\left of this line: falls\\behind live speech};
+
+      % Comparators (neutral); § = timed on the 73-clip subset
+      \node[cmp] at (axis cs:\ColdZipRsixSpeed,\ColdZipRsixWer) {};
+      \node[cmp] at (axis cs:\ColdMoonTinySpeed,\ColdMoonTinyWer) {};
+      \node[cmp] at (axis cs:\ColdVoskSmallSpeed,\ColdVoskSmallWer) {};
+      \node[cmp] at (axis cs:\ColdVoskLargeSpeed,\ColdVoskLargeWer) {};
+      \node[cmp] at (axis cs:\ColdNemoFiveSixtySpeed,\ColdNemoFiveSixtyWer) {};
+      \node[cmp] at (axis cs:\ColdWhisperCppTinySpeed,\ColdWhisperCppTinyWer) {};
+      \node[cmp] at (axis cs:\ColdWhisperCppBaseSpeed,\ColdWhisperCppBaseWer) {};
+      \node[cmpoff] at (axis cs:\ColdParakeetOnnxAsrSpeed,\ColdParakeetOnnxAsrWer) {};
+
+      \node[anchor=north east,align=right,inner sep=0pt] at (axis cs:12.9,5.65) {{\sffamily\bfseries\fontsize{6.6}{7.8}\selectfont\color{ink}Zipformer INT8}\\[-0.5pt]{\sffamily\fontsize{6.2}{7.3}\selectfont\color{sub}\ColdZipRsixSpeed\x, \ColdZipRsixWer\%}};
+      \node[anchor=north,align=center,clab] at (axis cs:\ColdMoonTinySpeed,10.45) {Moonshine Tiny\\8.2\x, \ColdMoonTinyWer\%};
+      \node[anchor=west,clab] at (axis cs:7.6,\ColdVoskSmallWer) {Vosk Small \;6.9\x, \ColdVoskSmallWer\%};
+      \node[anchor=east,clab] at (axis cs:3.8,\ColdVoskLargeWer) {Vosk Large\S{} \;4.1\x, \ColdVoskLargeWer\%};
+      \node[anchor=north,clab,align=center] at (axis cs:\ColdNemoFiveSixtySpeed,3.95) {Nemotron 0.6B\S\\2.4\x, \ColdNemoFiveSixtyWer\%};
+      \node[anchor=south,clab] at (axis cs:\ColdParakeetOnnxAsrSpeed,3.0) {Parakeet TDT v3 (offline) \;6.7\x, \ColdParakeetOnnxAsrWer\%};
+      \node[anchor=west,clab] at (axis cs:1.0,\ColdWhisperCppTinyWer) {Whisper.cpp Tiny\S{} \;0.9\x, \ColdWhisperCppTinyWer\%};
+      \node[anchor=south,clab] at (axis cs:0.42,14.75) {Whisper.cpp Base\S};
+      \node[anchor=north,clab] at (axis cs:0.42,15.75) {0.4\x, \ColdWhisperCppBaseWer\%};
+
+      % Paired 2.33x span (same core, same timing blocks)
+      \draw[accent,densely dotted,line width=0.6pt] (axis cs:\ColdZipRsixSpeed,5.9) -- (axis cs:\ColdZipRsixSpeed,7.55);
+      \draw[accent,densely dotted,line width=0.6pt] (axis cs:\ColdRcTwoLiveLmSpeed,5.9) -- (axis cs:\ColdRcTwoLiveLmSpeed,7.55);
+      \draw[{Stealth[length=4pt,width=3.4pt]}-{Stealth[length=4pt,width=3.4pt]},accent,line width=0.9pt] (axis cs:\ColdZipRsixSpeed,7.25) -- (axis cs:\ColdRcTwoLiveLmSpeed,7.25);
+      \node[anchor=north west,inner sep=0pt] (big) at (axis cs:13.0,8.0) {\sffamily\bfseries\fontsize{18.5}{19.5}\selectfont\color{accent}\VsSpeedXOne\texttimes};
+      \node[anchor=north west,align=left,inner sep=0pt] at ([yshift=-1pt]big.south west) {{\sffamily\bfseries\fontsize{6.7}{8.2}\selectfont\color{ink}the throughput of Zipformer INT8}\\[0.3pt]{\sffamily\fontsize{6.1}{7.4}\selectfont\color{sub}paired, same core, same timing blocks}\\[0.3pt]{\sffamily\fontsize{6.1}{7.4}\selectfont\color{sub}at \VsEnergyPctOne\% of its energy per audio-second}};
+
+      % Isosyll (orange)
+      \node[isofinal] at (axis cs:\ColdRcTwoFinalSpeed,\ColdRcTwoFinalWer) {};
+      \node[isolive] at (axis cs:\ColdRcTwoLiveLmSpeed,\ColdRcTwoLiveLmWer) {};
+      \node[anchor=south,align=center,inner sep=0pt] at (axis cs:\ColdRcTwoLiveLmSpeed,4.95) {{\sffamily\bfseries\fontsize{9.0}{10.4}\selectfont\color{accentdark}Isosyll live}\\[-0.5pt]{\sffamily\bfseries\fontsize{6.6}{7.8}\selectfont\color{ink}\ColdRcTwoLiveLmSpeed\x, \ColdRcTwoLiveLmWer\%}};
+      \node[anchor=south east,align=right,inner sep=0pt] at (axis cs:15.9,4.9) {{\sffamily\bfseries\fontsize{7.2}{8.4}\selectfont\color{accentdark}Isosyll final}\\[-0.5pt]{\sffamily\bfseries\fontsize{6.4}{7.6}\selectfont\color{ink}\ColdRcTwoFinalSpeed\x, \ColdRcTwoFinalWer\%}};
+    \end{axis}
+
+    % ---- Right panel: same-core head-to-head bars ----------------------------
+    \begin{scope}[shift={(12.25,0)}]
+      \tikzset{bl/.style={anchor=west,inner sep=0pt,font=\sffamily\fontsize{6.2}{7.4}\selectfont,text=sub},
+               bv/.style={anchor=west,inner sep=0pt,font=\sffamily\bfseries\fontsize{6.4}{7.6}\selectfont}}
+      \draw[accent,line width=0.85pt] (0,0) -- (4.95,0);
+      \node[anchor=north west,inner sep=0pt,font=\sffamily\bfseries\fontsize{6.4}{7.6}\selectfont,text=accentdark] at (0,-0.10) {SAME CORE, SAME BLOCKS};
+      \node[anchor=north west,inner sep=0pt,font=\sffamily\fontsize{6.1}{7.3}\selectfont,text=sub] at (0,-0.38) {Isosyll live vs.\ Zipformer INT8};
+      % bar scale: 3.2 cm full width
+      \newcommand{\hbars}[8]{% #1 y, #2 title, #3 iso value, #4 iso len, #5 iso label, #6 zip len, #7 zip label, #8 note
+        \node[anchor=north west,inner sep=0pt,font=\sffamily\bfseries\fontsize{6.7}{8.0}\selectfont,text=ink] at (0,#1) {#2};
+        \pgfmathsetmacro{\lenA}{#4}\pgfmathsetmacro{\lenB}{#6}%
+        \fill[accent] (0,#1-0.40) rectangle ++(\lenA,-0.26);
+        \node[bv,text=accentdark] at (\lenA+0.08,#1-0.53) {#5};
+        \fill[muted] (0,#1-0.72) rectangle ++(\lenB,-0.26);
+        \node[bv,text=sub] at (\lenB+0.08,#1-0.85) {#7};
+        \node[anchor=north west,inner sep=0pt,font=\sffamily\fontsize{5.9}{7.0}\selectfont,text=sub] at (0,#1-1.08) {#8};
+      }
+      \hbars{-1.05}{Speed (\x{} real time) $\uparrow$}{}{3.2}{\ColdRcTwoLiveLmSpeed\x}{3.2*\ColdZipRsixSpeed/\ColdRcTwoLiveLmSpeed}{\ColdZipRsixSpeed\x}{paired ratio \VsSpeedXOne\x}
+      \hbars{-3.05}{Energy (J per audio-second) $\downarrow$}{}{3.2*\ColdRcTwoLiveLmWatts/\ColdZipRsixWatts}{\ColdRcTwoLiveLmWatts\,J}{3.20}{\ColdZipRsixWatts\,J}{\VsEnergyPctOne\% of rival (paired); idle-subtracted CPU core, not wall power}
+      \hbars{-5.05}{Peak memory (MB) $\downarrow$}{}{3.2*\ColdRcTwoLiveLmRss/\ColdZipRsixRss}{\ColdRcTwoLiveLmRss\,MB}{3.20}{\ColdZipRsixRss\,MB}{\VsRssPctOne\% of rival (paired)}
+      \draw[hair,line width=0.5pt] (0,-6.70) -- (4.95,-6.70);
+      \node[anchor=north west,inner sep=0pt,text width=4.9cm,align=left] at (0,-6.86) {\hyphenpenalty=10000{\sffamily\bfseries\fontsize{7.4}{8.9}\selectfont\color{accentdark}Same fleet, \VsSpeedXOne\x{} the streams}\\[1pt]{\sffamily\fontsize{6.3}{7.6}\selectfont\color{sub}or the same streams at about half the energy.}};
+    \end{scope}
+  \end{tikzpicture}\par
+  \vspace{1pt}
+  \noindent{\sffamily\fontsize{6.2}{7.6}\selectfont\color{sub}%
+  {\color{accent}\textbf{$\bullet$}}\,Isosyll live (160\,ms chunks, +LM) \;
+  {\color{accent}\textbf{$\blacklozenge$}}\,Isosyll final (end-of-utterance pass) \;
+  {\color{ink}\textbf{$\bullet$}}\,public streaming recognizers \;
+  $\square$\,offline (needs the whole clip) \;
+  \S\,speed timed on a 73-clip subset}\par
+  \vspace{2pt}
+  \noindent{\sffamily\fontsize{6.2}{7.8}\selectfont\color{sub}\textbf{\color{ink}Scope note:} 730-utterance LibriSpeech DEV selection panel (\ColdAudioMinutes\,min), one pinned AMD Zen~2 core, median of three runs. Isosyll and Zipformer INT8 were timed in the same interleaved blocks; ratios are medians of within-block ratios. Other systems ran in separate sessions, so their energy is not compared. On the unselected half of DEV, Isosyll live trails Zipformer by \CandLiveLmCDelta\,pp WER (bounds \CandLiveLmCLo{} to \CandLiveLmCHi).}
+\end{tcolorbox}
+
+% ==================== PAGE 2 =================================================
+\clearpage
+\thispagestyle{briefpage2}
+
+\briefsection{01}{Where Isosyll Creates Immediate Advantage}
+
+\noindent
+\begin{minipage}[t]{0.324\textwidth}
+  \vspace{0pt}%
+  \playcard{Play 01}{accent}{Cheaper Listening Fleets}{Transcription servers that listen to many calls or meetings at once fit \VsSpeedXOne\x{} as many streams per core as with the best open streaming rival --- or run today's load for roughly half the CPU energy.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.324\textwidth}
+  \vspace{0pt}%
+  \playcard{Play 02}{navy}{Private by Default, On-Device}{Speech is recognized where it is captured: laptops, kiosks, vehicles, edge boxes. No cloud round trip, no per-minute API bill, and the recording never has to leave the building.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.324\textwidth}
+  \vspace{0pt}%
+  \playcard{Play 03}{teal}{Battery-Friendly Always-On Features}{At \ColdRcTwoLiveLmCorePct\% of one core and \ColdRcTwoLiveLmRss\,MB of memory, live captions and voice commands can stay on all day without claiming the processor or the GPU.}
+\end{minipage}
+
+\vspace{2pt}
+\briefsection{02}{Measured Scoreboard at a Glance}
+
+\noindent{\fontsize{7.9}{9.9}\selectfont\color{sub}Every system decoded the same 730 LibriSpeech DEV recordings on one pinned CPU core and was scored by one scorer. \textbf{\color{ink}Speed} is seconds of audio processed per second of compute (above 1\x{} keeps up with live speech). \textbf{\color{ink}Word error rate} is the share of words wrong; lower is better. Energy is compared only where both systems were timed side by side.}
+
+\vspace{2.5pt}
+\noindent
+{\fontsize{7.5}{9.3}\selectfont\setlength{\tabcolsep}{4pt}%
+\begin{tabularx}{\textwidth}{@{}L{4.55cm}R{1.55cm}R{2.25cm}R{1.75cm}R{1.35cm}Y@{}}
+\toprule
+\thd{Recognizer (mode)} & \thd{Speed $\uparrow$} & \thd{Word errors $\downarrow$} & \thd{Energy / audio-s} & \thd{Memory} & \thd{What it means} \\
+\midrule
+\rowcolor{accenttint}
+\textbf{Isosyll live} (160\,ms, +LM) & \textbf{\ColdRcTwoLiveLmSpeed\x} & \textbf{\ColdRcTwoLiveLmWer\%} & \textbf{\ColdRcTwoLiveLmWatts\,J} & \textbf{\ColdRcTwoLiveLmRss\,MB} & \textbf{\VsSpeedXOne\x{} Zipformer's throughput, \VsEnergyPctOne\% of its energy} \\
+\rowcolor{accenttint}
+\textbf{Isosyll final} (end-of-utterance pass) & \textbf{\ColdRcTwoFinalSpeed\x} & \textbf{\ColdRcTwoFinalWer\%} & --- & \ColdRcTwoFinalRss\,MB & Accuracy level with Zipformer; \VsSpeedXTwo\x{} its speed \\
+Zipformer INT8 (streaming) & \ColdZipRsixSpeed\x & \ColdZipRsixWer\% & \ColdZipRsixWatts\,J & \ColdZipRsixRss\,MB & Strongest open streaming rival \\
+Moonshine Tiny (streaming) & 8.2\x & \ColdMoonTinyWer\% & --- & --- & Slower, with more errors \\
+Vosk Small / Large\S{} (streaming) & 6.9\x{} / 4.1\x & \ColdVoskSmallWer\% / \ColdVoskLargeWer\% & --- & --- & Slower and less accurate \\
+Nemotron 0.6B, 560\,ms\S{} (streaming) & 2.4\x & \ColdNemoFiveSixtyWer\% & --- & --- & More accurate; 0.6B parameters, far slower \\
+Parakeet TDT v3 (offline) & 6.7\x & \ColdParakeetOnnxAsrWer\% & --- & --- & More accurate; needs the whole clip first \\
+Whisper.cpp Tiny\S{} / Base\S & 0.9\x{} / 0.4\x & \ColdWhisperCppTinyWer\% / \ColdWhisperCppBaseWer\% & --- & --- & Cannot keep up with live audio \\
+\bottomrule
+\end{tabularx}}
+\vspace{1.5pt}
+\noindent{\sffamily\fontsize{6.2}{7.7}\selectfont\color{sub}\S\,Speed timed on a 73-clip subset of the panel; word errors on all 730. Energy is idle-subtracted CPU-core joules per second of audio (not wall power), shown only for the side-by-side pair. Final-mode energy is in the CTO brief. Receipts: \texttt{docs/paper/data/}.}
+
+\vspace{3pt}
+\briefsection{03}{How to Pilot in 30 Days --- and What Leadership Should Know}
+
+\noindent
+\begin{minipage}[t]{0.478\textwidth}
+  \vspace{0pt}
+  \colheading{3-Step Low-Risk Pilot}
+  \vspace{1pt}
+  {\fontsize{7.8}{9.8}\selectfont\raggedright
+  \noindent\stepbadge{1}\;\textbf{Install and try it today (Day 1).}\\
+  One command installs a signed, checksummed binary; a second transcribes a recording.
+  }
+  \begin{codecard}{Install \& Run (Linux x86-64 / arm64, Apple-Silicon Mac)}
+curl -fsSL https://github.com/neverhuman/jsr/releases/\textbackslash\\
+\hspace*{1.2em}latest/download/install.sh | sh\\
+isosyll transcribe meeting.wav
+  \end{codecard}
+  {\fontsize{7.8}{9.8}\selectfont\raggedright
+
+  \vspace{3pt}
+  \noindent\stepbadge{2}\;\textbf{Measure on your own audio and hardware (Weeks 1--2).}\\
+  Run it on a sample of your calls, meetings or field recordings, on the laptops or servers you already own. Compare word errors and CPU load with your current vendor.
+
+  \vspace{3pt}
+  \noindent\stepbadge{3}\;\textbf{Size the business case (Week 3).}\\
+  Convert measured streams per core into fleet size, cloud spend avoided and battery hours. Decide where on-device listening replaces a cloud call.
+  }
+
+  \vspace{3.5pt}
+  \begin{execbox}[accent]{Why Leaders Can Trust the Numbers}
+    Every figure here comes from published measurement records. Isosyll gives \textbf{byte-identical transcripts} to the signed reference decoders on all \ScalarUtts{} test recordings, on both Intel/AMD and Apple-silicon processors. The release is signed and checksummed.
+  \end{execbox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.495\textwidth}
+  \vspace{0pt}
+  \begin{govbox}{What This Is Not --- Honest Limits}
+    \textbf{Release \releasever{} is strong evidence, not a guarantee. Five limits to keep in view:}
+    \begin{itemize}[leftmargin=1.10em,itemsep=1.6pt,topsep=2pt]
+      \item \textbf{Exploratory, released by decision:} The v3.1.0 model inside \releasever{} \textbf{missed its pre-registered accuracy gates} and was released by owner decision; all results are exploratory.
+      \item \textbf{One benchmark, read English:} All accuracy is LibriSpeech development data (audiobooks). No test-set results are claimed; conversational, accented or noisy speech may rank differently.
+      \item \textbf{Live text trails slightly:} On the half of the data not used to pick settings, live Isosyll makes \CandLiveLmCDelta{} points more word errors than Zipformer (bounds \CandLiveLmCLo{} to \CandLiveLmCHi). The final text closes the gap.
+      \item \textbf{Bigger models are more accurate:} 0.6-billion-parameter models (Nemotron, Parakeet) make fewer errors, at far higher compute.
+      \item \textbf{Energy scope:} CPU-core energy only --- not wall or battery power --- and no response-time (latency) claim is made here.
+    \end{itemize}
+  \end{govbox}
+\end{minipage}
+
+\brieffooterstrip{Ready to Try Isosyll or Share It With Your Engineering Team?}%
+  {\textbf{Next reads:} CTO Technical \& Architecture Brief (\texttt{docs/briefs/isosyll-v4-cto-brief.pdf}) \;\textbar\; Full Paper (\texttt{docs/paper/paper.pdf}) \;\textbar\; Install Guide (\texttt{docs/install.md}) \;\textbar\; Release Records (\texttt{docs/ultra/releases/})}%
+  {https://github.com/neverhuman/jsr}
+
+\end{document}

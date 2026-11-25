@@ -1,0 +1,20 @@
+\begin{table*}[t]
+\centering
+\caption{\textbf{RC2 (released as v3.1.0), single registered look.} It missed its registered gates and is released by owner decision, not as a gate pass. $\Delta$ is RC2 minus Zipformer INT8 (or minus shipped v3.0.0) on the same utterances, with one-sided 95\% bounds from the pinned scorer; negative means fewer errors. The 730-utterance panel overlaps the half of DEV used for selection; the C half (2,785 utterances) was never used for selection. Full-DEV WER is descriptive. Live rows compare with shipped v3.0.0 live greedy (160\,ms); the final rows with its final pass. Final rows run the 160\,ms live stream and commit with a 640\,ms chunk at reference utterance boundaries.}
+\label{tab:candidate}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrrrlll@{}}
+\toprule
+Mode & Chunk (ms) & Panel WER & Full-DEV WER & $\Delta$ vs.\ Zip.\ (panel) & $\Delta$ vs.\ Zip.\ (C half) & $\Delta$ vs.\ v3.0.0 (panel) \\
+\midrule
+Live, greedy & 160 & 6.23 & 6.83 & +0.98 [+0.66, +1.29] & +1.59 [+1.31, +1.90] & $-$0.62 [$-$0.86, $-$0.38] \\
+Live + 34.5\,MiB LM & 160 & 5.54 & 6.10 & +0.28 [$-$0.02, +0.58] & +0.81 [+0.62, +1.02] & $-$1.31 [$-$1.63, $-$1.00] \\
+Live + 34.5\,MiB LM & 320 & 5.50 & 5.87 & +0.24 [$-$0.04, +0.52] & +0.65 [+0.47, +0.84] & $-$1.35 [$-$1.68, $-$1.03] \\
+Final, M5 LM & 640 & 5.00 & 5.22 & $-$0.26 [$-$0.57, +0.05] & $-$0.11 [$-$0.35, +0.11] & $-$0.06 [$-$0.28, +0.17] \\
+Final, 146.8\,MiB LM & 640 & 5.09 & 5.24 & $-$0.17 [$-$0.49, +0.15] & $-$0.10 [$-$0.35, +0.12] & --- \\
+\midrule
+Zipformer INT8 & 320 & 5.25 & 5.37 & --- & WER 5.13 & --- \\
+\bottomrule
+\end{tabular}
+\end{table*}

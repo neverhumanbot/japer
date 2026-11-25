@@ -1,0 +1,569 @@
+% refs.bib -- Isosyll paper bibliography (owner: paper-related, lane/paper).
+% Every entry was checked on 2026-11-22 against a primary source: the arXiv API record,
+% the Crossref DOI record, the PMLR / NeurIPS proceedings index, the official repository or
+% model card, or the publisher's citation block. Unverifiable entries are not included.
+% Keys are stable; ask in agent_paper.md before renaming one.
+
+% ------------------------------------------------------------------ transducers and encoders
+
+@inproceedings{graves2012rnnt,
+  author    = {Alex Graves},
+  title     = {Sequence Transduction with Recurrent Neural Networks},
+  booktitle = {ICML Workshop on Representation Learning},
+  year      = {2012},
+  note      = {arXiv:1211.3711},
+  url       = {https://arxiv.org/abs/1211.3711}
+}
+
+@inproceedings{gulati2020conformer,
+  author    = {Anmol Gulati and James Qin and Chung-Cheng Chiu and Niki Parmar and Yu Zhang and
+               Jiahui Yu and Wei Han and Shibo Wang and Zhengdong Zhang and Yonghui Wu and Ruoming Pang},
+  title     = {Conformer: Convolution-augmented Transformer for Speech Recognition},
+  booktitle = {Proc. Interspeech},
+  year      = {2020},
+  pages     = {5036--5040},
+  doi       = {10.21437/Interspeech.2020-3015}
+}
+
+@inproceedings{zhang2020transformertransducer,
+  author    = {Qian Zhang and Han Lu and Hasim Sak and Anshuman Tripathi and Erik McDermott and
+               Stephen Koo and Shankar Kumar},
+  title     = {Transformer Transducer: A Streamable Speech Recognition Model with Transformer
+               Encoders and {RNN-T} Loss},
+  booktitle = {Proc. IEEE ICASSP},
+  year      = {2020},
+  pages     = {7829--7833},
+  doi       = {10.1109/ICASSP40776.2020.9053896}
+}
+
+@inproceedings{ghodsi2020stateless,
+  author    = {Mohammadreza Ghodsi and Xiaofeng Liu and James Apfel and Rodrigo Cabrera and Eugene Weinstein},
+  title     = {{RNN}-Transducer with Stateless Prediction Network},
+  booktitle = {Proc. IEEE ICASSP},
+  year      = {2020},
+  pages     = {7049--7053},
+  doi       = {10.1109/ICASSP40776.2020.9054419}
+}
+
+@inproceedings{he2019streaming,
+  author    = {Yanzhang He and Tara N. Sainath and Rohit Prabhavalkar and Ian McGraw and Raziel Alvarez and
+               Ding Zhao and David Rybach and Anjuli Kannan and Yonghui Wu and Ruoming Pang and Qiao Liang and
+               Deepti Bhatia and Yuan Shangguan and Bo Li and Golan Pundak and Khe Chai Sim and Tom Bagby and
+               Shuo-yiin Chang and Kanishka Rao and Alexander Gruenstein},
+  title     = {Streaming End-to-end Speech Recognition for Mobile Devices},
+  booktitle = {Proc. IEEE ICASSP},
+  year      = {2019},
+  pages     = {6381--6385},
+  doi       = {10.1109/ICASSP.2019.8682336}
+}
+
+@inproceedings{shi2021emformer,
+  author    = {Yangyang Shi and Yongqiang Wang and Chunyang Wu and Ching-Feng Yeh and Julian Chan and
+               Frank Zhang and Duc Le and Mike Seltzer},
+  title     = {Emformer: Efficient Memory Transformer Based Acoustic Model for Low Latency Streaming
+               Speech Recognition},
+  booktitle = {Proc. IEEE ICASSP},
+  year      = {2021},
+  pages     = {6783--6787},
+  doi       = {10.1109/ICASSP39728.2021.9414560}
+}
+
+@inproceedings{chen2021developing,
+  author    = {Xie Chen and Yu Wu and Zhenghao Wang and Shujie Liu and Jinyu Li},
+  title     = {Developing Real-Time Streaming Transformer Transducer for Speech Recognition on
+               Large-Scale Dataset},
+  booktitle = {Proc. IEEE ICASSP},
+  year      = {2021},
+  pages     = {5904--5908},
+  doi       = {10.1109/ICASSP39728.2021.9413535}
+}
+
+@inproceedings{yao2021wenet,
+  author    = {Zhuoyuan Yao and Di Wu and Xiong Wang and Binbin Zhang and Fan Yu and Chao Yang and
+               Zhendong Peng and Xiaoyu Chen and Lei Xie and Xin Lei},
+  title     = {{WeNet}: Production Oriented Streaming and Non-Streaming End-to-End Speech Recognition Toolkit},
+  booktitle = {Proc. Interspeech},
+  year      = {2021},
+  pages     = {4054--4058},
+  doi       = {10.21437/Interspeech.2021-1983}
+}
+
+@inproceedings{kuang2022pruned,
+  author    = {Fangjun Kuang and Liyong Guo and Wei Kang and Long Lin and Mingshuang Luo and
+               Zengwei Yao and Daniel Povey},
+  title     = {Pruned {RNN-T} for Fast, Memory-Efficient {ASR} Training},
+  booktitle = {Proc. Interspeech},
+  year      = {2022},
+  pages     = {2068--2072},
+  doi       = {10.21437/Interspeech.2022-10340}
+}
+
+@inproceedings{yao2024zipformer,
+  author    = {Zengwei Yao and Liyong Guo and Xiaoyu Yang and Wei Kang and Fangjun Kuang and Yifan Yang and
+               Zengrui Jin and Long Lin and Daniel Povey},
+  title     = {Zipformer: A Faster and Better Encoder for Automatic Speech Recognition},
+  booktitle = {Proc. ICLR},
+  year      = {2024},
+  note      = {arXiv:2310.11230},
+  url       = {https://arxiv.org/abs/2310.11230}
+}
+
+@inproceedings{yao2025crctc,
+  author    = {Zengwei Yao and Wei Kang and Xiaoyu Yang and Fangjun Kuang and Liyong Guo and Han Zhu and
+               Zengrui Jin and Zhaoqing Li and Long Lin and Daniel Povey},
+  title     = {{CR-CTC}: Consistency Regularization on {CTC} for Improved Speech Recognition},
+  booktitle = {Proc. ICLR},
+  year      = {2025},
+  note      = {arXiv:2410.05101},
+  url       = {https://arxiv.org/abs/2410.05101}
+}
+
+@inproceedings{rekesh2023fastconformer,
+  author    = {Dima Rekesh and Nithin Rao Koluguri and Samuel Kriman and Somshubra Majumdar and Vahid Noroozi and
+               He Huang and Oleksii Hrinchuk and Krishna Puvvada and Ankur Kumar and Jagadeesh Balam and Boris Ginsburg},
+  title     = {Fast Conformer with Linearly Scalable Attention for Efficient Speech Recognition},
+  booktitle = {Proc. IEEE ASRU},
+  year      = {2023},
+  pages     = {1--8},
+  doi       = {10.1109/ASRU57964.2023.10389701}
+}
+
+@inproceedings{noroozi2024stateful,
+  author    = {Vahid Noroozi and Somshubra Majumdar and Ankur Kumar and Jagadeesh Balam and Boris Ginsburg},
+  title     = {Stateful Conformer with Cache-Based Inference for Streaming Automatic Speech Recognition},
+  booktitle = {Proc. IEEE ICASSP},
+  year      = {2024},
+  pages     = {12041--12045},
+  doi       = {10.1109/ICASSP48485.2024.10446861}
+}
+
+@inproceedings{xu2023tdt,
+  author    = {Hainan Xu and Fei Jia and Somshubra Majumdar and He Huang and Shinji Watanabe and Boris Ginsburg},
+  title     = {Efficient Sequence Transduction by Jointly Predicting Tokens and Durations},
+  booktitle = {Proc. ICML},
+  series    = {PMLR},
+  volume    = {202},
+  pages     = {38462--38484},
+  year      = {2023}
+}
+
+@misc{nemotron,
+  author       = {{NVIDIA}},
+  title        = {Nemotron Speech Streaming {EN} 0.6{B} (nvidia/nemotron-speech-streaming-en-0.6b), model card},
+  howpublished = {Hugging Face},
+  year         = {2026},
+  note         = {Cache-aware FastConformer-RNNT; accessed 2026-11-22},
+  url          = {https://huggingface.co/nvidia/nemotron-speech-streaming-en-0.6b}
+}
+
+@misc{parakeettdt,
+  author       = {{NVIDIA}},
+  title        = {Parakeet {TDT} 0.6{B} v2 (nvidia/parakeet-tdt-0.6b-v2), model card},
+  howpublished = {Hugging Face},
+  year         = {2025},
+  note         = {FastConformer-TDT; accessed 2026-11-22},
+  url          = {https://huggingface.co/nvidia/parakeet-tdt-0.6b-v2}
+}
+
+% ------------------------------------------------------------------ light / efficient ASR
+
+@misc{moonshine,
+  author       = {Nat Jeffries and Evan King and Manjunath Kudlur and Guy Nicholson and James Wang and Pete Warden},
+  title        = {Moonshine: Speech Recognition for Live Transcription and Voice Commands},
+  howpublished = {arXiv:2410.15608},
+  year         = {2024},
+  url          = {https://arxiv.org/abs/2410.15608}
+}
+
+@misc{kudlur2026moonshinev2,
+  author       = {Manjunath Kudlur and Evan King and James Wang and Pete Warden},
+  title        = {Moonshine v2: Ergodic Streaming Encoder {ASR} for Latency-Critical Speech Applications},
+  howpublished = {arXiv:2602.12241},
+  year         = {2026},
+  url          = {https://arxiv.org/abs/2602.12241}
+}
+
+@inproceedings{radford2023whisper,
+  author    = {Alec Radford and Jong Wook Kim and Tao Xu and Greg Brockman and Christine McLeavey and Ilya Sutskever},
+  title     = {Robust Speech Recognition via Large-Scale Weak Supervision},
+  booktitle = {Proc. ICML},
+  series    = {PMLR},
+  volume    = {202},
+  pages     = {28492--28518},
+  year      = {2023}
+}
+
+@misc{gandhi2023distilwhisper,
+  author       = {Sanchit Gandhi and Patrick von Platen and Alexander M. Rush},
+  title        = {Distil-{W}hisper: Robust Knowledge Distillation via Large-Scale Pseudo Labelling},
+  howpublished = {arXiv:2311.00430},
+  year         = {2023},
+  url          = {https://arxiv.org/abs/2311.00430}
+}
+
+@inproceedings{baevski2020wav2vec,
+  author    = {Alexei Baevski and Henry Zhou and Abdelrahman Mohamed and Michael Auli},
+  title     = {wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {33},
+  year      = {2020}
+}
+
+@inproceedings{povey2011kaldi,
+  author    = {Daniel Povey and Arnab Ghoshal and Gilles Boulianne and Lukas Burget and Ondrej Glembek and
+               Nagendra Goel and Mirko Hannemann and Petr Motlicek and Yanmin Qian and Petr Schwarz and
+               Jan Silovsky and Georg Stemmer and Karel Vesely},
+  title     = {The {Kaldi} Speech Recognition Toolkit},
+  booktitle = {Proc. IEEE Workshop on Automatic Speech Recognition and Understanding (ASRU)},
+  year      = {2011}
+}
+
+@misc{vosk,
+  author       = {{Alpha Cephei}},
+  title        = {Vosk: Offline Speech Recognition {API}},
+  howpublished = {GitHub repository alphacep/vosk-api},
+  year         = {2019},
+  note         = {Accessed 2026-11-22},
+  url          = {https://github.com/alphacep/vosk-api}
+}
+
+@misc{sherpaonnx,
+  author       = {{k2-fsa (Next-gen Kaldi)}},
+  title        = {sherpa-onnx: Speech Recognition with Next-gen {Kaldi} and {ONNX Runtime}},
+  howpublished = {GitHub repository k2-fsa/sherpa-onnx},
+  year         = {2022},
+  note         = {Version 2.0.2 used here; accessed 2026-11-22},
+  url          = {https://github.com/k2-fsa/sherpa-onnx}
+}
+
+@misc{icefall,
+  author       = {{k2-fsa (Next-gen Kaldi)}},
+  title        = {icefall: {LibriSpeech} {ASR} recipes and results ({egs/librispeech/ASR/RESULTS.md})},
+  howpublished = {GitHub repository k2-fsa/icefall},
+  year         = {2021},
+  note         = {Accessed 2026-11-22},
+  url          = {https://github.com/k2-fsa/icefall/blob/master/egs/librispeech/ASR/RESULTS.md}
+}
+
+@misc{nemospeechcpp,
+  author       = {{NVIDIA}},
+  title        = {{NeMo-Speech.cpp}: A Lightweight {C++} Inference Runtime for Speech Models},
+  howpublished = {GitHub repository NVIDIA/NeMo-Speech.cpp},
+  year         = {2026},
+  note         = {Commit e790e46 used here; accessed 2026-11-22},
+  url          = {https://github.com/NVIDIA/NeMo-Speech.cpp}
+}
+
+@misc{onnxruntime,
+  author       = {{ONNX Runtime developers}},
+  title        = {{ONNX Runtime}},
+  howpublished = {GitHub repository microsoft/onnxruntime},
+  year         = {2018},
+  note         = {Version 1.28.2 used here; accessed 2026-11-22},
+  url          = {https://github.com/microsoft/onnxruntime}
+}
+
+% ------------------------------------------------------------------ quantisation and determinism
+
+@inproceedings{jacob2018quantization,
+  author    = {Benoit Jacob and Skirmantas Kligys and Bo Chen and Menglong Zhu and Matthew Tang and
+               Andrew Howard and Hartwig Adam and Dmitry Kalenichenko},
+  title     = {Quantization and Training of Neural Networks for Efficient Integer-Arithmetic-Only Inference},
+  booktitle = {Proc. IEEE/CVF CVPR},
+  year      = {2018},
+  pages     = {2704--2713},
+  doi       = {10.1109/CVPR.2018.00286}
+}
+
+@inproceedings{kim2021ibert,
+  author    = {Sehoon Kim and Amir Gholami and Zhewei Yao and Michael W. Mahoney and Kurt Keutzer},
+  title     = {{I-BERT}: Integer-only {BERT} Quantization},
+  booktitle = {Proc. ICML},
+  series    = {PMLR},
+  volume    = {139},
+  pages     = {5506--5518},
+  year      = {2021}
+}
+
+@misc{wu2020integer,
+  author       = {Hao Wu and Patrick Judd and Xiaojie Zhang and Mikhail Isaev and Paulius Micikevicius},
+  title        = {Integer Quantization for Deep Learning Inference: Principles and Empirical Evaluation},
+  howpublished = {arXiv:2004.09602},
+  year         = {2020},
+  url          = {https://arxiv.org/abs/2004.09602}
+}
+
+@misc{nagel2021whitepaper,
+  author       = {Markus Nagel and Marios Fournarakis and Rana Ali Amjad and Yelysei Bondarenko and
+                  Mart van Baalen and Tijmen Blankevoort},
+  title        = {A White Paper on Neural Network Quantization},
+  howpublished = {arXiv:2106.08295},
+  year         = {2021},
+  url          = {https://arxiv.org/abs/2106.08295}
+}
+
+@inproceedings{dettmers2022llmint8,
+  author    = {Tim Dettmers and Mike Lewis and Younes Belkada and Luke Zettlemoyer},
+  title     = {{LLM.int8()}: 8-bit Matrix Multiplication for Transformers at Scale},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2022},
+  note      = {arXiv:2208.07339}
+}
+
+@misc{wang2023bitnet,
+  author       = {Hongyu Wang and Shuming Ma and Li Dong and Shaohan Huang and Huaijie Wang and Lingxiao Ma and
+                  Fan Yang and Ruiping Wang and Yi Wu and Furu Wei},
+  title        = {{BitNet}: Scaling 1-bit Transformers for Large Language Models},
+  howpublished = {arXiv:2310.11453},
+  year         = {2023},
+  url          = {https://arxiv.org/abs/2310.11453}
+}
+
+@misc{ma2024bitnet,
+  author       = {Shuming Ma and Hongyu Wang and Lingxiao Ma and Lei Wang and Wenhui Wang and Shaohan Huang and
+                  Li Dong and Ruiping Wang and Jilong Xue and Furu Wei},
+  title        = {The Era of 1-bit {LLMs}: All Large Language Models are in 1.58 Bits},
+  howpublished = {arXiv:2402.17764},
+  year         = {2024},
+  url          = {https://arxiv.org/abs/2402.17764}
+}
+
+@article{he2025nondeterminism,
+  author    = {Horace He and {Thinking Machines Lab}},
+  title     = {Defeating Nondeterminism in {LLM} Inference},
+  journal   = {Thinking Machines Lab: Connectionism},
+  year      = {2025},
+  doi       = {10.64434/tml.20250910},
+  url       = {https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/}
+}
+
+% ------------------------------------------------------------------ data, training, tokenisation
+
+@inproceedings{panayotov2015librispeech,
+  author    = {Vassil Panayotov and Guoguo Chen and Daniel Povey and Sanjeev Khudanpur},
+  title     = {Librispeech: An {ASR} Corpus Based on Public Domain Audio Books},
+  booktitle = {Proc. IEEE ICASSP},
+  year      = {2015},
+  pages     = {5206--5210},
+  doi       = {10.1109/ICASSP.2015.7178964}
+}
+
+@inproceedings{park2019specaugment,
+  author    = {Daniel S. Park and William Chan and Yu Zhang and Chung-Cheng Chiu and Barret Zoph and
+               Ekin D. Cubuk and Quoc V. Le},
+  title     = {{SpecAugment}: A Simple Data Augmentation Method for Automatic Speech Recognition},
+  booktitle = {Proc. Interspeech},
+  year      = {2019},
+  pages     = {2613--2617},
+  doi       = {10.21437/Interspeech.2019-2680}
+}
+
+@inproceedings{kudo2018sentencepiece,
+  author    = {Taku Kudo and John Richardson},
+  title     = {{SentencePiece}: A Simple and Language Independent Subword Tokenizer and Detokenizer for
+               Neural Text Processing},
+  booktitle = {Proc. EMNLP: System Demonstrations},
+  year      = {2018},
+  pages     = {66--71},
+  doi       = {10.18653/v1/D18-2012}
+}
+
+@article{su2021roformer,
+  author    = {Jianlin Su and Murtadha Ahmed and Yu Lu and Shengfeng Pan and Wen Bo and Yunfeng Liu},
+  title     = {{RoFormer}: Enhanced Transformer with Rotary Position Embedding},
+  journal   = {Neurocomputing},
+  volume    = {568},
+  pages     = {127063},
+  year      = {2024},
+  doi       = {10.1016/j.neucom.2023.127063}
+}
+
+@inproceedings{vaswani2017attention,
+  author    = {Ashish Vaswani and Noam Shazeer and Niki Parmar and Jakob Uszkoreit and Llion Jones and
+               Aidan N. Gomez and {\L}ukasz Kaiser and Illia Polosukhin},
+  title     = {Attention Is All You Need},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {30},
+  year      = {2017}
+}
+
+@inproceedings{izmailov2018averaging,
+  author    = {Pavel Izmailov and Dmitrii Podoprikhin and Timur Garipov and Dmitry Vetrov and Andrew Gordon Wilson},
+  title     = {Averaging Weights Leads to Wider Optima and Better Generalization},
+  booktitle = {Proc. Conference on Uncertainty in Artificial Intelligence (UAI)},
+  year      = {2018},
+  note      = {arXiv:1803.05407}
+}
+
+@article{polyak1992ema,
+  author    = {Boris T. Polyak and Anatoli B. Juditsky},
+  title     = {Acceleration of Stochastic Approximation by Averaging},
+  journal   = {SIAM Journal on Control and Optimization},
+  volume    = {30},
+  number    = {4},
+  pages     = {838--855},
+  year      = {1992},
+  doi       = {10.1137/0330046}
+}
+
+@inproceedings{mcauliffe2017mfa,
+  author    = {Michael McAuliffe and Michaela Socolof and Sarah Mihuc and Michael Wagner and Morgan Sonderegger},
+  title     = {Montreal Forced Aligner: Trainable Text-Speech Alignment Using {Kaldi}},
+  booktitle = {Proc. Interspeech},
+  year      = {2017},
+  pages     = {498--502},
+  doi       = {10.21437/Interspeech.2017-1386}
+}
+
+@inproceedings{wang2021voxpopuli,
+  author    = {Changhan Wang and Morgane Rivi{\`e}re and Ann Lee and Anne Wu and Chaitanya Talnikar and
+               Daniel Haziza and Mary Williamson and Juan Pino and Emmanuel Dupoux},
+  title     = {{VoxPopuli}: A Large-Scale Multilingual Speech Corpus for Representation Learning,
+               Semi-Supervised Learning and Interpretation},
+  booktitle = {Proc. ACL-IJCNLP (Volume 1: Long Papers)},
+  year      = {2021},
+  pages     = {993--1003},
+  doi       = {10.18653/v1/2021.acl-long.80}
+}
+
+@inproceedings{carletta2005ami,
+  author    = {Jean Carletta and Simone Ashby and Sebastien Bourban and Mike Flynn and Mael Guillemot and
+               Thomas Hain and others},
+  title     = {The {AMI} Meeting Corpus: A Pre-announcement},
+  booktitle = {Machine Learning for Multimodal Interaction (MLMI 2005)},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {3869},
+  pages     = {28--39},
+  publisher = {Springer},
+  year      = {2006},
+  doi       = {10.1007/11677482_3}
+}
+
+% ------------------------------------------------------------------ statistics and benchmarking
+
+@article{holm1979simple,
+  author    = {Sture Holm},
+  title     = {A Simple Sequentially Rejective Multiple Test Procedure},
+  journal   = {Scandinavian Journal of Statistics},
+  volume    = {6},
+  number    = {2},
+  pages     = {65--70},
+  year      = {1979}
+}
+
+@inproceedings{bisani2004bootstrap,
+  author    = {M. Bisani and H. Ney},
+  title     = {Bootstrap Estimates for Confidence Intervals in {ASR} Performance Evaluation},
+  booktitle = {Proc. IEEE ICASSP},
+  volume    = {1},
+  pages     = {I-409--I-412},
+  year      = {2004},
+  doi       = {10.1109/ICASSP.2004.1326009}
+}
+
+@book{efron1994bootstrap,
+  author    = {Bradley Efron and Robert J. Tibshirani},
+  title     = {An Introduction to the Bootstrap},
+  publisher = {Chapman and Hall/CRC},
+  year      = {1994},
+  doi       = {10.1201/9780429246593}
+}
+
+@inproceedings{reddi2020mlperf,
+  author    = {Vijay Janapa Reddi and Christine Cheng and David Kanter and Peter Mattson and Guenther Schmuelling
+               and Carole-Jean Wu and others},
+  title     = {{MLPerf} Inference Benchmark},
+  booktitle = {Proc. ACM/IEEE International Symposium on Computer Architecture (ISCA)},
+  year      = {2020},
+  note      = {arXiv:1911.02549}
+}
+
+@misc{gandhi2022esb,
+  author       = {Sanchit Gandhi and Patrick von Platen and Alexander M. Rush},
+  title        = {{ESB}: A Benchmark for Multi-Domain End-to-End Speech Recognition},
+  howpublished = {arXiv:2210.13352},
+  year         = {2022},
+  url          = {https://arxiv.org/abs/2210.13352}
+}
+
+% --- paper v2: sources of the "reported elsewhere" table and of the measured systems.
+% Each URL was fetched on 2026-11-22; the revision in the note is the one that was read.
+@misc{picovoice2026benchmark,
+  author       = {{Picovoice}},
+  title        = {Speech-to-Text Benchmark},
+  howpublished = {GitHub repository Picovoice/speech-to-text-benchmark, README.md},
+  year         = {2026},
+  note         = {Commit ace2db4 (2026-11-05); accessed 2026-11-22},
+  url          = {https://github.com/Picovoice/speech-to-text-benchmark}
+}
+
+@misc{nvidia2026nemospeechbench,
+  author       = {{NVIDIA}},
+  title        = {{NeMo-Speech.cpp} Benchmarks},
+  howpublished = {GitHub repository NVIDIA/NeMo-Speech.cpp, BENCHMARK.md},
+  year         = {2026},
+  note         = {Commit a5f19be (2026-10-01); accessed 2026-11-22},
+  url          = {https://github.com/NVIDIA/NeMo-Speech.cpp/blob/main/BENCHMARK.md}
+}
+
+@misc{moonshine2026docs,
+  author       = {{Moonshine AI}},
+  title        = {Moonshine Voice Documentation: Accuracy (Word Error Rate); When Should You Choose {Moonshine} over {Whisper}?},
+  howpublished = {GitHub repository moonshine-ai/moonshine, docs/models/accuracy.md and docs/moonshine-vs-whisper.md},
+  year         = {2026},
+  note         = {Commits 76817fe and 02cb1a3 (2026-08); accessed 2026-11-22},
+  url          = {https://moonshine-voice.readthedocs.io/}
+}
+
+@misc{moondream2026parakeetredux,
+  author       = {{Moondream}},
+  title        = {Moondream {Parakeet Redux} (moondream/parakeet-redux), model card},
+  howpublished = {Hugging Face},
+  year         = {2026},
+  note         = {Revision 2bf1286 (2026-09-23); accessed 2026-11-22},
+  url          = {https://huggingface.co/moondream/parakeet-redux}
+}
+
+@misc{nvidia2025parakeettdtv3,
+  author       = {{NVIDIA}},
+  title        = {Parakeet {TDT} 0.6{B} v3 (nvidia/parakeet-tdt-0.6b-v3), model card},
+  howpublished = {Hugging Face},
+  year         = {2025},
+  note         = {Revision 541d1f9; accessed 2026-11-22},
+  url          = {https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3}
+}
+
+@misc{nvidia2026nemotron35,
+  author       = {{NVIDIA}},
+  title        = {Nemotron 3.5 {ASR} Streaming 0.6{B} (nvidia/nemotron-3.5-asr-streaming-0.6b), model card},
+  howpublished = {Hugging Face},
+  year         = {2026},
+  note         = {Revision ea30d66; accessed 2026-11-22},
+  url          = {https://huggingface.co/nvidia/nemotron-3.5-asr-streaming-0.6b}
+}
+
+@misc{whispercpp,
+  author       = {{ggml-org}},
+  title        = {whisper.cpp: Port of {OpenAI}'s {Whisper} Model in {C/C++}},
+  howpublished = {GitHub repository ggml-org/whisper.cpp},
+  year         = {2022},
+  note         = {Accessed 2026-11-22},
+  url          = {https://github.com/ggml-org/whisper.cpp}
+}
+
+@misc{onnxasr,
+  author       = {Ilya Stupakov},
+  title        = {onnx-asr: A Lightweight {Python} Package for Automatic Speech Recognition Using {ONNX} Models},
+  howpublished = {GitHub repository istupakov/onnx-asr},
+  year         = {2025},
+  note         = {Accessed 2026-11-22},
+  url          = {https://github.com/istupakov/onnx-asr}
+}
+
+@inproceedings{kahn2020librilight,
+  author    = {Jacob Kahn and Morgane Rivi{\`e}re and Weiyi Zheng and Evgeny Kharitonov and Qiantong Xu and Pierre-Emmanuel Mazar{\'e} and Julien Karadayi and Vitaliy Liptchinsky and Ronan Collobert and Christian Fuegen and Tatiana Likhomanenko and Gabriel Synnaeve and Armand Joulin and Abdelrahman Mohamed and Emmanuel Dupoux},
+  title     = {Libri-Light: A Benchmark for {ASR} with Limited or No Supervision},
+  booktitle = {Proc.\ IEEE ICASSP},
+  pages     = {7669--7673},
+  year      = {2020},
+}

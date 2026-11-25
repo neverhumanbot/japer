@@ -1,0 +1,183 @@
+% Full-width hero (Figure 1 and docs/paper/money.png).
+% Two Isosyll marks against every timed public CPU comparator. Wide-chunk and greedy stay in the tables.
+% Energy bars are the matched R6 rows only: live +LM, the commit pass, and Zipformer.
+\def\herokicker#1#2#3#4{%
+  \begin{minipage}[t]{#1}%
+  \sffamily\fontsize{8}{9.6}\selectfont\strut\textcolor{#2}{\bfseries #3}%
+  \hspace{0.5em}\textcolor{sub}{#4}\par
+  \vspace{1.6pt}{\color{#2}\hrule height 0.75pt}%
+  \end{minipage}%
+}
+\begin{tikzpicture}[
+  every node/.style={font=\sffamily\footnotesize,text=ink},
+  identity/.style={font=\sffamily\fontsize{8}{9.4}\selectfont\bfseries,inner sep=0pt},
+  comp/.style={font=\sffamily\fontsize{7.4}{8.6}\selectfont,text=ink,inner sep=0pt},
+  compmuted/.style={font=\sffamily\fontsize{7.2}{8.4}\selectfont,text=sub,inner sep=0pt},
+  metric/.style={font=\sffamily\fontsize{7}{8.2}\selectfont,text=sub,inner sep=0pt},
+  leader/.style={draw=muted,line width=.4pt},
+  oursleader/.style={draw=accent!75,line width=.55pt},
+]
+% ------------------------------------------------------------------ Scatter
+\begin{axis}[
+  name=matchedplot,
+  width=450pt,height=150pt,scale only axis,clip=false,
+  xmode=linear,xmin=0,xmax=\HeroXmax,ymin=0,ymax=29,
+  xtick/.expanded=\HeroXticks,ytick={0,5,10,15,20,25},
+  xticklabel={\pgfmathprintnumber[fixed]{\tick}$\times$},
+  xlabel={Single-core throughput (\(\times\) real time, faster \(\rightarrow\))},
+  ylabel={Pooled WER (\%, lower \(\downarrow\))},
+  tick align=outside,tick pos=left,major tick length=2pt,
+  axis line style={draw=hair,line width=.55pt},
+  tick style={draw=hair},
+  tick label style={font=\sffamily\fontsize{7.6}{9}\selectfont,text=sub},
+  label style={font=\sffamily\fontsize{8.2}{10}\selectfont,text=sub},
+  xlabel style={yshift=1pt},ylabel style={yshift=-1pt},
+  grid=major,grid style={draw=gridline,line width=.4pt},
+]
+\fill[surface] (axis cs:0,0) rectangle (axis cs:1,29);
+\draw[muted,densely dashed,line width=.4pt] (axis cs:1,0) -- (axis cs:1,29);
+% Paired live +LM advantage. The oversized ratio sits above the arrow.
+\draw[accent,line width=.9pt,{Stealth[length=4pt]}-{Stealth[length=4pt]}]
+  (axis cs:\HeroZipX,16.15) -- (axis cs:\HeroLiveLmX,16.15);
+\node[anchor=south,inner xsep=5pt,inner ysep=1.5pt,fill=white,align=center]
+  at (axis cs:23.35,16.45) {%
+  {\fontsize{28}{30}\selectfont\bfseries\color{accent}\HeroRatio$\times$}\\[-2pt]
+  {\fontsize{8.5}{10.2}\selectfont\bfseries\color{ink}Zipformer INT8's paired throughput,}\\[0.4pt]
+  {\fontsize{8}{9.6}\selectfont\color{sub}at \VsEnergyPctOne\% of its energy per audio-second (same blocks)}};
+
+% Shared-host rows (lighter).
+\addplot[only marks,mark=*,mark size=2.15pt,muted] coordinates {
+  (\HeroMoonSmallX,\HeroMoonSmallY)
+  (\HeroNemoOneSixtyX,\HeroNemoOneSixtyY)
+  (\HeroNemoThreeFiveX,\HeroNemoThreeFiveY)
+};
+% Quiet-host streaming.
+\addplot[only marks,mark=*,mark size=2.35pt,ink] coordinates {
+  (\HeroZipX,\HeroZipY)
+  (\HeroMoonTinyX,\HeroMoonTinyY)
+  (\HeroVoskSmallX,\HeroVoskSmallY)
+};
+% 73-clip timing.
+\addplot[only marks,mark=*,mark size=2.15pt,slate] coordinates {
+  (\HeroVoskLargeX,\HeroVoskLargeY)
+  (\HeroNemoFiveSixtyX,\HeroNemoFiveSixtyY)
+  (\HeroWhisperTinyX,\HeroWhisperTinyY)
+  (\HeroWhisperBaseX,\HeroWhisperBaseY)
+};
+% Quiet-host offline.
+\addplot[only marks,mark=square,mark size=2.5pt,ink,line width=.7pt] coordinates {
+  (\HeroParakeetOnnxX,\HeroParakeetOnnxY)
+  (\HeroParakeetSherpaX,\HeroParakeetSherpaY)
+};
+
+% Isosyll: both marks are house orange.
+\addplot[only marks,mark=diamond*,mark size=4.1pt,accent] coordinates {(\HeroLiveLmX,\HeroLiveLmY)};
+\addplot[only marks,mark=diamond*,mark size=3.7pt,color=accent,mark options={fill=white,line width=.9pt}]
+  coordinates {(\HeroFinalX,\HeroFinalY)};
+
+\draw[leader] (axis cs:\HeroWhisperTinyX,\HeroWhisperTinyY) -- (axis cs:2.15,22.4);
+\draw[leader] (axis cs:\HeroWhisperBaseX,\HeroWhisperBaseY) -- (axis cs:2.15,19.6);
+\node[compmuted,anchor=west] at (axis cs:2.35,22.4) {Whisper.cpp Tiny\,\S};
+\node[compmuted,anchor=west] at (axis cs:2.35,19.6) {Whisper.cpp Base\,\S};
+
+\draw[leader] (axis cs:\HeroVoskSmallX,\HeroVoskSmallY) -- (axis cs:8.05,15.55);
+\node[comp,anchor=west] at (axis cs:8.25,15.55) {Vosk Small};
+
+\draw[leader] (axis cs:\HeroVoskLargeX,\HeroVoskLargeY) -- (axis cs:5.35,11.35);
+\node[compmuted,anchor=west] at (axis cs:5.55,11.35) {Vosk Large\,\S};
+
+\draw[leader] (axis cs:\HeroMoonTinyX,\HeroMoonTinyY) -- (axis cs:9.2,11.55);
+\node[comp,anchor=west] at (axis cs:9.4,11.55) {Moonshine Tiny};
+
+\draw[leader] (axis cs:\HeroNemoThreeFiveX,\HeroNemoThreeFiveY) -- (axis cs:0.15,8.7);
+\node[compmuted,anchor=west,align=left] at (axis cs:0.3,8.7) {Nemotron\\3.5};
+
+\draw[leader] (axis cs:\HeroMoonSmallX,\HeroMoonSmallY) -- (axis cs:4.55,6.05);
+\node[compmuted,anchor=west,align=left] at (axis cs:4.75,6.05) {Moonshine\\Small};
+
+\draw[leader] (axis cs:\HeroZipX,\HeroZipY) -- (axis cs:12.15,7.35);
+\node[identity,anchor=south east,text=ink] at (axis cs:12.05,7.55) {Zipformer INT8};
+\node[metric,anchor=south east] at (axis cs:12.05,6.25) {\HeroZipSpeed$\times$\,\textperiodcentered\,\HeroZipWer\%};
+
+\draw[leader] (axis cs:\HeroNemoOneSixtyX,\HeroNemoOneSixtyY) -- (axis cs:0.15,1.85);
+\node[compmuted,anchor=west,align=left] at (axis cs:0.3,1.85) {Nemotron\\160\,ms};
+\draw[leader] (axis cs:\HeroNemoFiveSixtyX,\HeroNemoFiveSixtyY) -- (axis cs:4.55,0.55);
+\node[compmuted,anchor=west,align=left] at (axis cs:4.75,0.45) {Nemotron\\560\,ms\,\S};
+
+\draw[leader] (axis cs:\HeroParakeetOnnxX,\HeroParakeetOnnxY) -- (axis cs:10.3,4.35);
+\node[comp,anchor=west] at (axis cs:10.5,4.35) {Parakeet onnx-asr};
+\node[metric,anchor=west] at (axis cs:10.5,3.15) {\HeroParakeetOnnxSpeed$\times$\,\textperiodcentered\,\HeroParakeetOnnxWer\%};
+\draw[leader] (axis cs:\HeroParakeetSherpaX,\HeroParakeetSherpaY)
+  -- (axis cs:\HeroParakeetSherpaX,2.30) -- (axis cs:9.4,2.30) -- (axis cs:10.25,1.85);
+\node[comp,anchor=west] at (axis cs:10.5,1.85) {Parakeet sherpa-onnx};
+\node[metric,anchor=west] at (axis cs:10.5,0.65) {\HeroParakeetSherpaSpeed$\times$\,\textperiodcentered\,\HeroParakeetSherpaWer\%};
+
+\draw[oursleader] (axis cs:\HeroFinalX,\HeroFinalY) -- (axis cs:22.4,11.7);
+\node[identity,anchor=west,text=accentdark] at (axis cs:22.6,12.05) {Isosyll final};
+\node[metric,anchor=west,text=ink] at (axis cs:22.6,10.75) {\HeroFinalSpeed$\times$\,\textperiodcentered\,\HeroFinalWer\%};
+
+\draw[oursleader] (axis cs:\HeroLiveLmX,\HeroLiveLmY) -- (axis cs:\HeroLiveLmX,6.45);
+\node[metric,anchor=south,text=accentdark] at (axis cs:\HeroLiveLmX,6.6)
+  {160\,ms: \HeroLiveLmSpeed$\times$\,\textperiodcentered\,\HeroLiveLmWer\%};
+\node[identity,anchor=south,text=accentdark] at (axis cs:\HeroLiveLmX,8.05) {Isosyll live +LM};
+\end{axis}
+
+\node[anchor=south west,inner sep=0pt] at ([xshift=-30pt,yshift=22pt]matchedplot.north west) {%
+  \begin{minipage}{484pt}%
+  \herokicker{196pt}{accent}{ONE CORE}{LibriSpeech DEV, 730 utterances}\hfill
+  \herokicker{138pt}{ink}{LIVE}{160\,ms chunk}\hfill
+  \herokicker{138pt}{ink}{FINAL}{utterance-end commit}\par
+  \vspace{5pt}
+  {\sffamily\bfseries\fontsize{12.5}{15}\selectfont\color{ink}Isosyll vs.\ all public CPU speech recognizers\par}
+  \vspace{1pt}
+  {\sffamily\fontsize{7.6}{9.2}\selectfont\color{sub}%
+    One pinned Zen~2 core \enspace\textperiodcentered\enspace
+    \tikz[baseline=-.35ex]\fill[accent] (0,2.5pt)--(2.3pt,0)--(0,-2.5pt)--(-2.3pt,0)--cycle;~Isosyll (ours, 60\,MB INT8)
+    \enspace\textperiodcentered\enspace
+    \tikz[baseline=-.4ex]\fill[ink] (0,0) circle (1.45pt);~Public streaming
+    \enspace\textperiodcentered\enspace
+    \tikz[baseline=-.45ex]\draw[ink,line width=.55pt] (0,0) rectangle (2.5pt,2.5pt);~Offline
+    \enspace\textperiodcentered\enspace
+    \textcolor{slate}{\S\ 73-clip}\enspace\textcolor{muted}{H0 lighter}}%
+  \end{minipage}};
+
+% ------------------------------------------------------------------ R6 energy
+\ifnum\HeroHaveEnergy>0\relax
+\begin{scope}[shift={([xshift=-30pt,yshift=-26pt]matchedplot.south west)}]
+  \fill[surface,rounded corners=2pt] (0,0) rectangle (484pt,-64pt);
+  \draw[hair,line width=.6pt,rounded corners=2pt] (0,0) rectangle (484pt,-64pt);
+  \node[anchor=north west,font=\sffamily\fontsize{8}{9.4}\selectfont\bfseries,text=ink,inner sep=0pt]
+    at (8pt,-5pt) {Idle-subtracted core energy (J/audio-s, lower \(\downarrow\))};
+  \def\EnergyBarX{168pt}%
+  \def\EnergyRow#1#2#3#4#5#6{%
+    \pgfmathsetmacro{\barlen}{#3*6.4}%
+    \ifnum#6=1\relax
+      \node[anchor=east,font=\sffamily\fontsize{7.5}{9}\selectfont\bfseries,text=accentdark,inner sep=0pt] at (164pt,#1) {#2};
+      \fill[#4,rounded corners=.7pt] (\EnergyBarX,#1-3.3pt) rectangle (\EnergyBarX+\barlen pt,#1+3.3pt);
+      \node[anchor=west,font=\sffamily\fontsize{7.3}{8.6}\selectfont\bfseries,text=ink,inner sep=0pt] at (\EnergyBarX+\barlen pt+4pt,#1) {#5};
+    \else
+      \node[anchor=east,font=\sffamily\fontsize{7.5}{9}\selectfont,text=ink,inner sep=0pt] at (164pt,#1) {#2};
+      \fill[#4,rounded corners=.7pt] (\EnergyBarX,#1-3.3pt) rectangle (\EnergyBarX+\barlen pt,#1+3.3pt);
+      \node[anchor=west,font=\sffamily\fontsize{7.3}{8.6}\selectfont,text=sub,inner sep=0pt] at (\EnergyBarX+\barlen pt+4pt,#1) {#5};
+    \fi
+  }%
+  \EnergyRow{-24pt}{Isosyll live (160\,ms)}{\HeroLiveLmBarPt}{accent}{\HeroLiveLmEnergy\,J\,\textperiodcentered\,\HeroLiveLmSpeed$\times$\,\textperiodcentered\,\HeroLiveLmWer\%}{1}
+  \EnergyRow{-38pt}{Zipformer INT8}{\HeroZipBarPt}{slate}{\HeroZipEnergy\,J\,\textperiodcentered\,\HeroZipSpeed$\times$\,\textperiodcentered\,\HeroZipWer\%}{0}
+  \pgfmathsetmacro{\barlen}{\HeroFinalBarPt*6.4}%
+  \node[anchor=east,font=\sffamily\fontsize{7.5}{9}\selectfont\bfseries,text=accentdark,inner sep=0pt] at (164pt,-52pt) {Isosyll final (commit)};
+  \filldraw[fill=accenttint,draw=accent,line width=.7pt,rounded corners=.7pt]
+    (\EnergyBarX,-55.3pt) rectangle (\EnergyBarX+\barlen pt,-48.7pt);
+  \node[anchor=west,font=\sffamily\fontsize{7.3}{8.6}\selectfont\bfseries,text=ink,inner sep=0pt]
+    at (\EnergyBarX+\barlen pt+4pt,-52pt) {\HeroFinalEnergy\,J\,\textperiodcentered\,\HeroFinalSpeed$\times$\,\textperiodcentered\,\HeroFinalWer\%};
+\end{scope}
+\fi
+\node[anchor=north west,font=\sffamily\fontsize{6.7}{8.1}\selectfont,text=sub,inner sep=0pt,align=left,text width=484pt]
+  at ([xshift=-30pt,yshift=-94pt]matchedplot.south west) {%
+  R6 rows only: idle floor subtracted, same blocks, not wall power.
+  60\,MB INT8 weights (v3.1.0); the LMs are separate files.
+  Unselected DEV C-half live +LM vs.\ Zipformer: \HeroGapCDelta\,pp (160\,ms chunk).};
+\pgfresetboundingbox
+\path[use as bounding box]
+  ([xshift=-32pt,yshift=-112pt]matchedplot.south west)
+  rectangle ([xshift=8pt,yshift=72pt]matchedplot.north east);
+\end{tikzpicture}%

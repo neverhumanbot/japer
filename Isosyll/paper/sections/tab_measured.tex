@@ -1,0 +1,29 @@
+% The measured comparison (TABLE I): single release artifact (v3.0.0) vs all 11 public CPU
+% comparators on the 730-utterance LibriSpeech DEV panel.
+\begin{table*}[t]
+\centering
+\caption{\textbf{Measured comparison on the 730-utterance LibriSpeech DEV panel} (400 dev-clean,
+330 dev-other; one scorer and normaliser). Speed: median of three cold runs on one pinned Zen~2
+core ($\times$ real time, model load included). RSS: peak resident memory of the process tree (MB).
+Artifact: model and LM files loaded (MB). Core~J: joules per audio-second on quiet host H1.
+R6 rows (\ultra{} and Zipformer INT8) subtract the core idle floor. Moonshine, Parakeet, and
+Nemotron include it. Not board or wall power. ``--'': quiet-host energy pending.
+$^{\ddagger}$Shared-host timing (interim, host H0); WER is from the full 730-utterance panel.
+$^{\S}$Timed on a 73-utterance subset of the panel; WER is from the full 730-utterance panel.
+$^{\dagger}$Full-panel WER without matched H1 timing. The Parakeet unified streaming row has a separate
+Xeon~8358 single-core cost of \RelParakeetUnifiedXeonCpu\,CPU-s/audio-s.
+\ultra{} \ReleaseVer{} (final, seg.) is utterance-segmented; Parakeet TDT v3 is offline (whole
+utterance). \RelSubsetNote{} DEV-only.}
+\label{tab:measured}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}llrrrrrrrr@{}}
+\toprule
+ & & Speed & WER & \multicolumn{3}{c}{Panel WER (\%)} & RSS & Artifact & Core \\
+\cmidrule(lr){5-7}
+System & Runtime & ($\times$ RT) & rank & clean & other & pooled & (MB) & (MB) & (J) \\
+\midrule
+\rawinput{data/table_measured.tex}
+\bottomrule
+\end{tabular}
+\end{table*}

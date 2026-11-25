@@ -1,0 +1,54 @@
+\section{Model}\label{sec:model}
+
+\para{Streaming Conformer transducer.} \ultra{} \ReleaseVer{} is a dense 16-block streaming
+Conformer~\cite{gulati2020conformer} RNN-T~\cite{graves2012rnnt} with a stateless
+predictor~\cite{ghodsi2020stateless} and an auxiliary CTC head (weighted \CtcWeight{} in training,
+unused at inference). The front end computes 80-band log-mel features at 100\,Hz; a causal
+two-layer convolutional stem subsamples by four to 25\,Hz at width $d=384$. Each Conformer block is
+macaron-style (half-step FFN, multi-head self-attention with 6 heads of width 64 and rotary
+position embeddings~\cite{su2021roformer}, causal depthwise convolution with kernel 15, half-step
+FFN) with pre-norm residuals and a final LayerNorm. The predictor embeds the last two non-blank
+tokens (256 dimensions each) into a 320-wide joiner over a compact 500-token SentencePiece BPE
+vocabulary plus blank.
+
+\para{Live streaming mode (160\,ms chunks).} In live mode, the encoder consumes 160\,ms chunks
+(four 25\,Hz frames) with a bounded left context of 128 frames (\LeftCtxSec\,s) and zero right
+context; the depthwise convolution is strictly causal. Every encoder frame depends only on audio up
+to the end of its chunk, so streaming inference matches training exactly. Decoding is greedy (up to
+8 symbols per frame), emitting live words continuously without needing an endpoint detector.
+
+\para{Utterance-segmented commit pass (640\,ms + LM/LODR).} To improve final transcript accuracy
+without changing the acoustic weights, the release decoder pairs the 160\,ms live stream with a
+second-pass commit decoder triggered at each utterance endpoint (\cref{fig:arch}). The commit pass
+re-encodes the buffered segment (up to a 40\,s hard cap) with wider 640\,ms chunks (16 frames) and
+a 320\,ms synthetic zero tail pad, then runs a width-16 beam search fusing a 5-gram word-level
+language model (M5, scale \LmScale) with internal log-density-ratio (LODR) subtraction (scale
+\LodrScale). The commit pass revises \RelCommitRevisedPct\% of panel utterances with a median
+final-text delay of \RelCommitDelayPfifty\,ms after endpoint declaration
+(95th percentile \RelCommitDelayPninetyFive\,ms).
+
+\begin{figure}[t]
+\centering
+\resizebox{\columnwidth}{!}{%
+\begin{tikzpicture}[
+  font=\footnotesize, >={Stealth[length=4pt]},
+  blk/.style={draw, rounded corners=2pt, minimum height=6.5mm, inner sep=2.5pt, align=center},
+  enc/.style={blk, fill=blue!10, minimum width=22mm},
+  live/.style={blk, fill=green!10, minimum width=20mm},
+  fin/.style={blk, fill=orange!15, minimum width=24mm},
+  io/.style={blk, fill=gray!10, minimum width=15mm}]
+\node[io] (pcm) {PCM16\\16\,kHz};
+\node[io, right=3mm of pcm] (mel) {log-mel\\100\,Hz};
+\node[enc, right=3mm of mel] (enc) {16$\times$ Conformer-S\\$d=384$, INT8};
+\node[live, above right=2mm and 4mm of enc] (lout) {Live stream\\$c=4$, greedy};
+\node[fin, below right=2mm and 4mm of enc] (fout) {Commit (seg.)\\$c=16$, M5/LODR b16};
+\draw[->] (pcm) -- (mel);
+\draw[->] (mel) -- (enc);
+\draw[->] (enc.east) -- ++(2mm,0) |- (lout.west);
+\draw[->] (enc.east) -- ++(2mm,0) |- (fout.west);
+\end{tikzpicture}}
+\caption{Dual operating points of \ultra{} \ReleaseVer{} on one prepared INT8 artifact: a
+continuous 160\,ms live stream ($c=4$, greedy or with a compact LM) and an utterance-segmented 640\,ms commit pass
+($c=16$) with 5-gram LM and LODR beam search.}
+\label{fig:arch}
+\end{figure}

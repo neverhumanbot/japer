@@ -1,0 +1,62 @@
+\section{An Integer-Exact CPU Engine}\label{sec:engine}
+
+The inference engine and commit-pass decoder are implemented in pure Rust with no ONNX Runtime,
+BLAS, or external ML framework, providing scalar reference, AVX2/FMA, and ARM NEON kernels. Every
+optimisation is gated on bit-identical outputs against hashed encoder projections and token
+sequences.
+
+\para{Per-row centred INT8.} Weights are quantised offline per output channel,
+$w_q = \mathrm{round}(w/s_w)$ with $s_w = \max|w|/127$. Activations are quantised dynamically per
+frame row, centred on that row's range:
+\begin{equation}
+\begin{gathered}
+c = \tfrac{1}{2}(x_{\max}+x_{\min}),\qquad s_a = \tfrac{1}{254}(x_{\max}-x_{\min}),\\
+x_q = \mathrm{rne}\bigl((x-c)/s_a\bigr),
+\end{gathered}
+\end{equation}
+with $|x_q|\le 127$ and round-half-even. The linear output is recovered exactly as
+\begin{equation}
+y_{rn} = s_a^{(r)} s_w^{(n)} \textstyle\sum_k x_q w_q \;+\; c^{(r)} \bar w_n + b_n,
+\end{equation}
+where $\bar w_n = s_w^{(n)}\sum_k w_{q,nk}$ is precomputed offline, so centring adds one fused
+multiply-add per output and prevents one-sided post-SiLU activations from wasting half of the INT8
+dynamic range. Because each row's scale and centre depend only on that row, a stream's tokens never
+depend on batch size or batch partners (verified bit-identical across batch sizes 1 to 32).
+
+\para{Exact integer kernels and portable log-mel.} On x86 AVX2, the $4\times 16$ GEMM tile uses
+\texttt{vpmaddubsw} on $(|x_q|, \mathrm{sign}(w_q, x_q))$. With $|x_q|,|w_q|\le 127$, pairwise
+products sum to at most $2\cdot 127^2 = 32{,}258 < 2^{15}$, so the 16-bit step never saturates and
+int32 accumulation matches the scalar reference bit for bit; ARM NEON computes the same exact sums
+with \texttt{sdot}/\texttt{smmla}. To prevent 1-ULP platform \texttt{libm} differences from
+flipping quantisation ties across architectures, the log-mel front end replaces platform
+transcendentals with portable unfused IEEE double arithmetic (Cody--Waite range reduction,
+polynomial $\sin$/$\cos$/$\log$, precomputed FFT twiddles, and sparse triangular filterbank).
+
+\para{Native commit-pass LM/LODR decoder and parity.} The commit binary
+(\texttt{ultra-engine-commit}) shares the exact same INT8 encoder and joiner, runs the live
+160\,ms stream to emit provisional text, and at each utterance endpoint executes the 640\,ms
+commit pass with a packed 5-gram LM (\texttt{M5.ulm}) and LODR beam-16 search.
+Prepared INT8 weights are verified by SHA-256 at load time. On full LibriSpeech DEV
+(\RelFullUtts{} utterances), prepared INT8 matches FP32 PyTorch within \RelIntEightDelta\pp pooled
+WER (one-sided 95\% bootstrap bounds \RelIntEightLo{} to \RelIntEightHi\pp), well inside the
+pre-registered \PreregDeltaPP\pp / \PreregUpperPP\pp gate, and produces bit-identical transcripts
+across all three cold repetitions on the evaluated Zen~2 AVX2 host (\cref{tab:repro}).
+
+\begin{table}[t]
+\centering
+\caption{\textbf{Verified reproducibility evidence for \ultra{} \PriorVer{}} (scoped strictly to
+receipts verified on that release INT8 artifact; the \ReleaseVer{} witness decodes are in \cref{sec:candidate}).}
+\label{tab:repro}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}p{2.3cm}p{2.7cm}p{2.87cm}@{}}
+\toprule
+Property & Verified scope & Outcome \\
+\midrule
+INT8 vs.\ FP32 parity & Full DEV (\RelFullUtts{} utt) & \RelIntEightDelta\pp (\RelIntEightLo{} to \RelIntEightHi\pp) \\
+Repeated cold runs & 730-utt DEV panel, 3 reps & 730/730 identical (live \& final) \\
+Batch invariance & Batch sizes 1 to 32 & Bit-identical per-row tokens \\
+Weight integrity & Prepared INT8 bundle & Verified SHA-256 at load \\
+\bottomrule
+\end{tabular}
+\end{table}

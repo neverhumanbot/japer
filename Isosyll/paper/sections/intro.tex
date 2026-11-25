@@ -1,0 +1,65 @@
+\section{Introduction}\label{sec:intro}
+
+\emph{Always listening, barely computing.} An always-on speech recogniser listens to every second of
+audio, speech or not, paying its compute, memory, and energy bill continuously. Published CPU speed
+and accuracy figures cannot be divided by one another because each uses a different machine, thread
+budget, audio subset, and text normaliser. Measuring different recognisers side by side therefore
+requires running them on the same hardware, the same audio, and the same scorer.
+
+\input{sections/tab_measured.tex}%
+\para{What we built.} We call the system \ultra{}, from \emph{iso-} (the same) and \emph{syllable}.
+Live transcripts match across the tested SIMD kernels and batch sizes. Release artifacts retain their
+original name, ULTRA. \ultra{} co-designs a compact streaming Conformer transducer and an
+integer-exact pure-Rust CPU engine around a single 60\,MB prepared INT8 artifact serving both live and
+final operating points:
+\begin{itemize}
+\item \textbf{Always-on live streaming:} 160\,ms chunked decoding with a compact live LM reaches
+  \ColdLiveSpeed$\times$ real time at \ColdLiveWatts\,J per audio-second and \ColdLiveRss\,MB peak RAM
+  (\ColdLiveWer\% panel WER, \CandLiveLmFullWer\% full DEV). The 320\,ms chunk on the same weights
+  reaches \VsWideSpeed$\times$ at \VsWideWatts\,J per audio-second (\VsWideWer\% panel,
+  \CandLiveLmEightFullWer\% full DEV), and greedy 160\,ms decoding reaches \VsGreedySpeed$\times$ in
+  \ColdRcTwoLiveGreedyRss\,MB RAM (\VsGreedyWer\% panel WER)---all without an endpoint detector.
+\item \textbf{Utterance-segmented final text:} the exact same INT8 weights run a second-pass 640\,ms
+  commit pass with a 5-gram LM and log-density-ratio (LODR) beam search at utterance endpoints,
+  running \ColdFinalVsZipSpeed{} at \ColdHeadWer\% pooled DEV panel WER (\CandFinalFullWer\% full DEV),
+  \VsVerdictTwo{} Zipformer INT8's \ColdZipWer\%.
+\end{itemize}
+
+\para{Integer exactness.} Every quantised GEMM accumulates exactly in int32, every activation row
+is centred and quantised from its own range, and the log-mel front end uses portable unfused IEEE
+double arithmetic. Outputs are therefore a deterministic function of the input audio and weights,
+independent of batch composition; exact integer kernels are implemented for x86 AVX2, AVX-512 VNNI,
+ARM NEON, and scalar fallback.
+
+\para{Contributions.} We compare our single release artifact (\ultra{} \ReleaseVer{} weights, v3.2.0
+runtime) directly against all \ColdCompleteCompCount{} public open-weights CPU comparators with complete
+730-utterance LibriSpeech DEV panel WER (\cref{fig:money,tab:measured}), and head-to-head against the
+strongest streaming comparator at our cost point, Zipformer INT8 (\cref{tab:versus}):
+\begin{enumerate}
+\item \textbf{Lowest-power, fastest always-on streaming.} Live +LM at 160\,ms delivers
+  \VsSpeedXOne$\times$ the paired throughput of Zipformer INT8 at \VsEnergyPctOne\% of its active
+  core energy per audio second and \VsRssPctOne\% of its memory (\cref{sec:versus}). The 320\,ms
+  chunk is \VsWideSpeedX$\times$ at \VsWideEnergyPct\% of that energy. On the prior artifact,
+  sixteen paced live streams share one quiet Zen~2 core at \RelCapSixteenBusy\% load
+  (\RelCapSixteenNetW\,W net per stream, \RelCapSixteenLagPninetyFive\,ms p95 stable-word lag;
+  \cref{sec:capacity}).
+\item \textbf{Final text from the same weights.} An utterance-end commit pass on the same 60\,MB INT8
+  artifact is \VsVerdictTwo{} Zipformer INT8 on pooled WER under a paired speaker-clustered test, at
+  \VsSpeedXTwo$\times$ its single-core speed (\cref{sec:versus}). \ultra{} \ReleaseVer{} is released by
+  owner decision after missing its registered full-DEV final gate (\CandFinalFullEdits{} edits vs.\
+  \CandGateFinalFull); its live gap to Zipformer on unselected DEV is \CandLiveLmCDelta\pp (160\,ms)
+  and \CandLiveLmEightCDelta\pp (320\,ms) (\cref{sec:candidate}). Opt-in quiet-speech level
+  normalisation is measured separately (\cref{sec:level}).
+\item \textbf{Reproducible integer-exact CPU engine.} Pure-Rust engine with no external runtime or
+  BLAS, matching FP32 PyTorch within \RelIntEightDelta\pp on the prior release artifact
+  (full DEV, \RelFullUtts{} utterances)
+  with batch-invariant execution and identical transcripts across x86 and ARM CPUs (\cref{sec:engine}).
+\item \textbf{Unified all-comparator protocol.} Same 730 DEV utterances (\ColdAudioMinutes\,min), one
+  pinned Zen~2 core, three cold repetitions, one text normaliser and scorer, same-run active core
+  energy, and explicit host/subset provenance tags across all \ColdCompleteCompCount{} public
+  comparators (\cref{sec:protocol}).
+\end{enumerate}
+
+\para{Scope and disclosure.} All accuracy results are LibriSpeech DEV only; no test-set numbers appear.
+Following our freeze protocol, LibriSpeech test-clean and test-other were read several times before the
+freeze, and no model selection used test data (\cref{sec:protocol}).

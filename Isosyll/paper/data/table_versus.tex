@@ -1,0 +1,20 @@
+\begin{table}[t]
+\centering
+\caption{\textbf{Head-to-head with Zipformer INT8}: same 730 DEV utterances (the selection panel; the unselected-half gaps are in \cref{sec:candidate}), same quiet Zen~2 core, same interleaved blocks, median of three. Ratios are medians of within-block ratios. $\Delta$ is paired (speaker-cluster bootstrap); negative means fewer errors. \textsuperscript{a}Live stream plus a commit pass at reference utterance boundaries.}
+\label{tab:versus}
+\footnotesize
+\setlength{\tabcolsep}{1.5pt}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Metric & Zipformer & \ultra{} live & \ultra{} final \\
+\midrule
+Live chunk (ms) & 320 & 160 & 160\textsuperscript{a} \\
+Pooled WER (\%) & 5.25 & 5.54 & 5.00 \\
+$\Delta$ WER vs.\ Zip.\ (pp) & --- & +0.28 & $-$0.26 \\
+\quad one-sided 95\% bounds & --- & [$-$0.02, +0.58] & [$-$0.57, +0.05] \\
+1-core speed ($\times$ RT) & 14.0 & 32.7 & 16.8 \\
+J per audio-s (core) & 0.573 & 0.328 & 0.661 \\
+Peak RSS (MB) & 152 & 109 & 387 \\
+\bottomrule
+\end{tabular}
+\end{table}

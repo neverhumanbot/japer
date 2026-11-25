@@ -1,0 +1,20 @@
+id,variant,short,role,class,machine,threads,series,cpu,speed,rtfx,wer,wer_clean,wer_other,rss_mb,model_mb,lag_p50_ms,lag_p95_ms,watts,label,host,plot,lag_design_p50_ms,lag_design_p95_ms,final_latency_p50_ms,final_latency_p95_ms,faded,timing_panel
+rc1-ema-live-zen2-t1,rc1-ema-live,Isosyll v3.0.0 (live),ours,streaming,zen2,1,zen2-t1-ours-streaming,0.03434,29.118,29.086,6.85,4.12,10.75,74.2,56.9,190,420,0.344,exploratory,xbabe0,0,,,,,0,full
+rc1-ema-final-zen2-t1,rc1-ema-final,Isosyll v3.0.0 (final seg.),ours,streaming,zen2,1,zen2-t1-ours-streaming,0.07054,14.176,14.186,5.06,3.25,7.65,725.0,391.3,,,0.720,exploratory,xbabe0,0,,,,,0,full
+rc2-live-greedy-zen2-t1,rc2-live-greedy,Isosyll v3.1.0 live greedy,ours,streaming,zen2,1,zen2-t1-ours-streaming,0.02921,34.237,34.222,6.23,3.68,9.87,74.3,59.6,,,0.322,exploratory,xbabe0,0,,,,,0,full
+rc2-live-lm-zen2-t1,rc2-live-lm,Isosyll v3.1.0 live +LM,ours,streaming,zen2,1,zen2-t1-ours-streaming,0.03061,32.668,32.651,5.54,3.20,8.88,109.5,59.6,,,0.328,exploratory,xbabe0,1,,,,,0,full
+rc2-live-lm320-zen2-t1,rc2-live-lm320,Isosyll v3.1.0 live 320 ms,ours,streaming,zen2,1,zen2-t1-ours-streaming,0.03001,33.319,33.300,5.50,3.27,8.68,110.6,59.6,,,0.316,exploratory,xbabe0,0,,,,,0,full
+rc2-final-zen2-t1,rc2-final,Isosyll v3.1.0 final seg.,ours,streaming,zen2,1,zen2-t1-ours-streaming,0.05948,16.813,16.805,5.00,3.03,7.80,387.1,59.6,,,0.661,exploratory,xbabe0,1,,,,,0,full
+r0-int8-zen2-t1,r0-int8,Zipformer INT8,comparator,streaming,zen2,1,zen2-t1-comparator-streaming,0.06920,14.451,14.440,5.25,3.03,8.43,153.0,72.7,,,0.591,exploratory,xbabe0,0,,,,,0,full
+r0-int8-r6-zen2-t1,r0-int8-r6,Zipformer INT8,comparator,streaming,zen2,1,zen2-t1-comparator-streaming,0.07121,14.042,14.029,5.25,3.03,8.43,152.3,72.7,,,0.573,exploratory,xbabe0,1,,,,,0,full
+moonshine-tiny-zen2-t1,moonshine-tiny,Moonshine Tiny,comparator,streaming,zen2,1,zen2-t1-comparator-streaming,0.12200,8.197,8.193,9.90,6.54,14.72,200.9,45.4,,,1.077,exploratory,xbabe0,1,,,,,0,full
+moonshine-small-zen2-t1-xbabe3,moonshine-small,Moonshine Small,comparator,streaming,zen2,1,zen2-t1-comparator-streaming,0.49545,2.018,2.018,5.93,3.98,8.73,476.4,142.5,,,,exploratory,xbabe3,1,,,,,1,full
+nemotron-en-560-zen2-t1,nemotron-en-560,Nemotron 560 ms,comparator,streaming,zen2,1,zen2-t1-comparator-streaming,0.42044,2.378,2.377,3.56,2.61,4.93,987.2,699.9,,,4.513,exploratory,xbabe0,1,,,,,0,p73
+nemotron-en-160-zen2-t1-xbabe3,nemotron-en-160,Nemotron 160 ms,comparator,streaming,zen2,1,zen2-t1-comparator-streaming,0.78168,1.279,1.278,3.94,2.90,5.42,1286.7,699.9,,,,exploratory,xbabe3,1,,,,,1,full
+nemotron-35-zen2-t1-xbabe3,nemotron-35,Nemotron 3.5,comparator,streaming,zen2,1,zen2-t1-comparator-streaming,1.18629,0.843,0.843,6.14,4.14,9.00,1277.2,742.1,,,,exploratory,xbabe3,1,,,,,1,full
+parakeet-tdt-v3-int8-zen2-t1,parakeet-tdt-v3-int8,Parakeet v3 (sherpa),comparator,whole_utterance,zen2,1,zen2-t1-comparator-whole,0.16901,5.917,5.911,3.40,2.43,4.78,1403.3,670.6,,,1.711,exploratory,xbabe0,1,,,,,0,full
+parakeet-v3-onnxasr-int8-zen2-t1,parakeet-v3-onnxasr-int8,Parakeet v3 (onnx-asr),comparator,whole_utterance,zen2,1,zen2-t1-comparator-whole,0.14952,6.688,6.678,3.36,2.52,4.58,1683.6,670.5,,,,exploratory,xbabe0,1,,,,,0,full
+vosk-small-zen2-t1,vosk-small,Vosk Small,comparator,streaming,zen2,1,zen2-t1-comparator-streaming,0.14534,6.880,6.875,14.90,10.74,20.86,256.9,70.9,,,,exploratory,xbabe0,1,,,,,0,full
+vosk-large-zen2-t1,vosk-large,Vosk Large,comparator,streaming,zen2,1,zen2-t1-comparator-streaming,0.24204,4.132,4.100,8.80,5.97,12.85,7629.3,2866.0,,,,exploratory,xbabe0,1,,,,,0,p73
+whispercpp-stream-tiny-zen2-t1,whispercpp-stream-tiny,Whisper.cpp Tiny,comparator,streaming,zen2,1,zen2-t1-comparator-streaming,1.09471,0.913,0.913,17.46,14.51,21.68,225.5,77.7,,,,exploratory,xbabe0,1,,,,,0,p73
+whispercpp-stream-base-zen2-t1,whispercpp-stream-base,Whisper.cpp Base,comparator,streaming,zen2,1,zen2-t1-comparator-streaming,2.39600,0.417,0.417,15.28,12.47,19.31,339.0,148.0,,,,exploratory,xbabe0,1,,,,,0,p73

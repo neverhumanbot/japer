@@ -1,0 +1,27 @@
+\section{Limitations}\label{sec:limitations}
+
+\para{Utterance-segmented final mode and memory.} \ColdLimitLive{} Shrinking LM memory
+(\LmPackMb\,MB on disk) and commit CPU without losing accuracy remains future work.
+
+\para{Live accuracy and next lever.} The endpoint-free live stream trades accuracy for extreme speed and
+low power: its gap to Zipformer INT8 on the unselected DEV C half is \CandLiveLmCDelta\pp at 160\,ms
+and \CandLiveLmEightCDelta\pp at 320\,ms (\cref{sec:candidate}). Error analysis shows that \VfDiagInteriorPct\%
+of live repair positions (\VfDiagInterior{} of \VfDiagPositions{}) are common interior words on hard audio
+(\texttt{dev-other}), and follow-up probes of reranking, regularisation, and relabelling existing audio
+did not move clean live WER; breaking further at the same single-core compute budget will require fresh
+acoustic diversity and stronger non-Zipformer supervision.
+
+\para{Training data and LM overlap.} \ultra{} is trained on LibriSpeech 960\,h plus Libri-Light
+pseudo-labelled by R0 (the Zipformer comparator). Release comparisons use read English LibriSpeech DEV
+audio, which is in-domain for both \ultra{} and Zipformer; rankings on conversational, accented, or
+noisy speech may differ. The OpenSLR-11 training text of \texttt{M5.ulm} contains \LmOverlapCount{} of
+the \LmOverlapOf{} longer DEV transcripts verbatim; removing them leaves the relative LM WER gain
+unchanged.
+
+\para{Host coverage, energy scope, and DEV-only claims.} \ColdHostSentence{} \ColdSubsetSentence{}
+Shared-host (H0) rows stay marked interim until quiet H1 holds complete. Energy measurements are
+active core (CPU-domain) joules per audio-second from RAPL registers, never board or wall power.
+The R6 rows subtract the core idle floor; separately timed Moonshine, Parakeet, and Nemotron joins
+include it. They are measured unpaced. All accuracy numbers are LibriSpeech DEV only; as disclosed in
+\cref{sec:protocol}, LibriSpeech test-clean and test-other were read several times before our
+benchmark freeze, and no test-set numbers appear here.

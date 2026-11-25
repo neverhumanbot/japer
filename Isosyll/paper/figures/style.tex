@@ -1,0 +1,27 @@
+% Shared pgfplots style for the Isosyll paper figures (paper-data). Okabe--Ito colour-blind-safe palette;
+% every series also differs by marker shape so the figures survive greyscale printing.
+% Inputs CSVs from \paperdatadir (default data/, relative to docs/paper/paper.tex).
+\providecommand{\paperdatadir}{data/}%
+\definecolor{okVermillion}{RGB}{213,94,0}%
+\definecolor{okBlue}{HTML}{D9480F}% house accent: Isosyll is orange, never the secondary blue%
+\definecolor{okGreen}{RGB}{0,158,115}%
+\definecolor{okOrange}{RGB}{230,159,0}%
+\definecolor{okSky}{RGB}{86,180,233}%
+\definecolor{okPurple}{RGB}{204,121,167}%
+\definecolor{okGrey}{RGB}{110,110,110}%
+\definecolor{okInk}{RGB}{64,64,64}% neutral marks beside the accent okBlue (darker, so they differ in greyscale too)
+\pgfplotsset{%
+  ultra/base/.style={%
+    font=\footnotesize, tick label style={font=\scriptsize}, label style={font=\footnotesize},%
+    legend style={font=\scriptsize, draw=none, fill=none}, axis line style={okGrey},%
+    tick style={okGrey}, major grid style={gray!25}, grid=major, clip=false,%
+  },%
+  ultra/rzero/.style={color=okVermillion, mark=square*, mark size=1.6pt, thick},%
+  ultra/dense/.style={color=okBlue, mark=*, mark size=1.7pt, thick},%
+  ultra/mr/.style={color=okGreen, mark=triangle*, mark size=2.1pt, thick},%
+  ultra/failed/.style={mark options={fill=white}},%
+  % keep only rows whose column #1 equals #2
+  ultra/keep if/.style 2 args={x filter/.append code={%
+    \edef\ultratempa{\thisrow{#1}}\edef\ultratempb{#2}%
+    \ifx\ultratempa\ultratempb\else\def\pgfmathresult{inf}\fi}},%
+}%

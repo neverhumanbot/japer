@@ -1,0 +1,293 @@
+% Isosyll v4.0.0 — Technical & Architecture Brief (CTOs, VP Engineering & platform architects)
+% Strict 2-page US Letter PDF. Every measured number is a macro from the paper's generated
+% docs/paper/data/metrics.tex or a fact from the v4.0.0 release record. Architecture statements
+% follow docs/paper/sections/{model,engine,protocol}.tex.
+\documentclass[letterpaper]{article}
+\pdfminorversion=7
+\usepackage{isosyll-brief-style}
+\input{../../paper/data/metrics}
+
+\renewcommand{\briefrunningtitle}{Technical \& Architecture Brief}
+\hypersetup{
+  pdftitle={Isosyll v4.0.0 — Technical and Architecture Brief},
+  pdfauthor={NEVERHUMAN Research},
+  pdfsubject={A bit-exact streaming speech recognizer in one pure-Rust binary},
+  pdfkeywords={Isosyll, Rust, INT8, Conformer, RNN-T, streaming ASR, AVX2, AVX-512 VNNI, NEON}
+}
+
+\tikzset{
+  cmp/.style={circle,fill=ink,draw=white,line width=0.5pt,inner sep=0pt,minimum size=4.4pt},
+  cmpoff/.style={rectangle,fill=white,draw=ink,line width=0.7pt,inner sep=0pt,minimum size=4.0pt},
+  isolive/.style={circle,fill=accent,draw=white,line width=0.9pt,inner sep=0pt,minimum size=7.4pt},
+  isofinal/.style={diamond,fill=accent,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7.2pt},
+  clab/.style={font=\sffamily\fontsize{5.8}{6.8}\selectfont,text=sub,inner sep=1pt},
+  ablk/.style={rounded corners=1.6pt,fill=white,draw=hair,line width=0.5pt,anchor=north west,inner sep=0pt},
+  atxt/.style={anchor=north west,inner sep=0pt,align=left},
+  aflow/.style={-{Stealth[length=3.5pt,width=2.9pt]},line width=0.55pt,draw=sub},
+}
+\newcommand{\at}[1]{{\sffamily\bfseries\fontsize{6.4}{7.6}\selectfont\color{ink}#1}}
+\newcommand{\ab}[1]{{\sffamily\fontsize{5.8}{7.0}\selectfont\color{sub}#1}}
+
+\begin{document}
+\thispagestyle{briefpage1}
+
+\briefmasthead{Technical \& Architecture Brief \;\textbar\; For CTOs, VP Engineering \& Platform Architects}%
+  {A Bit-Exact Streaming Speech Recognizer in One Pure-Rust Binary}%
+  {\texttt{isosyll} \releasever{} is a \textasciitilde 1.6\,MB Rust executable with \textbf{no Python, PyTorch, ONNX Runtime or BLAS} --- a \ColdRcTwoLiveLmModel\,MB INT8 streaming Conformer transducer that decodes at \textbf{\ColdRcTwoLiveLmSpeed\x{} real time on one CPU core} and gives \textbf{byte-identical transcripts} on x86-64 and Apple silicon.}
+
+% ---- 4-Column Engineering KPI Strip -----------------------------------------
+\noindent
+\begin{minipage}[t]{0.242\textwidth}
+  \vspace{0pt}%
+  \kpicard{accent}{\ColdRcTwoLiveLmSpeed\x{} \textbar{} \ColdRcTwoLiveLmWer\%}{Live +LM, 160\,ms Chunks}{\ColdRcTwoLiveLmCorePct\% of one Zen~2 core; \ColdRcTwoLiveLmRss\,MB peak RSS; \ColdRcTwoLiveLmWatts\,J core energy per audio-second.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.242\textwidth}
+  \vspace{0pt}%
+  \kpicard{navy}{\ColdRcTwoFinalSpeed\x{} \textbar{} \ColdRcTwoFinalWer\%}{Final Text (Commit Pass)}{vs.\ Zipformer INT8 at \ColdZipRsixWer\%: paired $\Delta$ \VsDeltaTwo\,pp, bounds \VsLoTwo{} to \VsHiTwo{} (includes zero).}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.242\textwidth}
+  \vspace{0pt}%
+  \kpicard{teal}{\ScalarUtts{} / \ScalarUtts}{Byte-Identical Transcripts}{Matches the signed reference decoders on x86-64 and Apple silicon (NEON); scalar backend: \ScalarDiffs{} diffs.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.242\textwidth}
+  \vspace{0pt}%
+  \kpicard{blue}{\textasciitilde 1.6\,MB}{One Engine Binary}{\ColdRcTwoLiveLmModel\,MB INT8 safetensors + two n-gram LMs (\textasciitilde 207\,MB download); signed, checksummed.}
+\end{minipage}
+
+\vspace{4.5pt}
+
+% ---- Full-Width Architecture & Evidence Panel -------------------------------
+\begin{tcolorbox}[enhanced,colback=white,colframe=hair,boxrule=0.5pt,arc=2.5pt,
+  left=6.5pt,right=6.5pt,top=4.5pt,bottom=4.5pt,before skip=0pt,after skip=0pt]
+  \noindent{\sffamily\bfseries\fontsize{7.9}{9.4}\selectfont\color{ink}A. One INT8 Artifact, Two Operating Points: 160\,ms Live Stream + Utterance-End Commit Pass}\par
+  \vspace{3pt}
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm,font=\fsfont]
+    % Front end
+    \node[ablk,minimum width=2.05cm,minimum height=1.90cm] at (0,0) {};
+    \node[atxt,text width=1.85cm] at (0.10,-0.08) {\at{PCM16, 16\,kHz}\\[1.5pt]\ab{audio in 20\,ms packets or a WAV file}};
+    \node[ablk,fill=surface,minimum width=2.55cm,minimum height=1.90cm] at (2.35,0) {};
+    \node[atxt,text width=2.35cm] at (2.45,-0.08) {\at{Portable log-mel}\\[1.5pt]\ab{80 bands at 100\,Hz; unfused IEEE double, no platform \texttt{libm}}};
+    \node[ablk,fill=surface,minimum width=2.25cm,minimum height=1.90cm] at (5.20,0) {};
+    \node[atxt,text width=2.05cm] at (5.30,-0.08) {\at{Causal conv stem}\\[1.5pt]\ab{subsample $\times$4 to 25\,Hz, width $d{=}384$}};
+    % Encoder
+    \node[ablk,draw=accent,line width=0.7pt,minimum width=4.35cm,minimum height=1.90cm] at (7.75,0) {};
+    \node[atxt,text width=4.15cm] at (7.85,-0.08) {{\sffamily\bfseries\fontsize{6.6}{7.8}\selectfont\color{accentdark}16\x{} Conformer blocks, INT8}\\[1.5pt]\ab{macaron FFN, 6 heads $\times$ 64 with rotary positions, causal depthwise conv (kernel 15); stateless 2-token predictor, 320-wide joiner, 500 BPE + blank}};
+    \draw[aflow] (2.08,-0.95) -- (2.33,-0.95);
+    \draw[aflow] (4.93,-0.95) -- (5.18,-0.95);
+    \draw[aflow] (7.48,-0.95) -- (7.73,-0.95);
+    % Two decoders
+    \fill[accenttint,rounded corners=1.6pt] (12.55,0) rectangle (18.10,-0.90);
+    \node[atxt,text width=5.35cm] at (12.65,-0.07) {{\sffamily\bfseries\fontsize{6.4}{7.6}\selectfont\color{accentdark}LIVE}\;\ab{160\,ms chunks (4 frames), 128-frame left context, no right context; words stream out with no endpoint detector; live n-gram LM}};
+    \fill[navytint,rounded corners=1.6pt] (12.55,-1.00) rectangle (18.10,-1.90);
+    \node[atxt,text width=5.35cm] at (12.65,-1.07) {{\sffamily\bfseries\fontsize{6.4}{7.6}\selectfont\color{navy}COMMIT}\;\ab{at each utterance end: re-encode the segment ($\le$\,40\,s) in 640\,ms chunks; beam-16 search with a 5-gram LM and LODR}};
+    \draw[aflow] (12.12,-0.95) -- ++(0.18,0) |- (12.53,-0.45);
+    \draw[aflow] (12.12,-0.95) -- ++(0.18,0) |- (12.53,-1.45);
+    % Kernel strip
+    \node[anchor=north west,inner sep=0pt,font=\sffamily\bfseries\fontsize{6.2}{7.4}\selectfont,text=ink] at (0,-2.18) {Integer kernels, one answer:};
+    \begin{scope}[shift={(3.32,-2.12)}]
+      \tikzset{kchip/.style={rounded corners=1.2pt,minimum height=0.36cm,inner sep=2.5pt,text=white,font=\sffamily\bfseries\fontsize{5.9}{7}\selectfont,anchor=north west}}
+      \node[kchip,fill=ink] (k1) at (0,0) {x86 AVX2 \texttt{vpmaddubsw}};
+      \node[kchip,fill=slate] (k2) at ([xshift=3pt]k1.north east) {AVX-512 VNNI};
+      \node[kchip,fill=navy] (k3) at ([xshift=3pt]k2.north east) {ARM NEON \texttt{sdot}/\texttt{smmla}};
+      \node[kchip,fill=muted,text=ink] (k4) at ([xshift=3pt]k3.north east) {scalar reference};
+      \draw[aflow] ([xshift=2pt]k4.east) -- ++(0.35,0);
+      \node[anchor=west,inner sep=0pt] at ([xshift=14pt]k4.east) {{\sffamily\bfseries\fontsize{6.2}{7.4}\selectfont\color{teal}exact int32 sums $\rightarrow$ identical tokens on every ISA and batch size}};
+    \end{scope}
+  \end{tikzpicture}
+
+  \par\raggedright
+  \vspace{4pt}
+  \noindent\textcolor{gridline}{\rule{\linewidth}{0.45pt}}\par
+  \vspace{3pt}
+  \noindent{\sffamily\bfseries\fontsize{7.9}{9.4}\selectfont\color{ink}B.\ Speed vs.\ Accuracy on One Pinned Core, and the Paired Head-to-Head With Zipformer INT8}\par
+  \vspace{2.5pt}
+  \noindent
+  \begin{minipage}[t]{0.55\linewidth}
+    \vspace{0pt}\centering
+    \begin{tikzpicture}[font=\fsfont]
+      \begin{axis}[
+        briefhouse,
+        width=8.45cm,height=4.55cm,scale only axis,
+        xmode=log,xmin=0.30,xmax=62,ymin=1.6,ymax=19.0,y dir=reverse,
+        axis background/.style={shading=tswash},
+        ymajorgrids,xmajorgrids,grid style={white,line width=0.5pt},
+        xtick={0.5,1,2,5,10,20,50},xticklabels={0.5\x,1\x,2\x,5\x,10\x,20\x,50\x},
+        ytick={3,6,9,12,15,18},
+        xlabel={1-core speed (\x{} real time, log)},ylabel={Pooled WER (\%)},
+        ylabel style={yshift=-4pt},xlabel style={yshift=2pt},
+      ]
+        \draw[sub,densely dashed,line width=0.45pt] (axis cs:1,1.6) -- (axis cs:1,19.0);
+        \node[cmp] at (axis cs:\ColdZipRsixSpeed,\ColdZipRsixWer) {};
+        \node[cmp] at (axis cs:\ColdMoonTinySpeed,\ColdMoonTinyWer) {};
+        \node[cmp] at (axis cs:\ColdVoskSmallSpeed,\ColdVoskSmallWer) {};
+        \node[cmp] at (axis cs:\ColdVoskLargeSpeed,\ColdVoskLargeWer) {};
+        \node[cmp] at (axis cs:\ColdNemoFiveSixtySpeed,\ColdNemoFiveSixtyWer) {};
+        \node[cmp] at (axis cs:\ColdWhisperCppTinySpeed,\ColdWhisperCppTinyWer) {};
+        \node[cmp] at (axis cs:\ColdWhisperCppBaseSpeed,\ColdWhisperCppBaseWer) {};
+        \node[cmpoff] at (axis cs:\ColdParakeetOnnxAsrSpeed,\ColdParakeetOnnxAsrWer) {};
+        \node[anchor=north east,clab,text=ink] at (axis cs:13.2,5.5) {\textbf{Zipformer INT8}};
+        \node[anchor=north,clab] at (axis cs:\ColdMoonTinySpeed,10.4) {Moonshine Tiny};
+        \node[anchor=west,clab] at (axis cs:7.8,\ColdVoskSmallWer) {Vosk Small};
+        \node[anchor=east,clab] at (axis cs:3.7,\ColdVoskLargeWer) {Vosk Large\S};
+        \node[anchor=north,clab] at (axis cs:\ColdNemoFiveSixtySpeed,4.1) {Nemotron 0.6B\S};
+        \node[anchor=south,clab] at (axis cs:\ColdParakeetOnnxAsrSpeed,2.9) {Parakeet TDT v3 (offline)};
+        \node[anchor=west,clab] at (axis cs:1.02,\ColdWhisperCppTinyWer) {Whisper.cpp Tiny\S};
+        \node[anchor=south,clab] at (axis cs:0.42,14.6) {Whisper.cpp Base\S};
+        \node[anchor=west,clab] at (axis cs:1.05,11.5) {1\x{} real time};
+        \draw[{Stealth[length=3.4pt,width=2.9pt]}-{Stealth[length=3.4pt,width=2.9pt]},accent,line width=0.8pt] (axis cs:\ColdZipRsixSpeed,7.6) -- (axis cs:\ColdRcTwoLiveLmSpeed,7.6);
+        \node[anchor=north,inner sep=1pt,font=\sffamily\bfseries\fontsize{9.5}{10.5}\selectfont,text=accent] at (axis cs:21.4,8.0) {\VsSpeedXOne\x{} paired};
+        \node[isofinal] at (axis cs:\ColdRcTwoFinalSpeed,\ColdRcTwoFinalWer) {};
+        \node[isolive] at (axis cs:\ColdRcTwoLiveLmSpeed,\ColdRcTwoLiveLmWer) {};
+        \node[anchor=south,inner sep=1pt,font=\sffamily\bfseries\fontsize{6.6}{7.8}\selectfont,text=accentdark] at (axis cs:\ColdRcTwoLiveLmSpeed,4.7) {Isosyll live};
+        \node[anchor=south east,inner sep=1pt,font=\sffamily\bfseries\fontsize{6.6}{7.8}\selectfont,text=accentdark] at (axis cs:16.0,4.6) {Isosyll final};
+      \end{axis}
+    \end{tikzpicture}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.43\linewidth}
+    \vspace{0pt}
+    {\fontsize{6.9}{8.5}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.32}%
+    \begin{tabularx}{\linewidth}{@{}Yrrr@{}}
+    \toprule
+    \thd{Same 730 utt., core, blocks} & \thd{Zipformer} & \thd{Isosyll live} & \thd{Isosyll final} \\
+    \midrule
+    Live chunk (ms) & \VsZipChunk & \VsChunkOne & \VsChunkTwo\textsuperscript{a} \\
+    Pooled WER (\%) & \ColdZipRsixWer & \ColdRcTwoLiveLmWer & \textbf{\ColdRcTwoFinalWer} \\
+    $\Delta$ WER vs.\ Zip.\ (pp) & --- & \VsDeltaOne & \VsDeltaTwo \\
+    \quad one-sided 95\% bounds & --- & {\color{sub}[\VsLoOne, \VsHiOne]} & {\color{sub}[\VsLoTwo, \VsHiTwo]} \\
+    1-core speed (\x{} RT) & \ColdZipRsixSpeed & \textbf{\ColdRcTwoLiveLmSpeed} & \ColdRcTwoFinalSpeed \\
+    \quad within-block ratio & 1\x & \textbf{\VsSpeedXOne\x} & \VsSpeedXTwo\x \\
+    Core J per audio-s & \ColdZipRsixWatts & \textbf{\ColdRcTwoLiveLmWatts} & \ColdRcTwoFinalWatts \\
+    \quad share of Zipformer & 100\% & \textbf{\VsEnergyPctOne\%} & \VsEnergyPctTwo\% \\
+    Peak RSS (MB) & \ColdZipRsixRss & \textbf{\ColdRcTwoLiveLmRss} & \ColdRcTwoFinalRss \\
+    \bottomrule
+    \end{tabularx}}\par
+    \vspace{2pt}
+    {\sffamily\fontsize{5.9}{7.2}\selectfont\color{sub}\textsuperscript{a}Live stream plus a commit pass at reference utterance boundaries. Unselected DEV half (\CandCUtts{} utt.): live trails Zipformer by \CandLiveLmCDelta\,pp [\CandLiveLmCLo, \CandLiveLmCHi]; final \CandFinalCDelta\,pp [\CandFinalCLo, \CandFinalCHi].\par}
+  \end{minipage}
+\end{tcolorbox}
+
+\vspace{5pt}
+
+% ---- Technical Deep Dive ----------------------------------------------------
+\noindent
+\begin{minipage}[t]{0.486\textwidth}
+  \vspace{0pt}
+  \colheading{Per-Row Centred INT8 With Exact int32 Accumulation}
+  {\fontsize{8.05}{10.0}\selectfont
+  Weights are quantised offline per output channel ($s_w=\max|w|/127$). Activations are quantised per frame row around that row's own centre $c=\tfrac12(x_{\max}+x_{\min})$ with scale $s_a=(x_{\max}-x_{\min})/254$ and round-half-even, so one-sided post-SiLU activations use the full INT8 range. The output is recovered exactly as $y = s_a s_w\sum x_q w_q + c\,\bar w + b$, with $\bar w$ precomputed offline: centring costs one fused multiply-add per output.
+
+  \vspace{2.5pt}
+  Because $|x_q|,|w_q|\le127$, AVX2 pairwise products sum to at most $32{,}258<2^{15}$: the 16-bit step never saturates, and int32 accumulation equals the scalar reference bit for bit. Each row's scale depends only on that row, so a stream's tokens never depend on batch partners (verified for batch sizes 1--32).
+  }
+\end{minipage}\hfill
+\begin{minipage}[t]{0.486\textwidth}
+  \vspace{0pt}
+  \colheading{Reproducible by Construction, Not by Tolerance}
+  {\fontsize{8.05}{10.0}\selectfont
+  \begin{itemize}[leftmargin=1.12em,itemsep=1.5pt,topsep=1pt]
+    \item \textbf{Scalar reference:} forcing the portable scalar backend changes \ScalarDiffs{} of \ScalarUtts{} panel transcripts, so every SIMD kernel is checked against plain integer code.
+    \item \textbf{Portable front end:} log-mel uses Cody--Waite reduction and polynomial $\sin$/$\cos$/$\log$ in unfused double arithmetic, so 1-ULP \texttt{libm} differences cannot flip quantisation ties.
+    \item \textbf{Cross-ISA:} \CandIsaRuns{} witness decodes on Intel AVX2, AVX-512 VNNI and Apple M3 NEON reproduce the Zen~2 transcripts on all \ScalarUtts{} panel utterances; the v4.0.0 binary matches the signed reference decoders \ScalarUtts/\ScalarUtts{} on x86-64 and Apple silicon.
+    \item \textbf{Weights:} safetensors, checked by SHA-256 at load.
+  \end{itemize}
+  }
+\end{minipage}
+
+% ==================== PAGE 2 =================================================
+\clearpage
+\thispagestyle{briefpage2}
+
+\briefsection{01}{Full Measured Comparison (730-Utterance LibriSpeech DEV Panel, One Pinned Zen~2 Core)}
+
+\noindent{\sffamily\fontsize{6.8}{8.4}\selectfont\color{sub}One scorer and one text normaliser for every system; WER pools edits over all 730 utterances (\ColdAudioMinutes\,min; 400 dev-clean, 330 dev-other, every DEV speaker). Speed is the median of three cold runs, one inference thread pinned to one physical core, model load included. Exploratory DEV-only results.}
+
+\vspace{2.5pt}
+\noindent
+{\fontsize{7.2}{9.0}\selectfont\setlength{\tabcolsep}{3.0pt}\renewcommand{\arraystretch}{1.12}%
+\begin{tabularx}{\textwidth}{@{}Y R{1.55cm} R{1.35cm} R{1.20cm} R{1.70cm} R{1.35cm} R{1.35cm} R{1.70cm}@{}}
+\toprule
+\thd{Recognizer (class)} & \thd{Speed (\x{} RT) $\uparrow$} & \thd{Core used} & \thd{WER $\downarrow$} & \thd{Clean / other} & \thd{Peak RSS} & \thd{Model} & \thd{Core J / audio-s} \\
+\midrule
+\rowcolor{accenttint}
+\textbf{Isosyll live +LM} (streaming, 160\,ms) & \textbf{\ColdRcTwoLiveLmSpeed} & \ColdRcTwoLiveLmCorePct\% & \textbf{\ColdRcTwoLiveLmWer\%} & \ColdRcTwoLiveLmWerClean{} / \ColdRcTwoLiveLmWerOther & \textbf{\ColdRcTwoLiveLmRss\,MB} & \ColdRcTwoLiveLmModel\,MB & \textbf{\ColdRcTwoLiveLmWatts}$^\ast$ \\
+\rowcolor{accenttint}
+\textbf{Isosyll final} (streaming + commit) & \textbf{\ColdRcTwoFinalSpeed} & \ColdRcTwoFinalCorePct\% & \textbf{\ColdRcTwoFinalWer\%} & \ColdRcTwoFinalWerClean{} / \ColdRcTwoFinalWerOther & \ColdRcTwoFinalRss\,MB & \ColdRcTwoFinalModel\,MB & \ColdRcTwoFinalWatts$^\ast$ \\
+Zipformer INT8 (streaming) & \ColdZipRsixSpeed & \ColdZipRsixCorePct\% & \ColdZipRsixWer\% & \ColdZipRsixWerClean{} / \ColdZipRsixWerOther & \ColdZipRsixRss\,MB & \ColdZipRsixModel\,MB & \ColdZipRsixWatts$^\ast$ \\
+Moonshine Tiny (streaming) & 8.2 & \ColdMoonTinyCorePct\% & \ColdMoonTinyWer\% & \ColdMoonTinyWerClean{} / \ColdMoonTinyWerOther & \ColdMoonTinyRss\,MB & \ColdMoonTinyModel\,MB & --- \\
+Vosk Small (streaming) & 6.9 & \ColdVoskSmallCorePct\% & \ColdVoskSmallWer\% & \ColdVoskSmallWerClean{} / \ColdVoskSmallWerOther & \ColdVoskSmallRss\,MB & \ColdVoskSmallModel\,MB & --- \\
+Vosk Large\S{} (streaming) & 4.1 & \ColdVoskLargeCorePct\% & \ColdVoskLargeWer\% & \ColdVoskLargeWerClean{} / \ColdVoskLargeWerOther & \ColdVoskLargeRss\,MB & \ColdVoskLargeModel\,MB & --- \\
+Nemotron 0.6B, 560\,ms\S{} (streaming) & 2.4 & \ColdNemoFiveSixtyCorePct\% & \ColdNemoFiveSixtyWer\% & \ColdNemoFiveSixtyWerClean{} / \ColdNemoFiveSixtyWerOther & \ColdNemoFiveSixtyRss\,MB & \ColdNemoFiveSixtyModel\,MB & --- \\
+Parakeet TDT v3, onnx-asr (offline) & 6.7 & \ColdParakeetOnnxAsrCorePct\% & \ColdParakeetOnnxAsrWer\% & \ColdParakeetOnnxAsrWerClean{} / \ColdParakeetOnnxAsrWerOther & \ColdParakeetOnnxAsrRss\,MB & \ColdParakeetOnnxAsrModel\,MB & --- \\
+Whisper.cpp Tiny\S{} (streaming) & 0.9 & \ColdWhisperCppTinyCorePct\% & \ColdWhisperCppTinyWer\% & \ColdWhisperCppTinyWerClean{} / \ColdWhisperCppTinyWerOther & \ColdWhisperCppTinyRss\,MB & \ColdWhisperCppTinyModel\,MB & --- \\
+Whisper.cpp Base\S{} (streaming) & 0.4 & \ColdWhisperCppBaseCorePct\% & \ColdWhisperCppBaseWer\% & \ColdWhisperCppBaseWerClean{} / \ColdWhisperCppBaseWerOther & \ColdWhisperCppBaseRss\,MB & \ColdWhisperCppBaseModel\,MB & --- \\
+\bottomrule
+\end{tabularx}}
+\vspace{1.5pt}
+\noindent{\sffamily\fontsize{6.3}{7.8}\selectfont\color{sub}$^\ast$\,Timed in the same interleaved blocks; idle-subtracted CPU-core energy, not wall power. Other rows ran in separate sessions, so their energy is not compared. \S\,Speed timed on a 73-utterance subset; WER on all 730. ``Core used'' is CPU-seconds per audio-second.}
+
+\vspace{4.5pt}
+
+% ---- Page 2 Two-Column Technical Split --------------------------------------
+\noindent
+\begin{minipage}[t]{0.486\textwidth}
+  \vspace{0pt}
+  \briefsection{02}{Benchmark Method \& Paired Statistics}
+  {\fontsize{7.85}{9.9}\selectfont
+  \textbf{Single core, quiet host.} One process, one inference thread, pinned to one physical AMD Zen~2 core alone on its 4-core L3 complex; host timers and CI paused. Throughput is the median of three cold runs (audio-seconds per CPU-second), alongside peak RSS of the whole process tree.
+
+  \vspace{2.5pt}
+  \textbf{Paired, interleaved blocks.} Isosyll and Zipformer INT8 --- the strongest open streaming comparator near this cost and the teacher of our pseudo-labels --- ran in the same interleaved blocks on the same core. Speed, energy and memory ratios are medians of within-block ratios; WER differences use a paired speaker-cluster bootstrap.
+
+  \vspace{2.5pt}
+  \textbf{Selection honesty.} The 730-utterance panel overlaps the half of DEV used to pick settings, so we also report the unselected half (\CandCUtts{} utterances): live +LM trails Zipformer there by \textbf{\CandLiveLmCDelta\,pp} (bounds \CandLiveLmCLo{} to \CandLiveLmCHi). The model, v3.1.0 weights, missed its registered accuracy gates and was released by owner decision.
+  }
+
+  \vspace{3.5pt}
+  \briefsection{03}{Deployment, Footprint \& Supply Chain}
+  {\fontsize{7.75}{9.8}\selectfont\raggedright
+  \begin{itemize}[leftmargin=1.12em,itemsep=1.7pt,topsep=1.5pt]
+    \item \textbf{One binary, three targets:} \tcli{isosyll} (\textasciitilde 1.6\,MB, pure Rust) for Linux x86-64, Linux arm64 and macOS on Apple silicon, with AVX2, AVX-512 VNNI, NEON and scalar kernels.
+    \item \textbf{Model bundle:} \ColdRcTwoLiveLmModel\,MB INT8 safetensors plus a live n-gram LM and the 5-gram commit LM; \textasciitilde 207\,MB download in total.
+    \item \textbf{Memory:} \ColdRcTwoLiveLmRss\,MB peak RSS for a live stream; \ColdRcTwoFinalRss\,MB with the commit pass and its 5-gram LM loaded.
+    \item \textbf{Signed release:} \tcli{SHA256SUMS} signed with the project SSH key; the installer checks the signature and the checksums before it installs anything.
+  \end{itemize}
+  }
+
+  \vspace{3pt}
+  \begin{execbox}[accent]{Other Measured Operating Points (Same INT8 Weights)}
+    \textbf{Live greedy, 160\,ms:} \ColdRcTwoLiveGreedySpeed\x{} real time, \ColdRcTwoLiveGreedyWer\% WER, \ColdRcTwoLiveGreedyRss\,MB, \ColdRcTwoLiveGreedyWatts\,J/audio-s. \textbf{Live +LM, 320\,ms:} \ColdRcTwoLiveLmWideSpeed\x, \ColdRcTwoLiveLmWideWer\% WER (\CandLiveLmEightCDelta\,pp vs.\ Zipformer on the unselected half), \ColdRcTwoLiveLmWideWatts\,J/audio-s --- \VsWideSpeedX\x{} Zipformer's paired throughput at \VsWideEnergyPct\% of its energy. Measured with the reference decoders on the same panel and core.
+  \end{execbox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.486\textwidth}
+  \vspace{0pt}
+  \briefsection{04}{5-Minute Technical Proof}
+  \begin{codecard}{Install, Transcribe, Verify (No Python, No GPU)}
+{\color{codecomment}\# 1. Install the signed release (verifies SHA256SUMS):}\\
+curl -fsSL https://github.com/neverhuman/jsr/releases/\textbackslash\\
+\hspace*{1.2em}latest/download/install.sh | sh\\[2.5pt]
+{\color{codecomment}\# 2. Transcribe a recording on one CPU core:}\\
+isosyll transcribe meeting.wav\\[2.5pt]
+{\color{codecomment}\# Panel receipts behind every number in this brief:}\\
+{\color{codecomment}\#   docs/paper/data/metrics.tex, cold\_dev.csv}\\
+{\color{codecomment}\#   live +LM  \ColdRcTwoLiveLmSpeed x RT | \ColdRcTwoLiveLmWer\% WER | \ColdRcTwoLiveLmRss\ MB}\\
+{\color{codecomment}\#   final     \ColdRcTwoFinalSpeed x RT | \ColdRcTwoFinalWer\% WER | \ColdRcTwoFinalRss\ MB}
+  \end{codecard}
+
+  \vspace{2.5pt}
+  \begin{govbox}{Hard Technical Limits \& Open Frontier}
+    \begin{itemize}[leftmargin=1.1em,itemsep=1.7pt,topsep=1.5pt]
+      \item \textbf{Exploratory, DEV only:} The v3.1.0 weights in \releasever{} missed their pre-registered accuracy gates and ship by owner decision. No test-set results are claimed; LibriSpeech test sets were read before the benchmark freeze.
+      \item \textbf{In-domain read English:} LibriSpeech DEV is in-domain for both Isosyll and Zipformer; conversational, accented or noisy speech may rank differently.
+      \item \textbf{Live accuracy gap:} \CandLiveLmCDelta\,pp behind Zipformer on the unselected half. Error analysis points to acoustic discrimination of common words on hard audio; the next lever is fresh audio and capacity.
+      \item \textbf{Commit-pass cost:} the final pass uses \VsEnergyPctTwo\% of Zipformer's core energy and \ColdRcTwoFinalRss\,MB.
+      \item \textbf{Scope of claims:} CPU-core energy only (no wall power); no latency figures in this brief.
+    \end{itemize}
+  \end{govbox}
+\end{minipage}
+
+\brieffooterstrip{Inspect the Engine, Reproduce the Numbers, or Benchmark It on Your Hardware}%
+  {\textbf{Key links:} CEO Executive Brief (\texttt{docs/briefs/isosyll-v4-ceo-brief.pdf}) \;\textbar\; Full Paper (\texttt{docs/paper/paper.pdf}) \;\textbar\; Measurement Data (\texttt{docs/paper/data/}) \;\textbar\; Release Records (\texttt{docs/ultra/releases/}) \;\textbar\; Install Guide (\texttt{docs/install.md})}%
+  {https://github.com/neverhuman/jsr}
+
+\end{document}

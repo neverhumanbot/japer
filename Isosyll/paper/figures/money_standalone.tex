@@ -1,0 +1,26 @@
+% Figure 1 alone, cropped to its bounding box: the source of docs/paper/money.png, the image README.md shows.
+% Built by `just paper-refresh` (run from docs/paper). Same body, fonts and palette as Figure 1 of the paper.
+\documentclass[10pt,border=0pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{txfonts}
+\usepackage{charter}
+\usepackage[scaled=0.885]{helvet}
+\renewcommand{\ttdefault}{lmtt}
+\usepackage[italic,defaultmathsizes]{mathastext}
+\makeatletter
+\DeclareSymbolFontAlphabet{\mathrm}{mtoperatorfont}
+\renewcommand{\operator@font}{\mathgroup\symmtoperatorfont}
+\makeatother
+\usepackage[protrusion=true,expansion=true,final]{microtype}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,calc}
+\input{house-colors.tex}
+\input{data/metrics.tex}
+\begin{document}
+\input{figures/money.tex}
+\end{document}

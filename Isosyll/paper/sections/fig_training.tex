@@ -1,0 +1,32 @@
+\input{figures/style.tex}%
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[ultra/base, width=0.97\columnwidth, height=4.6cm, xmin=0, xmax=140, ymin=5, ymax=9,
+  xlabel={Cumulative training audio (thousand hours)}, ylabel={Full-DEV pooled WER (\%)},
+  legend cell align=left, legend columns=2, legend style={at={(.5,-.3)}, anchor=north, column sep=4pt}]
+\fill[gray!10] (axis cs:\TrainStageOneEndKhRaw,5) rectangle (axis cs:140,9);
+\addplot[ultra/dense, mark options={fill=white}, ultra/keep if={series}{s1c4}]
+  table[col sep=comma, x=audio_kh, y=wer] {\paperdatadir training_curve.csv};
+\addlegendentry{Stage 1 live $c{=}4$}
+\addplot[ultra/dense, dashed, mark=o, ultra/keep if={series}{s1c16}]
+  table[col sep=comma, x=audio_kh, y=wer] {\paperdatadir training_curve.csv};
+\addlegendentry{Stage 1 $c{=}16$}
+\addplot[ultra/rzero, ultra/keep if={series}{s2live}]
+  table[col sep=comma, x=audio_kh, y=wer] {\paperdatadir training_curve.csv};
+\addlegendentry{Stage 2 live $c{=}4$ (INT8)}
+\addplot[ultra/mr, ultra/keep if={series}{s2final}]
+  table[col sep=comma, x=audio_kh, y=wer] {\paperdatadir training_curve.csv};
+\addlegendentry{Stage 2 final (INT8)}
+\node[font=\scriptsize, anchor=north west, okGrey] at (axis cs:\TrainStageOneEndKhRaw,9) {+ Libri-Light};
+\end{axis}
+\end{tikzpicture}
+\caption{\textbf{Training dynamics of the release lineage} on full LibriSpeech DEV (\ultra{} \PriorVer{}).
+Stage~1 trains on LibriSpeech 960\,h alone: live WER stops improving after about \TrainPlateauMidKh\,h
+(\TrainPlateauMid\% there, \TrainPlateauEnd\% after \TrainStageOneEpochs{} epochs). Stage~2 (shaded) adds
+R0-pseudo-labelled Libri-Light and an EMA cooldown, lowering live WER by \TrainLiveGain\pp and final WER by
+\TrainFinalGain\pp; the gain arrives with the Libri-Light \texttt{medium} split. Stage-1 points use the PyTorch
+streaming decoder, stage-2 points the INT8 engine, which matches it at the stage boundary
+(\TrainEngineEnd\% vs.\ \TrainPlateauEnd\%).}
+\label{fig:training}
+\end{figure}

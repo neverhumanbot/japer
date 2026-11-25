@@ -1,0 +1,11 @@
+An always-on speech recogniser must keep its CPU cost low while audio arrives.
+\ultra{} runs a pure-Rust streaming transducer with one 60\,MB RC2 INT8 artifact for live and
+utterance-end final text. On one pinned quiet Zen~2 core, live +LM at 160\,ms reaches
+\ColdLiveSpeed$\times$ real time, \ColdLiveWer\% word error rate (WER) and
+\ColdLiveWatts\,J per audio-second. In paired blocks, that is \VsSpeedXOne$\times$ the throughput
+of Zipformer INT8 at \VsEnergyPctOne\% of its idle-subtracted core energy per audio-second.
+The final pass reaches \ColdHeadWer\% WER at \ColdHeadSpeed$\times$ real time.
+On the unselected DEV confirmation half, live WER is \CandLiveLmCDelta\pp higher than Zipformer's.
+RC2 shipped by owner decision after missing registered edit gates
+(\CandFinalFullEdits{} vs.\ \CandGateFinalFull).
+All results are exploratory and use LibriSpeech DEV.

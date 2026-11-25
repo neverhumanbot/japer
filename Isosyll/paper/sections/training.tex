@@ -1,0 +1,28 @@
+\section{Training}\label{sec:training}
+
+\para{Data and pseudo-labelling.} \ultra{} \PriorVer{} is trained on
+LibriSpeech~\cite{panayotov2015librispeech} 960\,h combined with Libri-Light~\cite{kahn2020librilight}
+(\texttt{small} and \texttt{medium} splits) pseudo-labelled by the pretrained streaming Zipformer
+INT8 model (R0, which is also the Zipformer comparator in \cref{fig:money,tab:measured}). We state
+this explicitly because \ultra{} \PriorVer{} is not trained on LibriSpeech 960\,h alone, and its
+pseudo-labels inherit the Zipformer teacher's domain and text style. \ultra{} \ReleaseVer{} continues the same
+recipe over \CandTrainKh\,h of logged audio, adding Libri-Light large; the curves below are those of \PriorVer{}.
+
+\para{Recipe.} We optimise the joint RNN-T and auxiliary CTC loss (CTC weight \CtcWeight) with
+AdamW, cosine learning-rate decay, SpecAugment~\cite{park2019specaugment}, speed perturbation, and
+a small emission delay penalty (\DelayPenalty) to keep live-stream word latency low. The RNN-T loss
+evaluates the joiner in time chunks without materialising the full $(B,T,U{+}1,V{+}1)$ lattice.
+Training finishes with an exponential moving average (EMA)~\cite{polyak1992ema} cooldown phase,
+yielding a single checkpoint whose weights are exported to prepared per-channel INT8 with zero
+quantisation-aware retraining. The 5-gram language model (\texttt{M5.ulm}) used in the
+utterance-segmented commit pass is trained on the standard LibriSpeech OpenSLR-11 text corpus.
+
+\input{sections/fig_training.tex}%
+\para{Long-run dynamics.} The release saw \TrainTotalKh\,h of logged training audio in three stages
+(\cref{fig:training}): \TrainStageOneKh\,h of LibriSpeech 960\,h (\TrainStageOneEpochs{} epochs),
+\TrainStageTwoKh\,h with Libri-Light, and a \TrainCoolKh\,h EMA cooldown. On LibriSpeech alone the
+model saturates: live WER is \TrainPlateauMid\% after \TrainPlateauMidKh\,h and \TrainPlateauEnd\% at
+the end of stage~1, so longer training on the same 960\,h buys nothing. New audio does: Libri-Light
+\texttt{small} (378\,h) moves live WER only to \TrainSmallLive\%, while adding \texttt{medium}
+(3{,}396\,h) reaches \TrainMediumLive\% within ten thousand hours, and the cooldown ends at the release
+point. For a model this small, the lever is data diversity, not epochs.

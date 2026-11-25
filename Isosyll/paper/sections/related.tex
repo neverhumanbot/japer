@@ -1,0 +1,35 @@
+\section{Related Work}\label{sec:related}
+
+\para{Streaming transducers and chunked encoders.} The RNN transducer~\cite{graves2012rnnt} enabled
+real-time on-device streaming~\cite{he2019streaming}, and restricted-context self-attention made
+Transformer and Conformer encoders
+streamable~\cite{gulati2020conformer,zhang2020transformertransducer,chen2021developing,yao2021wenet}.
+Cache-aware encoders such as Emformer~\cite{shi2021emformer} and
+FastConformer~\cite{rekesh2023fastconformer,noroozi2024stateful} align training with streaming
+inference, while Zipformer~\cite{yao2024zipformer} combines U-Net-like downsampling with pruned
+RNN-T~\cite{kuang2022pruned} and stateless predictors~\cite{ghodsi2020stateless}. \ultra{} builds
+on a chunked Conformer transducer with a stateless predictor and adds a native second-pass commit
+decoder with 5-gram LM and LODR rescoring on the exact same acoustic weights.
+
+\para{Public CPU comparators.} We compare directly on the same LibriSpeech DEV panel against all
+\ColdCompleteCompCount{} open-weights public CPU recognisers with complete 730-utterance DEV panel
+WER (\ColdComparatorCount{} timed on Zen~2 plus one other-host complete-panel row), omitting none to
+shrink the field: streaming Zipformer INT8~\cite{yao2024zipformer,icefall} via
+sherpa-onnx~\cite{sherpaonnx}, NVIDIA's cache-aware \NemotronEN~\cite{nemotron} (560\,ms and
+160\,ms), Nemotron~3.5 (80\,ms)~\cite{nvidia2026nemotron35}, and Parakeet unified en q8 (160\,ms)
+via NeMo-Speech.cpp~\cite{nemospeechcpp}, Moonshine v2 Tiny and Small
+Streaming~\cite{kudlur2026moonshinev2}, Kaldi-based Vosk Small and Large~\cite{vosk}, Whisper.cpp
+Streaming Tiny and Base~\cite{radford2023whisper,whispercpp}, and offline Parakeet-TDT v3
+INT8~\cite{xu2023tdt,nvidia2025parakeettdtv3} through both sherpa-onnx and
+onnx-asr~\cite{onnxasr}. Every system is labelled with its exact timing host, panel scope, and
+streaming vs.\ offline class; three additional subset-WER runs on other hardware are disclosed
+without ranking.
+
+\para{Integer CPU inference and determinism.} Integer-only inference with int32 accumulation is well
+established~\cite{jacob2018quantization,kim2021ibert,wu2020integer,nagel2021whitepaper}, and
+per-row activation scaling avoids outlier collapse~\cite{dettmers2022llmint8}. Batch-variant
+kernels have been shown to cause nondeterministic serving~\cite{he2025nondeterminism}. Deployed
+CPU ASR typically relies on general runtimes such as ONNX Runtime~\cite{onnxruntime} or
+ggml~\cite{nemospeechcpp}. By combining per-row centred INT8 quantisation, exact non-saturating
+int32 accumulation, and a portable 0-ULP log-mel front end in pure Rust, \ultra{} achieves
+batch-invariant, repeatable integer execution with negligible INT8-vs-FP32 accuracy drift.

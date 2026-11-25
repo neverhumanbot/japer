@@ -1,0 +1,127 @@
+% Figure 1 body (paper-data): processing speed on ONE pinned core against pooled WER (730-utt DEV panel),
+% full DOPE text width. The hand-drawn hero is money_focused.tex.
+% x: audio-seconds per CPU-second of the recognizer process tree (linear scale, faster to the right).
+% y: pooled WER (%) across all 730 utterances (400 dev-clean + 330 dev-other, lower is better).
+% Orange diamonds: our single winning release model (live stream and final commit pass on identical weights).
+% Filled dark circles: live streaming comparators. Hollow circle: whole-utterance comparator.
+% Lighter circles: interim points from shared host H0 until quiet-host H1 rows land.
+\input{figures/style.tex}%
+\input{\paperdatadir money_layout.tex}%
+\providecommand{\moneyfullplot}{0}%
+\ifnum\numexpr\MoneyHeroOn-\moneyfullplot\relax>0\relax
+\input{figures/money_focused.tex}%
+\else
+
+\providecommand{\moneylabel}{}\providecommand{\moneyleader}{}\providecommand{\MoneyKey}{}\providecommand{\MoneyOursLine}{}\providecommand{\MoneyOursLegend}{Isosyll v3.0.0 (live / final)}%
+\providecommand{\MoneySpeedGap}{}%
+\renewcommand{\moneylabel}[4]{\node[moneylabel, money#3] at ([xshift=#1pt, yshift=#2pt] rel axis cs:0,0) {#4};}%
+\renewcommand{\moneyleader}[4]{\draw[okInk!55, line width=0.3pt]
+  ([xshift=#1pt, yshift=#2pt] rel axis cs:0,0) -- ([xshift=#3pt, yshift=#4pt] rel axis cs:0,0);}%
+\begin{tikzpicture}[
+  moneylabel/.style={font=\scriptsize, inner sep=0.6pt, anchor=center, align=center, text=black},
+  moneycomparator/.style={}, moneyours/.style={font=\scriptsize\bfseries, text=okBlue!90!black},
+  moneynumber/.style={font=\scriptsize\bfseries}]
+\ifnum\ColdRowsCount>0
+\pgfplotsset{money/watts/.style={}}%
+\ifnum\MoneyWattsOn>0
+\pgfplotsset{money/watts/.style={
+  extra x ticks/.expanded=\MoneyWattTicks, extra x tick labels/.expanded=\MoneyWattLabels,
+  extra x tick style={tick pos=top, ticklabel pos=top, grid=none, tick label style={font=\scriptsize}}}}%
+\fi
+\begin{axis}[ultra/base, scale only axis, width=\MoneyAxisW, height=\MoneyAxisH,
+  xmode=linear, xmin=\MoneyXmin, xmax=\MoneyXmax, ymin=0, ymax=\MoneyYmax,
+  xtick/.expanded=\MoneyXticks, minor x tick num=4, ytick distance=\MoneyYstep, xtick pos=bottom,
+  xticklabel={\pgfmathprintnumber[fixed]{\tick}$\times$},
+  title={\ifx\MoneyComparisonRows\empty
+    \textbf{730-utt LibriSpeech DEV panel}%
+  \else
+    \shortstack{\textbf{Quiet Zen~2 (H1) comparison (730-utt DEV panel)}\\[3pt]
+      \setlength{\tabcolsep}{2.2pt}%
+      \begin{tabular}{@{}lrrrr@{}}
+        System & Speed & W/stream & Clean & Pooled \\
+        \hline
+        \MoneyComparisonRows
+      \end{tabular}}%
+  \fi},
+  title style={font=\scriptsize},
+  xlabel={Single-core throughput ($\times$ real time)},
+  ylabel={Pooled WER (\%), 730 utterances},
+  xlabel style={yshift=1pt}, ylabel style={yshift=-3pt},
+  legend columns=2, legend cell align=left,
+  legend style={at={(0.5,0)}, yshift=-24pt, anchor=north, name=moneylegend, font=\scriptsize,
+    /tikz/every even column/.append style={column sep=8pt}},
+  money/watts,
+]
+% slower than one live stream per core
+\fill[black!6] (axis cs:\MoneyXmin,0) rectangle (axis cs:1,\MoneyYmax);
+\draw[okInk!45, densely dashed, line width=0.4pt] (axis cs:1,0) -- (axis cs:1,\MoneyYmax);
+\ifnum\MoneyHasFrontier>0
+\addlegendimage{okInk!70, densely dashed, line width=0.5pt}
+\addlegendentry{streaming frontier (H1)}
+\fi
+\addlegendimage{only marks, mark=diamond*, mark size=3.3pt, color=okBlue}
+\addlegendentry{\MoneyOursLegend}
+\ifnum\MoneyHasStream>0
+\addlegendimage{only marks, mark=*, mark size=2.3pt, color=okInk}
+\addlegendentry{live streaming (H1)}
+\fi
+\ifnum\MoneyHasWhole>0
+\addlegendimage{only marks, mark=*, mark size=2.3pt, color=okInk, line width=0.7pt, mark options={fill=white}}
+\addlegendentry{whole utterance (H1)}
+\fi
+\ifnum\MoneyHasFaded>0
+\addlegendimage{only marks, mark=*, mark size=2.3pt, color=okInk!40}
+\addlegendentry{interim (shared H0)}
+\fi
+% frontier of the live streaming systems (only drawn when visibly wide)
+\ifnum\MoneyHasFrontier>0
+\addplot[okInk!70, densely dashed, line width=0.5pt, mark=none, forget plot]
+  table[col sep=comma, x=speed, y=wer]{\paperdatadir money_frontier.csv};
+\fi
+% subtle connector linking the live and final operating points of our single release model
+\MoneyOursLine
+% interim points first (lighter), so that quiet-host points are drawn on top
+\addplot[only marks, mark=*, mark size=2.3pt, color=okInk!40, forget plot,
+  ultra/keep if={series}{zen2-t1-comparator-streaming}, ultra/keep if={plot}{1}, ultra/keep if={faded}{1}]
+  table[col sep=comma, x=speed, y=wer]{\paperdatadir cold_dev.csv};
+\addplot[only marks, mark=*, mark size=2.3pt, color=okInk!40, line width=0.7pt, mark options={fill=white}, forget plot,
+  ultra/keep if={series}{zen2-t1-comparator-whole}, ultra/keep if={plot}{1}, ultra/keep if={faded}{1}]
+  table[col sep=comma, x=speed, y=wer]{\paperdatadir cold_dev.csv};
+\addplot[only marks, mark=diamond*, mark size=3.3pt, color=okBlue!40, forget plot,
+  ultra/keep if={series}{zen2-t1-ours-streaming}, ultra/keep if={plot}{1}, ultra/keep if={faded}{1}]
+  table[col sep=comma, x=speed, y=wer]{\paperdatadir cold_dev.csv};
+\addplot[only marks, mark=*, mark size=2.3pt, color=okInk, forget plot,
+  ultra/keep if={series}{zen2-t1-comparator-streaming}, ultra/keep if={plot}{1}, ultra/keep if={faded}{0}]
+  table[col sep=comma, x=speed, y=wer]{\paperdatadir cold_dev.csv};
+\addplot[only marks, mark=*, mark size=2.3pt, color=okInk, line width=0.7pt, mark options={fill=white}, forget plot,
+  ultra/keep if={series}{zen2-t1-comparator-whole}, ultra/keep if={plot}{1}, ultra/keep if={faded}{0}]
+  table[col sep=comma, x=speed, y=wer]{\paperdatadir cold_dev.csv};
+\addplot[only marks, mark=diamond*, mark size=3.3pt, color=okBlue, forget plot,
+  ultra/keep if={series}{zen2-t1-ours-streaming}, ultra/keep if={plot}{1}, ultra/keep if={faded}{0}]
+  table[col sep=comma, x=speed, y=wer]{\paperdatadir cold_dev.csv};
+\MoneyAnnotations
+\MoneySpeedGap
+% direction of improvement (the generator keeps this corner free of labels)
+\draw[-{Stealth[length=3.5pt]}, okInk!80, line width=0.5pt]
+  ([xshift=-15pt, yshift=10.5pt] rel axis cs:1,0) -- ([xshift=-5pt, yshift=4.5pt] rel axis cs:1,0);
+\node[font=\scriptsize\itshape, text=okInk!80, anchor=east, inner sep=1pt]
+  at ([xshift=-16pt, yshift=9pt] rel axis cs:1,0) {better};
+\ifnum\MoneyWattsOn>0
+\node[font=\footnotesize, anchor=south, inner sep=0pt] at ([yshift=13pt] rel axis cs:0.5,1) {Watts per live stream};
+\fi
+\end{axis}
+\ifx\MoneyKey\empty\else
+\node[font=\scriptsize, anchor=north, inner sep=0pt, text width=\MoneyAxisW, align=center]
+  at ([yshift=-3pt] moneylegend.south) {\MoneyKey};
+\fi
+\else
+\begin{axis}[ultra/base, width=0.87\columnwidth, height=5.2cm, xmode=linear, xmin=0, xmax=35, ymin=0, ymax=10,
+  xlabel={Single-core throughput ($\times$ real time, linear scale)}, ylabel={Pooled WER (\%), 730 utterances}]
+  \node[align=center, font=\footnotesize, text=okGrey, fill=gray!6, draw=gray!50, inner sep=6pt]
+    at (rel axis cs:0.5,0.5) {\textbf{PENDING}\\[2pt]matched DEV receipts\\not yet admitted\\[1pt]
+    \scriptsize (730-utt panel, one pinned core, median of 3)};
+\end{axis}
+\fi
+\end{tikzpicture}%
+
+\fi% MoneyHeroOn

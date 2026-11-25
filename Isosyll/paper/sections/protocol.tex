@@ -1,0 +1,77 @@
+\section{Evaluation Protocol}\label{sec:protocol}
+
+\para{Workload and unified scoring.} Every system in \cref{fig:money,tab:measured} decodes the
+exact same staged audio: a 730-utterance LibriSpeech DEV panel (\ColdAudioMinutes\,min; 400
+dev-clean utterances from 40 speakers and 330 dev-other utterances from 33 speakers, covering every
+DEV speaker). Every hypothesis is scored by a single Rust scorer (\texttt{ultra-score}) and a
+single text normaliser. WER pools edits and reference words over the utterance population $U$:
+\begin{equation}
+\mathrm{WER}(U)=100\,\frac{\sum_{i\in U}(S_i+D_i+I_i)}{\sum_{i\in U}N_i}.
+\end{equation}
+We report dev-clean, dev-other, and pooled panel WER for every system, plus full LibriSpeech DEV
+(\RelFullUtts{} utterances) accuracy for \ultra{} \ReleaseVer{} and \PriorVer{}.
+
+\para{Single-core timing and quiet-host guard.} For primary quiet-host comparisons, each run uses one process with one inference thread pinned to
+one physical Zen~2 core, alone on its 4-core L3 complex. Across three runs, we report the median
+CPU-seconds per audio-second (\cpus) and its
+reciprocal, throughput in $\times$ real time, alongside peak resident memory (RSS) and artifact
+size. Every primary row is measured on an otherwise idle host (H1, at most two other busy cores
+during any repetition, host timers and CI paused; \cref{tab:hardware}). Comparator rows measured on
+the shared host (H0) before their quiet-host H1 holds are marked interim and drawn lighter.
+
+\begin{table}[t]
+\centering
+\caption{Zen~2 hosts used in the measured comparison (both AMD Threadripper PRO 3995WX).}
+\label{tab:hardware}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lp{0.34\columnwidth}p{0.32\columnwidth}r@{}}
+\toprule
+Host & CPU & Memory & Rows \\
+\midrule
+\rawinput{data/table_hardware.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\para{Operating classes.} We separate systems by what they require to emit text: (i) \emph{live
+streaming} systems emit words continuously while audio arrives without needing an endpoint;
+(ii) \emph{streaming + utterance-segmented commit} (\ultra{} \ReleaseVer{} final) emits live words
+and runs a second-pass commit decoder once an utterance endpoint is declared; and (iii)
+\emph{offline whole-utterance} systems (Parakeet TDT v3) see the full clip before emitting a word
+and are drawn hollow in \cref{fig:money}.
+
+\para{Energy.} On the quiet host H1, CPU energy is read from the service core's RAPL energy
+register during the timing run and divided by decoded audio seconds (CPU core domain only, not
+wall power). The interleaved R6 rows (\ultra{} and Zipformer INT8) subtract the core idle floor
+(\texttt{jsr.energy-bench/v1}, exact phase boundaries). Separately timed Moonshine, Parakeet, and
+Nemotron joins use \texttt{core\_msr\_active} and include that floor, so their joules are not a
+paired ratio against the R6 rows. For the \ultra{} \PriorVer{} commit pass we also record
+package-domain J/audio-s.
+
+\para{Test-set disclosure and INT8 gate.} All accuracy numbers in this paper are LibriSpeech DEV
+only; no test-set numbers appear. In accordance with our benchmark freeze protocol, LibriSpeech
+test-clean and test-other were read several times before the freeze, and no checkpoint selection
+used test data. Prepared INT8 artifacts must pass a paired speaker-cluster
+bootstrap~\cite{bisani2004bootstrap} gate against FP32 within \PreregDeltaPP\pp point delta and
+\PreregUpperPP\pp one-sided 95\% upper bound. \Cref{tab:metrics} summarises all reported quantities.
+
+\begin{table}[t]
+\centering
+\caption{\textbf{Measurement definitions} used consistently across figures and tables.}
+\label{tab:metrics}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}p{2.35cm}p{5.75cm}@{}}
+\toprule
+Quantity & Definition and boundary \\
+\midrule
+Cold throughput & Median audio-s / CPU-s across 3 cold runs on 1 pinned Zen~2 core (process tree, model load included). \\
+Paced utilisation & Fraction of one core busy while serving $N$ real-time paced (20\,ms packet) live streams. \\
+Active core J/audio-s & R6 rows (\ultra{}, Zipformer): service-core RAPL per audio-s with the idle floor subtracted. Moonshine, Parakeet, and Nemotron include the floor. CPU domain only, not wall power. \\
+Net / gross W & Paced core power per stream with (net) or without (gross) subtracting the idle core floor. \\
+Peak RSS & Peak resident memory of the full recogniser process tree (MB, $10^6$ bytes), distinct from on-disk artifact size. \\
+Lag vs.\ delay & Live stable-word lag vs.\ forced-aligned word ends (128\,s continuous stream); final commit delay after utterance endpoint. \\
+\bottomrule
+\end{tabular}
+\end{table}

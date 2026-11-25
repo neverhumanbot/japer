@@ -1,0 +1,122 @@
+\section{What Did Not Move Live Accuracy, and Why}\label{sec:v4negative}
+
+This section reports the negative results of the V4 research wave that followed the registered look of \cref{sec:candidate}. Each V4 result below is exploratory and, except for the ReLU$^2$ kill readings (trainer dev-clean WER), was read on the selection half of DEV (S) with the pinned Rust scorer and a paired speaker bootstrap of \VfBootReps{}
+resamples; the diagnosis of the live gap uses the unselected half (C), and the test sets were not read. Differences are in percentage points of pooled WER at the live setting c4 (a 160\,ms chunk for RC2), negative meaning lower WER.
+
+\para{Where the live gap sits.} Of the \VfDiagPositions{} C-half reference positions that the compact-LM live stream gets wrong and
+Zipformer INT8 gets right, \VfDiagInterior{} (\VfDiagInteriorPct\%) are interior words, not the first or last word of an utterance
+(\VfDiagEdge{} positions); \VfDiagFreqOther{} are dev-other interior substitutions of words seen at least \VfFreqMin{} times in training, and
+of \VfDelTotal{} deletions only \VfDelLast{} are final words. The residual therefore looks like acoustic discrimination of common words in hard audio, not
+vocabulary, endpointing or boundaries; \VfCellCount{} such S-half positions were frozen as a secondary read.
+
+\para{Reranking cannot reach the target.} On S, the 1-best of the live stream with the compact LM makes
+\VfOracleOneBestEdits{} edits (\VfOracleOneBestWer\% WER). A perfect ranker over its beam would reach \VfOracleDepthTwoWer\% at depth \VfDepthTwo{}
+and \VfOracleDepthFourWer\% (\VfOracleDepthFourEdits{} edits) with the full beam of \VfDepthFour{}, against a
+\VfOracleTargetWer\% target of \VfOracleTargetEdits{} edits. Reranking the recorded fixed beam therefore cannot reach \VfOracleTargetWer\% WER (at most \VfOracleSecondaryEdits{}
+edits of headroom); a changed LM would change the hypotheses. A width-1 fused greedy decoder with an LM was \VfNineDeltaEdits{} edits worse than greedy
+decoding (\VfNineLmEdits{} vs.\ \VfNineGreedyEdits), missing its \VfNineBar\pp\ gain gate.
+
+\para{Stronger teacher labels.} Continuing RC2 training on audio re-labelled by a stronger teacher (PL3) did not lower live WER
+under the registered rule: the greedy c4 difference to the incumbent labels was \VfPlThreeDelta\pp\ (one-sided 95\% bounds \VfPlThreeLo{}
+to \VfPlThreeHi\pp) against a required gain above \VfPlThreeBar\pp, an independently reproduced non-adoption.
+
+\para{Architecture probes.} Converting the FFN activation to ReLU$^2$ from the RC2 weights, intended to create zero-skippable activations,
+was stopped by its registered kill at optimizer step \VfReluKillStep: dev-clean EMA WER was \VfReluOneEma\% (raw \VfReluOneRaw\%) in one
+arm, with \VfReluOneZero\% of the activations already zero, and raw WER was \VfReluTwoRaw\% in the other, far beyond the
+\VfReluKillPp\pp\ allowance. Chunk-causal lookahead convolution ($k_\mathrm{right}{=}\VfBoneRight$) did not help either (below). In a small-model scout trained on LibriSpeech only, a TDT output head was
+\VfTdtDelta\pp\ worse than exact RNN-T at that scout's own c4 setting (\VfTdtChunkMs\,ms; bounds \VfTdtLo{} to \VfTdtHi\pp), so exact RNN-T stays the control.
+Skipping the upper encoder on blank chunks after midpoint-CTC certification, with the refresh needed to keep the state exact,
+netted only \VfSkipLo--\VfSkipHi\% skipped chunks against a \VfSkipGate\% gate, so it was dropped. Separately, weight-amortised
+multi-stream decoding (R10), measured on the H0 development CPU, used \VfRtenRatio$\times$ the CPU time per audio-second at
+\VfRtenStreams{} paced streams as at one, with identical transcripts; it is not energy-qualified, and energy is left to a later
+matched-N fixed-audio benchmark.
+
+\para{Regularisers and the screen protocol.} Short fine-tuning screens (\VfScreenSteps{} steps from RC2, EMA weights) were each paired
+against a matched control (S-NULL) with the same recipe, data and seed. A second control seed differed from the first by
+\VfFloorDelta\pp\ (bounds \VfFloorLo{} to \VfFloorHi\pp), with seed and device confounded, so a single-seed screen cannot resolve effects
+below about \VfSingleSeedPp\pp. Each arm reported here was therefore run with \VfScreenSeeds{} seeds. Only the chunk-causal convolution had a registered
+bar, \VfScreenBar\pp; the other screens were descriptive and are read against the noise floor.
+The chunk-causal convolution gave \VfBoneSeedA\pp{} and \VfBoneSeedB\pp{} on the two seeds (mean \VfBoneMean\pp). Layer drop at rate \VfLdRate{} averaged \VfLdMean\pp, and a SpecAugment time-mask cap of \VfSpecCapPct\% of frames
+(\VfSpecMaskedPct\% masked) \VfSpecMean\pp. All of these lie inside the control noise floor and the chunk-causal convolution did not reach its bar; they are
+no detectable effect, not a measured zero. The full-length layer-drop run (O3-LD, layer drop \VfLdRate{} over the full training schedule, seed \VfSeed) was read against
+its registered rule on the same selection half: greedy c4 differed from its matched control by \VfOThreeDelta\pp (bounds
+\VfOThreeLo{} to \VfOThreeHi\pp; \VfOThreeEdits{} vs.\ \VfOThreeControlEdits{} edits), against a required gain of
+\VfOThreeBar\pp with an upper bound below zero; c8 and c16 (guard \VfOThreeGuard\pp) differed by \VfOThreeEightDelta\pp and
+\VfOThreeSixteenDelta\pp. It was not adopted, and a second-seed replicate was stopped at the read, as registered (no result).
+
+\para{Implication.} Within these screens, post-processing the beam, relabelling existing audio, lookahead convolution, and
+regularisation did not move live accuracy, and the residual is concentrated in common interior words on hard audio. The remaining
+levers are more acoustic evidence (fresh audio, not relabelled audio) and capacity paid for by the power savings of \cref{sec:versus}; we do not
+yet have a result showing that either closes the gap.
+
+\subsection{Audio Robustness and Context}\label{sec:vfive}
+
+\para{Learned acoustic inputs.} The frozen encoder probe missed its transfer
+screen. In the short matched training screen, the learned input packet changed
+c4 WER by \AudioProbeWhiteGain\pp{} in white noise and \AudioProbeMusanGain\pp{}
+in MUSAN against the equal-capacity mel control. In the later noise-trained
+clean-tail experiment, terminal EMA clean c4 WER exceeded signed RC2 by
+\AudioHSixtyOneCleanDelta\pp{} (one-sided 95\% fixed-seed upper \AudioHSixtyOneCleanFixed\pp{},
+registered joint seed and speaker upper \AudioHSixtyOneCleanJoint\pp{}).
+The clean leg therefore failed. On held-out MUSAN at 5\,dB, ALL-ON differed by
+\AudioHSixtyOneNoisePython\pp{} from Python RC2 and \AudioHSixtyOneNoiseDelta\pp{}
+from the matched capacity control. For the latter contrast the fixed-seed upper
+was \AudioHSixtyOneNoiseFixed\pp{} and the joint upper was \AudioHSixtyOneNoiseJoint\pp{}.
+Both fine-tuned arms used the noise recipe. The Python RC2 contrast also changes
+the continuation recipe and does not isolate the effect of noise augmentation.
+
+\para{Level handling.} The frozen M5 final pass with file-end commits on the
+DEV confirmation half (C) passed the RMS normalization (Z1) gate. At native
+0\,dB (within noise) and under synthetic $-20$ and $-30$\,dB attenuation, the
+C-half WER changes were \AudioZOneCleanDelta\pp{},
+\AudioZOneTwentyDelta\pp{}, and \AudioZOneThirtyDelta\pp{}, with one-sided
+95\% uppers of \AudioZOneCleanUpper\pp{}, \AudioZOneTwentyUpper\pp{}, and
+\AudioZOneThirtyUpper\pp{}. Published as the runtime-only v3.2.0 release
+(build commit \VThreeTwoBuildCommit{}, signed tag \VThreeTwoTagObject{},
+keeping the identical \ReleaseVer{} RC2 weights, with \texttt{-{}-rms-norm} off
+by default), Z1 also passed all four automatic-endpoint trigger checks
+(hangover, EOF, deadline, and PCM-cap fallback) and all six accuracy gates on
+the DEV selection half (S, 90 chapter streams): at native 0\,dB and under
+synthetic $-20$ and $-30$\,dB attenuation, pooled WER changed by
+\AudioZOneAutoCleanDelta\pp{}, \AudioZOneAutoTwentyDelta\pp{}, and
+\AudioZOneAutoThirtyDelta\pp{} (one-sided uppers \AudioZOneAutoCleanUpper{},
+\AudioZOneAutoTwentyUpper{}, and \AudioZOneAutoThirtyUpper\pp{}). Paired
+pinned-core H0 relative CPU overhead stayed within \AudioZOneCpuEngineUpper\%
+for the commit binary and \AudioZOneCpuStreamUpper\% for stream commit mode
+(quiet-host energy was not re-measured; \ReleaseVer{} H1 rows remain unchanged).
+On the \AudioZOneCrossIsaCommit{} builds, AVX2, scalar, and NEON gave
+\AudioZOneCrossIsaDiffs/\AudioZOneCrossIsaClips{} differences with Z1 off or on
+(\AudioZOneOracleTupleDiffs/\AudioZOneCrossIsaClips{} full-tuple differences
+against the independent oracle with Z1 on, with \AudioZOneCrossIsaDiffs{}
+committed-text differences). On the full continuous-stream panel,
+the two Z2 gain-controller variants changed WER by \AudioProbeAgcDelta\pp{}
+and \AudioProbeAgcCalDelta\pp{} against a \AudioProbeAgcBar\pp{} tolerance.
+They inserted \AudioProbeAgcRepeatOn{} and \AudioProbeAgcCalRepeat{} repeats
+against \AudioProbeAgcRepeatOff{} with gain control off. Both failed the repeat gate.
+
+\para{Context across turns.} Natural-order carry improved DEV WER, and
+shuffling speakers increased errors. No frozen-model warm guard advanced.
+The token-window variant reached TRAIN Youden's \(J=\AudioProbeTokenYouden\)
+against a \(J=\AudioProbeTokenBar\) threshold. Both short-horizon turn-switch
+screens missed signed RC2 on clean speech, including the zero-augmentation
+screen. In the full-horizon M1-v4 screen, terminal EMA clean c4 WER changed by
+\AudioMOneFourDelta\pp{} versus signed RC2, with an upper of \AudioMOneFourUpper\pp{}.
+This also missed the strict clean gate. The change across runs reflects a
+different schedule, exposure and context recipe.
+
+\para{Noise and context follow-up.} On the DEV selection half, the M1-v5
+and M1-v6 terminal EMA checkpoints changed c4 WER at 5\,dB MUSAN-TEST
+by \WaveNoiseFiveDelta\pp{} and \WaveNoiseSixDelta\pp{} against the
+matched PyTorch RC2 reference. Both missed the clean gate against signed
+RC2. Guarded encoder-state carry with M1-v4 INT8 missed both accuracy
+gates, and the H0 CPU upper exceeded its bound. The selected M1-v4/M1-v5
+weight interpolation retained a \WaveSoupNoiseDelta\pp{} change against
+PyTorch RC2 on the DEV confirmation half at 5\,dB MUSAN-TEST. Its clean
+upper of \WaveSoupCleanUpper\pp{} exceeded the preregistered
+\WaveSoupCleanMargin\pp{} non-inferiority margin.
+With lighter noise augmentation and a longer clean tail, the terminal EMA
+checkpoint changed c4 WER at 5\,dB MUSAN-TEST by \WaveLightNoiseDelta\pp{}
+against matched PyTorch RC2 on the DEV selection half. Its clean c4 WER
+changed by \WaveLightCleanDelta\pp{} against signed RC2, exceeding the
+\WaveLightCleanMargin\pp{} point tolerance. The published release retained
+the RC2 weights.
