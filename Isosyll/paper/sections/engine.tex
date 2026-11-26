@@ -36,8 +36,8 @@ polynomial $\sin$/$\cos$/$\log$, precomputed FFT twiddles, and sparse triangular
 (\texttt{ultra-engine-commit}) shares the exact same INT8 encoder and joiner, runs the live
 160\,ms stream to emit provisional text, and at each utterance endpoint executes the 640\,ms
 commit pass with a packed 5-gram LM (\texttt{M5.ulm}) and LODR beam-16 search.
-Prepared INT8 weights are verified by SHA-256 at load time. On full LibriSpeech DEV
-(\RelFullUtts{} utterances), prepared INT8 matches FP32 PyTorch within \RelIntEightDelta\pp pooled
+Prepared INT8 weights are verified by SHA-256 at load time. On the prior release artifact of identical
+architecture and full LibriSpeech DEV (\RelFullUtts{} utterances), prepared INT8 matched FP32 PyTorch within \RelIntEightDelta\pp pooled
 WER (one-sided 95\% bootstrap bounds \RelIntEightLo{} to \RelIntEightHi\pp), well inside the
 pre-registered \PreregDeltaPP\pp / \PreregUpperPP\pp gate, and produces bit-identical transcripts
 across all three cold repetitions on the evaluated Zen~2 AVX2 host (\cref{tab:repro}).

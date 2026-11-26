@@ -6,8 +6,8 @@
 
 > **Bottom Line / Key Takeaways**
 > - **What Isosyll does:** Turns live speech into text on **3.1% of one ordinary CPU core** per stream, with no cloud round trip, no GPU and no Python stack. One signed ~1.6 MB program for Linux (x86-64, arm64) and Apple-silicon Macs.
-> - **Measured advantage:** Against Zipformer INT8, the strongest open streaming recognizer we measured, Isosyll delivers **2.33× the throughput at 57% of the CPU-core energy per second of audio**, timed side by side on the same core. The same fleet can listen to 2.33× as many streams, or the same streams for about half the energy.
-> - **Accuracy:** 5.54% of words wrong while streaming live, 5.00% after the end-of-sentence pass — statistically level with Zipformer's 5.25%. On the half of the data not used to pick settings, the live text makes 0.81 points more errors than Zipformer (bounds +0.62 to +1.02).
+> - **Measured advantage:** Against Zipformer INT8, the fastest open streaming recognizer we measured, Isosyll's live mode delivers **2.33× the single-core throughput at 57% of the CPU-core energy per second of audio, using 72% of its memory**, timed side by side on the same core. The same core can transcribe 2.33× as much audio, for under 60% of the energy.
+> - **Accuracy:** 5.54% of words wrong while streaming live, 5.00% after the end-of-sentence pass — statistically level with Zipformer's 5.25%, at 1.19× its speed, though the final pass costs more energy than Zipformer (115%). On the half of the data not used to pick settings, the live text makes 0.81 points more errors than Zipformer (bounds +0.62 to +1.02).
 > - **Honest scope:** Exploratory results on LibriSpeech development data only. The v3.1.0 model inside v4.0.0 missed its pre-registered accuracy gates and was released by owner decision.
 
 ## 1. The Business Problem: Always-On Speech Has a Meter That Never Stops
@@ -19,8 +19,8 @@ An always-on recognizer — meeting capture, call-centre assist, in-car and wear
 Isosyll is a compact *streaming* recognizer: it writes words while the person is still talking, then corrects the sentence when they pause.
 
 - **Live:** 32.7× real time (an hour of speech in under two minutes), 3.1% of one CPU core, 109 MB of memory.
-- **Final:** the end-of-sentence pass reaches 5.00% word errors at 16.8× real time.
-- **Cheaper listening fleets:** 2.33× as many streams per core as the best open streaming rival, or today's load for about half the CPU energy.
+- **Final:** the end-of-sentence pass reaches 5.00% word errors at 16.8× real time (1.19× Zipformer's paired speed).
+- **Cheaper listening fleets:** 2.33× the single-core throughput of the fastest open streaming rival, so each core can transcribe 2.33× as much audio, for under 60% of the CPU energy in live mode.
 - **Private by default:** speech is recognized where it is captured; the recording never has to leave the building.
 - **Battery-friendly:** always-on captions and voice commands without claiming the processor or a GPU.
 
@@ -30,7 +30,7 @@ Isosyll is a compact *streaming* recognizer: it writes words while the person is
 
 | Recognizer (mode) | Speed | Word errors | Energy / audio-s | Memory |
 | --- | ---: | ---: | ---: | ---: |
-| **Isosyll live** (160 ms, +LM) | **32.7×** | **5.54%** | **0.328 J** | **109 MB** |
+| **Isosyll live** (160 ms, +LM) | **32.7×** | **5.54%** | **0.328 J** | **109 MB** (72% of Zipformer's) |
 | **Isosyll final** (end-of-utterance pass) | **16.8×** | **5.00%** | — | 387 MB |
 | Zipformer INT8 (streaming) | 14.0× | 5.25% | 0.573 J | 152 MB |
 | Moonshine Tiny (streaming) | 8.2× | 9.90% | — | — |
@@ -49,6 +49,7 @@ Isosyll and Zipformer INT8 were timed in the same blocks on the same core; the 2
 > - **Exploratory, released by decision:** The v3.1.0 model inside v4.0.0 missed its pre-registered accuracy gates and was released by owner decision; all results are exploratory.
 > - **One benchmark, read English:** All accuracy is LibriSpeech development data (audiobooks). No test-set results are claimed; conversational, accented or noisy speech may rank differently.
 > - **Live text trails slightly:** On the half of the data not used to pick settings, live Isosyll makes +0.81 points more word errors than Zipformer (bounds +0.62 to +1.02). The final text closes the gap.
+> - **Energy edge is live mode:** the end-of-sentence pass uses 115% of Zipformer's CPU-core energy and 387 MB of memory.
 > - **Bigger models are more accurate:** 0.6-billion-parameter models make fewer errors, at far higher compute.
 > - **Energy scope:** CPU-core energy only, not wall or battery power; no response-time (latency) claim is made.
 

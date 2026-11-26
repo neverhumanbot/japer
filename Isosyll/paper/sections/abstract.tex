@@ -1,5 +1,5 @@
 An always-on speech recogniser must keep its CPU cost low while audio arrives.
-\ultra{} runs a pure-Rust streaming transducer with one 60\,MB RC2 INT8 artifact for live and
+\ultra{} runs a pure-Rust streaming transducer with one \ColdHeadModel\,MB RC2 INT8 artifact for live and
 utterance-end final text. On one pinned quiet Zen~2 core, live +LM at 160\,ms reaches
 \ColdLiveSpeed$\times$ real time, \ColdLiveWer\% word error rate (WER) and
 \ColdLiveWatts\,J per audio-second. In paired blocks, that is \VsSpeedXOne$\times$ the throughput

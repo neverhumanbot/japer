@@ -9,7 +9,7 @@
 - **One binary:** `isosyll` v4.0.0 is a ~1.6 MB Rust executable with no Python, PyTorch, ONNX Runtime or BLAS, for Linux x86-64, Linux arm64 and macOS on Apple silicon. The model is a 60 MB INT8 safetensors file plus two n-gram LMs (~207 MB download).
 - **Live +LM (160 ms chunks):** 32.7× real time on one Zen 2 core (3.1% of the core), 5.54% pooled WER, 109 MB peak RSS, 0.328 J active core energy per audio-second.
 - **Final (commit pass):** 5.00% WER at 16.8×; versus Zipformer INT8 at 5.25%, the paired difference is −0.26 pp with bounds −0.57 to +0.05 (includes zero).
-- **Paired head-to-head:** 2.33× Zipformer INT8's throughput at 57% of its core energy and 72% of its memory, same core, same interleaved blocks.
+- **Paired head-to-head:** 2.33× Zipformer INT8's throughput at 57% of its core energy and 72% of its memory, same core, same interleaved blocks. Live panel WER difference vs. Zipformer: +0.28 pp (one-sided 95% bounds −0.02 to +0.58).
 - **Bit-exact:** byte-identical transcripts to the signed reference decoders on all 730 panel utterances on x86-64 and Apple silicon (NEON).
 
 ## 2. Architecture
@@ -24,7 +24,7 @@
 - Kernels: x86 AVX2 (`vpmaddubsw`), AVX-512 VNNI, ARM NEON (`sdot`/`smmla`) and a scalar reference. With `|x_q|, |w_q| ≤ 127`, pairwise products sum to at most 32,258 < 2¹⁵, so int32 accumulation equals the scalar reference bit for bit.
 - Batch-invariant: each row's scale depends only on that row (verified bit-identical for batch sizes 1–32).
 - Portable log-mel: unfused IEEE double arithmetic with Cody–Waite reduction and polynomial sin/cos/log, so platform `libm` differences cannot flip quantisation ties.
-- 18 witness decodes on Intel AVX2, AVX-512 VNNI and Apple M3 NEON reproduce the Zen 2 transcripts on all 730 panel utterances; a forced scalar backend gives 0/730 differing utterances.
+- 18 witness decodes on Intel AVX2, AVX-512 VNNI and Apple M3 NEON reproduce the Zen 2 transcripts on all 730 panel utterances; a forced scalar backend gives 0/730 differing live transcripts (greedy and both live LM policies; the final pass was not part of that check).
 
 ## 4. Benchmark Method
 
@@ -32,7 +32,7 @@
 - **Timing:** one process, one inference thread pinned to one physical AMD Zen 2 core alone on its L3 complex, on a quiet host; median of three cold runs, model load included.
 - **Paired comparison:** Isosyll and Zipformer INT8 ran in the same interleaved blocks; speed, energy and memory ratios are medians of within-block ratios; WER differences use a paired speaker-cluster bootstrap.
 - **Energy:** idle-subtracted CPU-core joules per audio-second, not wall power. Compared only for systems timed in the same blocks.
-- **Selection honesty:** the panel overlaps the half of DEV used for selection, so the unselected half (2,785 utterances) is reported too: live +LM trails Zipformer by +0.81 pp (bounds +0.62 to +1.02); final −0.11 pp (bounds −0.35 to +0.11).
+- **Selection honesty:** the panel overlaps the half of DEV used for selection, so the unselected half (2,785 utterances) is reported too: live +LM trails Zipformer by +0.81 pp (bounds +0.62 to +1.02); final −0.11 pp (bounds −0.35 to +0.11). On the panel itself: live +0.28 pp [−0.02, +0.58], final −0.26 pp [−0.57, +0.05].
 
 | Recognizer (class) | Speed (× RT) | Core used | WER | Clean / other | Peak RSS | Model | Core J / audio-s |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |

@@ -47,7 +47,7 @@
 \end{minipage}\hfill
 \begin{minipage}[t]{0.242\textwidth}
   \vspace{0pt}%
-  \kpicard{teal}{\ScalarUtts{} / \ScalarUtts}{Byte-Identical Transcripts}{Matches the signed reference decoders on x86-64 and Apple silicon (NEON); scalar backend: \ScalarDiffs{} diffs.}
+  \kpicard{teal}{\ScalarUtts{} / \ScalarUtts}{Byte-Identical Transcripts}{Matches the signed reference decoders on x86-64 and Apple silicon (NEON); forced scalar: \ScalarDiffs/\ScalarUtts{} differing live transcripts.}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.242\textwidth}
   \vspace{0pt}%
@@ -108,7 +108,7 @@
     \begin{tikzpicture}[font=\fsfont]
       \begin{axis}[
         briefhouse,
-        width=8.45cm,height=4.55cm,scale only axis,
+        width=8.45cm,height=5.30cm,scale only axis,
         xmode=log,xmin=0.30,xmax=62,ymin=1.6,ymax=19.0,y dir=reverse,
         axis background/.style={shading=tswash},
         ymajorgrids,xmajorgrids,grid style={white,line width=0.5pt},
@@ -133,7 +133,7 @@
         \node[anchor=north,clab] at (axis cs:\ColdNemoFiveSixtySpeed,4.1) {Nemotron 0.6B\S};
         \node[anchor=south,clab] at (axis cs:\ColdParakeetOnnxAsrSpeed,2.9) {Parakeet TDT v3 (offline)};
         \node[anchor=west,clab] at (axis cs:1.02,\ColdWhisperCppTinyWer) {Whisper.cpp Tiny\S};
-        \node[anchor=south,clab] at (axis cs:0.42,14.6) {Whisper.cpp Base\S};
+        \node[anchor=south,clab] at (axis cs:\ColdWhisperCppBaseSpeed,14.6) {Whisper.cpp Base\S};
         \node[anchor=west,clab] at (axis cs:1.05,11.5) {1\x{} real time};
         \draw[{Stealth[length=3.4pt,width=2.9pt]}-{Stealth[length=3.4pt,width=2.9pt]},accent,line width=0.8pt] (axis cs:\ColdZipRsixSpeed,7.6) -- (axis cs:\ColdRcTwoLiveLmSpeed,7.6);
         \node[anchor=north,inner sep=1pt,font=\sffamily\bfseries\fontsize{9.5}{10.5}\selectfont,text=accent] at (axis cs:21.4,8.0) {\VsSpeedXOne\x{} paired};
@@ -146,7 +146,7 @@
   \end{minipage}\hfill
   \begin{minipage}[t]{0.43\linewidth}
     \vspace{0pt}
-    {\fontsize{6.9}{8.5}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.32}%
+    {\fontsize{6.9}{8.5}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.55}%
     \begin{tabularx}{\linewidth}{@{}Yrrr@{}}
     \toprule
     \thd{Same 730 utt., core, blocks} & \thd{Zipformer} & \thd{Isosyll live} & \thd{Isosyll final} \\
@@ -174,7 +174,7 @@
 \begin{minipage}[t]{0.486\textwidth}
   \vspace{0pt}
   \colheading{Per-Row Centred INT8 With Exact int32 Accumulation}
-  {\fontsize{8.05}{10.0}\selectfont
+  {\fontsize{8.4}{10.6}\selectfont
   Weights are quantised offline per output channel ($s_w=\max|w|/127$). Activations are quantised per frame row around that row's own centre $c=\tfrac12(x_{\max}+x_{\min})$ with scale $s_a=(x_{\max}-x_{\min})/254$ and round-half-even, so one-sided post-SiLU activations use the full INT8 range. The output is recovered exactly as $y = s_a s_w\sum x_q w_q + c\,\bar w + b$, with $\bar w$ precomputed offline: centring costs one fused multiply-add per output.
 
   \vspace{2.5pt}
@@ -184,9 +184,9 @@
 \begin{minipage}[t]{0.486\textwidth}
   \vspace{0pt}
   \colheading{Reproducible by Construction, Not by Tolerance}
-  {\fontsize{8.05}{10.0}\selectfont
+  {\fontsize{8.4}{10.6}\selectfont
   \begin{itemize}[leftmargin=1.12em,itemsep=1.5pt,topsep=1pt]
-    \item \textbf{Scalar reference:} forcing the portable scalar backend changes \ScalarDiffs{} of \ScalarUtts{} panel transcripts, so every SIMD kernel is checked against plain integer code.
+    \item \textbf{Scalar reference:} forcing the portable scalar backend gives \ScalarDiffs/\ScalarUtts{} differing live transcripts (greedy and both live LM policies; the final pass was not part of that check), so every SIMD kernel is checked against plain integer code.
     \item \textbf{Portable front end:} log-mel uses Cody--Waite reduction and polynomial $\sin$/$\cos$/$\log$ in unfused double arithmetic, so 1-ULP \texttt{libm} differences cannot flip quantisation ties.
     \item \textbf{Cross-ISA:} \CandIsaRuns{} witness decodes on Intel AVX2, AVX-512 VNNI and Apple M3 NEON reproduce the Zen~2 transcripts on all \ScalarUtts{} panel utterances; the v4.0.0 binary matches the signed reference decoders \ScalarUtts/\ScalarUtts{} on x86-64 and Apple silicon.
     \item \textbf{Weights:} safetensors, checked by SHA-256 at load.
@@ -214,13 +214,13 @@
 \rowcolor{accenttint}
 \textbf{Isosyll final} (streaming + commit) & \textbf{\ColdRcTwoFinalSpeed} & \ColdRcTwoFinalCorePct\% & \textbf{\ColdRcTwoFinalWer\%} & \ColdRcTwoFinalWerClean{} / \ColdRcTwoFinalWerOther & \ColdRcTwoFinalRss\,MB & \ColdRcTwoFinalModel\,MB & \ColdRcTwoFinalWatts$^\ast$ \\
 Zipformer INT8 (streaming) & \ColdZipRsixSpeed & \ColdZipRsixCorePct\% & \ColdZipRsixWer\% & \ColdZipRsixWerClean{} / \ColdZipRsixWerOther & \ColdZipRsixRss\,MB & \ColdZipRsixModel\,MB & \ColdZipRsixWatts$^\ast$ \\
-Moonshine Tiny (streaming) & 8.2 & \ColdMoonTinyCorePct\% & \ColdMoonTinyWer\% & \ColdMoonTinyWerClean{} / \ColdMoonTinyWerOther & \ColdMoonTinyRss\,MB & \ColdMoonTinyModel\,MB & --- \\
-Vosk Small (streaming) & 6.9 & \ColdVoskSmallCorePct\% & \ColdVoskSmallWer\% & \ColdVoskSmallWerClean{} / \ColdVoskSmallWerOther & \ColdVoskSmallRss\,MB & \ColdVoskSmallModel\,MB & --- \\
-Vosk Large\S{} (streaming) & 4.1 & \ColdVoskLargeCorePct\% & \ColdVoskLargeWer\% & \ColdVoskLargeWerClean{} / \ColdVoskLargeWerOther & \ColdVoskLargeRss\,MB & \ColdVoskLargeModel\,MB & --- \\
-Nemotron 0.6B, 560\,ms\S{} (streaming) & 2.4 & \ColdNemoFiveSixtyCorePct\% & \ColdNemoFiveSixtyWer\% & \ColdNemoFiveSixtyWerClean{} / \ColdNemoFiveSixtyWerOther & \ColdNemoFiveSixtyRss\,MB & \ColdNemoFiveSixtyModel\,MB & --- \\
-Parakeet TDT v3, onnx-asr (offline) & 6.7 & \ColdParakeetOnnxAsrCorePct\% & \ColdParakeetOnnxAsrWer\% & \ColdParakeetOnnxAsrWerClean{} / \ColdParakeetOnnxAsrWerOther & \ColdParakeetOnnxAsrRss\,MB & \ColdParakeetOnnxAsrModel\,MB & --- \\
-Whisper.cpp Tiny\S{} (streaming) & 0.9 & \ColdWhisperCppTinyCorePct\% & \ColdWhisperCppTinyWer\% & \ColdWhisperCppTinyWerClean{} / \ColdWhisperCppTinyWerOther & \ColdWhisperCppTinyRss\,MB & \ColdWhisperCppTinyModel\,MB & --- \\
-Whisper.cpp Base\S{} (streaming) & 0.4 & \ColdWhisperCppBaseCorePct\% & \ColdWhisperCppBaseWer\% & \ColdWhisperCppBaseWerClean{} / \ColdWhisperCppBaseWerOther & \ColdWhisperCppBaseRss\,MB & \ColdWhisperCppBaseModel\,MB & --- \\
+Moonshine Tiny (streaming) & \rone{\ColdMoonTinySpeed} & \ColdMoonTinyCorePct\% & \ColdMoonTinyWer\% & \ColdMoonTinyWerClean{} / \ColdMoonTinyWerOther & \ColdMoonTinyRss\,MB & \ColdMoonTinyModel\,MB & --- \\
+Vosk Small (streaming) & \rone{\ColdVoskSmallSpeed} & \ColdVoskSmallCorePct\% & \ColdVoskSmallWer\% & \ColdVoskSmallWerClean{} / \ColdVoskSmallWerOther & \ColdVoskSmallRss\,MB & \ColdVoskSmallModel\,MB & --- \\
+Vosk Large\S{} (streaming) & \rone{\ColdVoskLargeSpeed} & \ColdVoskLargeCorePct\% & \ColdVoskLargeWer\% & \ColdVoskLargeWerClean{} / \ColdVoskLargeWerOther & \ColdVoskLargeRss\,MB & \ColdVoskLargeModel\,MB & --- \\
+Nemotron 0.6B, 560\,ms\S{} (streaming) & \rone{\ColdNemoFiveSixtySpeed} & \ColdNemoFiveSixtyCorePct\% & \ColdNemoFiveSixtyWer\% & \ColdNemoFiveSixtyWerClean{} / \ColdNemoFiveSixtyWerOther & \ColdNemoFiveSixtyRss\,MB & \ColdNemoFiveSixtyModel\,MB & --- \\
+Parakeet TDT v3, onnx-asr (offline) & \rone{\ColdParakeetOnnxAsrSpeed} & \ColdParakeetOnnxAsrCorePct\% & \ColdParakeetOnnxAsrWer\% & \ColdParakeetOnnxAsrWerClean{} / \ColdParakeetOnnxAsrWerOther & \ColdParakeetOnnxAsrRss\,MB & \ColdParakeetOnnxAsrModel\,MB & --- \\
+Whisper.cpp Tiny\S{} (streaming) & \rone{\ColdWhisperCppTinySpeed} & \ColdWhisperCppTinyCorePct\% & \ColdWhisperCppTinyWer\% & \ColdWhisperCppTinyWerClean{} / \ColdWhisperCppTinyWerOther & \ColdWhisperCppTinyRss\,MB & \ColdWhisperCppTinyModel\,MB & --- \\
+Whisper.cpp Base\S{} (streaming) & \rone{\ColdWhisperCppBaseSpeed} & \ColdWhisperCppBaseCorePct\% & \ColdWhisperCppBaseWer\% & \ColdWhisperCppBaseWerClean{} / \ColdWhisperCppBaseWerOther & \ColdWhisperCppBaseRss\,MB & \ColdWhisperCppBaseModel\,MB & --- \\
 \bottomrule
 \end{tabularx}}
 \vspace{1.5pt}

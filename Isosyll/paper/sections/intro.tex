@@ -10,7 +10,7 @@ requires running them on the same hardware, the same audio, and the same scorer.
 \para{What we built.} We call the system \ultra{}, from \emph{iso-} (the same) and \emph{syllable}.
 Live transcripts match across the tested SIMD kernels and batch sizes. Release artifacts retain their
 original name, ULTRA. \ultra{} co-designs a compact streaming Conformer transducer and an
-integer-exact pure-Rust CPU engine around a single 60\,MB prepared INT8 artifact serving both live and
+integer-exact pure-Rust CPU engine around a single \ColdHeadModel\,MB prepared INT8 artifact serving both live and
 final operating points:
 \begin{itemize}
 \item \textbf{Always-on live streaming:} 160\,ms chunked decoding with a compact live LM reaches
@@ -43,7 +43,7 @@ strongest streaming comparator at our cost point, Zipformer INT8 (\cref{tab:vers
   sixteen paced live streams share one quiet Zen~2 core at \RelCapSixteenBusy\% load
   (\RelCapSixteenNetW\,W net per stream, \RelCapSixteenLagPninetyFive\,ms p95 stable-word lag;
   \cref{sec:capacity}).
-\item \textbf{Final text from the same weights.} An utterance-end commit pass on the same 60\,MB INT8
+\item \textbf{Final text from the same weights.} An utterance-end commit pass on the same \ColdHeadModel\,MB INT8
   artifact is \VsVerdictTwo{} Zipformer INT8 on pooled WER under a paired speaker-clustered test, at
   \VsSpeedXTwo$\times$ its single-core speed (\cref{sec:versus}). \ultra{} \ReleaseVer{} is released by
   owner decision after missing its registered full-DEV final gate (\CandFinalFullEdits{} edits vs.\

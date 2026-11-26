@@ -4,7 +4,7 @@
 
 \Cref{fig:money} draws live +LM at 160\,ms and the utterance-end commit pass against every timed
 public comparator. \Cref{tab:measured} keeps those two rows plus the 320\,ms and greedy modes of the
-same 60\,MB INT8 artifact, beside all \ColdCompleteCompCount{} public open-weights CPU comparators
+same \ColdHeadModel\,MB INT8 artifact, beside all \ColdCompleteCompCount{} public open-weights CPU comparators
 with complete 730-utterance LibriSpeech DEV panel WER. \ColdHostSentence{} \ColdSubsetSentence{} \ColdOrderSentence{}
 
 \para{Speed and lowest-power operating points.} \ColdHeadSentence{} On the exact same weights, matching
@@ -92,20 +92,17 @@ differences across AVX2, scalar, and NEON on the \AudioZOneCrossIsaCommit{} cros
 (\AudioZOneOracleTupleDiffs/\AudioZOneCrossIsaClips{} full-tuple differences vs.\ the independent
 oracle with flag on, \AudioZOneCrossIsaDiffs{} committed-text differences).
 
-\subsection{Full-DEV Accuracy and INT8 Parity}\label{sec:fulldev}
+\subsection{Full-DEV Accuracy}\label{sec:fulldev}
 
 \Cref{tab:fulldev} reports full LibriSpeech DEV (\RelFullUtts{} utterances: \CandFullCleanUtts{}
-dev-clean and \CandFullOtherUtts{} dev-other) accuracy for all four modes of our single 60\,MB INT8
+dev-clean and \CandFullOtherUtts{} dev-other) accuracy for all four modes of our single \ColdHeadModel\,MB INT8
 artifact under the same unified scorer. Full DEV contains the selection half, so these numbers are
-descriptive. On the prior release artifact of identical architecture, prepared INT8 matched FP32 PyTorch
-across all \RelFullUtts{} utterances within \RelIntEightDelta\pp pooled WER (one-sided 95\%
-speaker-cluster bootstrap bounds \RelIntEightLo{} to \RelIntEightHi\pp), well inside the pre-registered
-parity gate.
+descriptive.
 
 \begin{table}[t]
 \centering
 \caption{\textbf{Full LibriSpeech DEV (\RelFullUtts{} utterances)} WER (\%) across all four operating
-points of our single 60\,MB INT8 artifact (unified \texttt{ultra-score}).}
+points of our single \ColdHeadModel\,MB INT8 artifact (unified \texttt{ultra-score}).}
 \label{tab:fulldev}
 \footnotesize
 \setlength{\tabcolsep}{3pt}

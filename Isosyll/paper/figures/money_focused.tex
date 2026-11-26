@@ -83,14 +83,14 @@
 \draw[leader] (axis cs:\HeroVoskSmallX,\HeroVoskSmallY) -- (axis cs:8.05,15.55);
 \node[comp,anchor=west] at (axis cs:8.25,15.55) {Vosk Small};
 
-\draw[leader] (axis cs:\HeroVoskLargeX,\HeroVoskLargeY) -- (axis cs:5.35,11.35);
-\node[compmuted,anchor=west] at (axis cs:5.55,11.35) {Vosk Large\,\S};
+\draw[leader] (axis cs:\HeroVoskLargeX,\HeroVoskLargeY) -- (axis cs:4.95,11.35);
+\node[compmuted,anchor=west] at (axis cs:5.15,11.35) {Vosk Large\,\S};
 
-\draw[leader] (axis cs:\HeroMoonTinyX,\HeroMoonTinyY) -- (axis cs:9.2,11.55);
-\node[comp,anchor=west] at (axis cs:9.4,11.55) {Moonshine Tiny};
+\draw[leader] (axis cs:\HeroMoonTinyX,\HeroMoonTinyY) -- (axis cs:9.75,12.05);
+\node[comp,anchor=west] at (axis cs:9.95,12.05) {Moonshine Tiny};
 
-\draw[leader] (axis cs:\HeroNemoThreeFiveX,\HeroNemoThreeFiveY) -- (axis cs:0.15,8.7);
-\node[compmuted,anchor=west,align=left] at (axis cs:0.3,8.7) {Nemotron\\3.5};
+\draw[leader] (axis cs:\HeroNemoThreeFiveX,\HeroNemoThreeFiveY) -- (axis cs:1.3,8.6);
+\node[compmuted,anchor=west,align=left] at (axis cs:1.45,9.6) {Nemotron\\3.5};
 
 \draw[leader] (axis cs:\HeroMoonSmallX,\HeroMoonSmallY) -- (axis cs:4.55,6.05);
 \node[compmuted,anchor=west,align=left] at (axis cs:4.75,6.05) {Moonshine\\Small};
@@ -99,10 +99,10 @@
 \node[identity,anchor=south east,text=ink] at (axis cs:12.05,7.55) {Zipformer INT8};
 \node[metric,anchor=south east] at (axis cs:12.05,6.25) {\HeroZipSpeed$\times$\,\textperiodcentered\,\HeroZipWer\%};
 
-\draw[leader] (axis cs:\HeroNemoOneSixtyX,\HeroNemoOneSixtyY) -- (axis cs:0.15,1.85);
-\node[compmuted,anchor=west,align=left] at (axis cs:0.3,1.85) {Nemotron\\160\,ms};
-\draw[leader] (axis cs:\HeroNemoFiveSixtyX,\HeroNemoFiveSixtyY) -- (axis cs:4.55,0.55);
-\node[compmuted,anchor=west,align=left] at (axis cs:4.75,0.45) {Nemotron\\560\,ms\,\S};
+\draw[leader] (axis cs:\HeroNemoOneSixtyX,\HeroNemoOneSixtyY) -- (axis cs:1.45,2.75);
+\node[compmuted,anchor=west,align=left] at (axis cs:1.45,1.4) {Nemotron\\160\,ms};
+\draw[leader] (axis cs:\HeroNemoFiveSixtyX,\HeroNemoFiveSixtyY) -- (axis cs:4.2,\HeroNemoFiveSixtyY) -- (axis cs:4.2,0.95) -- (axis cs:4.4,0.95);
+\node[compmuted,anchor=west] at (axis cs:4.55,0.95) {Nemotron 560\,ms\,\S};
 
 \draw[leader] (axis cs:\HeroParakeetOnnxX,\HeroParakeetOnnxY) -- (axis cs:10.3,4.35);
 \node[comp,anchor=west] at (axis cs:10.5,4.35) {Parakeet onnx-asr};
@@ -128,11 +128,11 @@
   \herokicker{138pt}{ink}{LIVE}{160\,ms chunk}\hfill
   \herokicker{138pt}{ink}{FINAL}{utterance-end commit}\par
   \vspace{5pt}
-  {\sffamily\bfseries\fontsize{12.5}{15}\selectfont\color{ink}Isosyll vs.\ all public CPU speech recognizers\par}
+  {\sffamily\bfseries\fontsize{12.5}{15}\selectfont\color{ink}Isosyll vs.\ all \ColdComparatorCount{} timed public CPU speech recognizers\par}
   \vspace{1pt}
   {\sffamily\fontsize{7.6}{9.2}\selectfont\color{sub}%
     One pinned Zen~2 core \enspace\textperiodcentered\enspace
-    \tikz[baseline=-.35ex]\fill[accent] (0,2.5pt)--(2.3pt,0)--(0,-2.5pt)--(-2.3pt,0)--cycle;~Isosyll (ours, 60\,MB INT8)
+    \tikz[baseline=-.35ex]\fill[accent] (0,2.5pt)--(2.3pt,0)--(0,-2.5pt)--(-2.3pt,0)--cycle;~Isosyll (ours, \ColdHeadModel\,MB INT8)
     \enspace\textperiodcentered\enspace
     \tikz[baseline=-.4ex]\fill[ink] (0,0) circle (1.45pt);~Public streaming
     \enspace\textperiodcentered\enspace
@@ -174,7 +174,7 @@
 \node[anchor=north west,font=\sffamily\fontsize{6.7}{8.1}\selectfont,text=sub,inner sep=0pt,align=left,text width=484pt]
   at ([xshift=-30pt,yshift=-94pt]matchedplot.south west) {%
   R6 rows only: idle floor subtracted, same blocks, not wall power.
-  60\,MB INT8 weights (v3.1.0); the LMs are separate files.
+  \ColdHeadModel\,MB INT8 weights (v3.1.0); the LMs are separate files.
   Unselected DEV C-half live +LM vs.\ Zipformer: \HeroGapCDelta\,pp (160\,ms chunk).};
 \pgfresetboundingbox
 \path[use as bounding box]

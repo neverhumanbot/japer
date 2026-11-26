@@ -18,4 +18,4 @@ cd ../briefs/src && pdflatex ceo-brief && pdflatex cto-brief
 Every number in the paper and briefs comes from `paper/data/metrics.tex`, which is generated from signed measurement receipts.
 
 ## Source of truth
-Code, model release, receipts and the data pipeline: [github.com/neverhuman/jsr](https://github.com/neverhuman/jsr). This folder is a snapshot of `docs/paper/` and `docs/briefs/` for publication.
+Code, model release, receipts and the data pipeline: [github.com/neverhuman/jsr](https://github.com/neverhuman/jsr). This folder is a snapshot of `docs/paper/` and `docs/briefs/` at jsr main 5b5f230, the v4.0.0 release ([install](https://github.com/neverhuman/jsr/releases/tag/v4.0.0)).

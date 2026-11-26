@@ -3,7 +3,7 @@
 An always-on speech recogniser should barely register on the CPU and energy budget of its host. We
 presented \ultra{}, a compact streaming Conformer transducer and pure-Rust integer-exact CPU engine
 evaluated directly against all \ColdCompleteCompCount{} complete-panel public open-weights CPU
-comparators on the same 730-utterance LibriSpeech DEV panel. From one 60\,MB INT8 artifact on one
+comparators on the same 730-utterance LibriSpeech DEV panel. From one \ColdHeadModel\,MB INT8 artifact on one
 pinned quiet Zen~2 core, \ultra{} delivers live streaming at \ColdLiveSpeed$\times$ real time and
 \ColdLiveWatts\,J/audio-s (\ColdLiveWer\% panel / \CandLiveLmFullWer\% full DEV, \ColdLiveRss\,MB RAM
 at 160\,ms) and an utterance-end commit pass reaching \ColdHeadWer\% panel WER (\CandFinalFullWer\%
