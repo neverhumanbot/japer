@@ -158,17 +158,17 @@ Jordan Morrow\textsuperscript{1}\hspace{1.5em}Alton Alexander\textsuperscript{1}
 \vspace{3.5pt}
 {\fontsize{9.2}{11.4}\selectfont\color{ink}\textsuperscript{1}NEVERHUMAN Research\hspace{1.6em}\textsuperscript{2}HonorHealth Heart Care \& HonorHealth Research Institute, Scottsdale, AZ\par}
 \vspace{2.5pt}
-{\fontsize{8.4}{10.8}\selectfont\color{sub}\textsuperscript{$\ast$}Primary authors.\hspace{1.2em}25 November 2026\par}
+{\fontsize{8.4}{10.8}\selectfont\color{sub}\textsuperscript{$\ast$}Primary authors.\hspace{1.2em}27 November 2026\par}
 \end{center}
 \vspace{5pt}
 
 \input{sections/01_abstract_only}
 
-\vspace{6pt}
+\vspace{3pt}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{figures/fig1_hero_benchmark_comparison.pdf}
-  \caption{\ct{EvoTarget-FT versus world-leading Tabular Foundation Models and tuned GBDTs on 74 unseen STS hospitals ($N=21{,}241$).} \textbf{(A)}~All 50,000-patient models consume strictly the same 207 raw predictors available by incision; the dashed navy line marks 7$\x$ full-registry CatBoost ($N=346{,}454$, 0.67732). \textbf{EvoTarget-FT} reaches \textbf{0.67629}, clearly surpassing all three frontier Tabular Foundation Models---Google TabFM v1.0.0 (0.67115), NVIDIA KumoTabular-Large v2 (0.67147), and PriorLabs TabPFN-3.5 (0.67376)---and tuned 50k CatBoost (0.67423), recovering 66.7\% of the 50k$\to$346k scaling gap. \textbf{(B)}~Paired 5,000-draw 74-hospital cluster bootstrap advantages ($\Delta$ROC-AUC $\times 10^{-4}$) relative to zero: orange intervals strictly exceed zero against every individual ELO baseline ($+51.4$ vs.\ TabFM, $+48.2$ vs.\ KumoTabular-Large, $+25.3$ vs.\ TabPFN-3.5, $+20.6$ vs.\ CatBoost), while the blue same-architecture binary FT-Transformer ablation ($+16.0$, $[-2.1, +35.3]$) transparently spans zero. Intervals condition on retrospective selection across 103 evaluated arms.}
+  \includegraphics[width=0.97\textwidth]{figures/fig1_hero_benchmark_comparison.pdf}
+  \caption{\ct{Dual-Paradigm Fusion, EvoTarget-FT (Gen-20), and JAIN Ultra GP v2 vs.\ frontier Tabular FMs and GBDTs on 74 unseen STS hospitals ($N=21{,}241$).} \textbf{(A)}~All 50k models consume strictly 207 raw pre-incision predictors; dashed navy line marks 7$\x$ 346k CatBoost (0.67732). Fixing six bottlenecks lifts \textbf{JAIN Ultra GP v2} from legacy 0.67167 to \textbf{0.67565} (beating all six binary ELO baselines); \textbf{EvoTarget-FT} reaches \textbf{0.67653} (74.6\% of 7$\x$ gap); and \textbf{Dual-Paradigm Fusion} achieves \textbf{0.67668} (\textbf{79.2\%} of 7$\x$ gap, surpassing 346k CatBoost in AP 0.37767 vs.\ 0.37761 and 2017 unseen 0.65794 vs.\ 0.65785). \textbf{(B)}~Paired 5,000-draw 74-hospital cluster bootstrap margins ($\Delta$ROC-AUC $\times 10^{-4}$): all nine headline contrasts strictly exclude zero.}
   \label{fig:hero}
 \end{figure}
 

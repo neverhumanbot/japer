@@ -1,13 +1,18 @@
 # Research Notes & Publication Manuscript Index (`docs/`) — STS ACSD v2.81 POAF Study
 
-| Executives & Clinical Leaders | CTOs & ML Architects | Full Technical Paper & Compute |
-| :---: | :---: | :---: |
-| **[CEO Brief (PDF)](briefs/evotarget-poaf-ceo-brief.pdf)** ([MD](briefs/ceo-brief.md))<br>*Clinical opportunity, external validation & governance* | **[CTO Brief (PDF)](briefs/evotarget-poaf-cto-brief.pdf)** ([MD](briefs/cto-brief.md))<br>*EvoTarget-FT architecture, paired comparisons & reproducibility* | **[17-Page Manuscript (PDF)](paper/main.pdf)** ([TeX](paper/main.tex))<br>*[Distributed Compute Playbook](distributed_compute/README.md) · [Brief Builder](briefs/scripts/build_briefs.sh)* |
+## Executive & Technical Briefs (2-Page Summaries)
 
-## Executive Briefs & Distributed Compute Playbook
+| Audience | Formatted 2-Page PDF | Markdown Companion | Focus |
+| :--- | :--- | :--- | :--- |
+| **Health System CEOs, CMOs & Clinical AI Leaders** | **[CEO Brief (PDF)](briefs/evotarget-poaf-ceo-brief.pdf)** | [ceo-brief.md](briefs/ceo-brief.md) | Clinical AI validation illusion, 79.2% data-scaling recovery, Dual-Paradigm Fusion (`0.67668`), trial enrichment & governance |
+| **CTOs, VP Engineering & ML Architects** | **[CTO Brief (PDF)](briefs/evotarget-poaf-cto-brief.pdf)** | [cto-brief.md](briefs/cto-brief.md) | 1,000-gen zero-collapse $z^*$, strictly nested 207-raw 2×2 causal proof, `JAIN Ultra GP v2` (`+39.8* bps`) & 5-min audit CLI |
 
-- **[CEO Brief (2-Page PDF)](briefs/evotarget-poaf-ceo-brief.pdf)** ([Markdown](briefs/ceo-brief.md)) · **[CTO Brief (2-Page PDF)](briefs/evotarget-poaf-cto-brief.pdf)** ([Markdown](briefs/cto-brief.md)) · [Deterministic Brief Builder](briefs/scripts/build_briefs.sh)
-- **[Distributed Multi-Node Compute Playbook](distributed_compute/README.md)**: [01 SSH Fabric & Bootstrap](distributed_compute/01_ssh_fabric_and_bootstrap.md) · [02 CPU SSH Pull-Queue](distributed_compute/02_cpu_ssh_pull_queue_cluster.md) · [03 GPU Fan-Out, DDP & DiLoCo](distributed_compute/03_gpu_fanout_ddp_and_diloco.md) · [04 Co-Tenancy & Guardrails](distributed_compute/04_cotenancy_guardrails_and_ops.md) · [05 Retirement Audit](distributed_compute/05_xbabe5_9_spindown_audit_and_harvest.md) · [Templates](distributed_compute/templates/)
+Rebuild & verify both 2-page PDFs deterministically via `bash docs/briefs/scripts/build_briefs.sh --check` ([build_briefs.sh](briefs/scripts/build_briefs.sh)).
+
+## Multi-Node Distributed Compute Playbook (`distributed_compute/`)
+
+- **[Playbook Overview & Decision Matrix](distributed_compute/README.md)** — 10-node LAN + Cloud topology (`601` cores, `10+` GPUs), 5-pattern selector, & 10-minute fresh-cluster spin-up checklist.
+- [01 — SSH Fabric, Isolated Venvs & Ephemeral Staging](distributed_compute/01_ssh_fabric_and_bootstrap.md) · [02 — Zero-NFS SSH Pull-Queue CPU Engine](distributed_compute/02_cpu_ssh_pull_queue_cluster.md) · [03 — GPU Fan-Out, VPC NCCL DDP & Async DiLoCo](distributed_compute/03_gpu_fanout_ddp_and_diloco.md) · [04 — Co-Tenancy Guardrails & Operational Post-Mortems](distributed_compute/04_cotenancy_guardrails_and_ops.md) · [05 — `xbabe5`–`xbabe9` Pre-Spindown Audit Ledger](distributed_compute/05_xbabe5_9_spindown_audit_and_harvest.md).
 
 ## Manuscript and supporting evidence
 
@@ -15,7 +20,7 @@
 - [POAF literature review](paper/POAF_LITERATURE_REVIEW.md), with primary results, design differences, exact searches, and [the STS screening index](paper/literature/sts-query-screen.tsv).
 - [Red-team review](paper/RED_TEAM_REVIEW.md) and [hospital-resampling receipt](../reports/paper_red_team_receipt.json). Use these for the current interpretation of validation, calibration, and model selection.
 - [Label-blind matched hospital split](../FEATURE_MATCHED_EVALUATION.md) and [modular dataset guide](../dataset/DATASET_README.md).
-- [Numeric audit script](../scripts/20_audit_paper_numbers.py).
+- [Paper coordination log](../paper_chat.md) and [numeric audit script](../scripts/20_audit_paper_numbers.py).
 
 The notes below retain findings from earlier experiments. The manuscript and red-team review document the interpretation after checking outcome-aware partition selection, the nested 10k sample, test-set model ranking, and hospital-level uncertainty.
 
@@ -46,3 +51,4 @@ The full-scale ensembles, counterfactual DOPE-ECHO embeddings, and JAIN and elas
 - `../reports/paper_tables/` — Drop-in CSV & LaTeX (`booktabs`) manuscript tables (`table_main_small_50k_benchmark.{csv,tex}`, `table_championship_full_346k.{csv,tex}`, `table_championship_paradigm_ablation.csv`, `table_evolved_targets_*.{csv,tex}`, `table_dope_echo_cycles_small50k.{csv,tex}`, `table_dope_echo_ablation_multifamily.csv`, `table_augmentation_lift_v3_vs_v1.csv`, `table_bayes_calibration_and_cross_scale.csv`, `table_paired_bootstrap_cis.csv`)
 - `../reports/paper_figures/` — Publication-ready PNG & vector PDF figures (`fig_evolved_targets_*.{png,pdf}`, `fig_dope_echo_master_summary.{png,pdf}`, `fig_dope_echo_smoothing_convergence.{png,pdf}`, `fig_dope_echo_cycle_curve.{png,pdf}`)
 - `../reports/evolved_targets_eval.{json,md}` & `../reports/evolved_targets_{oof,test_10k,test_full_21k}_preds.parquet` & `../reports/evolved_targets_evolution_telemetry.parquet` — Full evolved-target receipts, OOF/test Parquets, and generation-by-generation telemetry
+

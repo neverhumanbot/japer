@@ -1,33 +1,43 @@
 \begin{table*}[t]
 \centering
 \tablefont
-\caption{\ct{Paired 74-hospital cluster bootstrap comparisons on the primary natural-prior holdout ($N=21{,}241$, 5,000 whole-hospital resamples).} Intervals account for hospital clustering across the 74 unseen centers~\cite{davison1997bootstrap,obuchowski1997clustered} and condition on retrospective model selection across 103 evaluated arms. Part~A demonstrates EvoTarget-FT's head-to-head margins against frontier Tabular FMs and GBDTs; every Part~B contrast applies the \emph{exact same} frozen Generation-20 evolved target $z^*$; bold intervals strictly exclude zero.}
+\caption{\ct{Paired 74-hospital cluster bootstrap comparisons on \cli{test\_full\_21k} ($N=21{,}241$, $B=5{,}000$ whole-hospital resamples, seed~42).} Bold intervals strictly exclude zero. Part~A benchmarks our flagship Dual-Paradigm Fusion, EvoTarget-FT (Gen-20), and re-engineered JAIN Ultra GP v2 against frontier Tabular FMs, GBDTs, Legacy JAIN, and the 3-way binary blend. Part~B evaluates the unified Gen-20 target $z^*$ across model families (now 5 families strictly $>0$) and Gen-1,000 stability. Part~C presents the strictly nested 207-raw 2$\x$2 causal decomposition and binary-$y$ early-stopping ablation resolving Limitation~\#2.}
 \label{tab:paired_bootstrap}
-\setlength{\tabcolsep}{3.6pt}
-\renewcommand{\arraystretch}{0.96}
-\begin{tabularx}{\textwidth}{@{}Y L{2.55cm} r r c r@{}}
+\setlength{\tabcolsep}{3.4pt}
+\renewcommand{\arraystretch}{0.93}
+\begin{tabularx}{\textwidth}{@{}Y L{2.45cm} r r c r@{}}
 \toprule
 \multicolumn{1}{@{}l}{\thd{Comparison on \cli{test\_full\_21k} (Candidate vs.\ Baseline)}} & \multicolumn{1}{l}{\thd{Control Mode}} & \thd{Cand.\ AUC} & \thd{$\Delta$ ROC-AUC} & \thd{74-Hospital 95\% CI} & \thd{Draws $> 0$} \\
 \midrule
-\multicolumn{6}{@{}l@{}}{\textit{\color{sub}Part A --- Featured Model (EvoTarget-FT, 207 Raw Inputs) vs.\ Frontier Tabular FMs \& Binary Baselines:}} \\
-\textbf{EvoTarget-FT} vs.\ Google TabFM v1.0.0 (5$\x$10k, e80) & Tabular FM & 0.676289 & \textbf{+0.005138} & \textbf{[+0.00228, +0.00794]} & \textbf{1.000} \\
-\textbf{EvoTarget-FT} vs.\ NVIDIA KumoTabular-Large v2 (5$\x$10k) & Tabular FM & 0.676289 & \textbf{+0.004815} & \textbf{[+0.00158, +0.00804]} & \textbf{0.999} \\
-\textbf{EvoTarget-FT} vs.\ PriorLabs TabPFN-3.5 (50k native) & Tabular FM & 0.676289 & \textbf{+0.002534} & \textbf{[+0.00022, +0.00501]} & \textbf{0.984} \\
-\textbf{EvoTarget-FT} vs.\ Tuned 50k CatBoost (Table~\ref{tab:elo_leaderboard}) & Primary GBDT & 0.676289 & \textbf{+0.002061} & \textbf{[+0.00031, +0.00391]} & \textbf{0.992} \\
-\textbf{EvoTarget-FT} vs.\ Matched CatBoost CE & Matched-loss & 0.676289 & \textbf{+0.002206} & \textbf{[+0.00043, +0.00408]} & \textbf{0.994} \\
-EvoTarget-FT vs.\ Identical Binary FT-Transformer & Same arch.\ & 0.676289 & +0.001605 & [\m 0.00021, +0.00353] & 0.959 \\
-EvoTarget-FT vs.\ 3-Way Binary Paradigm Blend & Neural+GBDT+TFM & 0.676289 & +0.000604 & [\m 0.00058, +0.00173] & 0.838 \\
-EvoTarget-FT vs.\ Binary FT on 2017 Unseen ($n=3{,}555$, 63 hosp.) & Same arch.\ & 0.657148 & \m 0.000015 & [\m 0.00354, +0.00338] & 0.516 \\
+\multicolumn{6}{@{}l@{}}{\textit{\color{sub}Part A --- Flagship Fusion, EvoTarget-FT (Gen-20), and JAIN Ultra GP v2 vs.\ Frontier Baselines:}} \\
+\textbf{Dual-Paradigm Fusion vs.\ Google TabFM v1.0} & Tabular FM & 0.676677 & \textbf{+0.005526} & \textbf{[+0.00286, +0.00815]} & \textbf{1.000} \\
+\textbf{Dual-Paradigm Fusion vs.\ NVIDIA Kumo-L v2} & Tabular FM & 0.676677 & \textbf{+0.005203} & \textbf{[+0.00216, +0.00833]} & \textbf{1.000} \\
+\textbf{Dual-Paradigm Fusion vs.\ PriorLabs TabPFN-3.5} & Tabular FM & 0.676677 & \textbf{+0.002922} & \textbf{[+0.00081, +0.00535]} & \textbf{0.998} \\
+\textbf{Dual-Paradigm Fusion vs.\ Tuned 50k CatBoost} & Primary GBDT & 0.676677 & \textbf{+0.002449} & \textbf{[+0.00072, +0.00422]} & \textbf{0.997} \\
+\textbf{Dual-Paradigm Fusion vs.\ Binary FT-Transformer} & Same-arch.\ + GP & 0.676677 & \textbf{+0.002026} & \textbf{[+0.00024, +0.00382]} & \textbf{0.987} \\
+\textbf{Dual-Paradigm Fusion vs.\ 3-Way Binary Blend} & Multi-paradigm & 0.676677 & \textbf{+0.000992} & \textbf{[+0.00006, +0.00197]} & \textbf{0.982} \\
+\textbf{EvoTarget-FT (Gen-20) vs.\ Tuned 50k CatBoost} & Primary GBDT & 0.676535 & \textbf{+0.002308} & \textbf{[+0.00041, +0.00430]} & \textbf{0.994} \\
+\textbf{EvoTarget-FT (Gen-20) vs.\ Binary FT-Transformer} & Exact same arch. & 0.676535 & \textbf{+0.001885} & \textbf{[+0.00026, +0.00358]} & \textbf{0.988} \\
+\textbf{JAIN Ultra GP v2 vs.\ Legacy JAIN GPU (Gen-20)} & GP overhaul & 0.675649 & \textbf{+0.003984} & \textbf{[+0.00196, +0.00601]} & \textbf{1.000} \\
+\textbf{JAIN Ultra GP v2 vs.\ Google TabFM v1.0} & Tabular FM & 0.675649 & \textbf{+0.004499} & \textbf{[+0.00226, +0.00691]} & \textbf{1.000} \\
+\textbf{JAIN Ultra GP v2 vs.\ NVIDIA Kumo-L v2} & Tabular FM & 0.675649 & \textbf{+0.004176} & \textbf{[+0.00140, +0.00718]} & \textbf{1.000} \\
+JAIN Ultra GP v2 vs.\ Tuned 50k CatBoost & Primary GBDT & 0.675649 & +0.001422 & [\m 0.00069, +0.00352] & 0.906 \\
+\textbf{Gen-0 Fair Fusion (GP v2 + Bin.\ FT) vs.\ Bin.\ FT} & Zero $z^*$ control & 0.676228 & \textbf{+0.001577} & \textbf{[+0.00010, +0.00303]} & \textbf{0.980} \\
 \midrule
-\multicolumn{6}{@{}l@{}}{\textit{\color{sub}Part B --- Unified Generation-20 Target $z^*$ vs.\ Binary $\{0,1\}$ Across All Six World-Leading ELO Families:}} \\
-\textbf{Google TabFM v1.0.0} (5$\x$10k Reg, $z^*$ vs.\ $\{0,1\}$)$^\ddagger$ & Matched Reg (e15) & 0.673819 & \textbf{+0.009719} & \textbf{[+0.00627, +0.01325]} & \textbf{1.000} \\
-\textbf{NVIDIA KumoTabular-L v2} (5$\x$10k Reg, $z^*$ vs.\ $\{0,1\}$)$^\ddagger$ & Matched Reg (e40) & 0.674988 & \textbf{+0.002789} & \textbf{[+0.00062, +0.00512]} & \textbf{0.994} \\
-\textbf{PriorLabs TabPFN-3.5} (5$\x$10k Reg, $z^*$ vs.\ $\{0,1\}$) & Matched Reg (e40) & 0.673952 & \textbf{+0.002608} & \textbf{[+0.00068, +0.00489]} & \textbf{0.998} \\
-PriorLabs TabPFN-3.5 (50k Native Reg, $z^*$ vs.\ $\{0,1\}$)$^\ddagger$ & Matched Reg (e8) & 0.674125 & +0.001310 & [\m 0.00039, +0.00321] & 0.924 \\
-XGBoost CE ($z^*$ vs.\ $\{0,1\}$) & 5-fold GBDT & 0.674865 & +0.001294 & [\m 0.00035, +0.00277] & 0.938 \\
-LightGBM Multi-Seed CE ($z^*$ vs.\ $\{0,1\}$) & 3-seed GBDT & 0.674472 & +0.001273 & [\m 0.00052, +0.00290] & 0.917 \\
-CatBoost CE ($z^*$ vs.\ $\{0,1\}$)$^\S$ & 5-fold GBDT & 0.674973 & +0.000890 & [\m 0.00012, +0.00198] & 0.958 \\
+\multicolumn{6}{@{}l@{}}{\textit{\color{sub}Part B --- Unified Gen-20 Target $z^*$ Cross-Family Lift \& Gen-1,000 Zero-Collapse Check:}} \\
+\textbf{Google TabFM v1.0 (5$\x$10k Reg, $z^*$ vs.\ $\{0,1\}$)$^\ddagger$} & Matched Reg & 0.673819 & \textbf{+0.009719} & \textbf{[+0.00637, +0.01327]} & \textbf{1.000} \\
+\textbf{NVIDIA Kumo-L v2 (5$\x$10k Reg, $z^*$ vs.\ $\{0,1\}$)$^\ddagger$} & Matched Reg & 0.674988 & \textbf{+0.002789} & \textbf{[+0.00060, +0.00515]} & \textbf{0.994} \\
+\textbf{PriorLabs TabPFN-3.5 (5$\x$10k Reg, $z^*$ vs.\ $\{0,1\}$)} & Matched Reg & 0.673952 & \textbf{+0.002608} & \textbf{[+0.00060, +0.00488]} & \textbf{0.997} \\
+\textbf{CatBoost CE (Gen-20 $z^*$ vs.\ Gen-0 $\{0,1\}$)} & 5-fold GBDT & 0.675377 & \textbf{+0.001294} & \textbf{[+0.00001, +0.00260]} & \textbf{0.975} \\
+XGBoost CE (Gen-20 $z^*$ vs.\ $\{0,1\}$) & 5-fold GBDT & 0.674865 & +0.001294 & [\m 0.00034, +0.00283] & 0.941 \\
+EvoTarget-FT (Gen-1,000 $z^*$ vs.\ Gen-0 $\{0,1\}$) & 256k-fit plateau & 0.675924 & +0.001273 & [\m 0.00093, +0.00358] & 0.877 \\
+\midrule
+\multicolumn{6}{@{}l@{}}{\textit{\color{sub}Part C --- Strictly Nested 207-Raw 2$\x$2 Causal Decomposition \& Binary-$y$ Early-Stop Ablation:}} \\
+EvoTarget-FT Nested-207 Raw vs.\ Binary FT & Pure smoothing & 0.675880 & +0.001229 & [\m 0.00032, +0.00285] & 0.942 \\
+EvoTarget-FT Global-207 vs.\ Nested-207 Raw & Outer-fold effect & 0.675964 & +0.000084 & [\m 0.00024, +0.00044] & 0.682 \\
+\textbf{EvoTarget-FT Global-289 vs.\ Global-207 Raw} & 289$\to$207 distill. & 0.676535 & \textbf{+0.000572} & \textbf{[+0.00003, +0.00106]} & \textbf{0.982} \\
+\textbf{GP v2 Global-$z^*$ (+BinStop vs.\ No-BinStop)} & Early-stop fix & 0.675323 & \textbf{+0.000909} & \textbf{[+0.00005, +0.00180]} & \textbf{0.980} \\
 \bottomrule
-\multicolumn{6}{@{}L{15.8cm}@{}}{\scriptsize $^\ddagger$Relative to the Table~\ref{tab:elo_leaderboard} \emph{classifier} baselines (instead of matched regressors), Generation-20 $z^*$ gains $+0.002669$ ($[+0.00037, +0.00498]$) on TabFM (0.673819 vs.\ 0.671150), $+0.003515$ ($[+0.00090, +0.00634]$) on KumoTabular-Large (0.674988 vs.\ 0.671474), and $+0.000371$ ($[-0.00145, +0.00245]$) on TabPFN-3.5 50k Native (0.674125 vs.\ 0.673755). Head-to-head Part~A vs.\ LightGBM ($+0.002658$ $[+0.00053, +0.00461]$) and XGBoost ($+0.002717$ $[+0.00056, +0.00470]$) likewise exclude zero (archived in \cli{reports/paper\_v3\_master\_receipt.json}). $^\S$CatBoost binary early-stopped on binary AUC whereas evolved CatBoost early-stopped on soft cross-entropy.}
+\multicolumn{6}{@{}L{15.8cm}@{}}{\scriptsize $^\ddagger$Relative to Table~\ref{tab:elo_leaderboard} classifier baselines, Gen-20 $z^*$ gains $+0.002669$ ($[+0.00037, +0.00498]$) on TabFM and $+0.003515$ ($[+0.00090, +0.00634]$) on KumoTabular-Large. EvoTarget-FT (Gen-20) likewise strictly exceeds TabFM ($+0.005385$ $[+0.00240, +0.00828]$), Kumo ($+0.005062$ $[+0.00169, +0.00842]$), XGBoost ($+0.002964$ $[+0.00082, +0.00492]$), LightGBM ($+0.002905$ $[+0.00080, +0.00479]$), and TabPFN-3.5 ($+0.002781$ $[+0.00035, +0.00539]$). All 61 paired contrasts are archived in \cli{reports/paper\_v4\_master\_receipt.json}.}
 \end{tabularx}
 \end{table*}

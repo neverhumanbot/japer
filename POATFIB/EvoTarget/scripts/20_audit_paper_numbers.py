@@ -6,7 +6,7 @@ Automated QA & numeric provenance gate for `docs/paper/`.
 
 Verifies:
   1. Every key reported number across sections/*.tex and tables/*.tex matches the
-     machine-generated aggregate JSON receipts in `reports/` (including
+     exact machine-generated JSON/Parquet receipts in `reports/` (including
      `paper_red_team_receipt.json` 74-hospital cluster CIs and development-only
      prior calibration).
   2. Zero undefined BibTeX citations and ZERO duplicate BibTeX keys in references.bib.
@@ -122,43 +122,37 @@ def main() -> int:
             if forbidden.lower() in txt.lower():
                 errors.append(f"Forbidden internal/prototype token '{forbidden}' found in {p.name}")
 
-    # 5. Machine-verified numeric receipt checks
-    evo = load_json("evolved_targets_eval.json")
+    # 5. Machine-verified numeric receipt checks (Paper v4 master receipt)
     split = load_json("split_audit_comparison.json")
-    small = load_json("small_50k_10k_audit.json")
     champ = load_json("championship_eval.json")
     rt = load_json("paper_red_team_receipt.json")
+    v4 = load_json("paper_v4_master_receipt.json")
+    fe_rt = load_json("agentic_fe_cluster_receipt.json")["contrasts"]
 
-    evotarget_21k = f"{evo['overall_winner_v1']['test_full_21k_auc']:.6f}"
-    evotarget_10k = f"{evo['overall_winner_v1']['test_10k_auc']:.6f}"
-    cb_ref_346k = f"{champ['reference_catboost_full_v1_auc']:.6f}"
+    lb4 = v4["leaderboard_21k"]
+    c4 = v4["contrasts_21k"]
 
     opt_row = [r for r in split["five_way_split_audit"] if r["split_name"] == "E_optimal_94_6_multivariate"][0]
     naive_row = [r for r in split["five_way_split_audit"] if r["split_name"] == "A_naive_2017_temporal"][0]
-
-    cb_rt = rt["full"]["contrasts"]["FT_Transformer_ClinicalAttn_PLR__gen20_p2b2 vs V1__catboost_5f_small__bayes_nat"]
     dev_cal = rt["calibration_sensitivity"]["development_only"]
-    master_json = load_json("paper_v3_master_receipt.json")
-    master = master_json["leaderboard_21k_dev_prior"]
-    master_c = master_json["hospital_cluster_contrasts_21k"]
-    fe_rt = load_json("agentic_fe_cluster_receipt.json")["contrasts"]
 
     required_receipts = [
-        ("EvoTarget-FT 21k AUC", evotarget_21k),
-        ("EvoTarget-FT 10k AUC", evotarget_10k),
-        ("CatBoost Full 346k Ref AUC", cb_ref_346k),
-        ("Primary CatBoost 50k Delta", f"+{cb_rt['delta_auc']:.6f}"),
-        ("EvoTarget-FT vs TabFM Delta", f"+{master_c['evotarget_ft__vs__tabfm_cls_e80']['delta_auc']:.6f}"),
-        ("EvoTarget-FT vs Kumo Delta", f"+{master_c['evotarget_ft__vs__kumo_cls_e40']['delta_auc']:.6f}"),
-        ("EvoTarget-FT vs TabPFN-3.5 Delta", f"+{master_c['evotarget_ft__vs__tabpfn_nat_cls_e8']['delta_auc']:.6f}"),
-        ("74-Hosp CI Low vs 50k CB", f"+{cb_rt['hospital_bootstrap_percentile_95'][0]:.5f}"),
-        ("74-Hosp CI High vs 50k CB", f"+{cb_rt['hospital_bootstrap_percentile_95'][1]:.5f}"),
+        ("Dual-Paradigm Fusion 21k AUC", f"{lb4['fusion_gp0_plus_ft20']['roc_auc_21k']:.6f}"),
+        ("Dual-Paradigm Fusion 10k AUC", f"{lb4['fusion_gp0_plus_ft20']['roc_auc_10k']:.6f}"),
+        ("Dual-Paradigm Fusion 21k AP", f"{lb4['fusion_gp0_plus_ft20']['avg_precision_21k']:.6f}"),
+        ("Dual-Paradigm Fusion Dev-Prior ECE", f"{lb4['fusion_gp0_plus_ft20']['ece_15bin_dev_prior']:.5f}"),
+        ("EvoTarget-FT Gen-20 21k AUC", f"{lb4['ft_g1k_g20']['roc_auc_21k']:.6f}"),
+        ("EvoTarget-FT Gen-20 vs Binary FT Delta", f"+{c4['ft_g1k_g20__vs__ft_g1k_g0']['delta_auc']:.6f}"),
+        ("EvoTarget-FT Gen-1000 21k AUC", f"{lb4['ft_g1k_g1000']['roc_auc_21k']:.6f}"),
+        ("EvoTarget-FT Nested-207 21k AUC", f"{lb4['ft_nested207_g20']['roc_auc_21k']:.6f}"),
+        ("JAIN Ultra GP v2 21k AUC", f"{lb4['gp_v2_gen0_ens_cv5']['roc_auc_21k']:.6f}"),
+        ("JAIN Ultra GP v2 vs Legacy JAIN Delta", f"+{c4['gp_v2_gen0_ens_cv5__vs__jain_gpu_leg_g20']['delta_auc']:.6f}"),
+        ("GP v2 BinStop vs No-BinStop Delta", f"+{c4['gp_v2_global289_binstop_ens__vs__gp_v2_gen20_ens_cv7_nobinstop']['delta_auc']:.6f}"),
+        ("Fusion vs 50k CatBoost Delta", f"+{c4['fusion_gp0_plus_ft20__vs__cb_5f_small_ref']['delta_auc']:.6f}"),
+        ("Fusion vs 3-Way Binary Blend Delta", f"+{c4['fusion_gp0_plus_ft20__vs__binary_3way_blend']['delta_auc']:.6f}"),
+        ("CatBoost Full 346k Ref AUC", f"{champ['reference_catboost_full_v1_auc']:.6f}"),
         ("Dev-Only Natural Prior", f"{dev_cal['prior']:.6f}"),
         ("Dev-Only Bayes Logit Offset", f"{abs(dev_cal['logit_offset']):.6f}"),
-        ("Dev-Only EvoTarget-FT ECE", f"{dev_cal['ece_15_equal_width']:.5f}"),
-        ("Dev-Only XGBoost ECE", f"{master['xgb_bin']['ece_15bin_dev_prior']:.5f}"),
-        ("Dev-Only LightGBM ECE", f"{master['lgb_bin']['ece_15bin_dev_prior']:.5f}"),
-        ("No-Recorded-Preop-AF EvoTarget-FT AUC", f"{master['evotarget_ft']['auc_no_recorded_preop_af']:.5f}"),
         ("346k TabM V3-V1 74-Hosp CI Low", f"+{fe_rt['nn_tabm_k16_mt_v3_vs_v1']['ci95_hosp_low']:.5f}"),
         ("Optimal 94.2/5.8 Max |SMD|", f"{opt_row['max_abs_smd_206']:.4f}"),
         ("Naive 2017 Max |SMD|", f"{naive_row['max_abs_smd_206']:.4f}"),
