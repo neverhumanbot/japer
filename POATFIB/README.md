@@ -1,61 +1,22 @@
-# POATFIB — Self-Evolving Agent Networks (SEAN) for Postoperative Atrial Fibrillation
+# POATFIB — Postoperative Atrial Fibrillation Prediction Archive & Active Study Suite
 
-The [EvoTarget-FT study bundle](EvoTarget/README.md) contains the current STS v2.81 pre-incision POAF manuscript, bibliography, figures, and aggregate results.
+> **Superseding Publication Notice (Important Reconciliation):**  
+> The archived early drafts below (`NEJM/nejm_poaf.tex` and `IEEE/ieee_poaf.tex`, reporting `0.6920` AUC for SEAN on a 2016–2017 / held-out 2017 50k/10k split) evaluated a **hospital-overlapping temporal split** before our full national 1,091-hospital audit. In our superseding **[EvoTarget-FT & JAIN Ultra GP v2 study suite](EvoTarget/README.md)**, we prove that hospital overlap alone inflates apparent pre-incision AUC by `+28–64 bps` (and up to `+2.0` AUC points with calendar/site effects): on **74 strictly unseen hospitals (0% overlap)** our Dual-Paradigm Fusion establishes the leakage-free cold-start benchmark at **`0.6767` AUC** (`+577 bps` over Mariscalco POAF; `+6.7` AUC points above the published external median of `0.61`), while in our matched **100% Seen-Hospital In-Network study (all 1,091 centers in training)** we achieve **`0.6916`** (50k native `site208`), **`0.6974`** (50k Fusion `+EB346k`), and **`0.7014`** (346k CatBoost `site208`)—surpassing and fully reconciling the earlier `0.6920` overlapping-split estimate.
 
-**[Current manuscript (PDF)](EvoTarget/docs/paper/main.pdf)** · [CEO brief (PDF)](EvoTarget/docs/briefs/evotarget-poaf-ceo-brief.pdf) · [CTO brief (PDF)](EvoTarget/docs/briefs/evotarget-poaf-cto-brief.pdf)
+### Active Submission-Ready Manuscripts & Briefs (`EvoTarget/`)
 
-Two coordinated manuscripts on **Self-Evolving Agent Networks (SEAN)** — a governed system of
-language-model agents that autonomously *discover* clinical features and *invent* algorithm
-components for predicting STS-defined treated postoperative atrial fibrillation/flutter
-(`TARGET_COtAFib`), evaluated honestly under a single-use holdout firewall.
+- ***NEJM AI* Original Article (PDF):** [POATFIB/EvoTarget/docs/nejm_ai/main.pdf](EvoTarget/docs/nejm_ai/main.pdf) · [LaTeX](EvoTarget/docs/nejm_ai/main.tex)
+- ***npj Digital Medicine* Research Article (PDF):** [POATFIB/EvoTarget/docs/npj_digital_medicine/main.pdf](EvoTarget/docs/npj_digital_medicine/main.pdf) · [LaTeX](EvoTarget/docs/npj_digital_medicine/main.tex)
+- **Technical Paper v4 (PDF):** [POATFIB/EvoTarget/docs/paper/main.pdf](EvoTarget/docs/paper/main.pdf) · **[CEO Brief (PDF)](EvoTarget/docs/briefs/evotarget-poaf-ceo-brief.pdf)** · **[CTO Brief (PDF)](EvoTarget/docs/briefs/evotarget-poaf-cto-brief.pdf)**
+- **Complete Study Index & Receipts:** [EvoTarget/README.md](EvoTarget/README.md) · [Seen-Hospital Master Receipt](EvoTarget/reports/seen_hospital_study/seen_hospital_master_receipt.md)
 
-- `NEJM/nejm_poaf.tex` — clinical framing. First author: **Zain Khalpey, MD**.
-- `IEEE/ieee_poaf.tex` — technical framing (IEEEtran). First author: **Jepson Taylor**.
+---
 
-## Headline (honest) result
+## Archived Earlier Drafts (SEAN 2016–2017 / 2017 Hospital-Overlapping Split)
 
-On a leakage-controlled **50,000/10,000** STS-derived split (2016–17 train / held-out 2017 test;
-147 preoperative predictors; gates passed: 0 feature-row hash overlap, adversarial-shift AUROC
-0.509, target drift 0.0014), the field sits in a **moderate, overlapping band** and SEAN reaches
-the top of it:
+Two earlier coordinated manuscripts on **Self-Evolving Agent Networks (SEAN)** — evaluated on an earlier 50,000/10,000 2016–2017 train / 2017 test STS split (`147` preoperative predictors, hospital-overlapping temporal holdout) — are preserved here for historical provenance:
 
-| Model | Held-out AUROC |
-| --- | ---: |
-| **SEAN** (best fair holdout) | **0.69196** |
-| AutoGluon (default) | 0.6905 |
-| CatBoost (default) | 0.6874 |
-| TabPFN (default, baseline only) | 0.6869 |
-| LightGBM (default) | 0.6863 |
-| Random Forest (default) | 0.6747 |
-| XGBoost (default) | 0.6687 |
+- `NEJM/nejm_poaf.tex` — archived clinical draft (`0.6920` SEAN vs. `0.6905` AutoGluon / `0.6874` CatBoost on overlapping 2017 split).
+- `IEEE/ieee_poaf.tex` — archived technical draft (IEEEtran).
 
-SEAN **leads**, but its margin over the best default is within the AUROC sampling interval
-(~0.011) — a moderate field, **not a decisive separation**. The contribution is an auditable,
-trustworthy discovery instrument and an honest measurement of the ceiling. SEAN also discovers
-theory-backed features (the top of 2,182 is `metabolicriskcalcul = Age×BSA+INR`) and novel
-algorithm components that generalize where signal exists (HIGGS +0.0023; a frozen benchmark
-+0.037). The "young-and-sick" age signal is a cohort-selection confound (POAF 50.8% in <60 vs
-24.1% in >75), not rediscovered physiology.
-
-## Grounding receipts
-
-- `/tmp/apex/preds/` — per-patient predictions (`preds_*.{npy,txt}`, `y_test.npy`), `ranking.json`.
-- `…/sts_mimo_afib_50k10kprime_manifest.json` — split/gate manifest.
-- `data/clinical_analyses.json` — real DeLong / calibration (raw→Platt) / subgroup, from
-  `compute_clinical_analyses.py` (cross-checked to `ranking.json`).
-- `data/engineered_features.json` — discovered-feature formulae + citations.
-
-## Build
-
-```bash
-cd POATFIB
-python3 compute_clinical_analyses.py     # -> */data/clinical_analyses.json
-python3 make_figures.py                  # vector PDF + PNG into NEJM/IEEE figures
-cd NEJM  && latexmk -pdf nejm_poaf.tex
-cd ../IEEE && latexmk -pdf ieee_poaf.tex
-```
-
-## Before submission (`TO CONFIRM` in both papers)
-
-STS database version + `COtAFib` dictionary; IRB/DUA; the 2,182-feature ranking receipt + hash;
-funding, conflicts, data/code availability, CRediT, and AI-writing disclosure.
+Please use the active **NEJM AI** and **npj Digital Medicine** manuscripts in [EvoTarget/](EvoTarget/README.md) for all current clinical, methodological, unseen-hospital, and seen-hospital results.

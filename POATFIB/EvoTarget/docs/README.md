@@ -4,8 +4,8 @@
 
 | Target Venue | Compiled PDF | LaTeX Source & Figures | Compliance Highlights |
 | :--- | :--- | :--- | :--- |
-| ***NEJM AI* Original Article** | **[NEJM AI Manuscript (PDF)](nejm_ai/main.pdf)** (18 pp) | [main.tex](nejm_ai/main.tex) · [Makefile](nejm_ai/Makefile) · [Figures 1–7](nejm_ai/figures/) | 248-word structured abstract, IMRaD, Vancouver refs, uppercase `A–C` panels, unseen + 100% seen-hospital study, TRIPOD+AI Supplement |
-| ***npj Digital Medicine* Research Article** | **[npj Digital Medicine Manuscript (PDF)](npj_digital_medicine/main.pdf)** (16 pp) | [main.tex](npj_digital_medicine/main.tex) · [Makefile](npj_digital_medicine/Makefile) · [Figures 1–7](npj_digital_medicine/figures/) | 12-word punctuation-free title, 149-word unstructured abstract, IRDM (0 subheads in Intro/Discussion), 59 `naturemag` refs, lowercase `a–c` panels, Nature Portfolio statements |
+| ***NEJM AI* Original Article** | **[NEJM AI Manuscript (PDF)](nejm_ai/main.pdf)** (16 pp) | [main.tex](nejm_ai/main.tex) · [Makefile](nejm_ai/Makefile) · [Figures 1–7](nejm_ai/figures/) | 248-word structured abstract, streamlined IMRaD + Takeaways Box, Table 4 Literature Reconciliation (`0.61–0.93`), Vancouver refs, uppercase `A–C` panels, unseen + 100% seen-hospital study, TRIPOD+AI Supplement |
+| ***npj Digital Medicine* Research Article** | **[npj Digital Medicine Manuscript (PDF)](npj_digital_medicine/main.pdf)** (15 pp) | [main.tex](npj_digital_medicine/main.tex) · [Makefile](npj_digital_medicine/Makefile) · [Figures 1–7](npj_digital_medicine/figures/) | 12-word punctuation-free title, 149-word unstructured abstract, streamlined IRDM (0 subheads in Intro/Discussion), Table 4 Literature Reconciliation, 59 `naturemag` refs, lowercase `a–c` panels, Nature Portfolio statements |
 
 Rebuild & verify both editions cleanly via `make -C docs/nejm_ai && make -C docs/npj_digital_medicine && python3 scripts/36_audit_journal_manuscripts.py`.
 
@@ -13,8 +13,8 @@ Rebuild & verify both editions cleanly via `make -C docs/nejm_ai && make -C docs
 
 | Audience | Formatted 2-Page PDF | Markdown Companion | Focus |
 | :--- | :--- | :--- | :--- |
-| **Health System CEOs, CMOs & Clinical AI Leaders** | **[CEO Brief (PDF)](briefs/evotarget-poaf-ceo-brief.pdf)** | [ceo-brief.md](briefs/ceo-brief.md) | Clinical AI validation illusion, 79.2% data-scaling recovery, Dual-Paradigm Fusion (`0.67668`), trial enrichment & governance |
-| **CTOs, VP Engineering & ML Architects** | **[CTO Brief (PDF)](briefs/evotarget-poaf-cto-brief.pdf)** | [cto-brief.md](briefs/cto-brief.md) | 1,000-gen zero-collapse $z^*$, strictly nested 207-raw 2×2 causal proof, `JAIN Ultra GP v2` (`+39.8* bps`) & 5-min audit CLI |
+| **Health System CEOs, CMOs & Clinical AI Leaders** | **[CEO Brief (PDF)](briefs/evotarget-poaf-ceo-brief.pdf)** | [ceo-brief.md](briefs/ceo-brief.md) | Cold-start (`0.6767`) vs. in-network (`0.6916–0.7014`), `20.4–33.8` avoided interventions/100, Literature Reconciliation (`0.61` external median), trial enrichment & governance |
+| **CTOs, VP Engineering & ML Architects** | **[CTO Brief (PDF)](briefs/evotarget-poaf-cto-brief.pdf)** | [cto-brief.md](briefs/cto-brief.md) | 1,000-gen zero-collapse $z^*$, nested 207-raw 2×2 causal proof, `JAIN Ultra GP v2`, 100% seen-hospital EB site priors (`+174–213 bps`), entanglement (`r=0.088–0.143`) & audit CLI |
 
 Rebuild & verify both 2-page PDFs deterministically via `bash docs/briefs/scripts/build_briefs.sh --check` ([build_briefs.sh](briefs/scripts/build_briefs.sh)).
 

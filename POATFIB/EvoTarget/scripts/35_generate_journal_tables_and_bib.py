@@ -49,6 +49,17 @@ EXTRA_BIB = """
   pages   = {4051--4065},
   doi     = {10.1002/sim.8281}
 }
+
+@article{pollock2018chargeaf,
+  author  = {Pollock, Benjamin D. and Filardo, Giovanni and da Graca, Briget and Sass, Danielle M. and Ailawadi, Gorav and Thourani, Vinod H. and Damiano, Ralph J. and Edgerton, James R.},
+  title   = {Predicting New-Onset Post-Coronary Artery Bypass Grafting Atrial Fibrillation With Existing Risk Scores},
+  journal = {Annals of Thoracic Surgery},
+  year    = {2018},
+  volume  = {105},
+  number  = {1},
+  pages   = {115--121},
+  doi     = {10.1016/j.athoracsur.2017.06.075}
+}
 """
 
 
@@ -192,34 +203,37 @@ def build_tab2_primary(v4: dict[str, Any], clin: dict[str, Any]) -> None:
             )
         return f"{cat} & {name} & {auc_s} & {ap_s} & {ece_s} & {slp_s} & {oe_s} & {lift_s} & {d_s} \\\\"
 
+    def _delta(key: str) -> dict[str, Any] | None:
+        return ct.get(f"fusion_gp0_plus_ft20__vs__{key}") or bct.get(f"fusion__vs__{key}")
+
     lines = [
-        r"\multicolumn{9}{@{}l}{\textit{Validated Bedside Clinical Risk Scores (Calibrated on 50k Development Set)}} \\",
-        _row("Clinical", "HATCH Score", "score_hatch", bct["fusion__vs__score_hatch"]),
-        _row("Clinical", "$\\mathrm{CHA_2DS_2\\text{-}VASc}$ Score", "score_cha2ds2_vasc", bct["fusion__vs__score_cha2ds2_vasc"]),
-        _row("Clinical", "Burgos COM-AF Score", "score_com_af", bct["fusion__vs__score_com_af"]),
-        _row("Clinical", "Mariscalco POAF Score", "score_mariscalco_poaf", bct["fusion__vs__score_mariscalco_poaf"]),
-        _row("Clinical", "Continuous Age Alone", "score_age_only", bct["fusion__vs__score_age_only"]),
-        _row("Clinical", "Preoperative Mathew Proxy", "score_mathew_preop", bct["fusion__vs__score_mathew_preop"]),
+        r"\multicolumn{9}{@{}l}{\textit{Reconstructed Bedside Clinical Risk Score Proxies (Calibrated on 50k Development Set)}} \\",
+        _row("Clinical", "HATCH Score (proxy)", "score_hatch", _delta("score_hatch")),
+        _row("Clinical", "$\\mathrm{CHA_2DS_2\\text{-}VASc}$ Score (proxy)", "score_cha2ds2_vasc", _delta("score_cha2ds2_vasc")),
+        _row("Clinical", "Burgos COM-AF Score (proxy)", "score_com_af", _delta("score_com_af")),
+        _row("Clinical", "Mariscalco POAF Score (proxy)", "score_mariscalco_poaf", _delta("score_mariscalco_poaf")),
+        _row("Clinical", "Continuous Age Alone", "score_age_only", _delta("score_age_only")),
+        _row("Clinical", "Preoperative Mathew Proxy", "score_mathew_preop", _delta("score_mathew_preop")),
         r"\midrule",
         r"\multicolumn{9}{@{}l}{\textit{World-Leading Binary Tabular Foundation Models and GBDTs ($N=50{,}000$, 207 Raw Predictors)}} \\",
-        _row("Tabular FM", "Google TabFM v1.0.0 (5$\\times$10k)", "tabfm_cls_e80", ct["fusion_gp0_plus_ft20__vs__tabfm_cls_e80"]),
-        _row("Tabular FM", "NVIDIA KumoTabular-L v2 (5$\\times$10k)", "kumo_cls_e40", ct["fusion_gp0_plus_ft20__vs__kumo_cls_e40"]),
-        _row("GBDT", "XGBoost (5-fold tuned)", "xgb_bin", None),
-        _row("GBDT", "LightGBM (5-fold tuned)", "lgb_bin", None),
-        _row("Tabular FM", "PriorLabs TabPFN-3.5 (50k native)", "tabpfn_nat_cls_e8", ct["fusion_gp0_plus_ft20__vs__tabpfn_nat_cls_e8"]),
-        _row("GBDT", "CatBoost (5-fold binary ref)", "cb_5f_small_ref", ct["fusion_gp0_plus_ft20__vs__cb_5f_small_ref"]),
-        _row("Neural", "Binary FT-Transformer (Gen-0)", "ft_g1k_g0", ct["fusion_gp0_plus_ft20__vs__ft_g1k_g0"]),
+        _row("Tabular FM", "Google TabFM v1.0.0 (5$\\times$10k)", "tabfm_cls_e80", _delta("tabfm_cls_e80")),
+        _row("Tabular FM", "NVIDIA KumoTabular-L v2 (5$\\times$10k)", "kumo_cls_e40", _delta("kumo_cls_e40")),
+        _row("GBDT", "XGBoost (5-fold tuned)", "xgb_bin", _delta("xgb_bin")),
+        _row("GBDT", "LightGBM (5-fold tuned)", "lgb_bin", _delta("lgb_bin")),
+        _row("Tabular FM", "PriorLabs TabPFN-3.5 (50k native)", "tabpfn_nat_cls_e8", _delta("tabpfn_nat_cls_e8")),
+        _row("GBDT", "CatBoost (5-fold binary ref)", "cb_5f_small_ref", _delta("cb_5f_small_ref")),
+        _row("Neural", "Binary FT-Transformer (Gen-0)", "ft_g1k_g0", _delta("ft_g1k_g0")),
         r"\midrule",
         r"\multicolumn{9}{@{}l}{\textit{Proposed Evolutionary Target Learning, Parallel GP, and Dual-Paradigm Fusion ($N=50{,}000$, 207 Raw)}} \\",
-        _row("Evolved Tree", "CatBoost CE (Gen-20 $z^*$)", "cb_g1k_g20", None),
-        _row("Nested $z^*$", "EvoTarget-FT (Strictly Nested 207)", "ft_nested207_g20", None),
-        _row("Parallel GP", "JAIN Ultra GP v2 (6-family binary)", "gp_v2_gen0_ens_cv5", None),
-        _row("Gen-0 Blend", "Fair Fusion (GP v2 $+$ Binary FT)", "fusion_gen0_gp_plus_ft0", None),
-        _row("Evolved Attn", "EvoTarget-FT (Gen-20 $z^*$)", "ft_g1k_g20", ct["fusion_gp0_plus_ft20__vs__ft_g1k_g20"]),
+        _row("Evolved Tree", "CatBoost CE (Gen-20 $z^*$)", "cb_g1k_g20", _delta("cb_g1k_g20")),
+        _row("Parallel GP", "JAIN Ultra GP v2 (6-family binary)", "gp_v2_gen0_ens_cv5", _delta("gp_v2_gen0_ens_cv5")),
+        _row("Nested $z^*$", "EvoTarget-FT (Strictly Nested 207)", "ft_nested207_g20", _delta("ft_nested207_g20")),
+        _row("Gen-0 Blend", "Fair Fusion (GP v2 $+$ Binary FT)", "fusion_gen0_gp_plus_ft0", _delta("fusion_gen0_gp_plus_ft0")),
+        _row("Evolved Attn", "EvoTarget-FT (Gen-20 $z^*$)", "ft_g1k_g20", _delta("ft_g1k_g20")),
         _row("Champion", "Dual-Paradigm Fusion (GP v2 $+$ FT)", "fusion_gp0_plus_ft20", None, bold=True),
         r"\midrule",
         r"\multicolumn{9}{@{}l}{\textit{Full National Registry Data-Scale Reference ($7\times$ Larger Training Cohort, $N=346{,}454$)}} \\",
-        _row("7$\\times$ Ref", "CatBoost Full Registry (346k, 207 raw)", "cb_full_346k_v1", None),
+        _row("7$\\times$ Ref", "CatBoost Full Registry (346k, 207 raw)", "cb_full_346k_v1", _delta("cb_full_346k_v1")),
     ]
 
     tex = (
@@ -228,17 +242,17 @@ def build_tab2_primary(v4: dict[str, Any], clin: dict[str, Any]) -> None:
         "\\tablefont\n"
         "\\caption{\\ct{Primary External Validation Across 74 Strictly Unseen U.S.\\ Surgical Centers ($N=21{,}241$; 5,160 POAF Events; 207 Raw Pre-Incision Predictors).}}\n"
         "\\label{tab:primary_results}\n"
-        "\\setlength{\\tabcolsep}{3.4pt}\n"
-        "\\renewcommand{\\arraystretch}{1.05}\n"
-        "\\begin{tabularx}{\\textwidth}{@{}L{1.55cm}Yrrrrrrr@{}}\n"
+        "\\setlength{\\tabcolsep}{3.0pt}\n"
+        "\\renewcommand{\\arraystretch}{1.04}\n"
+        "\\begin{tabularx}{\\textwidth}{@{}L{1.45cm}Yrrrrrrr@{}}\n"
         "\\toprule\n"
-        "\\thd{Class} & \\thd{Model / Clinical Score} & \\thd{ROC-AUC (95\\% CI)} & \\thd{AP} & \\thd{ECE} & \\thd{Slope} & \\thd{O:E} & \\thd{D10 Lift} & \\thd{Fusion $\\Delta$ bps (95\\% CI)} \\\\\n"
+        "\\thd{Class} & \\thd{Model / Clinical Proxy} & \\thd{ROC-AUC (95\\% CI)} & \\thd{AP} & \\thd{ECE} & \\thd{Slope} & \\thd{O:E} & \\thd{D10 Lift} & \\thd{Fusion $\\Delta$ bps (95\\% CI)} \\\\\n"
         "\\midrule\n"
         + "\n".join(lines)
         + "\n\\bottomrule\n"
         "\\end{tabularx}\n"
-        "\\par\\smallskip\\raggedright\\fontsize{7.4}{9.2}\\selectfont\\color{sub}\n"
-        "All models consume strictly the same 207 raw pre-incision predictors and are calibrated to natural clinical prevalence via uniform fold-OOF Platt scaling plus the development-only Bayes offset ($-1.1365$; zero test-label contact). Confidence intervals reflect 5,000 whole-hospital cluster bootstrap draws across all 74 unseen hospitals. $^{\\ast}$95\\% hospital-cluster CI strictly excludes zero. Dual-Paradigm Fusion recovers 79.2\\% of the 7$\\times$ 50k$\\to$346k CatBoost gap while exceeding 346k CatBoost in Average Precision (0.3777 vs.\\ 0.3776), 15-bin ECE (0.0072 vs.\\ 0.0076), 2017 unseen-hospital AUC (0.6579 vs.\\ 0.6578), and rare clinical tails (0.6935 vs.\\ 0.6928), and strictly outperforming a 3-way binary neural--GBDT--TabPFN blend ($+9.9$ bps $[+0.6, +19.7]$).\n"
+        "\\par\\smallskip\\raggedright\\fontsize{7.3}{9.1}\\selectfont\\color{sub}\n"
+        "All models consume strictly the same 207 raw pre-incision predictors (reconstructed STS pre-incision proxies for bedside scores) and are calibrated to natural prevalence via fold-OOF Platt scaling plus the development-only Bayes offset ($-1.1365$; zero test-label contact). Intervals reflect 5,000 whole-hospital cluster bootstrap draws across all 74 unseen centers conditional on retrospective evaluation. $^{\\ast}$95\\% cluster CI strictly excludes zero. Dual-Paradigm Fusion recovers 79.2\\% of the 7$\\times$ 50k$\\to$346k CatBoost gap while exceeding 346k CatBoost in AP (0.3777 vs.\\ 0.3776), ECE (0.0072 vs.\\ 0.0076), 2017 unseen-hospital AUC (0.6579 vs.\\ 0.6578), and rare clinical tails (0.6935 vs.\\ 0.6928), and strictly outperforming a 3-way binary neural--GBDT--TabPFN blend ($+9.9$ bps $[+0.6, +19.7]$).\n"
         "\\end{table*}\n"
     )
     write_both("tables/tab2_primary_external_results.tex", tex)
@@ -348,54 +362,141 @@ def build_tab3_seen_vs_unseen() -> None:
         e = d[k].get("ece_15bin", d[k].get("ece_15bin_dev_prior"))
         return f"{e:.4f}" if e is not None else "---"
 
-    specs = [
-        ("Mariscalco POAF Score", None, "score_mariscalco_poaf", None, None, False),
-        ("Google TabFM v1.0.0 (5$\\times$10k)", "tabfm_cls_e80", "tabfm_raw207_bag5x10k", "tabfm_raw207_bag5x10k__plus_eb50k", "tabfm_raw207_bag5x10k__plus_eb346k", False),
-        ("NVIDIA KumoTabular-L v2 (5$\\times$10k)", "kumo_cls_e40", "kumo_raw207_bag5x10k", "kumo_raw207_bag5x10k__plus_eb50k", "kumo_raw207_bag5x10k__plus_eb346k", False),
-        ("XGBoost (5-fold binary)", "xgb_bin", "xgb_raw207_bin", "xgb_raw207_bin__plus_eb50k", "xgb_raw207_bin__plus_eb346k", False),
-        ("LightGBM (5-fold binary)", "lgb_bin", "lgb_raw207_bin", "lgb_raw207_bin__plus_eb50k", "lgb_raw207_bin__plus_eb346k", False),
-        ("PriorLabs TabPFN-3.5 (50k native)", "tabpfn_nat_cls_e8", "tabpfn_raw207_native50k", "tabpfn_raw207_native50k__plus_eb50k", "tabpfn_raw207_native50k__plus_eb346k", False),
-        ("CatBoost 50k (5-fold binary)", "cb_5f_small_ref", "cb_raw207_bin", "cb_raw207_bin__plus_eb50k", "cb_raw207_bin__plus_eb346k", False),
-        ("Binary FT-Transformer (Gen-0)", "ft_g1k_g0", "ft_raw207_bin", "ft_raw207_bin__plus_eb50k", "ft_raw207_bin__plus_eb346k", False),
-        ("JAIN Ultra GP v2 (6-family)", "gp_v2_gen0_ens_cv5", "gp_v2_raw207_bin", "gp_v2_raw207_bin__plus_eb50k", "gp_v2_raw207_bin__plus_eb346k", False),
-        ("EvoTarget-FT (Gen-20 $z^*$)", "ft_g1k_g20", "ft_raw207_gen20", "ft_raw207_gen20__plus_eb50k", "ft_raw207_gen20__plus_eb346k", False),
-        ("Dual-Paradigm Fusion (GP v2 $+$ FT)", "fusion_gp0_plus_ft20", "fusion_raw207_gp0_plus_ft20", "fusion_raw207_gp0_plus_ft20__plus_eb50k", "fusion_raw207_gp0_plus_ft20__plus_eb346k", True),
-        ("CatBoost Full Registry (346k, 7$\\times$)", "cb_full_346k_v1", "cb_full346k_raw207", None, "cb_full346k_site208", False),
-    ]
-    rows = []
-    for lbl, uk, sk_raw, sk_eb50, sk_eb346, is_hero in specs:
-        u_auc = _get(ulb, uk) if uk else "0.6190"
+    def _row_t3(lbl: str, uk: str | None, sk_raw: str | None, sk_eb50: str | None, sk_eb346: str | None, is_hero: bool = False) -> str:
+        u_auc = _get(ulb, uk) if uk else ("0.6190" if sk_raw == "score_mariscalco_poaf" else "---")
         s_raw = _get(slb, sk_raw) if sk_raw else "---"
         s_50 = _get(slb, sk_eb50) if sk_eb50 else "---"
         s_346 = _get(slb, sk_eb346) if sk_eb346 else "---"
-        s_ece = _get_ece(slb, sk_eb346) if (sk_eb346 and sk_eb346 in slb) else (_get_ece(slb, sk_raw) if sk_raw else "---")
+        s_ece = _get_ece(slb, sk_eb346) if (sk_eb346 and sk_eb346 in slb) else (_get_ece(slb, sk_eb50) if (sk_eb50 and sk_eb50 in slb) else (_get_ece(slb, sk_raw) if sk_raw else "---"))
         gain = "---"
-        if sk_raw in slb and sk_eb346 in slb:
-            g = (slb[sk_eb346]["roc_auc_21k"] - slb[sk_raw]["roc_auc_21k"]) * 1e4
-            gain = f"+{g:.0f}"
+        if sk_raw and sk_raw in slb and sk_eb346 and sk_eb346 in slb:
+            gain = f"+{(slb[sk_eb346]['roc_auc_21k'] - slb[sk_raw]['roc_auc_21k']) * 1e4:.0f}"
+        elif sk_raw and sk_raw in slb and sk_eb50 and sk_eb50 in slb:
+            gain = f"+{(slb[sk_eb50]['roc_auc_21k'] - slb[sk_raw]['roc_auc_21k']) * 1e4:.0f}"
         if is_hero:
-            rows.append(
+            return (
                 f"\\rowcolor{{primarytint}} \\textbf{{{lbl}}} & \\textbf{{{u_auc}}} & \\textbf{{{s_raw}}} & "
                 f"\\textbf{{{s_50}}} & \\textbf{{{s_346}}} & \\textbf{{{gain}}} & \\textbf{{{s_ece}}} \\\\"
             )
-        else:
-            rows.append(f"{lbl} & {u_auc} & {s_raw} & {s_50} & {s_346} & {gain} & {s_ece} \\\\")
+        return f"{lbl} & {u_auc} & {s_raw} & {s_50} & {s_346} & {gain} & {s_ece} \\\\"
+
+    rows = [
+        r"\multicolumn{7}{@{}l}{\textit{Bedside Clinical Proxy Reference}} \\",
+        _row_t3("Mariscalco POAF Score (proxy)", None, "score_mariscalco_poaf", None, None),
+        r"\midrule",
+        r"\multicolumn{7}{@{}l}{\textit{50,000-Patient Parity Benchmark (207 Raw Predictors $+$ Parameter-Free Closed-Form EB Hospital Priors)}} \\",
+        _row_t3("Google TabFM v1.0.0 (5$\\times$10k)", "tabfm_cls_e80", "tabfm_raw207_bag5x10k", "tabfm_raw207_bag5x10k__plus_eb50k", "tabfm_raw207_bag5x10k__plus_eb346k"),
+        _row_t3("NVIDIA KumoTabular-L v2 (5$\\times$10k)", "kumo_cls_e40", "kumo_raw207_bag5x10k", "kumo_raw207_bag5x10k__plus_eb50k", "kumo_raw207_bag5x10k__plus_eb346k"),
+        _row_t3("XGBoost (5-fold binary)", "xgb_bin", "xgb_raw207_bin", "xgb_raw207_bin__plus_eb50k", "xgb_raw207_bin__plus_eb346k"),
+        _row_t3("LightGBM (5-fold binary)", "lgb_bin", "lgb_raw207_bin", "lgb_raw207_bin__plus_eb50k", "lgb_raw207_bin__plus_eb346k"),
+        _row_t3("PriorLabs TabPFN-3.5 (50k native)", "tabpfn_nat_cls_e8", "tabpfn_raw207_native50k", "tabpfn_raw207_native50k__plus_eb50k", "tabpfn_raw207_native50k__plus_eb346k"),
+        _row_t3("CatBoost 50k (5-fold binary)", "cb_5f_small_ref", "cb_raw207_bin", "cb_raw207_bin__plus_eb50k", "cb_raw207_bin__plus_eb346k"),
+        _row_t3("Binary FT-Transformer (Gen-0)", "ft_g1k_g0", "ft_raw207_bin", "ft_raw207_bin__plus_eb50k", "ft_raw207_bin__plus_eb346k"),
+        _row_t3("JAIN Ultra GP v2 (6-family)", "gp_v2_gen0_ens_cv5", "gp_v2_raw207_bin", "gp_v2_raw207_bin__plus_eb50k", "gp_v2_raw207_bin__plus_eb346k"),
+        _row_t3("EvoTarget-FT (Gen-20 $z^*$)", "ft_g1k_g20", "ft_raw207_gen20", "ft_raw207_gen20__plus_eb50k", "ft_raw207_gen20__plus_eb346k"),
+        _row_t3("Dual-Paradigm Fusion (GP v2 $+$ FT)", "fusion_gp0_plus_ft20", "fusion_raw207_gp0_plus_ft20", "fusion_raw207_gp0_plus_ft20__plus_eb50k", "fusion_raw207_gp0_plus_ft20__plus_eb346k", is_hero=True),
+        r"\midrule",
+        r"\multicolumn{7}{@{}l}{\textit{50,000-Patient Native Site-Aware End-to-End Training (208 Features Including Train-Only 50k EB Prior)}} \\",
+        _row_t3("CatBoost 50k (native \\texttt{site208})", None, "cb_raw207_bin", "cb_site208_bin", None),
+        _row_t3("Dual-Paradigm Fusion (native \\texttt{site208}, \\#1)", None, "fusion_raw207_gp0_plus_ft20", "fusion_site208_gp0_plus_ft20", None, is_hero=True),
+        r"\midrule",
+        r"\multicolumn{7}{@{}l}{\textit{Full National Registry Reference ($7\times$ Larger Training Cohort, $N=346{,}454$, All 1,091 Centers)}} \\",
+        _row_t3("CatBoost Full Registry (346k, 7$\\times$)", "cb_full_346k_v1", "cb_full346k_raw207", None, "cb_full346k_site208"),
+    ]
 
     tex = (
         "\\begin{table*}[t]\n\\centering\\tablefont\n"
         "\\caption{\\ct{Head-to-Head Transport Audit: Unseen-Hospital Cold Start (0\\% Overlap, 74 Centers) vs.\\ Seen-Hospital In-Network Deployment (100\\% Overlap, All 1,091 Centers in Training; $N=21{,}241$ Natural-Prior Holdout).}}\n"
         "\\label{tab:seen_vs_unseen}\n"
-        "\\setlength{\\tabcolsep}{4.0pt}\n\\renewcommand{\\arraystretch}{1.05}\n"
+        "\\setlength{\\tabcolsep}{3.8pt}\n\\renewcommand{\\arraystretch}{1.04}\n"
         "\\begin{tabularx}{\\textwidth}{@{}Yrrrrrr@{}}\n\\toprule\n"
         "\\thd{Model Family} & \\thd{Unseen Hosp.} & \\thd{Seen Hosp.} & \\thd{Seen + 50k} & \\thd{Seen + 346k} & \\thd{Site-Prior} & \\thd{In-Net} \\\\\n"
         " & \\thd{(0\\% ovlp, 207)} & \\thd{(100\\%, 207 raw)} & \\thd{EB Site Prior} & \\thd{EB Site Prior} & \\thd{Gain (bps)} & \\thd{ECE} \\\\\n"
         "\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabularx}\n"
-        "\\par\\smallskip\\raggedright\\fontsize{7.4}{9.2}\\selectfont\\color{sub}\n"
-        "In the Seen-Hospital benchmark, every one of the 1,091 U.S.\\ surgical centers appears in both the 346,454-case full development set and the nested 50,000-case balanced benchmark (100.0\\% hospital overlap; zero unseen test centers; exact matched $N=21{,}241$ holdout with 24.30\\% POAF prevalence). Empirical-Bayes (EB) hospital incidence priors are computed strictly from training rows with zero test-label exposure.\n"
+        "\\par\\smallskip\\raggedright\\fontsize{7.3}{9.1}\\selectfont\\color{sub}\n"
+        "In the Seen-Hospital split, all 1,091 U.S.\\ centers appear in both the 346,454-case development set and the 50,000-case balanced benchmark (100.0\\% overlap; 0 unseen test centers; exact matched $N=21{,}241$ holdout, 24.30\\% POAF). Empirical-Bayes (EB) hospital priors are computed strictly from training rows with zero test-label contact. Among native 50k site-aware models, Dual-Paradigm Fusion (\\texttt{site208}, 0.6916) strictly leads CatBoost \\texttt{site208} ($+29.0$ bps $[+16.6, +41.5]$, $P>0=1.000$). Under closed-form $+\\mathrm{EB}_{346\\mathrm{k}}$ updating, all 50k models converge within 0.6958--0.6986 (cluster CIs overlapping zero); the slight additive edge of 10k-shard TFMs reflects $\\sim$30\\% lower implicit hospital entanglement ($r=0.088$--$0.092$ vs.\\ $0.122$--$0.143$).\n"
         "\\end{table*}\n"
     )
     write_both("tables/tab3_seen_vs_unseen_hospitals.tex", tex)
     print("  Generated Table 3 (Seen vs. Unseen Hospitals)!")
+
+
+def build_tab4_literature_reconciliation() -> None:
+    lit_rows = [
+        ("Fields et al.\\ (2025)\\cite{fields2025poaf} \\& L\\'opez Tuesta et al.\\ (2026)\\cite{lopeztuesta2026poaf}",
+         "PROBAST critical appraisals (39+ POAF models)",
+         "Mixed external studies",
+         "0.71 app.\\ $\\to$ \\textbf{0.61 ext.}",
+         "Median external AUC across published models; $>$80\\% rated high risk of bias"),
+        ("Mariscalco et al.\\ (2014)\\cite{mariscalco2014poaf}",
+         "17,262 mixed cardiac (23\\% CABG--40\\% combined)",
+         "3-center validation",
+         "0.64 rep.\\ (\\textbf{0.619} here)",
+         "Includes valve surgery \\& IABP; drops to 0.619 on unseen isolated-CABG STS"),
+        ("Pollock et al.\\ (2018)\\cite{pollock2018chargeaf}",
+         "8,976 STS isolated CABG (5 U.S.\\ centers)",
+         "Pooled w/ site random effect",
+         "0.68 CHARGE-AF / 0.65 POAF",
+         "In-network 5-center fit (not unseen hospitals); aligns tightly with our 0.677--0.701 band"),
+        ("Magee et al.\\ (2007)\\cite{magee2007atrial}",
+         "19,083 institutional STS CABG",
+         "Single-system split",
+         "0.72",
+         "Requires cardiopulmonary bypass duration \\& $\\ge 24$\\,h ventilation (unavailable at incision)"),
+        ("Mathew et al.\\ (2004, \\textit{JAMA})\\cite{mathew2004multicenter}",
+         "4,657 CABG $\\pm$ valve (70 centers)",
+         "Split-sample (same centers)",
+         "0.77 (\\textbf{0.645} preop)",
+         "Includes concomitant valve surgery \\& postoperative drug withdrawal"),
+        ("Burgos et al.\\ (2021, COM-AF)\\cite{burgos2021comaf}",
+         "3,113 mixed cardiac (only 45\\% CABG)",
+         "Single-center apparent",
+         "0.78 app.\\ (\\textbf{0.576} here)",
+         "Apparent derivation AUC in mixed surgery; shrinks to 0.576 on unseen isolated CABG"),
+        ("Cho et al.\\ (2026)\\cite{cho2026poaf} \\& Cao et al.\\ (2025)\\cite{cao2025mimic4}",
+         "Perioperative mixed / MIMIC-IV ICU CABG",
+         "Internal / 1-site ext.",
+         "0.891$\\to$0.726 / 0.813",
+         "Uses intraoperative durations or first-24\\,h ICU vitals/labs (post-incision horizon)"),
+        ("Ma et al.\\ (2025)\\cite{ma2025noaf} \\& Han et al.\\ (2025)\\cite{han2025aiecg}",
+         "Surgical duration $+$ echo LA / AI-ECG waveforms",
+         "1--2 centers",
+         "0.931 / 0.710 (AI-ECG)",
+         "Post-procedure surgical time or specialized raw waveform/echo inputs outside STS"),
+        ("Khalpey et al.\\ (2026)\\cite{khalpey2026digital}",
+         "38,742 multi-procedure digital twin cohort",
+         "Multimodal EHR $+$ ECG",
+         "0.89 (0.72 STS score)",
+         "Combines continuous ECG, hemodynamics, biomarkers \\& multi-procedure surgical mix"),
+        ("\\rowcolor{primarytint} \\textbf{Present Study --- Cold Start (74 unseen)}",
+         "\\textbf{367,695 STS isolated CABG (1,091 centers)}",
+         "\\textbf{0.0\\% hospital overlap}",
+         "\\textbf{0.6767} (0.669--0.686)",
+         "\\textbf{Strictly 207 pre-incision registry fields; $+$6.7 AUC pts above external median (0.61)}"),
+        ("\\rowcolor{primarytint} \\textbf{Present Study --- In-Network (1,086 seen)}",
+         "\\textbf{367,695 STS isolated CABG (1,091 centers)}",
+         "\\textbf{100\\% overlap $+$ EB prior}",
+         "\\textbf{0.6974--0.7014}",
+         "\\textbf{50k Fusion $+$ EB (0.6974) / 346k CatBoost (0.7014); true pre-incision registry ceiling}"),
+    ]
+    t4_lines = [
+        f"{st} & {coh} & {ev} & {auc} & {why} \\\\" if not st.startswith("\\rowcolor") else f"{st} & {coh} & {ev} & {auc} & {why} \\\\"
+        for st, coh, ev, auc, why in lit_rows
+    ]
+    tex_t4 = (
+        "\\begin{table*}[t]\n\\centering\\tablefont\n"
+        "\\caption{\\ct{Benchmarking Published POAF Discrimination (0.61--0.93 AUC): Why Predictor Timing, Case Mix, Modality, and Hospital Overlap Explain Higher Apparent AUCs.}}\n"
+        "\\label{tab:lit_reconciliation}\n"
+        "\\setlength{\\tabcolsep}{3.6pt}\n\\renewcommand{\\arraystretch}{1.04}\n"
+        "\\begin{tabularx}{\\textwidth}{@{}L{3.25cm}L{3.25cm}L{2.25cm}L{2.35cm}Y@{}}\n\\toprule\n"
+        "\\thd{Study / Benchmark} & \\thd{Cohort \\& Predictors} & \\thd{Validation Regime} & \\thd{Reported AUC} & \\thd{Key Structural Distinction vs.\\ Unseen Pre-Incision STS CABG} \\\\\n"
+        "\\midrule\n" + "\n".join(t4_lines) + "\n\\bottomrule\n\\end{tabularx}\n"
+        "\\par\\smallskip\\raggedright\\fontsize{7.3}{9.1}\\selectfont\\color{sub}\n"
+        "Published AUCs above 0.72 consistently reflect post-incision or ICU predictors (bypass/surgical time, ventilation, 24\\,h ICU labs), mixed valve-plus-CABG cohorts (higher baseline separation), non-registry modalities (continuous ECG waveforms, left-atrial imaging, biomarkers), or single-center/hospital-overlapping splits. Across strictly pre-incision national isolated-CABG registry predictors, 0.677 (cold-start unseen hospitals) to 0.701 (in-network EB-calibrated) defines the leakage-free empirical frontier.\n"
+        "\\end{table*}\n"
+    )
+    write_both("tables/tab4_literature_reconciliation.tex", tex_t4)
+    print("  Generated Table 4 (Clinical Literature Benchmark Reconciliation)!")
 
 
 def main() -> int:
@@ -406,6 +507,7 @@ def main() -> int:
     build_tab2_primary(v4, clin)
     build_supp_tables(clin)
     build_tab3_seen_vs_unseen()
+    build_tab4_literature_reconciliation()
     print("Generated shared bibliographies and journal LaTeX tables for nejm_ai and npj_digital_medicine!")
     return 0
 

@@ -205,7 +205,7 @@
 \midrule
 CatBoost (5-fold tuned binary ref) & 50,000 & 0.67423 & \textbf{+24.5 [+7.2, +42.2]} & 0.37438 & 0.51846 & 0.17146 & 0.00778 & 0.65650 \\
 PriorLabs TabPFN-3.5 (50k native, e8) & 50,000 & 0.67376 & \textbf{+29.2 [+8.2, +53.5]} & 0.37284 & 0.51844 & 0.17152 & 0.00683 & 0.65315 \\
-LightGBM / XGBoost (5-fold binary) & 50,000 & 0.67363 & \textbf{+30.5 / +31.0} (all CIs $>0$) & 0.37251 & 0.51906 & 0.17162 & 0.00603 & 0.65707 \\
+LightGBM / XGBoost (5-fold binary) & 50,000 & 0.67363 & \textbf{+30.5 / +31.1} (all CIs $>0$) & 0.37251 & 0.51906 & 0.17162 & 0.00603 & 0.65707 \\
 Legacy JAIN Ultra GPU (1w, 20k, RMSE) & 50,000 & 0.67167 & \textbf{+50.1 [+27.1, +73.2]} & 0.36993 & 0.52171 & 0.17234 & 0.00905 & 0.65003 \\
 NVIDIA Kumo-L v2 / Google TabFM v1.0 & 50,000 & 0.67147 & \textbf{+52.0 / +55.3} (TabFM 0.67115) & 0.36925 & 0.51951 & 0.17191 & 0.00702 & 0.65338 \\
 \midrule
@@ -214,7 +214,7 @@ NVIDIA Kumo-L v2 / Google TabFM v1.0 & 50,000 & 0.67147 & \textbf{+52.0 / +55.3}
 \bottomrule
 \end{tabularx}}
 \vspace{1.2pt}
-{\noindent\sffamily\fontsize{6.0}{7.4}\selectfont\color{sub}Full-scale 346k multi-task TabM-K16 (289 feat.) reaches 0.67802 (+10.2\,bps [+2.9, +17.6] vs.\ 207 raw); 346k GBDT+MT neural blend reaches 0.67842. On 50k models, 82 clinical features left binary AUC flat while serving as a +5.7*\,bps Stage-1 teacher distillation source into 207-raw EvoTarget-FT.\par}
+{\noindent\sffamily\fontsize{6.0}{7.4}\selectfont\color{sub}Controlled 100\% Seen-Hospital study (all 1,091 centers in train; $N{=}21{,}241$, 1,086 test centers): hospital overlap lifts 207-raw AUCs $+28$--$64$\,bps (TFMs 2\x{} Fusion); native 50k \tcli{site208} Fusion leads at \textbf{0.6916} ($+29.0$*\,bps vs.\ CB); closed-form $+\mathrm{EB}_{346\mathrm{k}}$ lifts 50k models to \textbf{0.6958--0.6986} (Fusion 0.6974) and 346k CB to \textbf{0.7014}. Published AUCs $>0.72$ reflect post-op/ICU fields, valve cohorts, or waveforms (PROBAST external median \textbf{0.61}).\par}
 
 \vspace{3.8pt}
 
@@ -266,8 +266,8 @@ bash docs/briefs/scripts/build\_briefs.sh --check
   \end{govbox}
 \end{minipage}
 
-\brieffooterstrip{Inspect the Receipts, Re-Run the Audit Suite, or Extend EvoTarget + GP v2 to STS v4.20+}%
-  {\textbf{Key links:} CEO Executive Brief (\texttt{docs/briefs/evotarget-poaf-ceo-brief.pdf}) \;\textbar\; Full Manuscript (\texttt{docs/paper/main.pdf}) \;\textbar\; Compute Playbook (\texttt{docs/distributed\_compute/README.md}) \;\textbar\; Master Receipt (\texttt{reports/paper\_v4\_master\_receipt.json})}%
+\brieffooterstrip{Inspect Both Clinical Journal Editions, Receipts \& Reproducible Audit Suite}%
+  {\textbf{NEJM AI:} \texttt{docs/nejm\_ai/main.pdf} \;\textbar\; \textbf{npj Digital Med:} \texttt{docs/npj\_digital\_medicine/main.pdf} \;\textbar\; \textbf{CEO Brief:} \texttt{evotarget-poaf-ceo-brief.pdf} \;\textbar\; \textbf{Seen Receipt:} \texttt{seen\_hospital\_master\_receipt.md}}%
   {\repourl}
 
 \end{document}

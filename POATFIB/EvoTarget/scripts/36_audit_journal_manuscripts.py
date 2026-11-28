@@ -41,8 +41,11 @@ def strip_latex(tex: str) -> str:
     return s
 
 
-def word_count(tex: str) -> int:
-    txt = strip_latex(tex)
+def word_count(tex: str, drop_figures: bool = False) -> int:
+    s = tex
+    if drop_figures:
+        s = re.sub(r"\\begin\{figure\*?\}.*?\\end\{figure\*?\}", " ", s, flags=re.S)
+    txt = strip_latex(s)
     return len([w for w in txt.split() if re.search(r"[A-Za-z0-9]", w)])
 
 
@@ -89,11 +92,14 @@ def audit_edition(name: str, base_dir: Path) -> list[str]:
         for hdr in ("Background", "Methods", "Results", "Conclusions"):
             if hdr not in abs_tex:
                 errs.append(f"[nejm_ai] Structured abstract missing '{hdr}'")
-        if abs_wc > 265:
+        if abs_wc > 250:
             warns.append(f"[nejm_ai] Abstract is {abs_wc} words (target <=250)")
         body_files = ["01_introduction.tex", "02_methods.tex", "03_results.tex", "04_discussion.tex"]
-        body_wc = sum(word_count((base_dir / "sections" / f).read_text()) for f in body_files)
-        print(f"  [NEJM AI] Pages={n_pages} | Abstract={abs_wc}w | Main Body={body_wc}w | Refs={n_refs} | Overfull>3pt={len([w for w in warns if 'Overfull' in w])}")
+        prose_wc = sum(word_count((base_dir / "sections" / f).read_text(), drop_figures=True) for f in body_files)
+        total_wc = sum(word_count((base_dir / "sections" / f).read_text(), drop_figures=False) for f in body_files)
+        if prose_wc > 3650:
+            warns.append(f"[nejm_ai] Main prose is {prose_wc} words (target <=3,600)")
+        print(f"  [NEJM AI] Pages={n_pages} | Abstract={abs_wc}w | Prose={prose_wc}w (w/figs={total_wc}w) | Refs={n_refs} | Overfull>3pt={len([w for w in warns if 'Overfull' in w])}")
     else:
         m_title = re.search(r"\\newcommand\{\\papertitle\}\{([^}]+)\}", main_tex)
         title_s = m_title.group(1) if m_title else ""
@@ -102,7 +108,7 @@ def audit_edition(name: str, base_dir: Path) -> list[str]:
             errs.append(f"[npj] Title has {t_words} words (limit <=15): {title_s}")
         if any(ch in title_s for ch in ":;!?"):
             errs.append(f"[npj] Title contains forbidden punctuation: {title_s}")
-        if abs_wc > 155:
+        if abs_wc > 150:
             errs.append(f"[npj] Abstract is {abs_wc} words (limit <=150)")
         if "\\cite" in abs_tex:
             errs.append("[npj] Abstract must not contain citations")
@@ -115,8 +121,11 @@ def audit_edition(name: str, base_dir: Path) -> list[str]:
         if n_refs > 60:
             warns.append(f"[npj] {n_refs} references (typical cap 60)")
         body_files = ["01_introduction.tex", "02_results.tex", "03_discussion.tex", "04_methods.tex"]
-        body_wc = sum(word_count((base_dir / "sections" / f).read_text()) for f in body_files)
-        print(f"  [npj Digital Medicine] Pages={n_pages} | Title={t_words}w | Abstract={abs_wc}w | Main Body={body_wc}w | Refs={n_refs}")
+        prose_wc = sum(word_count((base_dir / "sections" / f).read_text(), drop_figures=True) for f in body_files)
+        total_wc = sum(word_count((base_dir / "sections" / f).read_text(), drop_figures=False) for f in body_files)
+        if prose_wc > 3500:
+            warns.append(f"[npj] Main prose is {prose_wc} words (target <=3,500)")
+        print(f"  [npj Digital Medicine] Pages={n_pages} | Title={t_words}w | Abstract={abs_wc}w | Prose={prose_wc}w (w/figs={total_wc}w) | Refs={n_refs}")
 
     for w in warns:
         print("  WARN:", w)

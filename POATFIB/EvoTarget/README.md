@@ -29,7 +29,7 @@ All 50k models train on identical 1,017-hospital cohorts using strictly **207 ra
 | *EvoTarget-FT (Strictly Nested 207-Raw Gen-20)* | *50,000* | *0.67588* | *65.2% pure zero-leakage smoothing (`+0.8 bps` outer-fold gap)* | *0.37637* | *0.00742* |
 | Tuned CatBoost (5-fold binary reference) | 50,000 | 0.67423 | Fusion: **+24.5 bps** `[+7.2, +42.2]` | 0.37438 | 0.00778 |
 | PriorLabs TabPFN-3.5 (50k native, e8) | 50,000 | 0.67376 | Fusion: **+29.2 bps** `[+8.2, +53.5]` | 0.37284 | 0.00683 |
-| LightGBM / XGBoost (5-fold binary) | 50,000 | 0.67363 | Fusion: **+30.5 / +31.0 bps** (all CIs > 0) | 0.37251 | 0.00603 |
+| LightGBM / XGBoost (5-fold binary) | 50,000 | 0.67363 | Fusion: **+30.5 / +31.1 bps** (`[+11.3, +48.0]` / `[+11.7, +49.4]`) | 0.37251 | 0.00603 |
 | Legacy JAIN Ultra GPU (1-worker, 20k, RMSE) | 50,000 | 0.67167 | Fusion: **+50.1 bps** `[+27.1, +73.2]` | 0.36993 | 0.00905 |
 | NVIDIA KumoTabular-Large v2 (5×10k bag, e40) | 50,000 | 0.67147 | Fusion: **+52.0 bps** `[+21.6, +83.3]` | 0.36925 | 0.00702 |
 | Google TabFM v1.0.0 (5×10k bag, e80) | 50,000 | 0.67115 | Fusion: **+55.3 bps** `[+28.6, +81.5]` | 0.36967 | 0.00901 |
@@ -38,6 +38,7 @@ All 50k models train on identical 1,017-hospital cohorts using strictly **207 ra
 | *7× Full-Registry CatBoost Reference (207 raw)* | *346,454* | *0.67732* | *−6.4 bps (Fusion beats on AP, ECE, 2017 unseen & tails)* | *0.37761* | *0.00760* |
 
 - **Clinical Utility & Equity ([clinical_journal_analyses.md](reports/clinical_journal_analyses.md)):** Monotonic **7.4× decile risk stratification** (`6.07%` D1 → `44.82%` D10); avoids **20.4–33.8 unnecessary prophylactic interventions per 100 patients** across 25%–35% thresholds (`P>0 = 1.000` vs. Mariscalco POAF); outperforms CatBoost 50k in **24 of 25 prespecified demographic, comorbidity, acuity, and hospital-volume subgroups**; chronological `2014–16 → 2017` empirical-Bayes site intercept onboarding cuts center-level MAE by **14%** (`5.63 → 4.84 pp`).
+- **Literature Reconciliation (Table 4 in both journal editions):** Reconciles higher published POAF AUCs (`0.72–0.93+`) against PROBAST external appraisals (`0.61` external median) — showing higher apparent AUCs reflect post-incision/ICU variables (bypass duration, 24 h labs), mixed valve-plus-CABG cohorts, raw ECG waveforms/multimodal sensors, or hospital-overlapping splits, whereas `0.6767` (cold-start unseen) to `0.6974–0.7014` (in-network EB-calibrated) defines the strict pre-incision national isolated-CABG registry frontier.
 
 ---
 

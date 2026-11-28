@@ -27,15 +27,15 @@
 \end{minipage}\hfill
 \begin{minipage}[t]{0.242\textwidth}
   \vspace{0pt}%
-  \kpicard{accent}{0.67668}{\#1 Unseen-Hospital AUC}{\textbf{74 unseen hospitals} ($N{=}21{,}241$). Dual-Paradigm Fusion beats every ELO model \& 3-way binary blend (CI $>0$).}
+  \kpicard{accent}{0.6767 / 0.7014}{Cold-Start / In-Net AUC}{\textbf{74 unseen} (Fusion \#1; +577\,bps vs.\ POAF score); \textbf{1,086 seen} + EB site priors reach \textbf{0.6974--0.7014}.}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.242\textwidth}
   \vspace{0pt}%
-  \kpicard{teal}{79.2\%}{Of 7\x{} Data Scaling Recovered}{Closes four-fifths of the 50k$\to$346k gap --- and beats 346k CatBoost in Avg.\ Precision, ECE \& 2017 unseen.}
+  \kpicard{teal}{79.2\%}{Of 7\x{} Data Scaling Recovered}{Closes four-fifths of the 50k$\to$346k gap --- beating 346k CatBoost on AP, ECE, 2017 unseen \& 24/25 subgroups.}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.242\textwidth}
   \vspace{0pt}%
-  \kpicard{blue}{1.85\x}{Top-Decile Risk Enrichment}{Concentrates risk to \textbf{$\sim$44.9\% POAF} \emph{before the first incision} with \textbf{0.00724 ECE} calibration.}
+  \kpicard{blue}{20.4--33.8}{Avoided / 100 Patients}{Decision Curve Net Benefit across 25\%--35\% thresholds ($P{>}0{=}1.000$ vs.\ POAF score); \textbf{7.4\x{}} decile spread.}
 \end{minipage}
 
 \vspace{5pt}
@@ -49,7 +49,7 @@
   Postoperative atrial fibrillation (POAF) complicates nearly \textbf{1 in 4} coronary bypass surgeries --- driving stroke, prolonged ICU stay, readmissions, and billions in preventable surgical cost. Crucially, the highest-leverage preventive interventions (such as posterior pericardiotomy or intensified rhythm protocols) must be decided \textbf{before the first incision}.
 
   \vspace{2.5pt}
-  Yet our national audit exposed two costly blind spots: \textbf{(1)~standard calendar-year validation (\texttt{2017}) shares 99.5\% of hospitals} with development, inflating apparent accuracy by \textbf{+2.0 full AUC points}; and \textbf{(2)~on truly unseen hospitals}, every world-leading binary-label model --- including 200M--400M-parameter foundation models from Google, NVIDIA, and PriorLabs --- hits a tight \textbf{0.671--0.674 ceiling}.
+  Yet PROBAST appraisals show published POAF models shrink to a \textbf{0.61 external median} (higher AUCs $>0.72$ use post-op/ICU fields, valve cohorts, or waveforms). Our national audit exposed two blind spots: \textbf{(1)~calendar-2017 splits share 99.5\% of hospitals}, hiding a \textbf{$-1.99$-point unseen drop} (controlled 100\% seen splits inflate AUCs $+28$--$64$\,bps); and \textbf{(2)~on truly unseen hospitals}, every binary AI family hits a tight \textbf{0.671--0.675 ceiling}.
   }
 \end{minipage}\hfill
 \begin{minipage}[t]{0.486\textwidth}
@@ -238,8 +238,8 @@ NVIDIA KumoTabular-L v2 / Google TabFM v1.0 & 50,000 & 0.67147 & 0.00702 & 0.519
   \end{govbox}
 \end{minipage}
 
-\brieffooterstrip{Explore the Full Technical Evidence \& Reproducibility Package}%
-  {\textbf{CTO Technical Brief:} \texttt{docs/briefs/evotarget-poaf-cto-brief.pdf} \;\textbar\; \textbf{Full Manuscript:} \texttt{docs/paper/main.pdf} \;\textbar\; \textbf{Compute Playbook:} \texttt{docs/distributed\_compute/README.md} \;\textbar\; \textbf{Receipts:} \texttt{reports/paper\_v4\_master\_receipt.json}}%
+\brieffooterstrip{Explore Both Clinical Journal Editions, Technical Brief \& Machine-Verified Receipts}%
+  {\textbf{NEJM AI:} \texttt{docs/nejm\_ai/main.pdf} \;\textbar\; \textbf{npj Digital Med:} \texttt{docs/npj\_digital\_medicine/main.pdf} \;\textbar\; \textbf{CTO Brief:} \texttt{evotarget-poaf-cto-brief.pdf} \;\textbar\; \textbf{Seen Receipt:} \texttt{seen\_hospital\_master\_receipt.md}}%
   {\repourl}
 
 \end{document}

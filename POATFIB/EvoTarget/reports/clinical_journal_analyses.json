@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-11-27T18:54:03.044509+00:00",
+  "generated_utc": "2026-11-28T02:07:35.967298+00:00",
   "cohort_summary": {
     "full_dev_346k": {
       "n_patients": 346454,
@@ -1524,10 +1524,30 @@
       "ci_lo": 0.667337,
       "ci_hi": 0.685005
     },
+    "fusion_gen0_gp_plus_ft0": {
+      "auc": 0.676228,
+      "ci_lo": 0.668096,
+      "ci_hi": 0.685381
+    },
+    "ft_nested207_g20": {
+      "auc": 0.67588,
+      "ci_lo": 0.667786,
+      "ci_hi": 0.685076
+    },
+    "ft_g1k_g0": {
+      "auc": 0.67465,
+      "ci_lo": 0.666405,
+      "ci_hi": 0.683793
+    },
     "cb_5f_small_ref": {
       "auc": 0.674228,
       "ci_lo": 0.665888,
       "ci_hi": 0.683487
+    },
+    "cb_g1k_g20": {
+      "auc": 0.675377,
+      "ci_lo": 0.667283,
+      "ci_hi": 0.684385
     },
     "tabpfn_nat_cls_e8": {
       "auc": 0.673755,
@@ -1544,15 +1564,50 @@
       "ci_lo": 0.662798,
       "ci_hi": 0.680483
     },
-    "ft_g1k_g0": {
-      "auc": 0.67465,
-      "ci_lo": 0.666405,
-      "ci_hi": 0.683793
+    "xgb_bin": {
+      "auc": 0.673572,
+      "ci_lo": 0.665782,
+      "ci_hi": 0.68235
+    },
+    "lgb_bin": {
+      "auc": 0.673631,
+      "ci_lo": 0.665698,
+      "ci_hi": 0.682637
     },
     "cb_full_346k_v1": {
       "auc": 0.67732,
       "ci_lo": 0.66952,
       "ci_hi": 0.686157
+    },
+    "score_mariscalco_poaf": {
+      "auc": 0.618975,
+      "ci_lo": 0.610224,
+      "ci_hi": 0.628117
+    },
+    "score_com_af": {
+      "auc": 0.576042,
+      "ci_lo": 0.565865,
+      "ci_hi": 0.586266
+    },
+    "score_cha2ds2_vasc": {
+      "auc": 0.575327,
+      "ci_lo": 0.565781,
+      "ci_hi": 0.584482
+    },
+    "score_hatch": {
+      "auc": 0.573741,
+      "ci_lo": 0.564044,
+      "ci_hi": 0.583883
+    },
+    "score_mathew_preop": {
+      "auc": 0.645067,
+      "ci_lo": 0.634435,
+      "ci_hi": 0.655834
+    },
+    "score_age_only": {
+      "auc": 0.639721,
+      "ci_lo": 0.629163,
+      "ci_hi": 0.650297
     }
   },
   "bedside_contrasts": {
@@ -1729,6 +1784,110 @@
       "auc": 0.639721,
       "ci_lo": 0.629163,
       "ci_hi": 0.650297
+    },
+    "fusion__vs__ft_g1k_g20": {
+      "delta": 0.000142,
+      "delta_bps": 1.42,
+      "ci_lo_bps": -3.98,
+      "ci_hi_bps": 6.92,
+      "p_gt_0": 0.7094,
+      "ci_gt_0": false
+    },
+    "fusion__vs__gp_v2_gen0_ens_cv5": {
+      "delta": 0.001027,
+      "delta_bps": 10.27,
+      "ci_lo_bps": -5.59,
+      "ci_hi_bps": 25.75,
+      "p_gt_0": 0.8848,
+      "ci_gt_0": false
+    },
+    "fusion__vs__fusion_gen0_gp_plus_ft0": {
+      "delta": 0.000449,
+      "delta_bps": 4.49,
+      "ci_lo_bps": -4.24,
+      "ci_hi_bps": 13.21,
+      "p_gt_0": 0.8496,
+      "ci_gt_0": false
+    },
+    "fusion__vs__ft_nested207_g20": {
+      "delta": 0.000797,
+      "delta_bps": 7.97,
+      "ci_lo_bps": 1.03,
+      "ci_hi_bps": 15.26,
+      "p_gt_0": 0.9882,
+      "ci_gt_0": true
+    },
+    "fusion__vs__ft_g1k_g0": {
+      "delta": 0.002026,
+      "delta_bps": 20.26,
+      "ci_lo_bps": 2.38,
+      "ci_hi_bps": 38.17,
+      "p_gt_0": 0.9874,
+      "ci_gt_0": true
+    },
+    "fusion__vs__cb_5f_small_ref": {
+      "delta": 0.002449,
+      "delta_bps": 24.49,
+      "ci_lo_bps": 7.17,
+      "ci_hi_bps": 42.23,
+      "p_gt_0": 0.9974,
+      "ci_gt_0": true
+    },
+    "fusion__vs__cb_g1k_g20": {
+      "delta": 0.0013,
+      "delta_bps": 13.0,
+      "ci_lo_bps": -2.23,
+      "ci_hi_bps": 26.67,
+      "p_gt_0": 0.9572,
+      "ci_gt_0": false
+    },
+    "fusion__vs__tabpfn_nat_cls_e8": {
+      "delta": 0.002922,
+      "delta_bps": 29.22,
+      "ci_lo_bps": 8.15,
+      "ci_hi_bps": 53.54,
+      "p_gt_0": 0.9976,
+      "ci_gt_0": true
+    },
+    "fusion__vs__kumo_cls_e40": {
+      "delta": 0.005203,
+      "delta_bps": 52.03,
+      "ci_lo_bps": 21.57,
+      "ci_hi_bps": 83.27,
+      "p_gt_0": 0.9998,
+      "ci_gt_0": true
+    },
+    "fusion__vs__tabfm_cls_e80": {
+      "delta": 0.005526,
+      "delta_bps": 55.26,
+      "ci_lo_bps": 28.64,
+      "ci_hi_bps": 81.5,
+      "p_gt_0": 1.0,
+      "ci_gt_0": true
+    },
+    "fusion__vs__xgb_bin": {
+      "delta": 0.003105,
+      "delta_bps": 31.05,
+      "ci_lo_bps": 11.65,
+      "ci_hi_bps": 49.43,
+      "p_gt_0": 0.9982,
+      "ci_gt_0": true
+    },
+    "fusion__vs__lgb_bin": {
+      "delta": 0.003046,
+      "delta_bps": 30.46,
+      "ci_lo_bps": 11.3,
+      "ci_hi_bps": 47.99,
+      "p_gt_0": 0.9994,
+      "ci_gt_0": true
+    },
+    "fusion__vs__cb_full_346k_v1": {
+      "delta": -0.000643,
+      "delta_bps": -6.43,
+      "ci_lo_bps": -23.02,
+      "ci_hi_bps": 10.49,
+      "p_gt_0": 0.2214,
+      "ci_gt_0": false
     }
   },
   "calibration": {

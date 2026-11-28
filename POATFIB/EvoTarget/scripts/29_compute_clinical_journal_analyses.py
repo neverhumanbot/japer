@@ -624,10 +624,12 @@ def main() -> int:
         bedside_contrasts[f"ft20__vs__{s}"] = cluster_delta_ci(all_mask, preds["ft_g1k_g20"], preds[s])
         bedside_contrasts[f"gp_v2__vs__{s}"] = cluster_delta_ci(all_mask, preds["gp_v2_gen0_ens_cv5"], preds[s])
         bedside_contrasts[f"abs_{s}"] = cluster_auc_ci(all_mask, preds[s])
-    # Also absolute 74-hospital CIs for primary models
+    # Also absolute 74-hospital CIs and paired Fusion contrasts for EVERY primary/ablation model in Table 2!
     abs_primary_cis = {}
-    for m in ["fusion_gp0_plus_ft20", "ft_g1k_g20", "gp_v2_gen0_ens_cv5", "cb_5f_small_ref", "tabpfn_nat_cls_e8", "kumo_cls_e40", "tabfm_cls_e80", "ft_g1k_g0", "cb_full_346k_v1"]:
+    for m in cal_models:
         abs_primary_cis[m] = cluster_auc_ci(all_mask, preds[m])
+        if m != "fusion_gp0_plus_ft20" and f"fusion__vs__{m}" not in bedside_contrasts:
+            bedside_contrasts[f"fusion__vs__{m}"] = cluster_delta_ci(all_mask, preds["fusion_gp0_plus_ft20"], preds[m])
 
     # -----------------------------------------------------------------------
     # 4. Decision Curve Analysis (DCA) + Cluster-Bootstrap Net Benefit CIs

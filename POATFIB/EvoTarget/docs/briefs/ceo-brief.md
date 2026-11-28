@@ -1,67 +1,58 @@
-# Executive Brief: Outperform Frontier AI Models on Unseen Hospitals — With 7× Less Data
+# Executive Brief: Pre-Incision POAF AI Across Unseen & Seen U.S. Hospitals
 
 **For Health-System CEOs, CMOs & Chief AI Officers**  
 *NEVERHUMAN Research & HonorHealth Heart Care / HonorHealth Research Institute · STS ACSD v2.81 · November 2026*  
-**[Download 2-Page Formatted PDF](evotarget-poaf-ceo-brief.pdf)** · **[Read CTO Technical Brief](cto-brief.md)** ([PDF](evotarget-poaf-cto-brief.pdf)) · **[Read Full Manuscript](../paper/main.pdf)** · **[Distributed Compute Playbook](../distributed_compute/README.md)**
+**[Download 2-Page Formatted PDF](evotarget-poaf-ceo-brief.pdf)** · **[NEJM AI Manuscript (PDF)](../nejm_ai/main.pdf)** · **[npj Digital Medicine (PDF)](../npj_digital_medicine/main.pdf)** · **[CTO Brief (PDF)](evotarget-poaf-cto-brief.pdf)**
 
 ---
 
 ## Executive Snapshot
 
-| **368,132 / 1,091** | **0.67668 AUC (79.2%)** | **1.85× (~44.9%)** | **−1.99 AUC pts** |
+| **368,132 / 1,091** | **0.6767 Cold-Start / 0.7014 In-Net** | **20.4–33.8 Avoided / 100** | **+6.7 pts vs. Ext. Median** |
 | :---: | :---: | :---: | :---: |
-| **National STS CABG Cohort** | **7× Scaling Gap Recovered** | **Top-Decile Risk Enrichment** | **Validation Illusion Exposed** |
-| 89,337 POAF cases (`24.30%`); evaluated on **74 strictly unseen** U.S. holdout hospitals (`0.0%` overlap) | **Dual-Paradigm Fusion** (`JAIN Ultra GP v2 + EvoTarget-FT`) recovers **79.2%** of a 50k → 346k expansion & beats 346k CatBoost in AP & ECE (`0.00724`) | Nearly **1 in 2** top-decile patients develop POAF before the first incision (`1.85×` baseline) | Naive calendar holdouts (`99.5%` hospital overlap) inflate apparent AUC by nearly 2 full points |
+| **National STS CABG Cohort** | **Dual-Regime Registry Frontier** | **Bedside Clinical Utility (DCA)** | **Literature Reconciliation** |
+| 89,337 POAF events (`24.30%`); audited `638 → 207` pre-incision inputs with skip-logic resolution | **Dual-Paradigm Fusion** beats Mariscalco POAF (`+577 bps`) & all 6 binary AI baselines on 74 unseen hospitals (`79.2%` of 7× gap); EB site priors lift seen hospitals to `0.6974–0.7014` | **7.4× decile risk gradient** (`6.1%–44.8%`); avoids `20.4–33.8` unnecessary prophylactic interventions per 100 patients (`P>0 = 1.000`) | Published AUCs `>0.72` use post-op/ICU data, valve cohorts, or waveforms; PROBAST external median is **`0.61`** |
 
 ---
 
-## 1. The Clinical AI Mirage Costing Health Systems Millions
+## 1. Why Published Clinical AI Claims (0.85–0.97 AUC) Collapse at New Hospitals
 
-Postoperative atrial fibrillation (POAF) complicates **nearly 1 in 4 isolated coronary artery bypass grafting (CABG) procedures** (`24.30%` nationwide), driving stroke, prolonged ICU length of stay, readmissions, elevated mortality, and heavy episodic cost. Yet dozens of commercial vendor pitches and published papers advertise **0.85–0.97 AUC** — scores that routinely collapse when deployed inside a new hospital.
+Postoperative atrial fibrillation (POAF) complicates **nearly 1 in 4 isolated CABG operations** (`24.30%`), driving stroke, ICU prolongation, readmissions, and high surgical cost—and the highest-leverage preventive interventions (such as posterior pericardiotomy or targeted amiodarone) must be chosen **before skin incision**. Yet two PROBAST critical appraisals show published POAF models drop from `0.71` apparent AUC to a **`0.61` external median**.
 
-Our forensic audit of **368,132 isolated-CABG surgeries across 1,091 U.S. centers** in the Society of Thoracic Surgeons Adult Cardiac Surgery Database (STS ACSD v2.81) explains why:
-
-1. **Hidden postoperative leakage:** Fields such as `LOS`, `PLOS`, and `ORDuration` quietly contaminate "pre-operative" datasets alongside STS complication skip-logic collider errors (`Complics → COtAFib`). Purging all leaks reduced 638 raw fields to **207 strictly pre-incision predictors**.
-2. **Naive calendar splits reuse 99.5% of training hospitals:** Holding out calendar year 2017 puts 998 of 1,003 hospitals right back into the test set. On the exact same 207-feature CatBoost model, apparent AUC drops from **0.6778** on naive 2017 to **0.6579** on genuinely unseen 2017 hospitals (**−1.99 AUC points**) — dwarfing incremental model tuning.
-3. **Binary `{0,1}` labels trap every AI vendor inside a tight glass ceiling:** Across 74 never-seen U.S. hospitals (`N = 21,241`), all six world-leading tabular AI families trained on raw binary outcomes cluster within a narrow `0.67115–0.67423` band.
-
----
-
-## 2. Two Breakthroughs: Evolve Targets AND Evolve Programs
-
-Healthcare leaders are often told that breaking clinical AI plateaus requires years of multi-hospital data aggregation or complex "AI feature factories." Our audit proves otherwise: adding 82 clinical risk composites left 50k tree and foundation-model discrimination flat. Two orthogonal advances broke the ceiling on **strictly 207 routine pre-incision EHR variables**:
-
-1. **1,000-Generation Target Evolution (`EvoTarget-FT`, `0.67653` AUC):** Strictly inside the 50,000-patient training cohort (zero test labels ever touched), multi-family evolutionary search distills a smooth continuous risk target ($z^*$) verified across **1,000 generations (256,000 fits)** with **zero late-stage collapse** (`0.67592` at Gen 1,000). At Generation 20, **EvoTarget-FT** reaches **`0.67653` ROC-AUC** (`+18.9 bps [+2.6, +35.8]` over identical binary FT; **74.6%** of the 7× scaling gap) and lifts **five distinct model families** with 74-hospital cluster intervals strictly above zero. A strictly nested 207-raw 2×2 control confirmed **65.2%** of this lift comes purely from zero-leakage target smoothing (`<1 bp` outer-fold effect).
-2. **Re-Engineered Parallel Genetic Programming (`JAIN Ultra GP v2`, `0.67565` AUC):** Fixing six code-level bottlenecks in GPU-guided genetic programming lifted unseen-hospital AUC by **`+39.8 bps [+19.6, +60.1]`** over legacy JAIN (`0.67167 → 0.67565`, `0.00805 ECE`), surpassing all 6 binary tabular ELO baselines standalone with fresh 7-fold CV verification (`r = 0.950`).
-3. **Dual-Paradigm Fusion (`GP v2 + EvoTarget-FT`, `0.67668` AUC / `0.37767` AP / `0.00724` ECE):** Combining symbolic/tree GP pipelines with continuous-target clinical self-attention recovers **79.2% of a 7× national data expansion** (`50,000 → 346,454` patients), clears every individual ELO baseline **and** the 3-way binary paradigm blend (`+9.9 bps [+0.6, +19.6]`), and beats 7× 346k CatBoost on Average Precision, ECE, 2017 unseen hospitals (`0.65794`), and rare clinical tails (`0.69347`; EvoTarget-FT `0.69438`).
+Our forensic audit of **368,132 isolated-CABG surgeries across 1,091 U.S. centers** (STS ACSD v2.81) exposes why:
+1. **Skip-logic collider bias & early-column leakage:** Dropping structurally blank uncomplicated recoveries (`Complics == 2`, `63.3%`) induces collider bias, and positional column slicing retains seven hidden postoperative duration leaks (`LOS`, `PLOS`, `ORDuration`, etc.). Purging all leaks leaves strictly **207 pre-incision predictors**.
+2. **Naive calendar splits reuse 99.5% of hospitals:** Default 2017 holdouts reuse 998/1,003 hospitals, hiding a **`−1.99` AUC-point drop** on unseen 2017 hospitals (`0.6778 → 0.6579`). Our controlled **100% Seen-Hospital** experiment isolates `+28–64 bps` of pure hospital-overlap inflation even with zero `HospID`.
+3. **Binary `{0,1}` labels trap every AI vendor:** Across 74 strictly unseen U.S. hospitals (`N = 21,241`), all six world-leading binary tabular families (CatBoost, LightGBM, XGBoost, TabPFN-3.5, KumoTabular-Large v2, TabFM v1.0.0) compress within `0.6712–0.6746`.
 
 ---
 
-## 3. Unseen-Hospital Scoreboard at a Glance (`N = 21,241`, 74 Unseen U.S. Centers)
+## 2. Two Breakthroughs & Two Deployment Regimes
 
-| Model (207 Strictly Pre-Incision Predictors) | Unseen-Hosp AUC ↑ | Fusion / Flagship Gain [74-Hosp 95% CI] | Avg. Prec. | ECE (21k) | Executive Verdict |
-| :--- | ---: | :--- | ---: | ---: | :--- |
-| **Dual-Paradigm Fusion (GP v2 + EvoTarget-FT)** | **0.67668** | **#1 Overall (79.2% of 7× gap)** | **0.37767** | **0.00724** | **Beats 346k CB on AP, ECE, 2017 unseen & tails** |
-| **EvoTarget-FT (50k, Gen-20 $z^*$)** | **0.67653** | **+18.9 bps** `[+2.6, +35.8]` vs. Bin. FT | 0.37754 | 0.00850 | **74.6% of 7× gap; 0.69438 rare tails; zero collapse** |
-| **JAIN Ultra GP v2 (50k, 6 evolved GP fams)** | **0.67565** | **+39.8 bps** `[+19.6, +60.1]` vs. Legacy | 0.37582 | 0.00805 | **Standalone GP beats all 6 binary ELOs; 0.65809 2017** |
-| Tuned CatBoost (50k Binary Ref) | 0.67423 | Fusion: **+24.5 bps** `[+7.2, +42.2]` | 0.37438 | 0.00778 | Best binary GBDT; surpassed under clustering |
-| PriorLabs TabPFN-3.5 (50k Native) | 0.67376 | Fusion: **+29.2 bps** `[+8.2, +53.5]` | 0.37284 | 0.00683 | Strongest zero-shot TFM; beaten on unseen sites |
-| LightGBM / XGBoost (50k Binary) | 0.67363 | Fusion: **+30.5 / +31.0 bps** (CI > 0) | 0.37251 | 0.00603 | Tight binary plateau (XGB: `0.67357`) |
-| NVIDIA KumoTabular-Large v2 (50k) | 0.67147 | Fusion: **+52.0 bps** `[+21.6, +83.3]` | 0.36925 | 0.00702 | Bagged 5×10k TFM; lifted `+35.2 bps` on $z^*$ |
-| Google TabFM v1.0.0 (50k) | 0.67115 | Fusion: **+55.3 bps** `[+28.6, +81.5]` | 0.36967 | 0.00901 | Bagged 5×10k TFM; lifted `+26.7 bps` on $z^*$ |
-| *3-Way Binary Paradigm Blend* | *0.67568* | Fusion: **+9.9 bps** `[+0.6, +19.6]` | *0.37563* | — | *Fusion strictly clears multi-paradigm binary blend* |
-| *7× Full-Registry CatBoost (346k)* | *0.67732* | *−6.4 bps (7× more data)* | *0.37761* | *0.00760* | *National 346k reference; Fusion closes 79.2%* |
+1. **Cold-Start Unseen Hospitals (0% Overlap, 74 Centers):** Pairing 1,000-generation continuous-target clinical self-attention (**EvoTarget-FT**, `0.6765`, verified zero-collapse across 256,000 fits) with 6-fix parallel genetic programming (**JAIN Ultra GP v2**, `0.6756`, `+39.8* bps` vs. legacy) produces **Dual-Paradigm Fusion (`0.6767` AUC, `0.0072` ECE, slope `0.983`, O:E `0.994`)**—beating Mariscalco POAF by **`+577.0 bps`**, every 50k binary AI baseline by **`+20.3–55.3 bps`**, and a 3-way binary blend by **`+9.9* bps`**, recovering **`79.2%`** of a 7× national data expansion (`50k → 346k`), winning **24 of 25 demographic/volume subgroups**, and avoiding **20.4–33.8 unnecessary interventions per 100 patients** at 25%–35% decision thresholds.
+2. **In-Network Seen Hospitals (All 1,091 Centers in Train, 100% Overlap):** Once a surgical center has local registry history, incorporating strictly train-only Empirical-Bayes (EB) institutional priors lifts every 50k model by **`+174–213 bps`** (nearly +2 full AUC points) into **`0.6958–0.6986`** (Dual-Paradigm Fusion `+EB346k` **`0.6974`**; native 50k `site208` champion **`0.6916`**, `+29.0* bps` over CatBoost `site208`), pushes full-registry 346k CatBoost past `0.70` to **`0.7014`** (`slope 1.014`, `O:E 0.999`, `1.96×` lift), and cuts prospective 2017 center rate error by **14%** (`5.63 → 4.84 pp`).
 
 ---
 
-## 4. 30-Day Low-Risk Health-System Shadow Pilot & Governance Boundaries
+## 3. Dual-Regime Scoreboard (`N = 21,241` Natural-Prior Holdout)
 
-1. **Map 207 Routine Pre-Op STS/EHR Fields (Week 1):** Connect existing pre-incision surgical intake data with zero post-op variables and benchmark local POAF incidence against the national `11.7%–34.8%` hospital range.
-2. **Silent Prospective Shadow Scoring (Weeks 2–3):** Run frozen Dual-Paradigm Fusion inference (20 compact transformer + 30 lightweight GP passes) silently prior to incision with lightweight local intercept recalibration.
-3. **Gate Clinical Action on Formal Protocol (Week 4+):** Deploy top-decile stratification (`~44.9%` POAF) inside prospective clinical trials or IRB-approved quality-improvement protocols before making bedside prophylaxis changes.
-
-**Honest scientific scope:** Although holdout test labels never reached training, evolution, or GP workers, 140+ model–target arms were benchmarked retrospectively; hospital-cluster CIs condition on selected runs. Strictly nested 207-raw EvoTarget-FT (`+12.3 bps [-3.3, +28.5]`) resolves outer-fold concern (`+0.8 bps` nesting gap) while spanning zero at 74 centers. Prospective confirmation of the frozen pipeline on modern STS ACSD v4.20+ cohorts and randomized prophylaxis testing remain required prior to routine bedside use.
+| Model (207 Strictly Pre-Incision Predictors) | Unseen Hosp. (0% ovlp) | Seen Hosp. (207 raw) | Seen + 346k EB Prior | Unseen Fusion Δ [74-Hosp 95% CI] |
+| :--- | ---: | ---: | ---: | :--- |
+| **Dual-Paradigm Fusion (`GP v2 + EvoTarget-FT`)** | **0.6767** | **0.6794** | **0.6974** *(50k site208: **0.6916**)* | **#1 Cold-Start (79.2% of 7× gap; 0.0072 ECE)** |
+| **EvoTarget-FT (50k, Gen-20 $z^*$)** | **0.6765** | 0.6793 | 0.6972 | +1.4 `[-4.0, +6.9]` *(vs. Bin. FT: **+18.9***)* |
+| **JAIN Ultra GP v2 (50k, 6 evolved fams)** | **0.6756** | 0.6788 | 0.6969 | +10.3 `[-5.6, +25.8]` *(vs. Legacy: **+39.8***)* |
+| CatBoost 50k (5-fold binary ref) | 0.6742 | 0.6777 | 0.6966 | **+24.5** `[+7.2, +42.2]`* |
+| PriorLabs TabPFN-3.5 (50k native) | 0.6738 | 0.6795 | 0.6982 | **+29.2** `[+8.2, +53.5]`* |
+| LightGBM / XGBoost (5-fold binary) | 0.6736 | 0.6780 / 0.6774 | 0.6960 / 0.6958 | **+30.5 / +31.1*** (all CIs > 0) |
+| NVIDIA Kumo-L v2 / Google TabFM v1.0 | 0.6715 / 0.6712 | 0.6764 / 0.6775 | 0.6977 / 0.6986 | **+52.0 / +55.3*** (all CIs > 0) |
+| *Mariscalco POAF Score (STS proxy)* | *0.6190* | *0.6276* | *—* | **+577.0** `[+495.6, +656.9]`* |
+| *7× Full-Registry CatBoost (`346,454`)* | *0.6773* | *0.6831* | ***0.7014*** | *−6.4 (Fusion beats on AP, ECE & 2017 unseen)* |
 
 ---
 
-**Next Reads:** [2-Page CEO Brief (PDF)](evotarget-poaf-ceo-brief.pdf) · [CTO Technical & Architecture Brief (MD)](cto-brief.md) ([PDF](evotarget-poaf-cto-brief.pdf)) · [Full Manuscript (PDF)](../paper/main.pdf) · [Paper v4 Master Receipt](../../reports/paper_v4_master_receipt.md)
+## 4. Safe Clinical Pilot & Honest Governance Boundaries
+
+1. **Map 207 Routine Pre-Incision Fields (Week 1):** Connect existing STS/EHR intake data with zero post-incision variables.
+2. **Dual-Tier Shadow Scoring (Weeks 2–3):** Deploy cold-start Dual-Paradigm Fusion at new sites and add single-intercept EB recalibration once historical site volume accumulates (`−14%` center rate error).
+3. **Prospective Confirmation Gate (STS v4.20+):** Freeze model weights and site-intercept calibration prior to prospective multi-center confirmation and randomized prophylaxis trial testing (e.g., PALACS) before changing bedside care.
+
+**Next Reads:** [NEJM AI Original Article (PDF)](../nejm_ai/main.pdf) · [npj Digital Medicine Article (PDF)](../npj_digital_medicine/main.pdf) · [CTO Brief (PDF)](evotarget-poaf-cto-brief.pdf) · [Seen-Hospital Receipt](../../reports/seen_hospital_study/seen_hospital_master_receipt.md)
