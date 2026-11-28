@@ -1,0 +1,30 @@
+\begin{table*}[t]
+\centering\tablefont
+\caption{\ct{TRIPOD+AI Reporting Checklist Compliance Summary (Collins et al., \textit{BMJ} 2024).}}
+\label{tab:supp_tripod}
+\setlength{\tabcolsep}{4.2pt}
+\renewcommand{\arraystretch}{1.04}
+\begin{tabularx}{\textwidth}{@{}L{1.15cm}L{3.1cm}YL{2.65cm}@{}}
+\toprule
+\thd{Item} & \thd{TRIPOD+AI Domain} & \thd{Implementation and Reporting Verification} & \thd{Manuscript Location} \\
+\midrule
+1 & \textbf{Title} & Identifies development/external validation, pre-incision POAF target, and CABG population & Title Page \\
+2 & \textbf{Abstract} & Structured summary of objectives, STS cohort, methods, 74-hospital external results, limitations & Abstract \\
+3a--3b & \textbf{Background \& Objectives} & Clinical POAF rationale, validation-geometry critique, and dual-paradigm hypothesis & Introduction \\
+4a--4b & \textbf{Data Sources \& Eligibility} & STS ACSD v2.81 (2014--2017), 368,132 isolated-CABG records across 1,091 U.S.\ centers & Methods; Fig.\ 1 \\
+5a--5c & \textbf{Participants \& Sample Size} & All eligible v2.81 cases; 89,337 events (24.30\%); 5,160 external holdout events ($>$5k floor) & Methods; Table 1 \\
+6a--6c & \textbf{Outcome Definition} & Skip-logic reconstructed STS \texttt{COtAFib} (treatment-requiring AF/flutter); discharge drug audit & Methods; Supp.\ App. \\
+7a--7c & \textbf{Predictors \& Timing} & Exhaustive 638$\to$207 pre-incision audit; 7 post-op fields purged; zero hospital IDs in raw arm & Methods; Supp.\ App. \\
+8a--8b & \textbf{Missing Data Handling} & Native handling in trees/TFMs; learned missingness tokens in FT; train-only median $+$ flags in GP & Methods; Supp.\ App. \\
+9a--9c & \textbf{Model Development} & 6 binary ELO baselines, 1,000-gen target evolution, JAIN GP v2, Dual-Paradigm Fusion, seen-hospital study & Methods; Figs.\ 3--4 \\
+10a--10d & \textbf{Validation \& Splitting} & Multivariate anticlustered 0\%-overlap (74 unseen centers) $+$ matched 100\%-overlap seen-hospital study & Methods; Figs.\ 1, 7 \\
+11 & \textbf{Calibration \& Recalibration} & Uniform fold-OOF Platt $+$ dev-only Bayes shift ($-1.1365$); slope, CITL, ECE, ICI, O:E; EB site recalibration & Methods; Figs.\ 5--6 \\
+12a--12b & \textbf{Statistical Inference} & 5,000-draw whole-hospital cluster bootstrap CIs; Decision Curve Analysis Net Benefit & Methods; Figs.\ 2, 5 \\
+13 & \textbf{Fairness \& Subgroups} & 25 prespecified strata: sex, age, race/ethnicity, comorbidities, acuity, hospital volume & Results; Fig.\ 6; Table S2 \\
+14a--14b & \textbf{Clinical Interpretability} & Standardized multivariable physiological drivers ($R^2=0.89$) and explicit GP symbolic pipelines & Results; Fig.\ 4 \\
+15 & \textbf{Patient \& Public Involvement} & Secondary analysis of de-identified national STS quality-improvement registry (no direct PPI) & Methods (Ethics) \\
+16--18 & \textbf{Limitations \& Generalizability} & Retrospective selection exposure, STS vs.\ telemetry capture, center heterogeneity, prospective freeze path & Discussion \\
+19--22 & \textbf{Open Science \& Ethics} & STS DUA governance, IRB exemption/oversight, code/receipt availability, LLM/AI tool disclosure, COI & End Matter; Supp.\ App. \\
+\bottomrule
+\end{tabularx}
+\end{table*}

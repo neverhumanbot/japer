@@ -1,5 +1,14 @@
 # Research Notes & Publication Manuscript Index (`docs/`) — STS ACSD v2.81 POAF Study
 
+## Submission-Ready Clinical Journal Editions (`nejm_ai/` & `npj_digital_medicine/`)
+
+| Target Venue | Compiled PDF | LaTeX Source & Figures | Compliance Highlights |
+| :--- | :--- | :--- | :--- |
+| ***NEJM AI* Original Article** | **[NEJM AI Manuscript (PDF)](nejm_ai/main.pdf)** (18 pp) | [main.tex](nejm_ai/main.tex) · [Makefile](nejm_ai/Makefile) · [Figures 1–7](nejm_ai/figures/) | 248-word structured abstract, IMRaD, Vancouver refs, uppercase `A–C` panels, unseen + 100% seen-hospital study, TRIPOD+AI Supplement |
+| ***npj Digital Medicine* Research Article** | **[npj Digital Medicine Manuscript (PDF)](npj_digital_medicine/main.pdf)** (16 pp) | [main.tex](npj_digital_medicine/main.tex) · [Makefile](npj_digital_medicine/Makefile) · [Figures 1–7](npj_digital_medicine/figures/) | 12-word punctuation-free title, 149-word unstructured abstract, IRDM (0 subheads in Intro/Discussion), 59 `naturemag` refs, lowercase `a–c` panels, Nature Portfolio statements |
+
+Rebuild & verify both editions cleanly via `make -C docs/nejm_ai && make -C docs/npj_digital_medicine && python3 scripts/36_audit_journal_manuscripts.py`.
+
 ## Executive & Technical Briefs (2-Page Summaries)
 
 | Audience | Formatted 2-Page PDF | Markdown Companion | Focus |
@@ -20,7 +29,7 @@ Rebuild & verify both 2-page PDFs deterministically via `bash docs/briefs/script
 - [POAF literature review](paper/POAF_LITERATURE_REVIEW.md), with primary results, design differences, exact searches, and [the STS screening index](paper/literature/sts-query-screen.tsv).
 - [Red-team review](paper/RED_TEAM_REVIEW.md) and [hospital-resampling receipt](../reports/paper_red_team_receipt.json). Use these for the current interpretation of validation, calibration, and model selection.
 - [Label-blind matched hospital split](../FEATURE_MATCHED_EVALUATION.md) and [modular dataset guide](../dataset/DATASET_README.md).
-- [Paper coordination log](../paper_chat.md) and [numeric audit script](../scripts/20_audit_paper_numbers.py).
+- [Numeric audit script (v4)](../scripts/20_audit_paper_numbers.py) and [journal compliance auditor (NEJM AI & npj Digital Medicine)](../scripts/36_audit_journal_manuscripts.py).
 
 The notes below retain findings from earlier experiments. The manuscript and red-team review document the interpretation after checking outcome-aware partition selection, the nested 10k sample, test-set model ranking, and hospital-level uncertainty.
 

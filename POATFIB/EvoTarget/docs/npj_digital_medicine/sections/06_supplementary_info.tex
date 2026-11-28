@@ -1,0 +1,29 @@
+\begin{center}
+{\sffamily\bfseries\fontsize{13.5}{16.5}\selectfont\color{teal}Supplementary Information\par}
+\vspace{3pt}
+{\sffamily\fontsize{10.0}{12.5}\selectfont\color{navy}\papertitle\par}
+\vspace{4pt}
+{\color{hair}\hrule height 0.6pt}
+\end{center}
+\vspace{6pt}
+
+\section{STS ACSD v2.81 zero-leakage schema, skip-logic, and split audit}
+\label{supp:schema}
+Auditing all 638 raw columns of STS ACSD v2.81 (368,132 isolated-CABG cases; July~1, 2014--June~30, 2017; 1,091 US surgical centers) established:
+\begin{itemize}
+  \item \textbf{Skip-logic outcome reconstruction (Sequence~4930):} \cli{Complics == 1 \& COtAFib == 1} identifies 89,337 treatment-requiring POAF events (24.30\% of 367,695 labeled cases); \cli{Complics == 2} identifies 232,783 uncomplicated controls (63.31\%); \cli{Complics == 1 \& COtAFib == 2} identifies 45,575 non-AF complication controls; 437 indeterminate records are excluded.
+  \item \textbf{Early-column leakage purge:} Seven postoperative or duration columns positioned ahead of operative approach (\cli{LOS}, \cli{PLOS}, \cli{ORDuration}, \cli{SIDuration}, \cli{SurgtoMort}, \cli{SurgtoRead}, \cli{SurgtoSternInf}) were purged alongside bypass/cross-clamp times, discharge medications, STS calculator scores, auxiliary outcomes, and hospital/surgeon IDs, yielding strictly 207 pre-incision predictors.
+  \item \textbf{Five-way split comparison:} Relative to random hospital grouping ($\mathcal{E}_{32\mathrm{D}} = 0.01732$, $\mathrm{Max}\,|\mathrm{SMD}| = 0.3572$, POAF gap 1.13~pp) and naive 2017 temporal splitting (99.5\% hospital overlap, Year TV $= 1.000$, missingness drift $+6.05$~pp, $\mathrm{Max}\,|\mathrm{SMD}| = 0.2793$, hospital-grouped adversarial AUC $= 0.5908$), cluster-level multivariate anticlustering reduced $\mathcal{E}_{32\mathrm{D}}$ 4.1$\times$ ($0.00427$), $\mathrm{Max}\,|\mathrm{SMD}|$ 3.5$\times$ ($0.1028$), Year TV 23$\times$ ($0.0006$), and POAF gap to $0.004$~pp across 1,017 train vs.\ 74 unseen holdout hospitals (0.0\% overlap).
+\end{itemize}
+
+\section{Cross-scale audit of 92 agent-engineered clinical features}
+\label{supp:agentic_fe}
+Ninety-two strictly pre-incision features spanning bedside score proxies and continuous organ-reserve biomarkers (Track~1, 58 features), nonlinear physiological interactions (Track~2A, 24 features), and nested hospital-grouped OOF logits for eight clean auxiliary complications (Track~2B, 10 features; renal failure AUC 0.8365, mortality 0.8048, prolonged ventilation 0.7653) were audited on \cli{test\_full\_21k} ($N=21{,}241$, 74 unseen hospitals). Adding the 82 deterministic features left 50k binary discrimination flat across CatBoost ($+0.00013$ $[-0.00138, +0.00156]$), TabPFN-3.5 ($+0.00003$), KumoTabular ($-0.00077$), and TabFM ($+0.00018$), reduced observed 50k 15-bin ECE point estimates by 11\%--42\% (cluster CIs spanning zero), delivered hospital-cluster-confirmed lift on 346k multi-task neural networks (TabM-K16\cite{gorishniy2025tabm} $+0.00102$ $[+0.00029, +0.00176]$; PLR-ResNet $+0.00101$ $[+0.00022, +0.00183]$), and supplied $+0.000572$ ($[+0.00003, +0.00106]$, CI $>0$) in Stage-1 teacher feature distillation into 207-raw EvoTarget-FT.
+
+\section{Evolved pipeline specifications and 1,000-generation milestones}
+\label{supp:math}
+Across the nine audited milestones $\{0,1,10,20,50,100,200,500,1000\}$ (256,000 cumulative Stage-1 fits), EvoTarget-FT reaches 0.674650, 0.675127, 0.676328, 0.676535, 0.676195, 0.676004, 0.675946, 0.675935, and 0.675924 on \cli{test\_full\_21k} (CatBoost CE: 0.674083 $\to$ 0.675377 peak at Gen~20 $\to$ 0.675111 at Gen~1,000). The six OOF-weighted pipelines forming JAIN Ultra GP v2 (0.675649 on \cli{test\_full\_21k}) are: (1)~\cli{(pipe X (standardize) (ensemble depth=4 lr=0.05 rounds=250))} (wt~0.170; CV-7 standalone 0.675520), (2)~\cli{(pipe X (winsor\_clip q=0.01) (pair\_ratio topk=12) (standardize) (sigmoid) (ridge\_gcv))} (0.165), (3)~\cli{(pipe X (winsor\_clip q=0.01) (pair\_ratio topk=12) (standardize) (sigmoid) (histgbm2 loss=logloss leaves=31 lr=0.03 min\_leaf=50 rounds=250))} (0.192), (4)~\cli{(pipe X (pair\_ratio topk=16) (elasticnet alpha=0.001 l1\_ratio=0.2))} (0.156), (5)~\cli{(pipe X (oblique\_hinge n=93) (poly\_interact) (cheb deg=8) (pair\_prod topk=4) (cheb deg=3) (pair\_prod topk=14) (ridge))} (0.149), and (6)~\cli{(pipe X (winsor\_clip q=0.0165) (histgbm depth=4 lr=0.06 rounds=250))} (0.168).
+
+\input{tables/tabS1_dca_operating_points}
+\input{tables/tabS2_subgroup_equity}
+\input{tables/tabS3_tripod_ai_checklist}
