@@ -1,0 +1,12 @@
+\begin{nejmabstract}
+\noindent\textbf{Background.}\hspace{0.4em}Postoperative atrial fibrillation (POAF) complicates nearly one in four isolated coronary artery bypass grafting (CABG) procedures. National evaluations of tabular foundation models and AutoML rarely separate unseen-hospital transport from in-network hospital calibration or audit inference speed.
+
+\vspace{3pt}
+\noindent\textbf{Methods.}\hspace{0.4em}We audited all 368,132 isolated-CABG procedures across 1,091 U.S.\ centers in STS ACSD v2.81 (367,695 labeled cases; 24.30\% POAF; 207 pre-incision predictors). Across identical 50,000-patient five-fold hospital-grouped cohorts, we benchmarked five binary models---Google TabFM v1.0.0, NVIDIA KumoTabular-Large v2, PriorLabs TabPFN-3.5, CatBoost, and AutoGluon 1.5 (\cli{best\_quality})---against NEVERHUMAN on two matched holdouts ($N{=}21{,}241$): \emph{Unseen Hospitals} (74 centers, 0\% overlap) and \emph{Seen Hospitals} (all 1,091 centers in training, 100\% overlap, with and without train-only Empirical-Bayes calibration), using 5,000-draw hospital-cluster bootstrapping.
+
+\vspace{3pt}
+\noindent\textbf{Results.}\hspace{0.4em}On unseen hospitals, NEVERHUMAN achieved 0.6767 ROC-AUC (95\% CI 0.6686--0.6858; ECE 0.0072), outperforming every binary model (all cluster CIs $>0$): AutoGluon (+21.8\,bps), CatBoost (+24.5\,bps), TabPFN-3.5 (+29.2\,bps), Kumo (+52.0\,bps), TabFM (+55.3\,bps), and Mariscalco POAF (+577.0\,bps). NEVERHUMAN avoided 20.4--33.8 unnecessary interventions per 100 patients, won 24 of 25 subgroups, and achieved the lowest 70\%-sensitivity false-positive rate (44.10\%). On seen hospitals, native site-aware NEVERHUMAN led at 0.6916 (+24.1\,bps vs.\ AutoGluon; +29.0\,bps vs.\ CatBoost), while Empirical-Bayes priors reached 0.6966--0.7014. NEVERHUMAN scored 21,241 patients in 4.11\,s (0.193\,ms/patient; 0.53\,GB VRAM)---19.7$\times$ faster than AutoGluon and 117$\times$--323$\times$ faster than foundation models.
+
+\vspace{3pt}
+\noindent\textbf{Conclusions.}\hspace{0.4em}NEVERHUMAN surpasses tabular foundation models, gradient boosting, and AutoML in unseen-hospital accuracy, calibration, false-positive reduction, and real-time deployment speed.
+\end{nejmabstract}

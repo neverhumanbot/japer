@@ -1,0 +1,22 @@
+\begin{table*}[t]
+\centering
+\caption{\ct{Training Wall-Clock Time, Batch Inference Speed ($N{=}21{,}241$ Holdout Patients), Single-Patient Latency, and Compute Footprint Across All Six Evaluated Models.}}
+\label{tab:timing}
+\tablefont
+\setlength{\tabcolsep}{3.2pt}
+\begin{tabularx}{\textwidth}{@{}Y R{1.05cm} R{1.75cm} R{1.35cm} R{1.25cm} R{1.30cm} R{1.65cm} L{2.55cm}@{}}
+\toprule
+\thd{Model (50k Train $\to$ 21,241 Test)} & \thd{Unseen AUC} & \thd{Train / Prep Time} & \thd{21k Batch Infer} & \thd{Batch ms/pt} & \thd{1-Pt Latency} & \thd{Infer Speed vs.\ NH} & \thd{Hardware (Peak VRAM)} \\
+\midrule
+\rowcolor{primarytint}
+\textbf{NEVERHUMAN} & \textbf{0.6767} & \textbf{1290.7\,s (21.5\,m)} & \textbf{4.11\,s} & \textbf{0.193} & \textbf{45.2\,ms} & \textbf{1.0$\times$ (Ref)} & 1x RTX 3090 + CPU (0.5\,GB VRAM) \\
+CatBoost (5-fold binary) & 0.6742 & 49.20\,s & 0.15\,s & 0.007 & 3.0\,ms & 28.0$\times$ faster & CPU (20 threads) (CPU) \\
+AutoGluon 1.5 (best\_quality) & 0.6745 & 1797.1\,s (30.0\,m) & 80.99\,s & 3.81 & 28.5\,s & 19.7$\times$ slower & 1x RTX 4090 + 48 CPUs (10.1\,GB disk) \\
+NVIDIA KumoTabular-Large v2 & 0.6715 & 197.1\,s (3.3\,m) & 481.69\,s & 22.68 & In-context & 117.3$\times$ slower & A100 40GB (6.8\,GB VRAM) \\
+PriorLabs TabPFN-3.5 & 0.6738 & 0.89\,s & 515.29\,s & 24.26 & In-context & 125.4$\times$ slower & A100 40GB (7.7\,GB VRAM) \\
+Google TabFM v1.0.0 & 0.6712 & 394.9\,s (6.6\,m) & 1326.73\,s & 62.46 & In-context & 323.0$\times$ slower & A100 40GB (22.1\,GB VRAM) \\
+\bottomrule
+\end{tabularx}
+\vspace{2pt}
+{\raggedright\sffamily\fontsize{6.8}{8.5}\selectfont\color{sub}Batch inference measures wall-clock time to score all 21,241 unseen-hospital patients (median of 3 passes for NEVERHUMAN, CatBoost, and AutoGluon; verified offline GPU receipts for TabPFN-3.5, KumoTabular-Large v2, and TabFM v1.0.0). Tabular foundation models require passing the full 10k--50k training context through multi-layer attention at inference time, making batch scoring 117$\times$--323$\times$ slower than NEVERHUMAN while requiring 7--41\,GB GPU VRAM.\par}
+\end{table*}

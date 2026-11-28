@@ -1,0 +1,20 @@
+\section{Cohort Audit, Outcome Reconstruction, and Leakage Removal}
+
+\runin{Provenance and Skip-Logic Reconstruction}
+All 368,132 isolated-CABG procedures recorded in STS ACSD v2.81 (July 1, 2014--June 30, 2017; 1,091 U.S.\ centers across all nine U.S.\ Census divisions) were pinned cryptographically prior to modeling. Under STS ACSD v2.81 Sequence 4930 (\cli{COtAFib}), the atrial fibrillation complication indicator is populated only when the parent complication gate \cli{Complics} equals 1 (any postoperative complication).\cite{sts2014v281} Among 232,783 uncomplicated recoveries (\cli{Complics == 2}, 63.31\% of records), \cli{COtAFib} is structurally blank by skip logic rather than missing at random. Treating structural blanks as missing introduces severe collider bias by conditioning on postoperative morbidity.\cite{hernan2020causal} Resolving \cli{Complics == 2} and (\cli{Complics == 1}, \cli{COtAFib == 2}) as POAF-negative and (\cli{Complics == 1}, \cli{COtAFib == 1}) as POAF-positive recovered \textbf{367,695 labeled cases} (437 genuinely unknown excluded; \textbf{89,337 POAF events, 24.30\%}). Clinical validity was confirmed by expected risk separation between positive and negative cases (mean age 68.5 vs.\ 63.2\,yr; discharge amiodarone 74.3\% vs.\ 14.7\%).
+
+\runin{Strict 638 $\to$ 207 Pre-Incision Variable Contract}
+Exhaustive column-by-column auditing against STS ACSD v2.81 specifications eliminated 431 ineligible fields, including seven early-column postoperative duration leaks (\cli{LOS}, \cli{PLOS}, \cli{ORDuration}, \cli{SIDuration}, \cli{SurgtoMort}, \cli{SurgtoRead}, \cli{SurgtoSternInf}), all intraoperative bypass/cross-clamp durations, blood products, discharge medications, STS risk calculators, auxiliary postoperative outcomes, and hospital/surgeon identifiers. Exactly \textbf{207 raw pre-incision predictors} remained (including pre-incision operating-room \cli{PASYS} where measured prior to skin incision, plus 9-level \cli{Region}). Sentinel non-numeric codings (e.g., 999) were mapped cleanly to missing values prior to model ingestion.
+
+\runin{Dual Controlled Validation Splits}
+To evaluate both cold-start external transport and in-network hospital deployment cleanly, we constructed two matched evaluation cohorts with identical holdout size ($N{=}21{,}241$, natural prevalence $\approx 24.3\%$) and identical 50,000-patient balanced five-fold hospital-grouped training budgets:
+\begin{enumerate}
+  \item \textbf{Regime 1 — Unseen Hospitals (0.0\% Overlap):} Multivariate anticlustering partitioned the 1,091 centers into 1,017 development hospitals (346,454 procedures; nested 50,000-patient balanced benchmark across five exact hospital-disjoint CV folds) and 74 strictly unseen holdout hospitals ($N{=}21{,}241$; 5,160 events; $\mathrm{Max}\,|\mathrm{SMD}|=0.103$ across 206 numeric variables).\cite{papenberg2021anticlustering,joseph2022split}
+  \item \textbf{Regime 2 — Seen Hospitals (100.0\% Overlap):} Hospital-stratified partitioning guaranteed that all 1,091 surgical centers appeared in both the 346,454-case development pool and the nested 50,000-patient benchmark, while reserving a matched natural-prior holdout ($N{=}21{,}241$; 1,086 seen centers; zero unseen centers). For site-calibrated in-network analyses, hospital POAF prevalence priors were estimated strictly on training records via Empirical-Bayes shrinkage toward the national prior ($\mathrm{EB}_{50\mathrm{k}}$ with $m_0{=}15$; $\mathrm{EB}_{346\mathrm{k}}$ with $m_0{=}25$).
+\end{enumerate}
+
+\section{Extended Clinical Operating Points, Subgroup Equity, and TRIPOD+AI Checklist}
+
+\input{tables/tabS1_dca_operating_points}
+\input{tables/tabS2_subgroup_equity}
+\input{tables/tabS3_tripod_ai_checklist}

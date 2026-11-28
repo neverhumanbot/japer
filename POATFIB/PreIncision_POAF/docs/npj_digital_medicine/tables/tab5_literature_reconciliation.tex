@@ -1,0 +1,28 @@
+\begin{table*}[t]
+\centering
+\caption{\ct{Benchmarking Published POAF Discrimination (0.61--0.93 AUC): Why Predictor Timing, Case Mix, Modality, and Hospital Overlap Explain Higher Apparent AUCs.}}
+\label{tab:literature_reconciliation}
+\tablefont
+\setlength{\tabcolsep}{3.4pt}
+\begin{tabularx}{\textwidth}{@{}L{2.75cm} L{2.65cm} L{2.15cm} L{1.85cm} Y@{}}
+\toprule
+\thd{Study / Benchmark} & \thd{Cohort \& Predictors} & \thd{Validation Regime} & \thd{Reported AUC} & \thd{Key Structural Distinction vs.\ Unseen Pre-Incision STS CABG} \\
+\midrule
+Fields et al.\ (2025) \cite{fields2025poaf} \& L\'opez Tuesta et al.\ (2026) \cite{lopeztuesta2026poaf} & PROBAST critical appraisals (39+ POAF models) & Mixed external studies & 0.71 app.\ $\to$ \textbf{0.61 ext.} & Median external AUC across published models; $>$80\% rated high risk of bias \\
+Mariscalco et al.\ (2014) \cite{mariscalco2014poaf} & 17,262 mixed cardiac (23\% CABG--40\% combined) & 3-center validation & 0.64 rep.\ (\textbf{0.619} here) & Includes valve surgery \& IABP; drops to 0.619 on unseen isolated-CABG STS \\
+Pollock et al.\ (2018) \cite{pollock2018chargeaf} & 8,976 STS isolated CABG (5 US centers) & Pooled w/ site random effect & 0.68 CHARGE-AF / 0.65 POAF & In-network 5-center fit (not unseen hospitals); aligns tightly with our 0.677--0.701 band \\
+Magee et al.\ (2007) \cite{magee2007atrial} & 19,083 institutional STS CABG & Single-system split & 0.72 & Requires cardiopulmonary bypass duration \& $\ge 24$\,h ventilation (unavailable at incision) \\
+Mathew et al.\ (2004, \emph{JAMA}) \cite{mathew2004multicenter} & 4,657 CABG $\pm$ valve (70 centers) & Split-sample (same centers) & 0.77 (\textbf{0.645} preop) & Includes concomitant valve surgery \& postoperative drug withdrawal \\
+Burgos et al.\ (2021, COM-AF) \cite{burgos2021comaf} & 3,113 mixed cardiac (only 45\% CABG) & Single-center apparent & 0.78 app.\ (\textbf{0.576} here) & Apparent derivation AUC in mixed surgery; shrinks to 0.576 on unseen isolated CABG \\
+Cho et al.\ (2026) \cite{cho2026poaf} \& Cao et al.\ (2025) \cite{cao2025mimic4} & Perioperative mixed / MIMIC-IV ICU CABG & Internal / 1-site ext. & 0.891$\to$0.726 / 0.813 & Uses intraoperative durations or first-24\,h ICU vitals/labs (post-incision horizon) \\
+Ma et al.\ (2025) \cite{ma2025noaf} \& Han et al.\ (2025) \cite{han2025aiecg} & Surgical duration + echo LA / AI-ECG waveforms & 1--2 centers & 0.931 / 0.710 (AI-ECG) & Post-procedure surgical time or raw ECG/echo modalities outside STS registry \\
+Khalpey et al.\ (2026) \cite{khalpey2026digital} & 38,742 multi-procedure digital twin cohort & Multimodal EHR + ECG & 0.89 (0.72 STS score) & Combines continuous ECG, hemodynamics, biomarkers \& multi-procedure surgical mix \\
+\rowcolor{primarytint}
+\textbf{NEVERHUMAN — Cold Start (74 unseen)} & \textbf{367,695 STS isolated CABG (1,091 centers)} & \textbf{0.0\% hospital overlap} & \textbf{0.6767} (0.669--0.686) & \textbf{Strictly 207 pre-incision registry fields; +6.7 AUC pts above external median (0.61)} \\
+\rowcolor{primarytint}
+\textbf{In-Network Seen (1,086 centers)} & \textbf{367,695 STS isolated CABG (1,091 centers)} & \textbf{100\% overlap + EB prior} & \textbf{0.6974--0.7014} & \textbf{50k NEVERHUMAN + EB (0.6974) / 346k CatBoost (0.7014); true pre-incision registry ceiling} \\
+\bottomrule
+\end{tabularx}
+\vspace{2pt}
+{\raggedright\sffamily\fontsize{6.8}{8.5}\selectfont\color{sub}Published AUCs above 0.72 consistently reflect post-incision or ICU predictors (bypass/surgical time, ventilation, 24\,h ICU labs), mixed valve-plus-CABG cohorts (higher baseline separation), non-registry modalities (continuous ECG waveforms, left-atrial imaging, biomarkers), or hospital-overlapping splits. Across strictly pre-incision national isolated-CABG registry predictors, 0.677 (unseen hospitals) to 0.701 (in-network EB-calibrated) defines the leakage-free empirical frontier.\par}
+\end{table*}

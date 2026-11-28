@@ -1,0 +1,34 @@
+\section{Methods}
+
+\subsection{Cohort Derivation, Skip-Logic Reconstruction, and Variable Audit}
+We analyzed all 368,132 isolated-CABG procedures in the national STS ACSD v2.81 registry (July 1, 2014--June 30, 2017; 1,091 U.S.\ surgical centers across all nine U.S.\ Census divisions) under institutional Data Use Agreement oversight, adhering to TRIPOD+AI and PROBAST+AI standards (Supplementary Table~S3).\cite{sts2014v281,collins2024tripodai,moons2025probastai}
+
+Three rigorous preprocessing audits preceded all modeling (Supplementary Section~S1):
+\begin{enumerate}
+  \item \textbf{Skip-logic outcome reconstruction:} Under STS Sequence 4930 (\cli{COtAFib}), POAF requiring treatment is populated only when the parent complication gate \cli{Complics == 1}. Structurally blank entries among 232,783 uncomplicated recoveries (\cli{Complics == 2}, 63.31\%) were resolved as POAF-negative to prevent collider bias,\cite{hernan2020causal} yielding \textbf{367,695 labeled procedures} (437 genuinely unknown excluded; \textbf{89,337 POAF events, 24.30\%}).
+  \item \textbf{Strict pre-incision variable contract (638 $\to$ 207):} All 638 source columns were audited individually, purging seven early-column postoperative duration leaks (\cli{LOS}, \cli{PLOS}, \cli{ORDuration}, \cli{SIDuration}, \cli{SurgtoMort}, \cli{SurgtoRead}, \cli{SurgtoSternInf}), intraoperative bypass and cross-clamp times, transfusions, discharge medications, STS risk calculators, auxiliary outcomes, and hospital/surgeon identifiers. Exactly \textbf{207 raw pre-incision predictors} were retained (including pre-incision operating-room \cli{PASYS} where measured prior to skin incision and 9-level \cli{Region}).
+  \item \textbf{Sentinel cleaning:} Non-numeric sentinel codes (e.g., 999) were mapped to missing values prior to model fitting, preserving missingness natively for every model family.
+\end{enumerate}
+
+\subsection{Two Controlled Hospital Validation Regimes}
+Because hospital-level POAF rates vary threefold across U.S.\ centers (5th--95th percentile 12.2\%--34.2\%; Fig.~\ref{fig:audit_splits}A), naive calendar-2017 splits leak 99.5\% of test hospitals into training and mask transport failures (Fig.~\ref{fig:audit_splits}B). We therefore evaluated every model under two controlled regimes sharing identical holdout size ($N{=}21{,}241$, natural prevalence $\approx$24.3\%) and identical 50,000-patient balanced five-fold hospital-grouped training cohorts (Table~\ref{tab:cohort}):
+\begin{itemize}
+  \item \textbf{Regime 1 — Unseen Hospitals (0.0\% Overlap / Cold Start):} Multivariate anticlustering partitioned the 1,091 centers into 1,017 development hospitals (346,454 cases; nested 50,000-patient five-fold hospital-disjoint benchmark) and \textbf{74 strictly unseen holdout hospitals} ($N{=}21{,}241$, 5,160 events, $\mathrm{Max}\,|\mathrm{SMD}|=0.103$).\cite{papenberg2021anticlustering,joseph2022split}
+  \item \textbf{Regime 2 — Seen Hospitals (100.0\% Overlap / In-Network):} Hospital-stratified partitioning guaranteed that \textbf{all 1,091 centers} appeared in both the 346,454-case development pool and the nested 50,000-patient training cohort while holding out a matched natural-prior test set ($N{=}21{,}241$ across 1,086 seen centers, zero unseen centers). We evaluated all models first on strictly patient-only inputs (207 raw predictors, zero site ID) and second with strictly train-only Empirical-Bayes (EB) hospital POAF priors---both via closed-form additive log-odds site updating ($\mathrm{EB}_{50\mathrm{k}}$, $m_0{=}15$; $\mathrm{EB}_{346\mathrm{k}}$, $m_0{=}25$) and native end-to-end 208-feature site-aware training (\cli{site208}).
+\end{itemize}
+
+\subsection{Model Roster, Calibration, and Latency Protocol}
+Five leading public tabular AI frameworks were trained strictly on exact binary $\{0,1\}$ POAF labels across identical 50,000-patient five-fold hospital-grouped cohorts (strict zero test-label access enforced via process-level Python audit hooks):
+\begin{enumerate}
+  \item \textbf{Google TabFM v1.0.0}\cite{kong2026tabfm} (offline PyTorch ensemble bagged across the five 10,000-row hospital-disjoint shards, 80 estimators);
+  \item \textbf{NVIDIA KumoTabular-Large v2}\cite{qu2026kumotabular} (bagged $5\times 10\text{k}$, 40 estimators with train-only orientation verification);
+  \item \textbf{PriorLabs TabPFN-3.5}\cite{hollmann2025tabpfn,jaeger2026tabpfn35} (native full 50,000-row in-context classification, 8 estimators, plus $5\times 10\text{k}$ cross-check);
+  \item \textbf{CatBoost}\cite{prokhorenkova2018catboost} (tuned five-fold symmetric-tree gradient boosting, depth 6, plus a $7\times$ 346,454-patient full-registry reference); and
+  \item \textbf{AutoGluon-Tabular 1.5}\cite{erickson2020autogluon} (\cli{best\_quality} multi-layer stacked ensemble of LightGBM, CatBoost, XGBoost, PyTorch neural networks, FastAI, random forests, and extra trees, strictly respecting our exact five hospital-disjoint folds via \cli{groups="cv\_fold"}, 30-minute training budget per split on GPU+CPU).
+\end{enumerate}
+All five binary alternatives were compared directly against \textbf{NEVERHUMAN}, a proprietary pre-incision clinical risk model consuming the exact same 207 pre-incision variables under identical training cohorts, zero test-label access, and identical evaluation calibration. To anchor clinical utility, we also reconstructed the bedside Mariscalco POAF score strictly from pre-incision STS fields.\cite{mariscalco2014poaf}
+
+Every 50,000-patient model underwent uniform fold-out-of-fold Platt recalibration\cite{platt1999probabilistic} followed by an analytical development-only Bayes prior shift ($-1.1365$) to match natural clinical prevalence ($\approx$24.3\%).\cite{king2001logistic,saerens2002adjusting} Wall-clock training/preparation time, full-cohort batch inference time across all $N{=}21{,}241$ holdout patients (median of three timed passes for deployed models; verified offline GPU timing receipts for foundation models), per-patient amortized latency ($\mathrm{ms/patient}$), and peak GPU memory were recorded cleanly on dedicated workstation/A100 hardware.
+
+\subsection{Statistical Inference and Clinical Evaluation}
+Uncertainty for all absolute metrics and paired model contrasts was quantified via exact \textbf{5,000-draw whole-hospital cluster bootstrapping} (seed 42; 74 unseen hospitals / 1,086 seen hospitals), preserving within-hospital correlation.\cite{davison1997bootstrap,obuchowski1997clustered} Alongside ROC-AUC and average precision (AP), we assessed 15-bin expected calibration error (ECE), calibration slope, observed-to-expected (O:E) ratio,\cite{vancalster2019calibration,austin2019ici} Decision Curve Analysis (DCA) net clinical benefit and unnecessary interventions avoided per 100 patients across 15\%--40\% thresholds,\cite{vickers2006decision} and prespecified 25-subgroup clinical equity.

@@ -1,0 +1,27 @@
+\begin{table*}[t]
+\centering
+\caption{\ct{Head-to-Head Pre-Incision POAF Discrimination Across Both Regimes: Unseen Hospitals (74 Centers, 0\% Overlap) and Seen Hospitals (1,086 Centers, 100\% Overlap; $N{=}21{,}241$ Natural-Prior Holdouts).}}
+\label{tab:benchmark}
+\tablefont
+\setlength{\tabcolsep}{3.2pt}
+\begin{tabularx}{\textwidth}{@{}Y R{2.55cm} R{2.75cm} R{0.95cm} R{0.95cm} R{1.15cm} R{1.15cm} R{1.20cm}@{}}
+\toprule
+\thd{Model (50k Binary Parity Unless Noted)} & \thd{Unseen AUC (95\% CI)} & \thd{NEVERHUMAN $\Delta$ Unseen (bps)} & \thd{Unseen AP} & \thd{Unseen ECE} & \thd{Seen 207 Raw} & \thd{Seen Native 208} & \thd{Seen +EB346k} \\
+\midrule
+\multicolumn{8}{@{}l@{}}{\sffamily\bfseries\fontsize{6.7}{8.1}\selectfont\color{navy}Tier 1: Proprietary Champion vs.\ Five Binary Tabular AI Alternatives (Identical 50,000-Patient Cohort, 207 Pre-Incision Features)} \\
+\rowcolor{primarytint}
+\textbf{NEVERHUMAN (Proprietary)} & \textbf{0.6767 (0.669--0.686)} & \textbf{Reference (\#1 @ 50k)} & \textbf{0.3777} & \textbf{0.0072} & \textbf{0.6794} & \textbf{0.6916} & \textbf{0.6974} \\
+AutoGluon 1.5 (best\_quality) & 0.6745 (0.666--0.684) & +21.8 [+7.0, +36.5]$^\ast$ & 0.3743 & 0.0046 & 0.6790 & 0.6891 & 0.6974 \\
+CatBoost (5-Fold Binary) & 0.6742 (0.666--0.683) & +24.5 [+7.2, +42.2]$^\ast$ & 0.3744 & 0.0078 & 0.6777 & 0.6886 & 0.6966 \\
+PriorLabs TabPFN-3.5 (50k Native) & 0.6738 (0.666--0.683) & +29.2 [+8.2, +53.5]$^\ast$ & 0.3728 & 0.0068 & 0.6795 & --- & 0.6982 \\
+NVIDIA KumoTabular-Large v2 & 0.6715 (0.663--0.681) & +52.0 [+21.6, +83.3]$^\ast$ & 0.3693 & 0.0070 & 0.6764 & --- & 0.6977 \\
+Google TabFM v1.0.0 & 0.6712 (0.663--0.680) & +55.3 [+28.6, +81.5]$^\ast$ & 0.3697 & 0.0090 & 0.6775 & --- & 0.6986 \\
+\midrule
+\multicolumn{8}{@{}l@{}}{\sffamily\bfseries\fontsize{6.7}{8.1}\selectfont\color{navy}Tier 2: Clinical Bedside Proxy \& 7$\times$ Full-Registry Scaling Reference} \\
+Mariscalco POAF Bedside Proxy & 0.6190 (0.610--0.628) & +577.0 [+495.6, +656.9]$^\ast$ & 0.3097 & 0.0190 & 0.6276 & --- & --- \\
+CatBoost Full Registry (346k, 7$\times$) & 0.6773 (0.670--0.686) & $-$6.4 [$-$23.0, +10.5] & 0.3776 & 0.0076 & 0.6831 & \textbf{0.7014} & --- \\
+\bottomrule
+\end{tabularx}
+\vspace{2pt}
+{\raggedright\sffamily\fontsize{6.8}{8.5}\selectfont\color{sub}All 95\% CIs use 5,000 whole-hospital cluster bootstrap draws (seed 42; 74 unseen hospitals / 1,086 seen hospitals). $^\ast$95\% cluster CI strictly excludes zero. Native 50k site-aware (\cli{site208}) NEVERHUMAN reaches 0.6916, leading CatBoost \cli{site208} (0.6886) by +29.0\,bps [+16.6, +41.5]${}^\ast$ and AutoGluon \cli{site208} (0.6891) by +24.1\,bps [+12.5, +35.4]${}^\ast$. Closed-form train-only Empirical-Bayes hospital priors (+EB346k) lift every 50k model into 0.696--0.699 and 346k CatBoost to 0.7014.\par}
+\end{table*}

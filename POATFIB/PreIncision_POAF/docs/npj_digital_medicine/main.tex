@@ -1,0 +1,198 @@
+% =============================================================================
+%  npj Digital Medicine (Nature Portfolio) — Research Article & Supplement
+% =============================================================================
+\documentclass[10pt,letterpaper,twocolumn]{article}
+\pdfminorversion=7
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{txfonts}
+\usepackage{charter}
+\usepackage[scaled=0.885]{helvet}
+\renewcommand{\ttdefault}{lmtt}
+\usepackage[italic,defaultmathsizes]{mathastext}
+\makeatletter
+\DeclareSymbolFontAlphabet{\mathrm}{mtoperatorfont}
+\renewcommand{\operator@font}{\mathgroup\symmtoperatorfont}
+\makeatother
+\usepackage[protrusion=true,expansion=true,final]{microtype}
+\DisableLigatures[-]{encoding = T1, family = tt*}
+
+\usepackage[letterpaper,left=0.72in,right=0.72in,top=0.88in,bottom=0.85in,
+            columnsep=0.27in,headheight=19pt,headsep=0.22in,footskip=0.34in]{geometry}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{array,booktabs,tabularx,makecell,multirow}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{stfloats}
+\usepackage{xurl}
+\usepackage[most]{tcolorbox}
+\usepackage[super,sort&compress,comma]{natbib}
+
+\definecolor{ink}{HTML}{111827}
+\definecolor{sub}{HTML}{374151}
+\definecolor{muted}{HTML}{64748B}
+\definecolor{hair}{HTML}{CBD5E1}
+\definecolor{surface}{HTML}{F8FAFC}
+\definecolor{vermilion}{HTML}{C83E00}
+\definecolor{vermiliondark}{HTML}{9A2E00}
+\definecolor{primarytint}{HTML}{FFF1EB}
+\definecolor{teal}{HTML}{007A78}
+\definecolor{navy}{HTML}{1F3552}
+\definecolor{cobalt}{HTML}{0072B2}
+
+% Strictly 12 words, zero punctuation/colons per npj Digital Medicine house rules
+\newcommand{\papertitle}{Pre-incision postoperative atrial fibrillation prediction across unseen and seen United States hospitals}
+\newcommand{\shorttitle}{Pre-incision POAF prediction across unseen and seen US hospitals}
+\usepackage[colorlinks=true,linkcolor=cobalt,citecolor=cobalt,urlcolor=cobalt,
+            bookmarksnumbered=true]{hyperref}
+\hypersetup{
+  pdftitle={\papertitle},
+  pdfauthor={Jepson Taylor, Zain Khalpey, Ricky Ray Butler, Jordan Morrow, Alton Alexander, Jordan Hildebrandt, Besterlyne Jirongo},
+  pdfsubject={npj Digital Medicine Research Article — STS ACSD v2.81 POAF Benchmark},
+  pdfkeywords={digital medicine, postoperative atrial fibrillation, STS ACSD, CABG, unseen hospital validation, seen hospital calibration, tabular foundation models, AutoGluon, CatBoost, NEVERHUMAN}
+}
+\urlstyle{same}
+
+\linespread{1.035}
+\setlength{\parindent}{1.0em}
+\setlength{\parskip}{0pt}
+\emergencystretch=1.2em
+\raggedbottom
+\clubpenalty=6000 \widowpenalty=6000
+\setlist{leftmargin=1.4em,itemsep=2pt,topsep=3pt,parsep=0pt}
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\dbltopfraction}{0.92}
+\renewcommand{\bottomfraction}{0.60}
+\renewcommand{\textfraction}{0.06}
+\renewcommand{\floatpagefraction}{0.85}
+\renewcommand{\dblfloatpagefraction}{0.85}
+\setcounter{topnumber}{3}\setcounter{dbltopnumber}{3}\setcounter{totalnumber}{5}
+\setlength{\textfloatsep}{11pt plus 3pt minus 2pt}
+\setlength{\dbltextfloatsep}{11pt plus 3pt minus 2pt}
+
+\titleformat{\section}{\sffamily\bfseries\fontsize{11.2}{13.4}\selectfont\color{ink}\raggedright}
+  {}{0pt}{}
+\titlespacing*{\section}{0pt}{13pt plus 3pt minus 2pt}{4.5pt plus 1pt}
+\titleformat{\subsection}{\sffamily\bfseries\fontsize{9.2}{11.4}\selectfont\color{navy}\raggedright}
+  {}{0pt}{}
+\titlespacing*{\subsection}{0pt}{8.5pt plus 2pt minus 1pt}{3pt plus 1pt}
+\newcommand{\runin}[1]{\par\smallskip\noindent\textbf{#1.}\hspace{0.4em}\ignorespaces}
+
+\pagestyle{fancy}\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{hair}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\footrulewidth}{0pt}
+\fancyhead[L]{\sffamily\fontsize{7.4}{9}\selectfont\textcolor{teal}{\textbf{npj Digital Medicine}}\hspace{0.7em}\textcolor{hair}{|}\hspace{0.7em}\textcolor{sub}{\shorttitle}}
+\fancyhead[R]{\sffamily\fontsize{7.4}{9}\selectfont\textcolor{sub}{\thepage}}
+\fancypagestyle{front}{\fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \fancyfoot[L]{\sffamily\fontsize{7.3}{9}\selectfont\textcolor{muted}{Research Article Submission Manuscript — Prepared in npj Digital Medicine (Nature Portfolio) Format}}%
+  \fancyfoot[R]{\sffamily\fontsize{7.3}{9}\selectfont\textcolor{sub}{\thepage}}}
+
+\DeclareCaptionLabelFormat{nat}{\textcolor{ink}{\bfseries #1~#2}}
+\DeclareCaptionLabelSeparator{natbar}{\hspace{0.45em}\textcolor{teal}{\textbf{|}}\hspace{0.45em}}
+\DeclareCaptionFont{natfont}{\sffamily\fontsize{7.8}{10.0}\selectfont\color{sub}}
+\captionsetup{font=natfont,labelformat=nat,labelsep=natbar,
+              justification=raggedright,singlelinecheck=false,skip=5pt}
+\captionsetup[table]{position=top,skip=4.5pt}
+\newcommand{\ct}[1]{{\bfseries\color{ink}#1}}
+
+\newcommand{\cli}[1]{{\ttfamily\fontsize{8.3}{10.2}\selectfont #1}}
+\newcommand{\tablefont}{\fontsize{7.6}{9.4}\selectfont}
+\newcommand{\thd}[1]{{\sffamily\bfseries\fontsize{7.0}{8.6}\selectfont\color{navy}#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\setlength{\heavyrulewidth}{0.85pt}\setlength{\lightrulewidth}{0.4pt}
+\setlength{\aboverulesep}{2.0pt}\setlength{\belowrulesep}{2.2pt}
+\arrayrulecolor{navy}
+
+\newtcolorbox{natabstract}{enhanced,breakable=false,colback=surface,colframe=surface,
+  boxrule=0pt,arc=0pt,outer arc=0pt,left=11pt,right=11pt,top=8.5pt,bottom=8.5pt,
+  borderline west={2.6pt}{0pt}{teal},
+  fontupper=\sffamily\fontsize{8.75}{11.0}\selectfont\color{ink}}
+
+\begin{document}
+
+% =============================================================================
+%  PAGE 1: FRONT MATTER, 150-WORD UNSTRUCTURED ABSTRACT & SIMPLIFIED HERO FIGURE
+% =============================================================================
+\onecolumn
+\thispagestyle{front}
+\vspace*{-0.38in}
+\noindent{\sffamily\bfseries\fontsize{8.6}{10.4}\selectfont\color{teal}npj Digital Medicine}\hspace{0.9em}{\sffamily\fontsize{8.0}{10}\selectfont\color{muted}ARTICLE}\hfill{\sffamily\fontsize{7.8}{10}\selectfont\color{muted}Nature Portfolio Format}\par
+\vspace{3pt}
+{\color{teal}\hrule height 1.6pt}
+\vspace{10pt}
+
+\noindent{\sffamily\bfseries\fontsize{16.8}{20.4}\selectfont\color{ink}\papertitle\par}
+\vspace{8pt}
+
+\noindent{\sffamily\fontsize{9.8}{12.8}\selectfont\color{ink}%
+Jepson Taylor\textsuperscript{1,\dag},
+Zain Khalpey\textsuperscript{2,\dag},
+Ricky Ray Butler\textsuperscript{1,\dag},
+Jordan Morrow\textsuperscript{1},
+Alton Alexander\textsuperscript{1},
+Jordan Hildebrandt\textsuperscript{1}
+\& Besterlyne Jirongo\textsuperscript{1}\par}
+\vspace{4pt}
+
+\noindent{\sffamily\fontsize{8.2}{10.4}\selectfont\color{sub}%
+\textsuperscript{1}NEVERHUMAN Research.\quad
+\textsuperscript{2}HonorHealth Heart Care and HonorHealth Research Institute, Scottsdale, AZ, USA.\quad
+\textsuperscript{\dag}These authors contributed equally: Jepson Taylor, Zain Khalpey, Ricky Ray Butler.\par}
+\vspace{9pt}
+
+\input{sections/00_abstract}
+
+\vspace{7pt}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig1_hero_benchmark_and_speed.pdf}
+  \caption{\ct{Head-to-head pre-incision POAF discrimination across both hospital scenarios ($N{=}21{,}241$ natural-prior holdouts; zoomed axes).} \textbf{a},~\textbf{Scenario 1 — New/unseen hospitals (0\% overlap, 74 centers):} NEVERHUMAN (0.6767; 4.11\,s batch inference) outperforms all five binary alternatives---AutoGluon 1.5 ($-$21.8*\,bps), CatBoost ($-$24.5*\,bps), TabPFN-3.5 ($-$29.2*\,bps), KumoTabular-Large v2 ($-$52.0*\,bps), and TabFM v1.0.0 ($-$55.3*\,bps; all 95\% cluster CIs $>0$)---recovering 79.2\% of a $7\times$ 346k data expansion. \textbf{b},~\textbf{Scenario 2 — Seen/in-network hospitals (100\% overlap, all 1,091 centers in training):} Layered 207-raw $\to$ 50k site-calibrated bars showing native \cli{site208} NEVERHUMAN (0.6916; 4.11\,s) leading AutoGluon ($-$24.1*\,bps) and CatBoost ($-$29.0*\,bps) while matching post-hoc +EB50k foundation models at 117$\times$--323$\times$ faster speed.}
+  \label{fig:hero}
+\end{figure}
+
+% =============================================================================
+%  MAIN BODY: STRICT NATURE PORTFOLIO IRDM ORDER
+% =============================================================================
+\clearpage
+\twocolumn
+
+\input{sections/01_introduction}
+\input{sections/02_results}
+\input{sections/03_discussion}
+\input{sections/04_methods}
+\input{sections/05_portfolio_statements}
+
+\section*{References}
+{\fontsize{7.5}{9.1}\selectfont
+\setlength{\bibsep}{1.2pt plus 0.2ex}
+\bibliographystyle{naturemag}
+\bibliography{references}
+}
+
+% =============================================================================
+%  SUPPLEMENTARY INFORMATION
+% =============================================================================
+\clearpage
+\onecolumn
+\setcounter{section}{0}
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\theHsection}{S\arabic{section}}
+\setcounter{table}{0}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\theHtable}{S\arabic{table}}
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\theHfigure}{S\arabic{figure}}
+\input{sections/06_supplementary_info}
+
+\end{document}

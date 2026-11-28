@@ -1,0 +1,16 @@
+\section{Cohort Audit, Outcome Reconstruction, and Dual-Regime Split Design}
+
+\runin{Provenance and Skip-Logic Outcome Reconstruction}
+All 368,132 isolated-CABG procedures in STS ACSD v2.81 (July 1, 2014--June 30, 2017; 1,091 US surgical centers across all nine US Census divisions) were audited prior to modeling. Under STS ACSD v2.81 Sequence 4930 (\cli{COtAFib}), atrial fibrillation requiring treatment is recorded only when the parent indicator \cli{Complics == 1}.\cite{sts2014v281} Among 232,783 uncomplicated recoveries (\cli{Complics == 2}, 63.31\%), \cli{COtAFib} is structurally blank by skip logic. Resolving these structural blanks as POAF-negative eliminated collider bias\cite{hernan2020causal} and recovered \textbf{367,695 labeled cases} (437 unknown excluded; \textbf{89,337 POAF events, 24.30\%}), corroborated by age (68.5 vs.\ 63.2\,yr) and discharge amiodarone (74.3\% vs.\ 14.7\%).
+
+\runin{Pre-Incision Variable Audit (638 $\to$ 207)}
+Schema auditing purged 431 ineligible fields, including seven early-column postoperative duration leaks (\cli{LOS}, \cli{PLOS}, \cli{ORDuration}, \cli{SIDuration}, \cli{SurgtoMort}, \cli{SurgtoRead}, \cli{SurgtoSternInf}), intraoperative bypass and cross-clamp durations, blood transfusions, discharge medications, STS calculators, auxiliary outcomes, and hospital or surgeon identifiers, retaining strictly \textbf{207 raw pre-incision predictors} (including pre-incision operating-room \cli{PASYS} where measured prior to skin incision and 9-level \cli{Region}).
+
+\runin{Matched Unseen-Hospital and Seen-Hospital Splits}
+Two matched evaluation splits ($N{=}21{,}241$ natural-prior holdouts; matched 50,000-patient balanced five-fold hospital-grouped training cohorts) isolated external transport from in-network hospital calibration: (1) \textbf{Regime 1 (Unseen Hospitals, 0.0\% overlap)}, constructed via multivariate anticlustering into 1,017 development centers and 74 strictly unseen holdout centers ($\mathrm{Max}\,|\mathrm{SMD}|=0.103$);\cite{papenberg2021anticlustering,joseph2022split} and (2) \textbf{Regime 2 (Seen Hospitals, 100.0\% overlap)}, stratified across all 1,091 surgical centers so every test center (1,086 centers, zero unseen) was represented in training, evaluated both with 207 patient-only predictors and with strictly train-only Empirical-Bayes hospital POAF priors ($\mathrm{EB}_{50\mathrm{k}}$, $m_0{=}15$; $\mathrm{EB}_{346\mathrm{k}}$, $m_0{=}25$).
+
+\section{Extended Clinical Operating Points, Subgroup Equity, and TRIPOD+AI Summary}
+
+\input{tables/tabS1_dca_operating_points}
+\input{tables/tabS2_subgroup_equity}
+\input{tables/tabS3_tripod_ai_checklist}

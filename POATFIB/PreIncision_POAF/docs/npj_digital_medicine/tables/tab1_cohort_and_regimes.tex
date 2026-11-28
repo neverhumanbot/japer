@@ -1,0 +1,23 @@
+\begin{table*}[t]
+\centering
+\caption{\ct{National STS ACSD v2.81 Isolated-CABG Cohort and Two Controlled Validation Regimes ($N{=}367{,}695$ Labeled Procedures Across 1,091 U.S.\ Surgical Centers).}}
+\label{tab:cohort}
+\tablefont
+\setlength{\tabcolsep}{4.2pt}
+\begin{tabularx}{\textwidth}{@{}Y R{2.05cm} R{2.35cm} R{2.35cm} R{2.35cm}@{}}
+\toprule
+\thd{Cohort Characteristic / Split Design} & \thd{Full Cohort} & \thd{Regime 1: Unseen Train / Test} & \thd{Regime 2: Seen Train / Test} & \thd{Calendar-2017 (Naive)} \\
+\midrule
+Procedures, $n$ (POAF Events, \%) & 367,695 (24.30\%) & 50,000 / 21,241 (24.29\%) & 50,000 / 21,241 (24.30\%) & 306,143 / 61,552 (24.83\%) \\
+Surgical Centers in Train / Test & 1,091 total & 1,017 / 74 & 1,091 / 1,086 & 1,090 / 983 \\
+Test Hospital Overlap With Train (\%) & --- & \textbf{0.0\%} (74 unseen) & \textbf{100.0\%} (0 unseen) & 99.5\% (63 unseen) \\
+Strictly Pre-Incision Predictors & 207 raw & 207 raw & 207 raw / 208 site & 207 raw \\
+Age, mean $\pm$ SD (yr) & 65.1 $\pm$ 10.1 & 65.2 $\pm$ 10.1 (test) & 65.1 $\pm$ 10.1 (test) & 65.7 $\pm$ 9.7 \\
+Female Sex, \% & 25.2\% & 24.4\% & 24.4\% & 23.7\% \\
+Diabetes / Heart Failure / Urgent, \% & 48.6\% / 21.7\% / 58.4\% & 49.2\% / 23.6\% / 58.6\% & 48.0\% / 19.0\% / 52.6\% & 48.9\% / 19.4\% / 53.5\% \\
+Hospital POAF Rate Dispersion (5th--95th) & 12.2\%--34.2\% & Matched (Max|SMD| 0.103) & Stratified across all sites & Missingness drift +6.0 pp \\
+\bottomrule
+\end{tabularx}
+\vspace{2pt}
+{\raggedright\sffamily\fontsize{6.9}{8.6}\selectfont\color{sub}All 50,000-patient parity cohorts are exact 50:50 class-balanced across five hospital-grouped CV folds; every model is evaluated at natural clinical prevalence ($\approx$24.3\%) using unified fold-OOF Platt calibration plus development-only Bayes prior shift ($-1.1365$).\par}
+\end{table*}

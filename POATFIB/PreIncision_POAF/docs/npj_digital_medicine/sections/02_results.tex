@@ -1,0 +1,60 @@
+\section{Results}
+
+\subsection{National cohort audit and hospital split regimes}
+Auditing all 368,132 isolated-CABG records across 1,091 US centers in STS ACSD v2.81 recovered 367,695 labeled cases (89,337 POAF events, 24.30\%; Table~\ref{tab:cohort}) and strictly 207 pre-incision variables after purging seven early-column postoperative duration leaks (\cli{LOS}, \cli{PLOS}, \cli{ORDuration}, \cli{SIDuration}, \cli{SurgtoMort}, \cli{SurgtoRead}, \cli{SurgtoSternInf}) and all intraoperative or postoperative fields. Across 928 US centers with $\ge 100$ cases, center-level POAF incidence varied threefold from 12.2\% to 34.2\% (5th--95th percentile; median 24.1\%; Fig.~\ref{fig:audit_splits}a).
+
+A conventional calendar-2017 holdout (61,552 cases, 983 centers) placed 99.5\% of test hospitals inside the 2014--2016 training cohort ($\mathrm{Max}\,|\mathrm{SMD}|=0.360$; +6.0 percentage points missingness drift; Fig.~\ref{fig:audit_splits}b). An identical 207-predictor CatBoost model scored 0.6778 on that overlapping 2017 holdout but fell $-1.99$ AUC points to 0.6579 on 2017 patients at strictly unseen hospitals ($n{=}3{,}555$, 63 centers). Partitioning evaluation into two matched regimes---Regime 1 (74 strictly unseen centers, 0.0\% overlap, $\mathrm{Max}\,|\mathrm{SMD}|=0.103$) and Regime 2 (all 1,091 centers in training, 100.0\% overlap)---isolated external transport cleanly from in-network hospital calibration.
+
+\input{tables/tab1_cohort_and_regimes}
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=0.96\textwidth]{figures/fig2_cohort_audit_and_split_regimes.pdf}
+  \caption{\ct{Inter-hospital POAF incidence dispersion and split-geometry leakage audit.} \textbf{a},~Threefold dispersion in center-level POAF incidence across 928 US surgical centers with $\ge 100$ cases (median 24.1\%; 5th--95th percentile 12.2\%--34.2\%). \textbf{b},~Worst-case covariate imbalance ($\mathrm{Max}\,|\mathrm{SMD}|$) across split designs; callout highlights the $-1.99$ AUC-point decline of a matched 207-variable CatBoost model between overlapping calendar-2017 evaluation (0.6778) and strictly unseen 2017 centers (0.6579).}
+  \label{fig:audit_splits}
+\end{figure*}
+
+\subsection{Unseen-hospital external generalization (0\% hospital overlap)}
+Across 74 strictly unseen holdout hospitals ($N{=}21{,}241$, 5,160 POAF events; Table~\ref{tab:benchmark} and Fig.~\ref{fig:hero}a), \textbf{NEVERHUMAN} achieved the highest 50,000-patient discrimination at \textbf{0.6767} ROC-AUC (95\% CI 0.6686--0.6858), highest average precision (\textbf{0.3777}), and tight calibration (ECE \textbf{0.0072}, slope 0.983, O:E 0.994). NEVERHUMAN surpassed all five binary tabular AI comparators with 5,000-draw 74-hospital cluster 95\% CIs strictly excluding zero: \textbf{+21.8\,bps} $[+7.0, +36.5]$ ($P{>}0 = 0.998$) over \textbf{AutoGluon 1.5} (\cli{best\_quality}, 0.6745); \textbf{+24.5\,bps} $[+7.2, +42.2]$ ($P{>}0 = 0.997$) over \textbf{CatBoost} (0.6742); \textbf{+29.2\,bps} $[+8.2, +53.5]$ ($P{>}0 = 0.998$) over \textbf{PriorLabs TabPFN-3.5} (0.6738); \textbf{+52.0\,bps} $[+21.6, +83.3]$ ($P{>}0 = 1.000$) over \textbf{NVIDIA KumoTabular-Large v2} (0.6715); \textbf{+55.3\,bps} $[+28.6, +81.5]$ ($P{>}0 = 1.000$) over \textbf{Google TabFM v1.0.0} (0.6712); and \textbf{+577.0\,bps} $[+495.6, +656.9]$ ($P{>}0 = 1.000$) over the pre-incision Mariscalco POAF score (0.6190). Remarkably, NEVERHUMAN trained on 50,000 procedures recovered \textbf{79.2\%} of the discrimination gap to a $7\times$ larger 346,454-case CatBoost reference (0.6773; $-6.4$\,bps $[-23.0, +10.5]$) while outperforming that full-registry model on average precision (0.3777 vs.\ 0.3776) and ECE (0.0072 vs.\ 0.0076).
+
+\input{tables/tab2_unseen_and_seen_benchmark}
+
+\subsection{Seen-hospital in-network performance (100\% hospital overlap)}
+On the matched 100\% seen-hospital split (all 1,091 US centers present in training; $N{=}21{,}241$ across 1,086 seen centers; Table~\ref{tab:benchmark} and Fig.~\ref{fig:seen_unseen}), hospital overlap alone inflated patient-only (207 raw predictors, zero site ID) AUCs by \textbf{+28 to +64\,bps}, with tabular foundation models gaining roughly twice as much (+49 to +64\,bps) as NEVERHUMAN (+28\,bps). On patient-only inputs, NEVERHUMAN (0.6794) strictly beat Kumo (+30.4\,bps $[+12.8, +48.1]$), TabFM (+18.9\,bps $[+2.8, +35.3]$), and CatBoost (+16.9\,bps $[+5.1, +28.7]$), edged AutoGluon (0.6790), and matched TabPFN-3.5 (0.6795) at 125$\times$ faster inference.
+
+Adding strictly train-only Empirical-Bayes hospital POAF priors bridged all models to the 0.69--0.70 ceiling (Fig.~\ref{fig:seen_unseen}a,b). Under native end-to-end 50k site-aware training (\cli{site208}), \textbf{NEVERHUMAN ranked first at 0.6916} (95\% CI 0.6844--0.6987), beating both \textbf{AutoGluon \cli{site208}} (0.6891; \textbf{+24.1\,bps} $[+12.5, +35.4]$, $P{>}0 = 1.000$) and \textbf{CatBoost \cli{site208}} (0.6886; \textbf{+29.0\,bps} $[+16.6, +41.5]$, $P{>}0 = 1.000$). Closed-form full-registry hospital-prior updating (+$\mathrm{EB}_{346\mathrm{k}}$) lifted all 50k models by +179 to +213\,bps into 0.6966--0.6986 (NEVERHUMAN 0.6974, AutoGluon 0.6974, CatBoost 0.6966, TFMs 0.6977--0.6986; all pairwise CIs spanning zero), while $7\times$ 346k site-aware CatBoost reached \textbf{0.7014} (slope 1.014, O:E 0.999).
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=0.96\textwidth]{figures/fig3_unseen_vs_seen_hospitals.pdf}
+  \caption{\ct{Progression from cold-start unseen hospitals to in-network seen hospitals and site calibration.} \textbf{a},~Paired ROC-AUC trajectories across all six evaluated models from strictly unseen hospitals (0\% overlap) to seen hospitals (207 patient predictors only) and train-only Empirical-Bayes hospital priors (+$\mathrm{EB}_{50\mathrm{k}}$, +$\mathrm{EB}_{346\mathrm{k}}$). \textbf{b},~Native end-to-end site-aware (\cli{site208}) ROC-AUC with 1,086-hospital cluster 95\% CIs.}
+  \label{fig:seen_unseen}
+\end{figure*}
+
+\subsection{Training and inference time efficiency across architectures}
+Direct wall-clock profiling across all six models exposed order-of-magnitude gaps in deployment efficiency (Table~\ref{tab:timing} and Fig.~\ref{fig:timing}). Because in-context tabular foundation models attend over 10,000--50,000 training rows during prediction, scoring all 21,241 holdout patients on an NVIDIA A100-40GB GPU required \textbf{481.7\,s} (22.7\,ms/patient; 6.8\,GB allocated / 12.0\,GB reserved VRAM) for KumoTabular-Large v2, \textbf{515.3\,s} (24.3\,ms/patient; 7.7\,GB / 14.7\,GB VRAM) for TabPFN-3.5 (despite 0.9\,s context setup), and \textbf{1,326.7\,s} (62.5\,ms/patient; 22.1\,GB / 40.8\,GB VRAM) for TabFM v1.0.0. AutoGluon 1.5 (\cli{best\_quality}) consumed its full \textbf{30.0-minute} (1,797.1\,s) training budget, wrote \textbf{10.1\,GB} of ensemble artifacts, and required \textbf{80.99\,s} for unseen batch inference (3.81\,ms/patient; 4.80\,s seen raw207; 37.78\,s \cli{site208}) and \textbf{28.5\,s} per single bedside patient due to serialized bagged forests. Tuned CatBoost trained in 49.2\,s and scored in 0.15\,s (0.007\,ms/patient) on CPU, but trailed NEVERHUMAN by $-24.5$\,bps unseen and $-29.0$\,bps \cli{site208}.
+
+By contrast, \textbf{NEVERHUMAN} completed offline training in \textbf{21.5\,minutes} (1,290.7\,s---28\% faster than AutoGluon) and scored all 21,241 holdout patients in \textbf{4.11\,s} (\textbf{0.193\,ms/patient}; \textbf{45.2\,ms} single-patient bedside latency; \textbf{0.53\,GB} peak GPU VRAM)---\textbf{19.7$\times$ faster} than AutoGluon batch inference (\textbf{630$\times$ faster} single-patient), \textbf{117$\times$ faster} than Kumo, \textbf{125$\times$ faster} than TabPFN-3.5, and \textbf{323$\times$ faster} than TabFM while consuming \textbf{13$\times$--42$\times$ less GPU memory} (Fig.~\ref{fig:timing}c).
+
+\input{tables/tab3_train_inference_efficiency}
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=0.98\textwidth]{figures/fig4_train_and_inference_efficiency.pdf}
+  \caption{\ct{Training wall-clock time, inference speed ($N{=}21{,}241$), and accuracy-versus-speed Pareto frontier.} \textbf{a},~Offline training/preparation time versus 21,241-patient batch inference time (log scale). \textbf{b},~Amortized per-patient scoring latency ($\mathrm{ms/patient}$, log scale), showing NEVERHUMAN (0.19\,ms/patient) and CatBoost cleanly below the 1\,ms real-time threshold. \textbf{c},~Accuracy-versus-speed Pareto frontier isolating NEVERHUMAN in the faster, more accurate top-left optimum.}
+  \label{fig:timing}
+\end{figure*}
+
+\subsection{False-positive reduction and national/global clinical impact}
+Across all 367,695 STS isolated-CABG records, POAF was associated with nearly double the unadjusted operative mortality (\textbf{2.78\% vs.\ 1.42\%}, +1.36 percentage points, 1.96$\times$), double the prolonged ventilation rate (11.03\% vs.\ 5.52\%, 2.00$\times$), triple the renal failure rate (3.48\% vs.\ 1.14\%, 3.05$\times$), and double the cardiac arrest rate (2.36\% vs.\ 1.15\%, 2.05$\times$). On the 74 strictly unseen hospitals, NEVERHUMAN stratified observed risk across a \textbf{7.4-fold} decile spread (6.07\% $\to$ 44.82\%; slope 0.983, O:E 0.994, ECE 0.0072; Fig.~\ref{fig:clinical}a), avoided \textbf{20.4--33.8 unnecessary interventions per 100 patients} in Decision Curve Analysis (25\%--35\% thresholds; $P{>}0 = 1.000$ vs.\ Mariscalco POAF; Fig.~\ref{fig:clinical}b; Supplementary Table~S1), outperformed CatBoost 50k in \textbf{24 of 25 prespecified subgroups} (Supplementary Table~S2), and cut chronological 2014--2016 $\to$ 2017 center-level MAE by \textbf{14\%} (5.63 $\to$ 4.84\,pp).
+
+Evaluating False Positive Rates (FPR) at matched POAF capture translates these gains into concrete national (200,000 US CABGs/year) and global (1,000,000 cardiac surgeries/year\cite{vervoort2023global}) clinical impact (Table~\ref{tab:fpr_impact} and Fig.~\ref{fig:clinical}c). At 70\% sensitivity on unseen hospitals, NEVERHUMAN achieved the lowest FPR of all models (\textbf{44.10\%} vs.\ 44.42\% AutoGluon, 44.58\% CatBoost, 44.76\% TabPFN-3.5, 45.14\% TabFM, 45.28\% Kumo, and 76.30\% Mariscalco POAF; dropping to \textbf{41.22\%} on seen \cli{site208}), sparing \textbf{490--1,798 US patients/year} (\textbf{2,448--8,992 globally}) from unnecessary prophylaxis versus the five binary AI alternatives and \textbf{48,755 US patients/year} (\textbf{243,774 globally}) versus Mariscalco POAF; NEVERHUMAN likewise held the lowest FPR at 80\% sensitivity (\textbf{55.54\%}). Under targeted Top-25\% pre-incision prophylaxis (PALACS trial 45\% RRR;\cite{gaudino2021palacs} 35\%--45\% sensitivity), NEVERHUMAN captures \textbf{19,462 true POAF patients/year in the US} (38.93\% PPV; +56 to +179 vs.\ AI models; +2,552 vs.\ Mariscalco) and \textbf{97,312/year globally}, modeling \textbf{8,758 US POAF episodes prevented/year} (\textbf{43,790 globally}; \$87.6M--\$131.4M/year in US hospital costs\cite{lapar2014poaf}) and, under conservative 25\%--50\% causal attribution of the +1.36\,pp STS operative mortality excess (100\% upper bound), \textbf{30--60 (upper 119) US operative deaths averted/year} (\textbf{149--298, upper 596 globally}).
+
+\input{tables/tab4_fpr_and_population_impact}
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=0.98\textwidth]{figures/fig5_clinical_utility_calibration_equity.pdf}
+  \caption{\ct{Unseen-hospital calibration, decision curve clinical utility, and false-positive reduction scaled to US and global surgical volumes.} \textbf{a},~Decile reliability plot demonstrating 7.4-fold monotonic POAF stratification (6.07\% $\to$ 44.82\%; slope 0.983; ECE 0.0072). \textbf{b},~Decision Curve Analysis demonstrating superior net clinical benefit for NEVERHUMAN across 15\%--40\% thresholds (20.4--33.8 avoided interventions per 100 patients). \textbf{c},~False Positive Rate at 70\% POAF capture on 74 unseen hospitals (zoomed axis), highlighting NEVERHUMAN's lowest FPR (44.10\%) and annual unnecessary care spared across 200,000 US CABGs and 1,000,000 global cardiac surgeries.}
+  \label{fig:clinical}
+\end{figure*}

@@ -1,0 +1,38 @@
+\begin{table}[H]
+\centering
+\caption{\ct{Prespecified 25-Subgroup Equity and Clinical Transport Audit on 74 Unseen U.S.\ Hospitals ($N{=}21{,}241$; NEVERHUMAN Wins 24/25 Subgroups vs.\ CatBoost 50k).}}
+\label{tab:supp_equity}
+\tablefont
+\setlength{\tabcolsep}{3.4pt}
+\begin{tabularx}{\textwidth}{@{}L{2.3cm} Y R{1.15cm} R{1.15cm} R{1.45cm} R{1.45cm} R{1.25cm} R{1.15cm}@{}}
+\toprule
+\thd{Axis} & \thd{Subgroup} & \thd{$n$} & \thd{POAF \%} & \thd{NEVERHUMAN} & \thd{CatBoost 50k} & \thd{$\Delta$ (bps)} & \thd{NH ECE} \\
+\midrule
+Overall & All Unseen-Hospital Patients & 21,241 & 24.3\% & \textbf{0.6767} & 0.6742 & +24.5 & 0.0072 \\
+Sex & Male & 16,062 & 25.1\% & \textbf{0.6719} & 0.6698 & +21.1 & 0.0085 \\
+Sex & Female & 5,172 & 22.0\% & \textbf{0.6891} & 0.6854 & +37.2 & 0.0109 \\
+Age & Age $<$ 60 yr & 6,283 & 13.2\% & \textbf{0.6667} & 0.6668 & $-$1.2 & 0.0074 \\
+Age & Age 60--69 yr & 7,881 & 24.4\% & \textbf{0.6149} & 0.6104 & +45.4 & 0.0113 \\
+Age & Age 70--79 yr & 5,627 & 33.0\% & \textbf{0.6173} & 0.6130 & +43.2 & 0.0134 \\
+Age & Age $\ge$ 80 yr & 1,450 & 38.3\% & \textbf{0.5843} & 0.5758 & +84.7 & 0.0321 \\
+Race / Ethnicity & White & 17,206 & 25.7\% & \textbf{0.6688} & 0.6664 & +24.2 & 0.0083 \\
+Race / Ethnicity & Black & 1,822 & 17.1\% & \textbf{0.6849} & 0.6835 & +13.8 & 0.0136 \\
+Race / Ethnicity & Asian & 842 & 18.8\% & \textbf{0.6534} & 0.6472 & +62.4 & 0.0317 \\
+Race / Ethnicity & Hispanic / Latino & 1,433 & 16.5\% & \textbf{0.7146} & 0.7109 & +37.3 & 0.0244 \\
+Comorbidity & Diabetes Mellitus & 10,456 & 24.1\% & \textbf{0.6812} & 0.6787 & +24.7 & 0.0106 \\
+Comorbidity & No Diabetes & 10,738 & 24.5\% & \textbf{0.6736} & 0.6708 & +27.4 & 0.0116 \\
+Comorbidity & LVEF $<$ 40\% & 2,893 & 25.8\% & \textbf{0.6787} & 0.6761 & +26.4 & 0.0231 \\
+Comorbidity & LVEF $\ge$ 40\% & 17,764 & 24.1\% & \textbf{0.6764} & 0.6741 & +22.9 & 0.0073 \\
+Comorbidity & Chronic Lung Disease & 4,643 & 27.0\% & \textbf{0.6710} & 0.6691 & +19.3 & 0.0175 \\
+Comorbidity & CKD (eGFR $<$ 60) & 4,561 & 28.9\% & \textbf{0.6439} & 0.6417 & +22.5 & 0.0118 \\
+Acuity & Elective CABG & 7,887 & 25.0\% & \textbf{0.6652} & 0.6649 & +3.3 & 0.0118 \\
+Acuity & Urgent / Emergent CABG & 13,349 & 23.9\% & \textbf{0.6830} & 0.6794 & +35.8 & 0.0081 \\
+Stress Slice & No Recorded Preop AF & 21,103 & 24.3\% & \textbf{0.6771} & 0.6746 & +24.6 & 0.0068 \\
+Stress Slice & Rare Clinical Tails & 1,917 & 26.2\% & \textbf{0.6935} & 0.6890 & +44.7 & 0.0273 \\
+Stress Slice & 2017 Unseen Hospitals & 3,555 & 22.5\% & \textbf{0.6579} & 0.6565 & +14.4 & 0.0264 \\
+Hospital Volume & Low-Vol Centers (n$\le$141) & 1,864 & 26.0\% & \textbf{0.6818} & 0.6784 & +34.3 & 0.0310 \\
+Hospital Volume & Mid-Vol Centers & 5,282 & 23.0\% & \textbf{0.6851} & 0.6830 & +21.4 & 0.0122 \\
+Hospital Volume & High-Vol Centers (n$>$341) & 14,095 & 24.6\% & \textbf{0.6727} & 0.6702 & +24.7 & 0.0080 \\
+\bottomrule
+\end{tabularx}
+\end{table}

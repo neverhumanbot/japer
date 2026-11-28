@@ -1,0 +1,23 @@
+\begin{table*}[t]
+\centering
+\caption{\ct{False Positive Rate (FPR) Comparison and Population-Scaled Clinical Impact Across 200,000 Annual U.S.\ CABG Procedures and 1,000,000 Global Cardiac Surgeries (74 Unseen Hospitals, $N{=}21{,}241$).}}
+\label{tab:fpr_impact}
+\tablefont
+\setlength{\tabcolsep}{2.9pt}
+\begin{tabularx}{\textwidth}{@{}Y R{1.25cm} R{1.25cm} R{1.60cm} R{1.65cm} R{1.20cm} R{1.60cm} R{2.20cm}@{}}
+\toprule
+\thd{Model (50k Parity)} & \thd{FPR @ 70\% Sens} & \thd{FPR @ 80\% Sens} & \thd{FP Spared / yr (200k U.S.)} & \thd{FP Spared / yr (1M Global)} & \thd{Top-25\% PPV} & \thd{NH Extra POAF (U.S. / yr)} & \thd{Modeled Prevented (U.S. / Global)} \\
+\midrule
+\rowcolor{primarytint}
+\textbf{NEVERHUMAN (Proprietary)} & \textbf{44.10\%} & \textbf{55.54\%} & \textbf{Ref (Lowest)} & \textbf{Ref (Lowest)} & \textbf{38.93\%} & \textbf{Ref (Highest)} & \textbf{8,758 / 43,790} \\
+AutoGluon 1.5 (best\_quality) & 44.42\% & 55.97\% & +490 & +2,448 & 38.68\% & +122 & 8,703 / 43,515 \\
+CatBoost (5-Fold Binary) & 44.58\% & 55.86\% & +734 & +3,672 & 38.74\% & +94 & 8,716 / 43,578 \\
+PriorLabs TabPFN-3.5 & 44.76\% & 55.82\% & +1,007 & +5,037 & 38.81\% & +56 & 8,733 / 43,663 \\
+Google TabFM v1.0.0 & 45.14\% & 56.98\% & +1,582 & +7,909 & 38.81\% & +56 & 8,733 / 43,663 \\
+NVIDIA KumoTabular-Large v2 & 45.28\% & 56.24\% & +1,798 & +8,992 & 38.57\% & +179 & 8,678 / 43,388 \\
+Mariscalco POAF Bedside Proxy & 76.30\% & 76.30\% & +48,755 & +243,774 & 33.82\% & +2,552 & 7,610 / 38,049 \\
+\bottomrule
+\end{tabularx}
+\vspace{2pt}
+{\raggedright\sffamily\fontsize{6.75}{8.4}\selectfont\color{sub}Empirical FPRs and Top-25\% risk-sorting positive predictive values (PPV) are measured directly on the 74-unseen-hospital holdout ($N{=}21{,}241$; 24.29\% POAF) and scaled linearly to 200,000 annual U.S.\ isolated-CABG procedures (STS ACSD/AHA) and 1,000,000 annual global adult cardiac surgeries.\cite{vervoort2023global} Modeled POAF episodes prevented assume PALACS randomized trial efficacy for targeted posterior left pericardiotomy (45\% relative risk reduction; 35\%--45\% sensitivity range: 6,812--8,758 U.S.\ / 34,059--43,790 global).\cite{gaudino2021palacs} Across all 367,695 STS cases, POAF carried a +1.36-percentage-point unadjusted operative mortality excess (2.78\% vs.\ 1.42\%, 1.96$\times$); under conservative 25\%--50\% causal mortality attribution (100\% upper bound), Top-25\% NEVERHUMAN prophylaxis corresponds to 30--60 (upper 119) modeled U.S.\ operative deaths averted/yr (149--298, upper 596 globally) and \$87.6M--\$131.4M/yr in U.S.\ hospital costs.\cite{lapar2014poaf}\par}
+\end{table*}

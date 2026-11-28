@@ -1,0 +1,205 @@
+% =============================================================================
+%  NEJM AI — Original Article Manuscript & Supplementary Appendix
+%  Pre-Incision Postoperative Atrial Fibrillation Prediction Across Unseen and
+%  Seen U.S. Hospitals: National Benchmark of Tabular AI and NEVERHUMAN
+% =============================================================================
+\documentclass[10pt,letterpaper,twocolumn]{article}
+\pdfminorversion=7
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{txfonts}
+\usepackage{charter}
+\usepackage[scaled=0.88]{helvet}
+\renewcommand{\ttdefault}{lmtt}
+\usepackage[italic,defaultmathsizes]{mathastext}
+\makeatletter
+\DeclareSymbolFontAlphabet{\mathrm}{mtoperatorfont}
+\renewcommand{\operator@font}{\mathgroup\symmtoperatorfont}
+\makeatother
+\usepackage[protrusion=true,expansion=true,final]{microtype}
+\DisableLigatures[-]{encoding = T1, family = tt*}
+
+\usepackage[letterpaper,left=0.72in,right=0.72in,top=0.88in,bottom=0.85in,
+            columnsep=0.27in,headheight=19pt,headsep=0.22in,footskip=0.34in]{geometry}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{array,booktabs,tabularx,makecell,multirow}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{stfloats}
+\usepackage{xurl}
+\usepackage[most]{tcolorbox}
+\usepackage[super,sort&compress,comma]{natbib}
+
+\definecolor{ink}{HTML}{111827}
+\definecolor{sub}{HTML}{374151}
+\definecolor{muted}{HTML}{6B7280}
+\definecolor{hair}{HTML}{D1D5DB}
+\definecolor{surface}{HTML}{F7F8FA}
+\definecolor{crimson}{HTML}{9E1B32}
+\definecolor{crimsondark}{HTML}{7A1224}
+\definecolor{primarytint}{HTML}{FBF0F2}
+\definecolor{navy}{HTML}{1B365D}
+\definecolor{teal}{HTML}{0F6E6E}
+\definecolor{blue}{HTML}{2B5B84}
+
+\newcommand{\papertitle}{Pre-Incision Prediction of Postoperative Atrial Fibrillation Across Unseen and Seen U.S.\ Hospitals: National Benchmark of Tabular Foundation Models, AutoML, and NEVERHUMAN}
+\newcommand{\shorttitle}{Pre-Incision POAF Prediction Across 1,091 U.S.\ Hospitals}
+\usepackage[colorlinks=true,linkcolor=crimson,citecolor=navy,urlcolor=blue,
+            bookmarksnumbered=true]{hyperref}
+\hypersetup{
+  pdftitle={\papertitle},
+  pdfauthor={Jepson Taylor, Zain Khalpey, Ricky Ray Butler, Jordan Morrow, Alton Alexander, Jordan Hildebrandt, Besterlyne Jirongo},
+  pdfsubject={NEJM AI Original Article — National STS ACSD v2.81 Isolated-CABG POAF Benchmark},
+  pdfkeywords={postoperative atrial fibrillation, STS ACSD, CABG, NEJM AI, unseen hospital validation, seen hospital calibration, tabular foundation models, AutoGluon, CatBoost, NEVERHUMAN}
+}
+\urlstyle{same}
+
+\linespread{1.04}
+\setlength{\parindent}{1.05em}
+\setlength{\parskip}{0pt}
+\emergencystretch=1.2em
+\raggedbottom
+\clubpenalty=6000 \widowpenalty=6000
+\setlist{leftmargin=1.45em,itemsep=2pt,topsep=3.5pt,parsep=0pt}
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\dbltopfraction}{0.92}
+\renewcommand{\bottomfraction}{0.60}
+\renewcommand{\textfraction}{0.06}
+\renewcommand{\floatpagefraction}{0.85}
+\renewcommand{\dblfloatpagefraction}{0.85}
+\setcounter{topnumber}{3}\setcounter{dbltopnumber}{3}\setcounter{totalnumber}{5}
+\setlength{\textfloatsep}{11pt plus 3pt minus 2pt}
+\setlength{\dbltextfloatsep}{11pt plus 3pt minus 2pt}
+
+\titleformat{\section}{\sffamily\bfseries\fontsize{10.5}{12.5}\selectfont\color{crimson}}
+  {}{0pt}{\MakeUppercase}[\vspace{2pt}{\color{hair}\titlerule[0.5pt]}]
+\titlespacing*{\section}{0pt}{13pt plus 3pt minus 2pt}{5pt plus 1pt}
+\titleformat{\subsection}{\sffamily\bfseries\fontsize{9.2}{11.2}\selectfont\color{navy}\raggedright}
+  {}{0pt}{}
+\titlespacing*{\subsection}{0pt}{8.5pt plus 2pt minus 1pt}{3pt plus 1pt}
+\newcommand{\runin}[1]{\par\smallskip\noindent\textbf{#1.}\hspace{0.4em}\ignorespaces}
+
+\pagestyle{fancy}\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{hair}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\footrulewidth}{0pt}
+\fancyhead[L]{\sffamily\fontsize{7.4}{9}\selectfont\textcolor{crimson}{\textbf{NEJM AI}}\hspace{0.7em}\textcolor{muted}{|}\hspace{0.7em}\textcolor{sub}{\shorttitle}}
+\fancyhead[R]{\sffamily\fontsize{7.4}{9}\selectfont\textcolor{sub}{\thepage}}
+\fancypagestyle{front}{\fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \fancyfoot[L]{\sffamily\fontsize{7.3}{9}\selectfont\textcolor{muted}{Original Article Submission Manuscript — Prepared in NEJM AI Editorial Format}}%
+  \fancyfoot[R]{\sffamily\fontsize{7.3}{9}\selectfont\textcolor{sub}{\thepage}}}
+
+\DeclareCaptionLabelFormat{nejm}{\textcolor{crimson}{\bfseries #1~#2.}}
+\DeclareCaptionLabelSeparator{nejmsep}{\hspace{0.45em}}
+\DeclareCaptionFont{nejmfont}{\sffamily\fontsize{7.8}{10.0}\selectfont\color{sub}}
+\captionsetup{font=nejmfont,labelformat=nejm,labelsep=nejmsep,
+              justification=raggedright,singlelinecheck=false,skip=5pt}
+\captionsetup[table]{position=top,skip=4.5pt}
+\newcommand{\ct}[1]{{\bfseries\color{ink}#1}}
+
+\newcommand{\cli}[1]{{\ttfamily\fontsize{8.3}{10.2}\selectfont #1}}
+\newcommand{\tablefont}{\fontsize{7.6}{9.4}\selectfont}
+\newcommand{\thd}[1]{{\sffamily\bfseries\fontsize{7.0}{8.6}\selectfont\color{navy}#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\setlength{\heavyrulewidth}{0.85pt}\setlength{\lightrulewidth}{0.4pt}
+\setlength{\aboverulesep}{2.0pt}\setlength{\belowrulesep}{2.2pt}
+\arrayrulecolor{navy}
+
+\newtcolorbox{nejmabstract}{enhanced,breakable=false,colback=surface,colframe=hair,
+  boxrule=0.5pt,arc=0pt,outer arc=0pt,left=10pt,right=10pt,top=7pt,bottom=7pt,
+  borderline north={2.0pt}{0pt}{crimson},
+  fontupper=\fontsize{8.35}{10.2}\selectfont}
+
+\newtcolorbox{clinicalbox}[1]{enhanced,breakable=false,colback=primarytint,colframe=primarytint,
+  boxrule=0pt,arc=0pt,outer arc=0pt,left=9pt,right=9pt,top=7pt,bottom=7pt,
+  borderline west={2.2pt}{0pt}{crimson},before skip=8pt,after skip=8pt,
+  fontupper=\fontsize{8.7}{10.8}\selectfont,
+  before upper={{\sffamily\bfseries\fontsize{7.3}{9.2}\selectfont\color{crimsondark}\MakeUppercase{#1}}\par\vspace{2.5pt}\noindent\ignorespaces}}
+
+\begin{document}
+
+% =============================================================================
+%  PAGE 1: FRONT MATTER, STRUCTURED ABSTRACT & SIMPLIFIED HERO FIGURE
+% =============================================================================
+\onecolumn
+\thispagestyle{front}
+\vspace*{-0.46in}
+\noindent{\sffamily\bfseries\fontsize{8.2}{10}\selectfont\color{crimson}\MakeUppercase{Original Article}}\hfill{\sffamily\fontsize{8.0}{10}\selectfont\color{muted}Cardiothoracic Surgery \& Clinical Machine Learning}\par
+\vspace{2.5pt}
+{\color{crimson}\hrule height 1.5pt}
+\vspace{7pt}
+
+\noindent{\bfseries\fontsize{15.4}{18.6}\selectfont\color{ink}\papertitle\par}
+\vspace{5pt}
+
+\noindent{\fontsize{9.6}{12.2}\selectfont\color{ink}%
+Jepson Taylor\textsuperscript{$\ast$,1},
+Zain Khalpey, M.D., Ph.D.\textsuperscript{$\ast$,2},
+Ricky Ray Butler\textsuperscript{$\ast$,1},
+Jordan Morrow\textsuperscript{1},
+Alton Alexander\textsuperscript{1},
+Jordan Hildebrandt\textsuperscript{1},
+and Besterlyne Jirongo\textsuperscript{1}\par}
+\vspace{3pt}
+
+\noindent{\fontsize{8.1}{10.0}\selectfont\color{sub}%
+\textsuperscript{1}NEVERHUMAN Research.\quad
+\textsuperscript{2}HonorHealth Heart Care and HonorHealth Research Institute, Scottsdale, AZ.\quad
+\textsuperscript{$\ast$}These authors contributed equally to this work.\par}
+\vspace{6pt}
+
+\input{sections/00_abstract}
+
+\vspace{5pt}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.96\textwidth]{figures/fig1_hero_benchmark_and_speed.pdf}
+  \caption{\ct{Head-to-Head Pre-Incision POAF Discrimination Across Both Hospital Scenarios ($N{=}21{,}241$ Natural-Prior Holdouts; Zoomed Axes Highlighting Relative Gains).} \textbf{A},~\textbf{Scenario 1 — New/Unseen Hospitals (0\% Overlap, 74 Centers):} NEVERHUMAN (0.6767; 4.11\,s batch inference) decisively outperforms all five binary alternatives---AutoGluon 1.5 ($-$21.8*\,bps), CatBoost ($-$24.5*\,bps), TabPFN-3.5 ($-$29.2*\,bps), KumoTabular-Large v2 ($-$52.0*\,bps), and TabFM v1.0.0 ($-$55.3*\,bps; all 95\% hospital-cluster CIs $>0$)---recovering 79.2\% of a $7\times$ 346k registry expansion. \textbf{B},~\textbf{Scenario 2 — Seen/In-Network Hospitals (100\% Overlap, All 1,091 Centers in Training):} Layered 207-raw $\to$ 50k site-calibrated ROC-AUC showing native \cli{site208} NEVERHUMAN (0.6916; 4.11\,s) leading AutoGluon ($-$24.1*\,bps) and CatBoost ($-$29.0*\,bps) while matching post-hoc +EB50k foundation models at 117$\times$--323$\times$ faster speed.}
+  \label{fig:hero}
+\end{figure}
+
+% =============================================================================
+%  MAIN BODY: TWO-COLUMN IMRaD
+% =============================================================================
+\clearpage
+\twocolumn
+
+\input{sections/01_introduction}
+\input{sections/02_methods}
+\input{sections/03_results}
+\input{sections/04_discussion}
+\input{sections/05_end_matter}
+
+\section*{References}
+{\fontsize{7.5}{9.1}\selectfont
+\setlength{\bibsep}{1.2pt plus 0.2ex}
+\bibliographystyle{vancouver}
+\bibliography{references}
+}
+
+% =============================================================================
+%  SUPPLEMENTARY APPENDIX
+% =============================================================================
+\clearpage
+\onecolumn
+\setcounter{section}{0}
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\theHsection}{S\arabic{section}}
+\setcounter{table}{0}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\theHtable}{S\arabic{table}}
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\theHfigure}{S\arabic{figure}}
+\input{sections/06_supplementary_appendix}
+
+\end{document}

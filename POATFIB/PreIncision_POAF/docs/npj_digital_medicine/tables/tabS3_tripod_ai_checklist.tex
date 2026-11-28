@@ -1,0 +1,21 @@
+\begin{table}[H]
+\centering
+\caption{\ct{TRIPOD+AI Adherence Summary for the National STS ACSD v2.81 Pre-Incision POAF Benchmark.}}
+\label{tab:supp_tripod}
+\tablefont
+\setlength{\tabcolsep}{4pt}
+\begin{tabularx}{\textwidth}{@{}L{3.2cm} L{2.0cm} Y@{}}
+\toprule
+\thd{TRIPOD+AI Domain} & \thd{Location} & \thd{Implementation Summary} \\
+\midrule
+Data Source \& Provenance & Methods, Table 1 & Full national STS ACSD v2.81 isolated-CABG export (2014--2017; 368,132 procedures; 1,091 U.S.\ centers; SHA-256 verified). \\
+Outcome Definition & Methods, Supp.\ S1 & Skip-logic reconstruction (\cli{Complics} $\to$ \cli{COtAFib}) recovering 367,695 labeled cases (89,337 POAF events, 24.30\%). \\
+Predictor Audit & Methods, Supp.\ S1 & Strict 638 $\to$ 207 pre-incision variable audit purging 7 early-column postoperative leaks and all intraoperative/postoperative fields. \\
+Validation Regimes & Methods, Tables 1--2 & Dual controlled splits: Regime 1 Unseen Hospitals (74 unseen centers, 0\% overlap) and Regime 2 Seen Hospitals (all 1,091 centers in train, 100\% overlap + train-only EB hospital calibration). \\
+Comparators \& Parity & Methods, Tables 2--3 & All five public comparators (TabFM v1.0.0, KumoTabular-Large v2, TabPFN-3.5, CatBoost, AutoGluon \cli{best\_quality}) run strictly on binary $\{0,1\}$ targets across identical 50,000-patient 5-fold hospital-grouped cohorts vs.\ proprietary NEVERHUMAN. \\
+Calibration \& Clinical Utility & Results, Fig.\ 5, S1 & Uniform fold-OOF Platt calibration + dev-only Bayes shift; 15-bin ECE, slope, O:E, 7.4$\times$ decile spread, and Decision Curve Analysis. \\
+Uncertainty \& Equity & Results, Table 2, S2 & Exact 5,000-draw whole-hospital cluster bootstrap 95\% CIs (seed 42); prespecified 25-subgroup equity audit (24/25 wins). \\
+Transparency \& Governance & Discussion / Statements & Explicit disclosure of NEVERHUMAN proprietary status, retrospective selection bounds, and required frozen prospective STS v4.20+ confirmation. \\
+\bottomrule
+\end{tabularx}
+\end{table}
